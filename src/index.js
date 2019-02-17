@@ -1,13 +1,5 @@
 import _ from 'lodash';
-//import ROT from 'rot-js';
 
-//require('exports-loader?ROT!../node_modules/rot-js/dist/rot.js')
-
-//require('exports-loader?ROT,parse=helpers.parse!../node_modules/rot-js/dist/rot.js')
-
-
-
-//require('exports-loader?[ROT]!../node_modules/rot-js/dist/rot.js')
 import * as ROT from 'rot-js'
 
 
@@ -24,6 +16,9 @@ function component() {
 document.body.appendChild(component());
 
 let Game = {
+
+  map: {},
+  
   init: function(){
     this.display = new ROT.Display()
     document.body.appendChild(this.display.getContainer())
