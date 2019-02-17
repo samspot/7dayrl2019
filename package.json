@@ -1,0 +1,29 @@
+{
+  "name": "7dayrl2019",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samspot/7dayrl2019.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samspot/7dayrl2019/issues"
+  },
+  "homepage": "https://github.com/samspot/7dayrl2019#readme",
+  "devDependencies": {
+    "exports-loader": "^0.7.0",
+    "webpack": "^4.29.4",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "rot-js": "^2.0.3"
+  }
+}
