@@ -1,4 +1,4 @@
-import {Actor} from './actor.js'
+import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 
 export class Pedro extends Actor {
@@ -7,6 +7,7 @@ export class Pedro extends Actor {
     }
 
     act() {
+        console.log("Pedro act")
         var x = this._game.player.getX();
         var y = this._game.player.getY();
         /*
@@ -25,9 +26,12 @@ export class Pedro extends Actor {
 
         path.shift()
         if (path.length == 1) {
-            this._game.engine.lock()
-            alert("Game over - you were captured by Pedro!")
+            this.gameover()
         } else {
+            if (typeof path[0] === "undefined") {
+                this.gameover()
+                return
+            }
             x = path[0][0]
             y = path[0][1]
             this._game.display.draw(this._x, this._y, this._game.map[this._x + "," + this._y])
@@ -35,5 +39,11 @@ export class Pedro extends Actor {
             this._y = y
             this.draw()
         }
+    }
+
+    gameover() {
+        alert("Game over - you were captured by Pedro!")
+        this._game.scheduler.remove(this)
+        this._game.scheduler.clear()
     }
 }

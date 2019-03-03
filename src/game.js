@@ -5,7 +5,8 @@ import {Player} from './player.js'
 import {Pedro} from './pedro.js'
 
 export class Game {
-    constructor(){
+    constructor(scheduler){
+        this.scheduler = scheduler
         this.display = null
         this.map = {}
         this.engine = null
@@ -19,14 +20,8 @@ export class Game {
 
         this.generateMap();
 
-        var scheduler = new ROT.Scheduler.Simple();
-        scheduler.add(this.player, true);
-
-        this.engine = new ROT.Engine(scheduler);
-        this.engine.start();
-
-        scheduler.add(this.player, true)
-        scheduler.add(this.pedro, true)
+        this.scheduler.add(this.player, true)
+        this.scheduler.add(this.pedro, true)
 
     }
 
