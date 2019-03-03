@@ -7,8 +7,13 @@ export class Player extends Actor {
     }
 
     act() {
-        this._game.engine.lock();
+        console.log('Player act')
         window.addEventListener("keydown", this);
+        return new Promise((resolve, reject) => {
+
+            this.resolve = resolve
+            this.reject = reject
+        })
     }
 
     handleEvent(e) {
@@ -33,6 +38,7 @@ export class Player extends Actor {
         // enter or space
         if (code == 13 || code == 32) {
             this.checkBox();
+            this.resolve()
             return;
         }
 
@@ -50,9 +56,7 @@ export class Player extends Actor {
         this._y = newY;
         this.draw();
         window.removeEventListener("keydown", this);
-
-        this._game.director.tick()
-        this._game.engine.unlock();
+        this.resolve()
     }
 
     checkBox() {
@@ -62,7 +66,6 @@ export class Player extends Actor {
             this._game.display.drawText(20, 2, "There is no box here")
         } else if (key == this._game.ananas) {
             alert("Hooray! You found an ananas and won the game.");
-            this._game.engine.lock();
             window.removeEventListener("keydown", this);
         } else {
             alert("This box is empty :-(");

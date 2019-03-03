@@ -6,7 +6,8 @@ import { Pedro } from './pedro.js'
 import { Director } from './director.js';
 
 export class Game {
-    constructor() {
+    constructor(scheduler){
+        this.scheduler = scheduler
         this.display = null
         this.map = {}
         this.engine = null
@@ -20,18 +21,10 @@ export class Game {
 
         this.generateMap();
 
-        // var scheduler = new ROT.Scheduler.Simple();
-        // scheduler.add(this.player, true);
         this.director = new Director(this.player, this)
 
-
-        this.engine = new ROT.Engine(this.director.scheduler);
-        this.engine.start();
-
-        // scheduler.add(this.player, true)
-        // this.director.scheduler.add(this.pedro, true)
-        this.player = this.director.player
-
+        this.scheduler.add(this.player, true)
+        this.scheduler.add(this.pedro, true)
     }
 
     getFreeCells() {
