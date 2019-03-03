@@ -32,7 +32,7 @@ export class Player extends Actor {
 
         // enter or space
         if (code == 13 || code == 32) {
-            this._checkBox();
+            this.checkBox();
             return;
         }
 
@@ -48,12 +48,12 @@ export class Player extends Actor {
         this._game.display.draw(this._x, this._y, this._game.map[this._x + "," + this._y])
         this._x = newX;
         this._y = newY;
-        this._draw();
+        this.draw();
         window.removeEventListener("keydown", this);
         this._game.engine.unlock();
     }
 
-    _checkBox() {
+    checkBox() {
         var key = this._x + "," + this._y;
         if (this._game.map[key] != "*") {
             alert("There is no box here!");

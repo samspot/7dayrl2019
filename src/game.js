@@ -17,7 +17,7 @@ export class Game {
         this.display = new ROT.Display();
         document.body.appendChild(this.display.getContainer());
 
-        this._generateMap();
+        this.generateMap();
 
         var scheduler = new ROT.Scheduler.Simple();
         scheduler.add(this.player, true);
@@ -30,7 +30,7 @@ export class Game {
 
     }
 
-    _generateMap() {
+    generateMap() {
         var digger = new ROT.Map.Digger();
         var freeCells = [];
 
@@ -44,16 +44,16 @@ export class Game {
 
         digger.create(digCallback.bind(this));
 
-        this._generateBoxes(freeCells);
+        this.generateBoxes(freeCells);
 
-        this._drawWholeMap();
+        this.drawWholeMap();
 
         // this._createPlayer(freeCells);
-        this.player = this._createBeing(Player, freeCells)
-        this.pedro = this._createBeing(Pedro, freeCells)
+        this.player = this.createBeing(Player, freeCells)
+        this.pedro = this.createBeing(Pedro, freeCells)
     }
 
-    _createPlayer(freeCells) {
+    createPlayer(freeCells) {
         var index = Math.floor(ROT.RNG.getUniform * freeCells.length);
         var key = freeCells.splice(index, 1)[0];
         var parts = key.split(",");
@@ -62,7 +62,7 @@ export class Game {
         this.player = new Player(x, y, this);
     }
 
-    _generateBoxes(freeCells) {
+    generateBoxes(freeCells) {
         for (var i = 0; i < 10; i++) {
             var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
             var key = freeCells.splice(index, 1)[0];
@@ -71,7 +71,7 @@ export class Game {
         }
     }
 
-    _drawWholeMap() {
+    drawWholeMap() {
         for (var key in this.map) {
             var parts = key.split(",");
             var x = parseInt(parts[0]);
@@ -80,7 +80,7 @@ export class Game {
         }
     }
 
-    _createBeing(what, freeCells) {
+    createBeing(what, freeCells) {
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
         var key = freeCells.splice(index, 1)[0]
         var parts = key.split(",")

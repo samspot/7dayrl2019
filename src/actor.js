@@ -11,12 +11,12 @@ export class Actor {
         this._symbol = symbol
         this._color = color
         this._game = game
-        this._draw()
+        this.draw()
 
         console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
-    _draw() {
+    draw() {
         this._game.display.draw(this._x, this._y, this._symbol, this._color)
     }
 

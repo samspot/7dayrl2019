@@ -33,7 +33,7 @@ export class Pedro extends Actor {
             this._game.display.draw(this._x, this._y, this._game.map[this._x + "," + this._y])
             this._x = x
             this._y = y
-            this._draw()
+            this.draw()
         }
     }
 }
