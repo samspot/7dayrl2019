@@ -2,13 +2,12 @@ import _ from 'lodash';
 
 import * as ROT from 'rot-js'
 
-
 function component() {
   console.log('inside')
   let element = document.createElement('div');
 
   // Lodash, currently included via a script, is required for this line to work
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.innerHTML = _.join(['Hello', 'wooooo'], ' ');
 
   return element;
 }
