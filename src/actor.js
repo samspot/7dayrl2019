@@ -1,5 +1,8 @@
 
 import * as ROT from 'rot-js'
+import Tyrant from 'assets/tyrant.json'
+import Zombie from 'assets/zombie.json'
+import Jill from 'assets/jill.json'
 
 export class Actor {
     constructor(x, y, symbol, color, game) {
@@ -9,6 +12,8 @@ export class Actor {
         this._color = color
         this._game = game
         this._draw()
+
+        console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
     _draw() {

@@ -8,5 +8,11 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist'
+    },
+    resolve: {
+        alias: {
+            assets: path.resolve(__dirname, 'assets'),
+            src: path.resolve(__dirname, 'src')
+        }
     }
 }

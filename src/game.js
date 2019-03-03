@@ -5,14 +5,6 @@ import {Player} from './player.js'
 import {Pedro} from './pedro.js'
 
 export class Game {
-    /*
-    display: null,
-    map: {},
-    engine: null,
-    player: null,
-    ananas: null,
-    */
-
     constructor(){
         this.display = null
         this.map = {}
