@@ -29,10 +29,10 @@ export class Pedro extends Actor {
 
         path.shift()
         if (path.length == 1) {
-            this.gameover()
+            this._game.gameover("Game over - you were captured by Pedro!")
         } else {
             if (typeof path[0] === "undefined") {
-                this.gameover()
+                this._game.gameover("Game over - you were captured by Pedro!")
                 return
             }
             x = path[0][0]
@@ -42,11 +42,5 @@ export class Pedro extends Actor {
             this._y = y
             this.draw()
         }
-    }
-
-    gameover() {
-        alert("Game over - you were captured by Pedro!")
-        this._game.scheduler.remove(this)
-        this._game.scheduler.clear()
     }
 }

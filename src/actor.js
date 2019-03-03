@@ -21,7 +21,7 @@ export class Actor {
 
     draw() {
         this._game.display.draw(this._x, this._y, this._symbol, this._color)
-        console.log(this.name, this.hp)
+        // console.log(this.name, this.hp)
     }
 
     getX() {

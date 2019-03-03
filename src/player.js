@@ -7,7 +7,7 @@ export class Player extends Actor {
     }
 
     act() {
-        console.log('Player act')
+        // console.log('Player act')
         window.addEventListener("keydown", this);
         return new Promise((resolve, reject) => {
 
@@ -65,8 +65,9 @@ export class Player extends Actor {
             alert("There is no box here!");
             this._game.display.drawText(20, 2, "There is no box here")
         } else if (key == this._game.ananas) {
-            alert("Hooray! You found an ananas and won the game.");
+            // alert("Hooray! You found an ananas and won the game.");
             window.removeEventListener("keydown", this);
+            this._game.gameover("Hooray! You found an ananas and won the game.")
         } else {
             alert("This box is empty :-(");
         }

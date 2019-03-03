@@ -24,7 +24,7 @@ export class Game {
         this.director = new Director(this.player, this)
 
         this.scheduler.add(this.player, true)
-        this.scheduler.add(this.pedro, true)
+        // this.scheduler.add(this.pedro, true)
     }
 
     getFreeCells() {
@@ -89,7 +89,7 @@ export class Game {
             this.display.draw(x, y, this.map[key]);
         }
 
-        console.log("Player", this.player && this.player.hp)
+        // console.log("Player", this.player && this.player.hp)
     }
 
     createBeing(what, freeCells) {
@@ -99,5 +99,11 @@ export class Game {
         var x = parseInt(parts[0])
         var y = parseInt(parts[1])
         return new what(x, y, this)
+    }
+
+    gameover(msg) {
+        alert(msg)
+        // this._game.scheduler.remove(this)
+        this._game.scheduler.clear()
     }
 }
