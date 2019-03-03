@@ -4,6 +4,9 @@ import * as ROT from 'rot-js'
 export class Pedro extends Actor {
     constructor(x, y, game) {
         super(x, y, "P", "red", game)
+
+        this.name = "Pedro"
+        this.hp = 5
     }
 
     act() {

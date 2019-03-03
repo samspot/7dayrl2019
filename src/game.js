@@ -1,11 +1,12 @@
 
 import _ from 'lodash';
 import * as ROT from 'rot-js'
-import {Player} from './player.js'
-import {Pedro} from './pedro.js'
+import { Player } from './player.js'
+import { Pedro } from './pedro.js'
+import { Director } from './director.js';
 
 export class Game {
-    constructor(){
+    constructor() {
         this.display = null
         this.map = {}
         this.engine = null
@@ -19,15 +20,31 @@ export class Game {
 
         this.generateMap();
 
-        var scheduler = new ROT.Scheduler.Simple();
-        scheduler.add(this.player, true);
+        // var scheduler = new ROT.Scheduler.Simple();
+        // scheduler.add(this.player, true);
+        this.director = new Director(this.player, this)
 
-        this.engine = new ROT.Engine(scheduler);
+
+        this.engine = new ROT.Engine(this.director.scheduler);
         this.engine.start();
 
-        scheduler.add(this.player, true)
-        scheduler.add(this.pedro, true)
+        // scheduler.add(this.player, true)
+        // this.director.scheduler.add(this.pedro, true)
+        this.player = this.director.player
 
+    }
+
+    getFreeCells() {
+        let freeCells = []
+        // Object.keys(this.map).forEach(function (key) {
+        Object.keys(this.map).forEach(key => {
+            if(this.map[key] === '.'){
+               freeCells.push(key) 
+            }
+            // var value = hash[key]
+            // iteration code
+        })
+        return freeCells
     }
 
     generateMap() {
@@ -50,7 +67,7 @@ export class Game {
 
         // this._createPlayer(freeCells);
         this.player = this.createBeing(Player, freeCells)
-        this.pedro = this.createBeing(Pedro, freeCells)
+        // this.pedro = this.createBeing(Pedro, freeCells)
     }
 
     createPlayer(freeCells) {
@@ -78,6 +95,8 @@ export class Game {
             var y = parseInt(parts[1]);
             this.display.draw(x, y, this.map[key]);
         }
+
+        console.log("Player", this.player && this.player.hp)
     }
 
     createBeing(what, freeCells) {

@@ -13,11 +13,15 @@ export class Actor {
         this._game = game
         this.draw()
 
-        console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
+        this.name = "Tyrant"
+        this.hp = 100
+
+        // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
     draw() {
         this._game.display.draw(this._x, this._y, this._symbol, this._color)
+        console.log(this.name, this.hp)
     }
 
     getX() {

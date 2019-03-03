@@ -50,6 +50,8 @@ export class Player extends Actor {
         this._y = newY;
         this.draw();
         window.removeEventListener("keydown", this);
+
+        this._game.director.tick()
         this._game.engine.unlock();
     }
 
