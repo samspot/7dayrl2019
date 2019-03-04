@@ -35,6 +35,10 @@ export class AttackAction extends Action {
                 // return new YouWinAction()
 
                 game.killBoss()
+
+                if(game.allBossesDown()){
+                    return new YouWinAction()
+                }
             }
 
             this.target.draw('.', 'red')
@@ -62,6 +66,11 @@ export class AttackAction extends Action {
 
                 _.remove(game.mobs, mob)
                 game.scheduler.remove(mob)
+
+                if(game.allBossesDown()){
+                    game.resetScore()
+                    return new YouWinAction()
+                }
             }
             player.name = mob.name
             player.hp = mob.hp
@@ -177,6 +186,6 @@ export class YouWinAction extends Action {
 
     execute(game){
         game.gameOver = true
-        alert("You killed the boss! You Win!")
+        alert("You defeated the S.T.A.R.S! Final Score " + game.score)
     }
 }

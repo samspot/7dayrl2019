@@ -10,8 +10,8 @@ import Config from './config.js'
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. add boss down list to gui
 X. on boss kill make stairs down, gen new level
-1. fill out monsters
-2. win game if killed all bosses
+X. fill out monsters
+X. win game if killed all bosses
 3. add enemy/player special abilities
 4. make mapgen create large rooms.  swarm the tyrant 
 5. mouse controls to ui
@@ -21,7 +21,7 @@ X. on boss kill make stairs down, gen new level
 
 const startingLvlStatus = {
     text: "Status Unknown",
-    style: "",
+    style: "font-style: italic",
     bossDown: false
 }
 
@@ -43,6 +43,15 @@ export class Game {
             level3: _.clone(startingLvlStatus),
             level4: _.clone(startingLvlStatus)
         }
+    }
+
+    allBossesDown() {
+        let bosses = []
+        Object.keys(this.gameProgress).forEach(key => {
+            bosses.push(this.gameProgress[key].bossDown)
+        })
+
+        return _.every(bosses)
     }
 
     levelBossPassed() {
@@ -243,6 +252,7 @@ export class Game {
             this.mobs.forEach(x => {
                 let elem = document.createElement('li')
                 elem.innerHTML = x.name
+                elem.style = "color: " + x.color
 
                 let list = document.createElement('ul')
                 elem.appendChild(list)
