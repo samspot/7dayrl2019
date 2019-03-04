@@ -1,23 +1,17 @@
 import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 
-export class Pedro extends Actor {
-    constructor(x, y, game) {
-        super(x, y, "P", "red", game)
+export class Monster extends Actor {
+    constructor(x, y, game, mobspec){
+        super(x, y, mobspec.symbol, mobspec.color, game)
 
-        this.name = "Pedro"
-        this.hp = 5
+        this.name = mobspec.name
+        this.hp = mobspec.hp
     }
 
     act() {
-        console.log("Pedro act")
         var x = this._game.player.getX();
         var y = this._game.player.getY();
-        /*
-        var passableCallback = function (x, y) {
-            return (x + "," + y in Game.map)
-        }
-        */
         let passableCallback = (x, y) => x + ',' + y in this._game.map
         var astar = new ROT.Path.AStar(x, y, passableCallback, { topology: 4 })
 
@@ -29,10 +23,10 @@ export class Pedro extends Actor {
 
         path.shift()
         if (path.length == 1) {
-            this._game.gameover("Game over - you were captured by Pedro!")
+            this._game.gameover("Game over - you were captured by", this.name)
         } else {
             if (typeof path[0] === "undefined") {
-                this._game.gameover("Game over - you were captured by Pedro!")
+                this._game.gameover("Game over - you were captured by", this.name)
                 return
             }
             x = path[0][0]

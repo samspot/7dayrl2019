@@ -1,8 +1,30 @@
 import * as ROT from 'rot-js'
 import { Player } from './player.js'
-import { Pedro } from './pedro.js'
+import { Monster } from './monster.js'
 import { Actor } from './actor.js'
 import { debug } from 'util';
+import Tyrant from 'assets/tyrant.json'
+import Zombie from 'assets/zombie.json'
+import Chimera from 'assets/chimera.json'
+import Jill from 'assets/jill.json'
+import Rogue from 'rot-js/lib/map/rogue';
+
+const levels = [
+    'lab', 
+    'catacombs', 
+    'outside',
+    'guardhouse', 
+    'mansion'
+]
+
+const mobs = {
+    'lab': [Zombie, Zombie, Chimera],
+    'catacombs': [Zombie],
+    'outside': [Zombie],
+    'guardhouse': [Zombie],
+    'mansion': [Zombie],
+}
+
 
 export class Director {
     constructor(game, scheduler) {
@@ -11,23 +33,35 @@ export class Director {
         this.countdown = 5
 
         this.scheduler = scheduler
+        this.currentLevel = 0
+    }
+
+    // current level matters for monster gen
+    levelchange(idx){
+        this.currentLevel = idx
     }
 
     tick() {
-
         this.debug()
         this.countdown--
         if (this.countdown <= 0) {
-            this.countdown = 10
+            this.countdown = 5 
 
-            let pedro = this.game.createBeing(Pedro,
-                this.game.getFreeCells())
-            pedro.name = "pedro"
+            let mobspec = this.generateMob()
 
-            console.dir("pedro", pedro)
+            let monster = this.game.createBeing(Monster,
+                this.game.getFreeCells(), mobspec)
 
-            this.scheduler.add(pedro, true)
+            console.dir("monster add", monster)
+
+            this.scheduler.add(monster, true)
         }
+    }
+
+    generateMob(){
+        let mob = ROT.RNG.getItem(mobs[levels[this.currentLevel]])
+        console.log(mob)
+        return mob
     }
 
     debug() {

@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import * as ROT from 'rot-js'
 import { Player } from './player.js'
-import { Pedro } from './pedro.js'
+import { Monster } from './monster.js'
 import { Director } from './director.js';
 
 export class Game {
@@ -92,13 +92,13 @@ export class Game {
         // console.log("Player", this.player && this.player.hp)
     }
 
-    createBeing(what, freeCells) {
+    createBeing(what, freeCells, mobspec) {
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
         var key = freeCells.splice(index, 1)[0]
         var parts = key.split(",")
         var x = parseInt(parts[0])
         var y = parseInt(parts[1])
-        return new what(x, y, this)
+        return new what(x, y, this, mobspec)
     }
 
     gameover(msg) {
