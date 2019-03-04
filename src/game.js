@@ -7,10 +7,12 @@ import { Director } from './director.js';
 
 /*
 0. get rid of _ names
+0b. Add wait on '.'
 1. add boss down list to gui
 2. on boss kill make stairs down, gen new level
 3. add enemy/player special abilities
 4. make mapgen create large rooms.  swarm the tyrant 
+5. mouse controls to ui
 */
 export class Game {
     constructor(scheduler) {
@@ -61,7 +63,7 @@ export class Game {
             if (mob !== mover) {
                 // console.log('checking mover', mover.out(), 'heading',
                 // x+','+y, 'vs target', mob.out())
-                if (mob._x === x && mob._y === y) {
+                if (mob.x === x && mob.y === y) {
                     actor = mob
                 }
             }
@@ -134,8 +136,8 @@ export class Game {
 
     gameover(msg) {
         alert(msg)
-        // this._game.scheduler.remove(this)
-        this._game.scheduler.clear()
+        // this.game.scheduler.remove(this)
+        this.game.scheduler.clear()
     }
 
     updateGui() {

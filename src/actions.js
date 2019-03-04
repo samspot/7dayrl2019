@@ -59,10 +59,10 @@ export class AttackAction extends Action {
             }
             player.name = mob.name
             player.hp = mob.hp
-            player._color = mob._color
+            player.color = mob.color
             player.str = mob.str
-            player._x = mob._x
-            player._y = mob._y
+            player.x = mob.x
+            player.y = mob.y
             player.boss = false
             player.draw()
             game.resetScore()
@@ -92,8 +92,8 @@ export class MoveAction extends Action {
 
         if(actor.isPlayer()){
             var diff = ROT.DIRS[8][keyMap[this.direction]];
-            newX = actor._x + diff[0];
-            newY = actor._y + diff[1];
+            newX = actor.x + diff[0];
+            newY = actor.y + diff[1];
 
             // is the space in the map at all?
             var newKey = newX + "," + newY;
@@ -106,9 +106,9 @@ export class MoveAction extends Action {
             return new AttackAction(actor, character)
         }
 
-        game.display.draw(actor._x, actor._y, game.map[actor._x + "," + actor._y])
-        actor._x = newX;
-        actor._y = newY;
+        game.display.draw(actor.x, actor.y, game.map[actor.x + "," + actor.y])
+        actor.x = newX;
+        actor.y = newY;
         actor.draw();
     }
 }

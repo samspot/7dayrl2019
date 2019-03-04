@@ -45,14 +45,14 @@ export class Player extends Actor {
     }
 
     checkBox() {
-        var key = this._x + "," + this._y;
-        if (this._game.map[key] != "*") {
+        var key = this.x + "," + this.y;
+        if (this.game.map[key] != "*") {
             alert("There is no box here!");
-            this._game.display.drawText(20, 2, "There is no box here")
-        } else if (key == this._game.ananas) {
+            this.game.display.drawText(20, 2, "There is no box here")
+        } else if (key == this.game.ananas) {
             // alert("Hooray! You found an ananas and won the game.");
             window.removeEventListener("keydown", this);
-            this._game.gameover("Hooray! You found an ananas and won the game.")
+            this.game.gameover("Hooray! You found an ananas and won the game.")
         } else {
             alert("This box is empty :-(");
         }

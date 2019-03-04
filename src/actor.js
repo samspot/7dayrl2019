@@ -6,11 +6,11 @@ import Jill from 'assets/jill.json'
 
 export class Actor {
     constructor(x, y, symbol, color, game) {
-        this._x = x
-        this._y = y
-        this._symbol = symbol
-        this._color = color
-        this._game = game
+        this.x = x
+        this.y = y
+        this.symbol = symbol
+        this.color = color
+        this.game = game
         this.draw()
         this.boss = false
 
@@ -27,26 +27,26 @@ export class Actor {
     }
 
     draw(symbol, color) {
-        let symbolToDraw = this._symbol
-        let colorToDraw = this._color
+        let symbolToDraw = this.symbol
+        let colorToDraw = this.color
         if(symbol){
             symbolToDraw = symbol
             colorToDraw = color
         }
-        this._game.display.draw(this._x, this._y, 
+        this.game.display.draw(this.x, this.y, 
             symbolToDraw, colorToDraw)
         // console.log(this.name, this.hp)
     }
 
     getX() {
-        return this._x
+        return this.x
     }
 
     getY() {
-        return this._y
+        return this.y
     }
 
     out(){
-        return this._symbol + ' ' + this._x + ',' + this._y
+        return this.symbol + ' ' + this.x + ',' + this.y
     }
 }

@@ -13,25 +13,25 @@ export class Monster extends Actor {
     }
 
     act() {
-        var x = this._game.player.getX();
-        var y = this._game.player.getY();
-        let passableCallback = (x, y) => x + ',' + y in this._game.map
+        var x = this.game.player.getX();
+        var y = this.game.player.getY();
+        let passableCallback = (x, y) => x + ',' + y in this.game.map
         var astar = new ROT.Path.AStar(x, y, passableCallback, { topology: 4 })
 
         var path = []
         var pathCallback = function (x, y) {
             path.push([x, y])
         }
-        astar.compute(this._x, this._y, pathCallback)
+        astar.compute(this.x, this.y, pathCallback)
 
         path.shift()
 
         return new Promise((resolve, reject) => {
             // if (path.length == 1) {
-                // this._game.gameover("Game over - you were captured by", this.name)
+                // this.game.gameover("Game over - you were captured by", this.name)
             // } else {
                 // if (typeof path[0] === "undefined") {
-                    // this._game.gameover("Game over - you were captured by", this.name)
+                    // this.game.gameover("Game over - you were captured by", this.name)
                     // return
                 // }
 

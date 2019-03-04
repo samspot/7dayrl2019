@@ -124,7 +124,7 @@ export class Director {
         var turns = [];
         for (var i = 0; i < 20; i++) {
             var current = this.scheduler.next();
-            turns.push(current._symbol);
+            turns.push(current.symbol);
         }
         console.dir("turn order " + turns.join(" "))
     }
