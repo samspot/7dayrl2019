@@ -3,5 +3,6 @@
     "color": "purple",
     "name": "Chimera",
     "hp": 50,
+    "score": 50,
     "str": 20
 }

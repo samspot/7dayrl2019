@@ -15,6 +15,7 @@ export class Game {
         this.ananas = null
         this.mobs = []
         this.gameOver = false
+        this.score = 0
     }
 
     init() {
@@ -133,6 +134,7 @@ export class Game {
     updateGui() {
         document.getElementById('name').innerHTML = this.player.name
         document.getElementById('hp').innerHTML = this.player.hp
+        document.getElementById('score').innerHTML = this.score
 
         if (this.player.hp < 30) {
             document.getElementById('hp').style = "color: red"
@@ -158,5 +160,13 @@ export class Game {
         }
 
 
+    }
+
+    addScore(x){
+        this.score += x
+    }
+
+    resetScore(){
+        this.score = 0
     }
 }

@@ -3,6 +3,7 @@
     "color": "blue",
     "name": "Jill Valentine",
     "hp": 60,
+    "score": 2000,
     "str": 20
 
 }

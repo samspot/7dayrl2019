@@ -27,6 +27,7 @@ export class AttackAction extends Action {
             if(!this.target.isPlayer()){
                 _.remove(game.mobs, this.target)
                 game.scheduler.remove(this.target)
+                game.addScore(this.target.score)
             }
 
             // console.log("target", this.target)
@@ -58,13 +59,13 @@ export class AttackAction extends Action {
             }
             player.name = mob.name
             player.hp = mob.hp
-            // player.hp = 50
             player._color = mob._color
             player.str = mob.str
             player._x = mob._x
             player._y = mob._y
             player.boss = false
             player.draw()
+            game.resetScore()
             // console.log("after attack player", player)
             
         }

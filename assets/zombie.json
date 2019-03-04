@@ -3,5 +3,6 @@
     "color": "brown",
     "name": "Zombie",
     "hp": 10,
+    "score": 1,
     "str": 5
 }

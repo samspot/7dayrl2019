@@ -9,6 +9,7 @@ export class Monster extends Actor {
         this.name = mobspec.name
         this.hp = mobspec.hp
         this.str = mobspec.str
+        this.score = mobspec.score
     }
 
     act() {

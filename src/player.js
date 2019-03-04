@@ -8,8 +8,8 @@ export class Player extends Actor {
         super(x, y, "@", "#ff0", game)
 
         this.name = "Tyrant"
-        // this.hp = 200
-        this.hp = 1
+        this.hp = 200
+        // this.hp = 1
         this.str = 25
     }
 

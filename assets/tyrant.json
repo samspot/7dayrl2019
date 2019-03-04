@@ -3,5 +3,6 @@
     "color": "grey",
     "name": "Tyrant",
     "hp": 200,
+    "score": 200,
     "str": 25
 }
