@@ -25,7 +25,7 @@ export class AttackAction extends Action {
             _.remove(game.mobs, this.target)
             game.scheduler.remove(this.target)
 
-            console.log("target", this.target)
+            // console.log("target", this.target)
             if(this.target.isBoss()){
                 return new YouWinAction()
             }
@@ -87,6 +87,7 @@ export class PickupAction extends Action {
     }
 
     execute(game) {
+        // console.log("execute pickup action")
         this.executeParent(game)
         this.actor.checkBox()
     }

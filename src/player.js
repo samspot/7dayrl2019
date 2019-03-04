@@ -28,14 +28,15 @@ export class Player extends Actor {
 
     // TODO: Tank controls?
     handleEvent(e) {
+        var code = e.keyCode;
         // enter or space
         if (code == 13 || code == 32) {
+            // console.log("key hit for pickup action")
             let action = new PickupAction(this)
             this.resolve(action)
             return
         }
 
-        var code = e.keyCode;
         if (!(code in keyMap)) { return }
 
         window.removeEventListener("keydown", this);
