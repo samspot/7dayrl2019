@@ -43,9 +43,21 @@ export class Director {
         this.scheduler = scheduler
         // this.currentLevel = 0
         game.currentLevel = 0
-        this.boss = null
 
+        // this.resetLevel()
+        this.boss = null
         this.mobs = []
+        this.scheduler.add(this.player, true)
+    }
+
+    // cleanup all things that need to be cleaned for descending
+    resetLevel(){
+        console.log("director resetLevel()")
+        this.game.resetLevel()
+        this.boss = null
+        this.mobs = []
+        this.scheduler.clear()
+        this.scheduler.add(this.player, true)
     }
 
     // current level matters for monster gen

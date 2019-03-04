@@ -3,7 +3,8 @@ import _ from 'lodash';
 import * as ROT from 'rot-js'
 import { Player } from './player.js'
 import { Monster } from './monster.js'
-import { Director } from './director.js';
+import { Director } from './director.js'
+import Config from './config.js'
 
 /*
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
@@ -41,21 +42,45 @@ export class Game {
     }
 
     levelBossPassed() {
-        return true
+        return getGameProgress().bossDown
     }
 
     init() {
-        this.display = new ROT.Display();
-        document.getElementById("map").appendChild(this.display.getContainer())
+        let options = {
+            width: Config.gamePortWidth,
+            height: Config.gamePortHeight,
+            fontSize: Config.fontSize,
+            forceSquareRatio: true
+        }
+        this.display = new ROT.Display(options);
 
-        this.generateMap();
+        // this.resetLevel()
 
-        this.director = new Director(this.player, this)
+        document.getElementById("mapContainer").appendChild(this.display.getContainer())
 
-        this.scheduler.add(this.player, true)
+        this.generateMap()
+
+        // this.director = new Director(this.player, this)
+        // this.Director =
+
+        // this.scheduler.add(this.player, true)
+    }
+
+    resetLevel() {
+        console.log("game resetLevel()")
+        this.map = {}
+        this.display.clear()
+        this.mobs = []
+
+        // let {x, y} = this.getRandomMapLocation()
+        // this.player.x = x
+        // this.player.y = y
+        // this.display._tick()
+        // this.currentLevel++
     }
 
     getFreeCells() {
+        console.log("getFreeCells() this.map", this.map)
         let freeCells = []
         Object.keys(this.map).forEach(key => {
             if (this.map[key] === '.') {
@@ -85,8 +110,10 @@ export class Game {
         return actor
     }
 
+
+
     generateMap() {
-        var digger = new ROT.Map.Digger();
+        var digger = new ROT.Map.Digger(Config.gamePortWidth, Config.gamePortHeight)
         var freeCells = [];
 
         var digCallback = function (x, y, value) {
@@ -103,16 +130,37 @@ export class Game {
 
         this.drawWholeMap();
 
-        this.player = this.createBeing(Player, freeCells)
+        if (!this.player) {
+            this.player = this.createBeing(Player, freeCells)
+        } else {
+            let { x, y } = this.getRandomMapLocation()
+            this.player.x = x
+            this.player.y = y
+            this.player.draw()
+        }
+    }
+
+    getRandomMapLocation() {
+        let freeCells = this.getFreeCells()
+        let index = Math.floor(ROT.RNG.getUniform * freeCells.length)
+        let key = freeCells.splice(index, 1)[0]
+        let parts = key.split(",")
+        return {
+            x: parseInt(parts[0]),
+            y: parseInt(parts[1])
+        }
     }
 
     createPlayer(freeCells) {
+        /*
         var index = Math.floor(ROT.RNG.getUniform * freeCells.length);
         var key = freeCells.splice(index, 1)[0];
         var parts = key.split(",");
         var x = parseInt(parts[0])
         var y = parseInt(parts[1])
-        this.player = new Player(x, y, this);
+        */
+        let { x, y } = getRandomMapLocation()
+        this.player = new Player(x, y, this)
     }
 
     generateBoxes(freeCells) {
@@ -150,7 +198,7 @@ export class Game {
         this.game.scheduler.clear()
     }
 
-    getGameProgress(){
+    getGameProgress() {
         let key = "level" + this.currentLevel
         return this.gameProgress[key]
     }
@@ -158,12 +206,14 @@ export class Game {
     killBoss() {
         this.getGameProgress().style = "text-decoration: line-through; color: red"
         this.message("You killed the level boss.  Press > to go to the next level.")
+        this.getGameProgress().bossDown = true
     }
 
-    possesBoss(){
+    possesBoss() {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Possessed]"
         this.message("You possesed the level boss.  Press > to go to the next level.")
+        this.getGameProgress().bossDown = true
     }
 
     updateGui() {

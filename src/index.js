@@ -8,6 +8,9 @@ let game = new Game(scheduler)
 game.init()
 
 let director = new Director(game, scheduler)
+game.director = director
+
+// game.init()
 
 async function mainLoop() {
     while (1) {
