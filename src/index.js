@@ -14,6 +14,9 @@ async function mainLoop(){
         let actor = scheduler.next()
         if(!actor) { break }
         console.log("scheduled actor", actor)
+        if(actor.isPlayer()){
+            game.updateGui()
+        }
         await actor.act()
         if(actor.isPlayer()){
             director.tick()

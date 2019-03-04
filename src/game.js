@@ -106,4 +106,14 @@ export class Game {
         // this._game.scheduler.remove(this)
         this._game.scheduler.clear()
     }
+
+    updateGui(){
+        document.getElementById('name').innerHTML = this.player.name
+        document.getElementById('hp').innerHTML = this.player.hp
+
+        if(this.player.hp < 30){
+            document.getElementById('hp').style = "color: red"
+        }
+
+    }
 }
