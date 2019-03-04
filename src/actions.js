@@ -18,7 +18,23 @@ export class AttackAction extends Action {
     }
 
     execute(game){
-        alert('attack ' + this.actor.out() + ' against ' + this.target.out())
+        // alert('attack ' + this.actor.out() + ' against ' + this.target.out())
+        // console.log(game.mobs)
+        this.target.hp -= this.actor.str
+        if(this.target.hp <= 0){
+            _.remove(game.mobs, this.target)
+            game.scheduler.remove(this.target)
+            this.target.draw('.', 'red')
+            /*
+            if(this.target.isBoss()){
+                return new YouWinAction()
+            }
+            */
+        }
+
+        if(game.player.hp <= 0){
+            return new GameOverAction()
+        }
     }
 }
 
@@ -82,5 +98,27 @@ export class DefaultAction extends Action {
 
     execute(game){
         return
+    }
+}
+
+export class GameOverAction extends Action {
+    constructor(actor){
+        super(actor)
+    }
+
+    execute(game){
+        game.gameOver = true
+        alert("You were killed!  Game Over!")
+    }
+}
+
+export class YouWinAction extends Action {
+    constructor(actor){
+        super(actor)
+    }
+
+    execute(game){
+        game.gameOver = true
+        alert("You killed the boss! You Win!")
     }
 }

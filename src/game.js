@@ -14,6 +14,7 @@ export class Game {
         this.player = null
         this.ananas = null
         this.mobs = []
+        this.gameOver = false
     }
 
     init() {
@@ -58,7 +59,7 @@ export class Game {
             }
         })
 
-        console.log("\n")
+        // console.log("\n")
         return actor
     }
 

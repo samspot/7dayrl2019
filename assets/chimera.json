@@ -2,5 +2,6 @@
     "symbol": "c",
     "color": "purple",
     "name": "Chimera",
-    "hp": 10
+    "hp": 50,
+    "str": 20
 }

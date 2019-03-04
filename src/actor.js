@@ -12,9 +12,7 @@ export class Actor {
         this._color = color
         this._game = game
         this.draw()
-
-        this.name = "Tyrant"
-        this.hp = 100
+        this.boss = false
 
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
@@ -23,8 +21,19 @@ export class Actor {
         return false
     }
 
-    draw() {
-        this._game.display.draw(this._x, this._y, this._symbol, this._color)
+    isBoss(){
+        return this.boss
+    }
+
+    draw(symbol, color) {
+        let symbolToDraw = this._symbol
+        let colorToDraw = this._color
+        if(symbol){
+            symbolToDraw = symbol
+            colorToDraw = color
+        }
+        this._game.display.draw(this._x, this._y, 
+            symbolToDraw, colorToDraw)
         // console.log(this.name, this.hp)
     }
 

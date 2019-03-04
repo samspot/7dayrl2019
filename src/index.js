@@ -27,6 +27,10 @@ async function mainLoop() {
         if (actor.isPlayer()) {
             director.tick()
         }
+
+        if(game.gameOver){
+            return
+        }
     }
 }
 

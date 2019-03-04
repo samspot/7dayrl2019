@@ -58,15 +58,16 @@ export class Director {
         if (!this.boss) {
             this.boss = bosses[levels[this.currentLevel]]
             let monster = this.createSchedule(this.boss)
+            monster.isBoss = true
             this.mobs.push(monster)
         }
 
         this.debug()
         this.countdown--
         if (this.countdown <= 0) {
-            let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, 5)))
+            let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, 7)))
             if (num < 5) {
-                num = 5
+                num = 5 
             }
             // console.log("random", num)
 

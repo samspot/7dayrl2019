@@ -6,6 +6,10 @@ import { keyMap } from './keymap.js'
 export class Player extends Actor {
     constructor(x, y, game) {
         super(x, y, "@", "#ff0", game)
+
+        this.name = "Tyrant"
+        this.hp = 200
+        this.str = 25
     }
 
     isPlayer() {

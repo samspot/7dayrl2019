@@ -2,5 +2,6 @@
     "symbol": "z",
     "color": "brown",
     "name": "Zombie",
-    "hp": 10
+    "hp": 10,
+    "str": 5
 }

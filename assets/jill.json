@@ -2,6 +2,7 @@
     "symbol": "J",
     "color": "blue",
     "name": "Jill Valentine",
-    "hp": 60
+    "hp": 60,
+    "str": 20
 
 }
