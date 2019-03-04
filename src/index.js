@@ -13,14 +13,14 @@ async function mainLoop() {
     while (1) {
         let actor = scheduler.next()
         if (!actor) { break }
-        console.log("scheduled actor", actor)
+        // console.log("scheduled actor", actor)
         if (actor.isPlayer()) {
             game.updateGui()
         }
 
         let action = await actor.act()
         while(action){
-            console.log("got action", action)
+            // console.log("got action", action)
             action = action.execute(game)
         }
 

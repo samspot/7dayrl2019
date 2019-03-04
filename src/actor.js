@@ -35,4 +35,8 @@ export class Actor {
     getY() {
         return this._y
     }
+
+    out(){
+        return this._symbol + ' ' + this._x + ',' + this._y
+    }
 }

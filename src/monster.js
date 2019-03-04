@@ -1,6 +1,6 @@
 import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
-import { MoveAction } from './actions.js';
+import { MoveAction, DefaultAction } from './actions.js';
 
 export class Monster extends Actor {
     constructor(x, y, game, mobspec) {
@@ -25,18 +25,23 @@ export class Monster extends Actor {
         path.shift()
 
         return new Promise((resolve, reject) => {
-            if (path.length == 1) {
-                this._game.gameover("Game over - you were captured by", this.name)
-            } else {
-                if (typeof path[0] === "undefined") {
-                    this._game.gameover("Game over - you were captured by", this.name)
-                    return
+            // if (path.length == 1) {
+                // this._game.gameover("Game over - you were captured by", this.name)
+            // } else {
+                // if (typeof path[0] === "undefined") {
+                    // this._game.gameover("Game over - you were captured by", this.name)
+                    // return
+                // }
+
+                if(!path[0]){
+                    resolve(new DefaultAction(this))
                 }
+
                 x = path[0][0]
                 y = path[0][1]
 
                 resolve(new MoveAction(this, undefined, x, y))
-            }
+            // }
         })
     }
 }

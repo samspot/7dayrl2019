@@ -2,12 +2,10 @@ import * as ROT from 'rot-js'
 import { Player } from './player.js'
 import { Monster } from './monster.js'
 import { Actor } from './actor.js'
-import { debug } from 'util';
 import Tyrant from 'assets/tyrant.json'
 import Zombie from 'assets/zombie.json'
 import Chimera from 'assets/chimera.json'
 import Jill from 'assets/jill.json'
-import Rogue from 'rot-js/lib/map/rogue';
 
 const levels = [
     'lab',
@@ -17,6 +15,7 @@ const levels = [
     'mansion'
 ]
 
+// TODO: mobs lvls 2-5
 const mobs = {
     'lab': [Zombie, Zombie, Chimera],
     'catacombs': [Zombie],
@@ -25,6 +24,7 @@ const mobs = {
     'mansion': [Zombie],
 }
 
+// TODO: bosses lvls 2-5
 const bosses = {
     'lab': Jill,
     'catacombs': Tyrant,
@@ -32,7 +32,6 @@ const bosses = {
     'guardhouse': Tyrant,
     'mansion': Tyrant
 }
-
 
 export class Director {
     constructor(game, scheduler) {
@@ -44,6 +43,7 @@ export class Director {
         this.currentLevel = 0
         this.boss = null
 
+        this.mobs = []
     }
 
     // current level matters for monster gen
@@ -52,9 +52,13 @@ export class Director {
     }
 
     tick() {
+        // load any mob changes
+        this.mobs = this.game.mobs
+
         if (!this.boss) {
             this.boss = bosses[levels[this.currentLevel]]
-            this.createSchedule(this.boss)
+            let monster = this.createSchedule(this.boss)
+            this.mobs.push(monster)
         }
 
         this.debug()
@@ -64,28 +68,36 @@ export class Director {
             if (num < 5) {
                 num = 5
             }
-            console.log("random", num)
+            // console.log("random", num)
 
             this.countdown = num
 
             let mobspec = this.generateMob()
 
-            this.createSchedule(mobspec)
+            // TODO: add to array
+            let monster = this.createSchedule(mobspec)
+            this.mobs.push(monster)
         }
+
+        // save any mob changes
+        this.game.mobs = this.mobs
     }
 
     createSchedule(mobspec) {
         let monster = this.game.createBeing(Monster,
             this.game.getFreeCells(), mobspec)
 
-        console.dir("monster add", monster)
+        // console.dir("monster add", monster)
 
         this.scheduler.add(monster, true)
+
+        return monster
     }
 
     generateMob() {
         let mob = ROT.RNG.getItem(mobs[levels[this.currentLevel]])
-        console.log(mob)
+        // console.log(mob)
+        // this.mobs.push(mob)
         return mob
     }
 

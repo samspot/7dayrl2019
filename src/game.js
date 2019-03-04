@@ -6,17 +6,19 @@ import { Monster } from './monster.js'
 import { Director } from './director.js';
 
 export class Game {
-    constructor(scheduler){
+    constructor(scheduler) {
         this.scheduler = scheduler
         this.display = null
         this.map = {}
         this.engine = null
         this.player = null
         this.ananas = null
+        this.mobs = []
     }
 
     init() {
         this.display = new ROT.Display();
+        // this.display.style = "float: left"
         document.body.appendChild(this.display.getContainer());
 
         this.generateMap();
@@ -31,13 +33,33 @@ export class Game {
         let freeCells = []
         // Object.keys(this.map).forEach(function (key) {
         Object.keys(this.map).forEach(key => {
-            if(this.map[key] === '.'){
-               freeCells.push(key) 
+            if (this.map[key] === '.') {
+                freeCells.push(key)
             }
             // var value = hash[key]
             // iteration code
         })
         return freeCells
+    }
+
+    getCharacterAt(mover, x, y) {
+        let actor
+        let testgroup = _.clone(this.mobs)
+        // console.log('testgroup1', testgroup)
+        testgroup.push(this.player)
+        // console.log('testgroup2', testgroup)
+        testgroup.forEach(mob => {
+            if (mob !== mover) {
+                // console.log('checking mover', mover.out(), 'heading',
+                // x+','+y, 'vs target', mob.out())
+                if (mob._x === x && mob._y === y) {
+                    actor = mob
+                }
+            }
+        })
+
+        console.log("\n")
+        return actor
     }
 
     generateMap() {
@@ -107,13 +129,33 @@ export class Game {
         this._game.scheduler.clear()
     }
 
-    updateGui(){
+    updateGui() {
         document.getElementById('name').innerHTML = this.player.name
         document.getElementById('hp').innerHTML = this.player.hp
 
-        if(this.player.hp < 30){
+        if (this.player.hp < 30) {
             document.getElementById('hp').style = "color: red"
         }
+
+        let moblist = document.getElementById('monsters')
+        if (moblist) {
+            moblist.innerHTML = ''
+            this.mobs.forEach(x => {
+                let elem = document.createElement('li')
+                elem.innerHTML = x.name
+
+                let list = document.createElement('ul')
+                elem.appendChild(list)
+
+                let hp = document.createElement('li')
+                hp.innerHTML = x.hp
+                list.appendChild(hp)
+
+
+                moblist.appendChild(elem)
+            })
+        }
+
 
     }
 }

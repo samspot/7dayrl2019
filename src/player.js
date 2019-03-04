@@ -22,6 +22,7 @@ export class Player extends Actor {
         })
     }
 
+    // TODO: Tank controls?
     handleEvent(e) {
         // enter or space
         if (code == 13 || code == 32) {

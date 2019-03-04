@@ -7,13 +7,18 @@ export class Action {
     }
 
     executeParent(game) {
-        console.log('executing', this)
+        // console.log('executing', this)
     }
 }
 
 export class AttackAction extends Action {
     constructor(actor, target) {
         super(actor)
+        this.target = target
+    }
+
+    execute(game){
+        alert('attack ' + this.actor.out() + ' against ' + this.target.out())
     }
 }
 
@@ -46,9 +51,10 @@ export class MoveAction extends Action {
         }
 
         // collision here
-
-
-
+        let character = game.getCharacterAt(actor, newX, newY)
+        if(character){
+            return new AttackAction(actor, character)
+        }
 
         game.display.draw(actor._x, actor._y, game.map[actor._x + "," + actor._y])
         actor._x = newX;
@@ -57,6 +63,7 @@ export class MoveAction extends Action {
     }
 }
 
+// TODO PickupAction is busted
 export class PickupAction extends Action {
     constructor(actor) {
         super(actor)
@@ -71,5 +78,9 @@ export class PickupAction extends Action {
 export class DefaultAction extends Action {
     constructor(actor) {
         super(actor)
+    }
+
+    execute(game){
+        return
     }
 }
