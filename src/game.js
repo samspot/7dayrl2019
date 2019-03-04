@@ -6,9 +6,7 @@ import { Monster } from './monster.js'
 import { Director } from './director.js';
 
 /*
-0. get rid of _ names
-0b. Add wait on '.'
-1. add boss down list to gui
+X. add boss down list to gui
 2. on boss kill make stairs down, gen new level
 3. add enemy/player special abilities
 4. make mapgen create large rooms.  swarm the tyrant 
@@ -30,7 +28,8 @@ export class Game {
     init() {
         this.display = new ROT.Display();
         // this.display.style = "float: left"
-        document.body.appendChild(this.display.getContainer());
+        // document.body.appendChild(this.display.getContainer());
+        document.getElementById("map").appendChild(this.display.getContainer())
 
         this.generateMap();
 

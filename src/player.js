@@ -1,6 +1,6 @@
 import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
-import { Action, MoveAction, AttackAction, PickupAction } from './actions.js'
+import { Action, MoveAction, AttackAction, PickupAction, DefaultAction } from './actions.js'
 import { keyMap } from './keymap.js'
 
 export class Player extends Actor {
@@ -36,6 +36,10 @@ export class Player extends Actor {
             let action = new PickupAction(this)
             this.resolve(action)
             return
+        }
+
+        if(code == 190){
+            this.resolve(new DefaultAction())
         }
 
         if (!(code in keyMap)) { return }

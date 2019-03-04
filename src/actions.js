@@ -33,6 +33,9 @@ export class AttackAction extends Action {
             // console.log("target", this.target)
             if(this.target.isBoss()){
                 // return new YouWinAction()
+                // TODO: move to gui class, put in game state
+                let locator = "level" + game.currentLevel
+                document.getElementById(locator).style = "text-decoration: line-through; color:red"
             }
 
             this.target.draw('.', 'red')

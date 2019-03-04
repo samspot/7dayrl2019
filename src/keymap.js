@@ -17,7 +17,6 @@ keyMap[ROT.KEYS.VK_LEFT] = 6 // 37, left arrow
 keyMap[ROT.KEYS.VK_H] = 6 // 37, left arrow
 keyMap[ROT.KEYS.VK_A] = 6 // 37, left arrow
 
-
 keyMap[ROT.KEYS.VK_UP] = 0; // up arrow
 keyMap[ROT.KEYS.VK_K] = 0; // up arrow
 keyMap[ROT.KEYS.VK_W] = 0; // up arrow
