@@ -130,6 +130,8 @@ export class Director {
         // let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, 10)))
         // console.log("random", num)
 
+        console.log(this.game.getGameProgress())
+        console.log(this.game.gameProgress)
 
     }
 

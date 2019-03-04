@@ -33,16 +33,16 @@ export class Game {
         this.gameOver = false
         this.score = 0
         this.gameProgress = {
-            level0: startingLvlStatus,
-            level1: startingLvlStatus,
-            level2: startingLvlStatus,
-            level3: startingLvlStatus,
-            level4: startingLvlStatus
+            level0: _.clone(startingLvlStatus),
+            level1: _.clone(startingLvlStatus),
+            level2: _.clone(startingLvlStatus),
+            level3: _.clone(startingLvlStatus),
+            level4: _.clone(startingLvlStatus)
         }
     }
 
     levelBossPassed() {
-        return getGameProgress().bossDown
+        return this.getGameProgress().bossDown
     }
 
     init() {
@@ -80,7 +80,7 @@ export class Game {
     }
 
     getFreeCells() {
-        console.log("getFreeCells() this.map", this.map)
+        // console.log("getFreeCells() this.map", this.map)
         let freeCells = []
         Object.keys(this.map).forEach(key => {
             if (this.map[key] === '.') {
