@@ -18,6 +18,7 @@ async function mainLoop() {
             game.updateGui()
         }
 
+        director.debugScheduler()
         let action = await actor.act()
         while(action){
             // console.log("got action", action)

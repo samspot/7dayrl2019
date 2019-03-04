@@ -6,6 +6,8 @@ import Tyrant from 'assets/tyrant.json'
 import Zombie from 'assets/zombie.json'
 import Chimera from 'assets/chimera.json'
 import Jill from 'assets/jill.json'
+import { spawn } from 'child_process';
+// import Config from './config.js'
 
 const levels = [
     'lab',
@@ -65,9 +67,15 @@ export class Director {
         this.debug()
         this.countdown--
         if (this.countdown <= 0) {
-            let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, 7)))
-            if (num < 5) {
-                num = 5 
+            // let Config = { spawnrate: 10}
+            // let spawnrate = Config.spawnrate
+            // let minimum = Config.spawnrate / 2
+            let spawnrate = 10
+            let minimum = 5
+
+            let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, spawnrate)))
+            if (num < minimum) {
+                num = minimum 
             }
             // console.log("random", num)
 
@@ -115,9 +123,8 @@ export class Director {
         var turns = [];
         for (var i = 0; i < 20; i++) {
             var current = this.scheduler.next();
-            turns.push(current.name);
+            turns.push(current._symbol);
         }
-        console.dir("\nGenerated order of actors:");
-        console.dir(turns.join(" ") + " ...");
+        console.dir("turn order " + turns.join(" "))
     }
 }
