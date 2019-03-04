@@ -9,10 +9,14 @@ import Config from './config.js'
 /*
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. add boss down list to gui
-2. on boss kill make stairs down, gen new level
+X. on boss kill make stairs down, gen new level
+1. fill out monsters
+2. win game if killed all bosses
 3. add enemy/player special abilities
 4. make mapgen create large rooms.  swarm the tyrant 
 5. mouse controls to ui
+6. high scores in local storage
+7. Start Screen w/ high scores
 */
 
 const startingLvlStatus = {

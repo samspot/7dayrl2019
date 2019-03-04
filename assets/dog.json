@@ -1,0 +1,9 @@
+
+{
+    "symbol": "d",
+    "color": "grey",
+    "name": "Dog",
+    "hp": 20,
+    "score": 2,
+    "str": 10
+}

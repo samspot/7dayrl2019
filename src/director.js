@@ -5,8 +5,22 @@ import { Actor } from './actor.js'
 import Tyrant from 'assets/tyrant.json'
 import Zombie from 'assets/zombie.json'
 import Chimera from 'assets/chimera.json'
-import Jill from 'assets/jill.json'
 import Config from './config.js'
+import Hunter from 'assets/hunter.json'
+import Spider from 'assets/spider.json'
+import Lisa from 'assets/lisa.json'
+import SpiderBoss from 'assets/spiderboss.json'
+import Dog from 'assets/dog.json'
+import Plant from 'assets/plant.json'
+import Shark from 'assets/shark.json'
+import Snake from 'assets/snake.json'
+import Plant42 from 'assets/plant42.json'
+
+import Jill from 'assets/jill.json'
+import Chris from 'assets/chris.json'
+import Barry from 'assets/barry.json'
+import Brad from 'assets/brad.json'
+import Wesker from 'assets/wesker.json'
 
 const levels = [
     'lab',
@@ -16,22 +30,20 @@ const levels = [
     'mansion'
 ]
 
-// TODO: mobs lvls 2-5
 const mobs = {
     'lab': [Zombie, Zombie, Chimera],
-    'catacombs': [Zombie],
-    'outside': [Zombie],
-    'guardhouse': [Zombie],
-    'mansion': [Zombie],
+    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Lisa, SpiderBoss],
+    'outside': [Zombie, Dog, Dog, Plant, Spider],
+    'guardhouse': [Zombie, Plant, Plant, Shark, Plant42],
+    'mansion': [Zombie, Hunter, Hunter, Snake],
 }
 
-// TODO: bosses lvls 2-5
 const bosses = {
     'lab': Jill,
-    'catacombs': Tyrant,
-    'outside': Tyrant,
-    'guardhouse': Tyrant,
-    'mansion': Tyrant
+    'catacombs': Chris,
+    'outside': Barry,
+    'guardhouse': Brad,
+    'mansion': Wesker
 }
 
 export class Director {

@@ -1,0 +1,9 @@
+
+{
+    "symbol": "P",
+    "color": "green",
+    "name": "Plant 42",
+    "hp": 100,
+    "score": 100,
+    "str": 20 
+}

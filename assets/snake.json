@@ -1,0 +1,8 @@
+{
+    "symbol": "S",
+    "color": "blue",
+    "name": "Snake Boss",
+    "hp": 160,
+    "score": 200,
+    "str": 15 
+}

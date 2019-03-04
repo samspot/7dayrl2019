@@ -1,0 +1,9 @@
+
+{
+    "symbol": "C",
+    "color": "green",
+    "name": "Chris Redfield",
+    "hp": 70,
+    "score": 3000,
+    "str": 25
+}
