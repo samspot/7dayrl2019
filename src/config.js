@@ -1,5 +1,5 @@
 const Config = {
-    spawnrate: 10
+    spawnrate: 5
 }
 
-// export default Config
+export default Config

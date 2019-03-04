@@ -19,16 +19,15 @@ export class AttackAction extends Action {
 
     execute(game){
 
-        // console.log("attack action player", game.player)
         // alert('attack ' + this.actor.out() + ' against ' + this.target.out())
-        console.log('attack ' + this.actor.out() + ' against ' + this.target.out())
+        // console.log('attack ' + this.actor.out() + ' against ' + this.target.out())
         // console.log(game.mobs)
         this.target.hp -= this.actor.str
         if(this.target.hp <= 0){
-            // if(!this.target.isPlayer()){
+            if(!this.target.isPlayer()){
                 _.remove(game.mobs, this.target)
                 game.scheduler.remove(this.target)
-            // }
+            }
 
             // console.log("target", this.target)
             if(this.target.isBoss()){
@@ -39,32 +38,35 @@ export class AttackAction extends Action {
         }
 
         if(game.player.hp <= 0){
-            return new GameOverAction()
-            /*
+            // return new GameOverAction()
+            
             let mob
             let player = game.player
-            // while(!mob){
+            while(!mob){
                 let idx = prompt("Choose a new body (enter number)")
-                if(idx < 0){ idx = 0 }
-                if(idx > game.mobs.length){ idx = game.mobs.length-1}
+                // if(idx < 0){ idx = 0 }
+                // if(idx > game.mobs.length){ idx = game.mobs.length-1}
+                if(parseInt(idx, 10))
 
                 mob = game.mobs[idx-1]
-                console.log(game.mobs)
-                console.log(mob)
+                // console.log(game.mobs)
+                // console.log(mob)
+                if(!mob){ continue }
 
                 _.remove(game.mobs, mob)
                 game.scheduler.remove(mob)
-            // }
+            }
             player.name = mob.name
-            // player.hp = mob.hp
-            player.hp = 500
+            player.hp = mob.hp
+            // player.hp = 50
+            player._color = mob._color
             player.str = mob.str
             player._x = mob._x
             player._y = mob._y
             player.boss = false
             player.draw()
-            console.log("after attack player", player)
-            */
+            // console.log("after attack player", player)
+            
         }
     }
 }

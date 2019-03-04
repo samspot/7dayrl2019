@@ -9,7 +9,7 @@ export class Player extends Actor {
 
         this.name = "Tyrant"
         // this.hp = 200
-        this.hp = 100
+        this.hp = 1
         this.str = 25
     }
 
