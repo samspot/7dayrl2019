@@ -36,6 +36,9 @@ export class AttackAction extends Action {
                 // TODO: move to gui class, put in game state
                 let locator = "level" + game.currentLevel
                 document.getElementById(locator).style = "text-decoration: line-through; color:red"
+
+                game.message("You killed the level boss.  Press > to go to the next level.")
+
             }
 
             this.target.draw('.', 'red')

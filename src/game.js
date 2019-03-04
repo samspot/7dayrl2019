@@ -166,8 +166,13 @@ export class Game {
                 moblist.appendChild(elem)
             })
         }
+    }
 
-
+    message(msg){
+        let elem = document.getElementById('msg')
+        elem.classList.remove('fade-in')
+        elem.classList.add('fade-in')
+        elem.innerHTML = msg
     }
 
     addScore(x){
