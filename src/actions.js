@@ -56,6 +56,10 @@ export class AttackAction extends Action {
                 // console.log(mob)
                 if(!mob){ continue }
 
+                if(mob.isBoss()){
+                    game.possesBoss()
+                }
+
                 _.remove(game.mobs, mob)
                 game.scheduler.remove(mob)
             }

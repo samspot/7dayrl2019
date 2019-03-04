@@ -8,8 +8,8 @@ export class Player extends Actor {
         super(x, y, "@", "#ff0", game)
 
         this.name = "Tyrant"
-        this.hp = 200
-        // this.hp = 1
+        // this.hp = 200
+        this.hp = 1
         this.str = 25
     }
 
@@ -65,7 +65,6 @@ export class Player extends Actor {
             alert("There is no box here!");
             this.game.display.drawText(20, 2, "There is no box here")
         } else if (key == this.game.ananas) {
-            // alert("Hooray! You found an ananas and won the game.");
             window.removeEventListener("keydown", this);
             this.game.gameover("Hooray! You found an ananas and won the game.")
         } else {

@@ -38,8 +38,6 @@ export class Game {
             level3: startingLvlStatus,
             level4: startingLvlStatus
         }
-
-
     }
 
     levelBossPassed() {
@@ -48,8 +46,6 @@ export class Game {
 
     init() {
         this.display = new ROT.Display();
-        // this.display.style = "float: left"
-        // document.body.appendChild(this.display.getContainer());
         document.getElementById("map").appendChild(this.display.getContainer())
 
         this.generateMap();
@@ -57,18 +53,14 @@ export class Game {
         this.director = new Director(this.player, this)
 
         this.scheduler.add(this.player, true)
-        // this.scheduler.add(this.pedro, true)
     }
 
     getFreeCells() {
         let freeCells = []
-        // Object.keys(this.map).forEach(function (key) {
         Object.keys(this.map).forEach(key => {
             if (this.map[key] === '.') {
                 freeCells.push(key)
             }
-            // var value = hash[key]
-            // iteration code
         })
         return freeCells
     }
@@ -111,9 +103,7 @@ export class Game {
 
         this.drawWholeMap();
 
-        // this._createPlayer(freeCells);
         this.player = this.createBeing(Player, freeCells)
-        // this.pedro = this.createBeing(Pedro, freeCells)
     }
 
     createPlayer(freeCells) {
@@ -166,9 +156,14 @@ export class Game {
     }
 
     killBoss() {
-        let key = "level" + this.currentLevel
-        this.gameProgress[key].style = "text-decoration: line-through; color: red"
+        this.getGameProgress().style = "text-decoration: line-through; color: red"
         this.message("You killed the level boss.  Press > to go to the next level.")
+    }
+
+    possesBoss(){
+        this.getGameProgress().style = "color: purple"
+        this.getGameProgress().text += " [Possessed]"
+        this.message("You possesed the level boss.  Press > to go to the next level.")
     }
 
     updateGui() {
@@ -180,8 +175,6 @@ export class Game {
         // Game Progress
         let gameProgress = this.getGameProgress()
         let key = "level" + this.currentLevel
-        // let style = this.gameProgress[key].style
-        // let bossDown = this.gameProgress[key].bossDown
         let elem = document.getElementById(key)
         elem.innerHTML = gameProgress.text
         elem.style = gameProgress.style
