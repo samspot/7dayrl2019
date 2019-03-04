@@ -5,6 +5,13 @@ import { Player } from './player.js'
 import { Monster } from './monster.js'
 import { Director } from './director.js';
 
+/*
+0. get rid of _ names
+1. add boss down list to gui
+2. on boss kill make stairs down, gen new level
+3. add enemy/player special abilities
+4. make mapgen create large rooms.  swarm the tyrant 
+*/
 export class Game {
     constructor(scheduler) {
         this.scheduler = scheduler

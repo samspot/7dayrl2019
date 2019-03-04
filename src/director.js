@@ -41,7 +41,8 @@ export class Director {
         this.countdown = 5
 
         this.scheduler = scheduler
-        this.currentLevel = 0
+        // this.currentLevel = 0
+        game.currentLevel = 0
         this.boss = null
 
         this.mobs = []
@@ -49,7 +50,8 @@ export class Director {
 
     // current level matters for monster gen
     levelchange(idx) {
-        this.currentLevel = idx
+        // this.currentLevel = idx
+        game.currentLevel = idx
     }
 
     tick() {
@@ -57,7 +59,7 @@ export class Director {
         this.mobs = this.game.mobs
 
         if (!this.boss) {
-            this.boss = bosses[levels[this.currentLevel]]
+            this.boss = bosses[levels[this.game.currentLevel]]
             let monster = this.createSchedule(this.boss)
             monster.boss = true
             this.mobs.push(monster)
@@ -103,7 +105,7 @@ export class Director {
     }
 
     generateMob() {
-        let mob = ROT.RNG.getItem(mobs[levels[this.currentLevel]])
+        let mob = ROT.RNG.getItem(mobs[levels[this.game.currentLevel]])
         // console.log(mob)
         // this.mobs.push(mob)
         return mob
