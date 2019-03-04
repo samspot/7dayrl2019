@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as ROT from 'rot-js'
-import {Game} from './game.js'
+import { Game } from './game.js'
 import { Director } from './director.js';
 
 let scheduler = new ROT.Scheduler.Simple()
@@ -9,16 +9,22 @@ game.init()
 
 let director = new Director(game, scheduler)
 
-async function mainLoop(){
-    while(1){
+async function mainLoop() {
+    while (1) {
         let actor = scheduler.next()
-        if(!actor) { break }
+        if (!actor) { break }
         console.log("scheduled actor", actor)
-        if(actor.isPlayer()){
+        if (actor.isPlayer()) {
             game.updateGui()
         }
-        await actor.act()
-        if(actor.isPlayer()){
+
+        let action = await actor.act()
+        while(action){
+            console.log("got action", action)
+            action = action.execute(game)
+        }
+
+        if (actor.isPlayer()) {
             director.tick()
         }
     }

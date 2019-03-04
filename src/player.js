@@ -1,12 +1,14 @@
-import {Actor} from './actor.js'
+import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
+import { Action, MoveAction, AttackAction, PickupAction } from './actions.js'
+import { keyMap } from './keymap.js'
 
 export class Player extends Actor {
     constructor(x, y, game) {
         super(x, y, "@", "#ff0", game)
     }
 
-    isPlayer(){
+    isPlayer() {
         return true
     }
 
@@ -21,53 +23,17 @@ export class Player extends Actor {
     }
 
     handleEvent(e) {
-        // https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-        var keyMap = {};
-        keyMap[38] = 0;
-        keyMap[33] = 1;
-        keyMap[39] = 2;
-        keyMap[34] = 3;
-        keyMap[40] = 4;
-        keyMap[35] = 5;
-        keyMap[37] = 6;
-        keyMap[36] = 7;
-
-        keyMap[ROT.KEYS.VK_LEFT] = 6 // 37, left arrow
-        keyMap[ROT.KEYS.VK_H] = 6 // 37, left arrow
-
-        keyMap[ROT.KEYS.VK_UP] = 0; // up arrow
-        keyMap[ROT.KEYS.VK_K] = 0; // up arrow
-        
-        keyMap[ROT.KEYS.VK_RIGHT] = 2; // right arrow
-        keyMap[ROT.KEYS.VK_L] = 2; // right arrow
-
-        keyMap[ROT.KEYS.VK_DOWN] = 4; // down arrow
-        keyMap[ROT.KEYS.VK_J] = 4; // down arrow 
-
-        var code = e.keyCode;
-
         // enter or space
         if (code == 13 || code == 32) {
-            this.checkBox();
-            this.resolve()
-            return;
+            let action = new PickupAction(this)
+            this.resolve(action)
+            return
         }
 
+        var code = e.keyCode;
         if (!(code in keyMap)) { return }
 
-        var diff = ROT.DIRS[8][keyMap[code]];
-        var newX = this._x + diff[0];
-        var newY = this._y + diff[1];
-
-        var newKey = newX + "," + newY;
-        if (!(newKey in this._game.map)) { return }
-
-        this._game.display.draw(this._x, this._y, this._game.map[this._x + "," + this._y])
-        this._x = newX;
-        this._y = newY;
-        this.draw();
-        window.removeEventListener("keydown", this);
-        this.resolve()
+        this.resolve(new MoveAction(this, code))
     }
 
     checkBox() {
