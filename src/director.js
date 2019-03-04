@@ -58,7 +58,7 @@ export class Director {
         if (!this.boss) {
             this.boss = bosses[levels[this.currentLevel]]
             let monster = this.createSchedule(this.boss)
-            monster.isBoss = true
+            monster.boss = true
             this.mobs.push(monster)
         }
 

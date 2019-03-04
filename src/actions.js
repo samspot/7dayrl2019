@@ -24,12 +24,13 @@ export class AttackAction extends Action {
         if(this.target.hp <= 0){
             _.remove(game.mobs, this.target)
             game.scheduler.remove(this.target)
-            this.target.draw('.', 'red')
-            /*
+
+            console.log("target", this.target)
             if(this.target.isBoss()){
                 return new YouWinAction()
             }
-            */
+
+            this.target.draw('.', 'red')
         }
 
         if(game.player.hp <= 0){

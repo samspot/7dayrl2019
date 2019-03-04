@@ -15,12 +15,17 @@ keyMap[36] = 7;
 
 keyMap[ROT.KEYS.VK_LEFT] = 6 // 37, left arrow
 keyMap[ROT.KEYS.VK_H] = 6 // 37, left arrow
+keyMap[ROT.KEYS.VK_A] = 6 // 37, left arrow
+
 
 keyMap[ROT.KEYS.VK_UP] = 0; // up arrow
 keyMap[ROT.KEYS.VK_K] = 0; // up arrow
+keyMap[ROT.KEYS.VK_W] = 0; // up arrow
 
 keyMap[ROT.KEYS.VK_RIGHT] = 2; // right arrow
 keyMap[ROT.KEYS.VK_L] = 2; // right arrow
+keyMap[ROT.KEYS.VK_D] = 2; // right arrow
 
 keyMap[ROT.KEYS.VK_DOWN] = 4; // down arrow
 keyMap[ROT.KEYS.VK_J] = 4; // down arrow 
+keyMap[ROT.KEYS.VK_S] = 4; // down arrow 

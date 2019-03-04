@@ -23,6 +23,7 @@ export class Actor {
 
     isBoss(){
         return this.boss
+        // return true
     }
 
     draw(symbol, color) {
