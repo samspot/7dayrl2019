@@ -6,6 +6,10 @@ export class Player extends Actor {
         super(x, y, "@", "#ff0", game)
     }
 
+    isPlayer(){
+        return true
+    }
+
     act() {
         // console.log('Player act')
         window.addEventListener("keydown", this);
@@ -28,10 +32,17 @@ export class Player extends Actor {
         keyMap[37] = 6;
         keyMap[36] = 7;
 
-        keyMap[ROT.KEYS.VK_LEFT] = 6; // 37, left arrow
-        keyMap[38] = 0; // up arrow
-        keyMap[39] = 2; // right arrow
-        keyMap[40] = 4; // down arrow
+        keyMap[ROT.KEYS.VK_LEFT] = 6 // 37, left arrow
+        keyMap[ROT.KEYS.VK_H] = 6 // 37, left arrow
+
+        keyMap[ROT.KEYS.VK_UP] = 0; // up arrow
+        keyMap[ROT.KEYS.VK_K] = 0; // up arrow
+        
+        keyMap[ROT.KEYS.VK_RIGHT] = 2; // right arrow
+        keyMap[ROT.KEYS.VK_L] = 2; // right arrow
+
+        keyMap[ROT.KEYS.VK_DOWN] = 4; // down arrow
+        keyMap[ROT.KEYS.VK_J] = 4; // down arrow 
 
         var code = e.keyCode;
 

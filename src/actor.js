@@ -19,6 +19,10 @@ export class Actor {
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
+    isPlayer() {
+        return false
+    }
+
     draw() {
         this._game.display.draw(this._x, this._y, this._symbol, this._color)
         // console.log(this.name, this.hp)

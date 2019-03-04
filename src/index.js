@@ -15,7 +15,9 @@ async function mainLoop(){
         if(!actor) { break }
         console.log("scheduled actor", actor)
         await actor.act()
-        director.tick()
+        if(actor.isPlayer()){
+            director.tick()
+        }
     }
 }
 
