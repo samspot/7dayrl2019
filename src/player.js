@@ -33,6 +33,7 @@ export class Player extends Actor {
         var code = e.keyCode;
         if (!(code in keyMap)) { return }
 
+        window.removeEventListener("keydown", this);
         this.resolve(new MoveAction(this, code))
     }
 

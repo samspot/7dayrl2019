@@ -18,31 +18,42 @@ export class AttackAction extends Action {
 }
 
 export class MoveAction extends Action {
-    constructor(actor, direction) {
+    constructor(actor, direction, newX, newY) {
         super(actor)
         this.direction = direction
+        this.newX = newX
+        this.newY = newY
     }
 
     execute(game){
         this.executeParent(game)
         let actor = this.actor
 
-        var diff = ROT.DIRS[8][keyMap[this.direction]];
-        var newX = actor._x + diff[0];
-        var newY = actor._y + diff[1];
+        let newX, newY
+        if(this.newX && this.newY){
+            newX = this.newX
+            newY = this.newY
+        }
 
-        // is the space in the map at all?
-        var newKey = newX + "," + newY;
-        if (!(newKey in game.map)) { return }
+        if(actor.isPlayer()){
+            var diff = ROT.DIRS[8][keyMap[this.direction]];
+            newX = actor._x + diff[0];
+            newY = actor._y + diff[1];
+
+            // is the space in the map at all?
+            var newKey = newX + "," + newY;
+            if (!(newKey in game.map)) { return }
+        }
 
         // collision here
+
+
+
 
         game.display.draw(actor._x, actor._y, game.map[actor._x + "," + actor._y])
         actor._x = newX;
         actor._y = newY;
         actor.draw();
-        window.removeEventListener("keydown", actor);
-        // this.actor.resolve()
     }
 }
 
