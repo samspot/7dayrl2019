@@ -64,9 +64,7 @@ export class Director {
             monster.boss = true
             this.mobs.push(monster)
 
-            // TODO: move to gui update fn/class
-            let locator = "level" + this.game.currentLevel
-            document.getElementById(locator).innerHTML = this.boss.name
+            this.game.getGameProgress().text = this.boss.name
         }
 
         this.debug()

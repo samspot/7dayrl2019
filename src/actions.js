@@ -33,12 +33,8 @@ export class AttackAction extends Action {
             // console.log("target", this.target)
             if(this.target.isBoss()){
                 // return new YouWinAction()
-                // TODO: move to gui class, put in game state
-                let locator = "level" + game.currentLevel
-                document.getElementById(locator).style = "text-decoration: line-through; color:red"
 
-                game.message("You killed the level boss.  Press > to go to the next level.")
-
+                game.killBoss()
             }
 
             this.target.draw('.', 'red')
@@ -128,6 +124,20 @@ export class PickupAction extends Action {
         // console.log("execute pickup action")
         this.executeParent(game)
         this.actor.checkBox()
+    }
+}
+
+export class DescendAction extends Action {
+    constructor(actor) {
+        super(actor)
+    }
+
+    execute(game){
+        if(game.levelBossPassed()){
+            console.log("Descend pressed and allowed")
+
+            // TODO descend
+        }
     }
 }
 

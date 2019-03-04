@@ -1,6 +1,6 @@
 import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
-import { Action, MoveAction, AttackAction, PickupAction, DefaultAction } from './actions.js'
+import { Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
 import { keyMap } from './keymap.js'
 
 export class Player extends Actor {
@@ -20,6 +20,7 @@ export class Player extends Actor {
     act() {
         // console.log('Player act')
         window.addEventListener("keydown", this);
+        window.addEventListener("keypress", this);
         return new Promise((resolve, reject) => {
 
             this.resolve = resolve
@@ -29,7 +30,16 @@ export class Player extends Actor {
 
     // TODO: Tank controls?
     handleEvent(e) {
-        var code = e.keyCode;
+        // console.log(e)
+        let charCode = e.which || e.keyCode
+        let charStr = String.fromCharCode(charCode)
+
+        if(charStr == '>'){
+            this.resolve(new DescendAction(this))
+        }
+        
+        // var code = e.keyCode;
+        var code = charCode
         // enter or space
         if (code == 13 || code == 32) {
             // console.log("key hit for pickup action")
@@ -45,6 +55,7 @@ export class Player extends Actor {
         if (!(code in keyMap)) { return }
 
         window.removeEventListener("keydown", this);
+        window.removeEventListener("keypress", this);
         this.resolve(new MoveAction(this, code))
     }
 

@@ -6,12 +6,20 @@ import { Monster } from './monster.js'
 import { Director } from './director.js';
 
 /*
+TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. add boss down list to gui
 2. on boss kill make stairs down, gen new level
 3. add enemy/player special abilities
 4. make mapgen create large rooms.  swarm the tyrant 
 5. mouse controls to ui
 */
+
+const startingLvlStatus = {
+    text: "Status Unknown",
+    style: "",
+    bossDown: false
+}
+
 export class Game {
     constructor(scheduler) {
         this.scheduler = scheduler
@@ -23,6 +31,19 @@ export class Game {
         this.mobs = []
         this.gameOver = false
         this.score = 0
+        this.gameProgress = {
+            level0: startingLvlStatus,
+            level1: startingLvlStatus,
+            level2: startingLvlStatus,
+            level3: startingLvlStatus,
+            level4: startingLvlStatus
+        }
+
+
+    }
+
+    levelBossPassed() {
+        return true
     }
 
     init() {
@@ -139,10 +160,31 @@ export class Game {
         this.game.scheduler.clear()
     }
 
+    getGameProgress(){
+        let key = "level" + this.currentLevel
+        return this.gameProgress[key]
+    }
+
+    killBoss() {
+        let key = "level" + this.currentLevel
+        this.gameProgress[key].style = "text-decoration: line-through; color: red"
+        this.message("You killed the level boss.  Press > to go to the next level.")
+    }
+
     updateGui() {
+        // Status Bar
         document.getElementById('name').innerHTML = this.player.name
         document.getElementById('hp').innerHTML = this.player.hp
         document.getElementById('score').innerHTML = this.score
+
+        // Game Progress
+        let gameProgress = this.getGameProgress()
+        let key = "level" + this.currentLevel
+        // let style = this.gameProgress[key].style
+        // let bossDown = this.gameProgress[key].bossDown
+        let elem = document.getElementById(key)
+        elem.innerHTML = gameProgress.text
+        elem.style = gameProgress.style
 
         if (this.player.hp < 30) {
             document.getElementById('hp').style = "color: red"
@@ -168,18 +210,18 @@ export class Game {
         }
     }
 
-    message(msg){
+    message(msg) {
         let elem = document.getElementById('msg')
         elem.classList.remove('fade-in')
         elem.classList.add('fade-in')
         elem.innerHTML = msg
     }
 
-    addScore(x){
+    addScore(x) {
         this.score += x
     }
 
-    resetScore(){
+    resetScore() {
         this.score = 0
     }
 }
