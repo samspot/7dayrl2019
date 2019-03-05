@@ -4,6 +4,10 @@ import Jill from '../assets/img/jill.png'
 import JillDead from '../assets/img/jill-dead.png'
 import JillEliminated from '../assets/img/jill-eliminated.png'
 
+import Chris from '../assets/img/chris.png'
+import ChrisDead from '../assets/img/chris-dead.png'
+import ChrisEliminated from '../assets/img/chris-eliminated.png'
+
 import Unknown from '../assets/img/unknown.png'
 
 export class GameDisplay {
@@ -88,7 +92,7 @@ export class GameDisplay {
         let playerImageMap = {
             "Tyrant": Tyrant,
             "Jill Valentine": JillDead,
-            "Chris Redfield": Unknown,
+            "Chris Redfield": ChrisDead,
             "Barry Burton": Unknown,
             "Brad Vickers": Unknown,
             "Albert Wesker": Unknown
@@ -96,7 +100,7 @@ export class GameDisplay {
 
         let targetImageMap = {
             "Jill Valentine": Jill,
-            "Chris Redfield": Unknown,
+            "Chris Redfield": Chris,
             "Barry Burton": Unknown,
             "Brad Vickers": Unknown,
             "Albert Wesker": Unknown
@@ -104,7 +108,7 @@ export class GameDisplay {
 
         let deadImageMap = {
             "Jill Valentine": JillEliminated,
-            "Chris Redfield": Unknown,
+            "Chris Redfield": ChrisEliminated,
             "Barry Burton": Unknown,
             "Brad Vickers": Unknown,
             "Albert Wesker": Unknown
