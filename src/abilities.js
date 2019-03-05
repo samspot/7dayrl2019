@@ -1,3 +1,5 @@
+import * as ROT from 'rot-js'
+
 export class Ability {
     constructor(actor, cooldown, range, dmg) {
         this.actor = actor
@@ -21,6 +23,18 @@ export class Ability {
     inRange(position, target) {
         // TODO implement range
         return true
+    }
+
+    getRandomAbility(){
+        let a = ROT.RNG.getItem(abilities)
+        console.log(a)
+        return a
+    }
+}
+
+export class EmptySlot extends Ability {
+    constructor(actor){
+        super(actor, 0, 1, 0)
     }
 }
 
@@ -59,3 +73,13 @@ export class Grab extends Ability {
         super(actor, 2, 1, 10)
     }
 }
+
+const abilities = [
+    GrenadeLauncher,
+    Shotgun,
+    Magnum,
+    Impale,
+    Charge,
+    Grab
+]
+

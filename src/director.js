@@ -21,6 +21,7 @@ import Chris from 'assets/chris.json'
 import Barry from 'assets/barry.json'
 import Brad from 'assets/brad.json'
 import Wesker from 'assets/wesker.json'
+import { GrenadeLauncher, EmptySlot, Grab, Ability } from './abilities.js';
 
 const levels = [
     'lab',
@@ -46,6 +47,11 @@ const bosses = {
     'mansion': Wesker
 }
 
+const abilities = {
+    'Jill Valentine': [GrenadeLauncher, EmptySlot],
+    'Zombie': [Grab]
+}
+
 export class Director {
     constructor(game, scheduler) {
         this.player = game.player
@@ -53,10 +59,8 @@ export class Director {
         this.countdown = 5
 
         this.scheduler = scheduler
-        // this.currentLevel = 0
         game.currentLevel = 0
 
-        // this.resetLevel()
         this.boss = null
         this.mobs = []
         this.scheduler.add(this.player, true)
@@ -84,9 +88,29 @@ export class Director {
 
         if (!this.boss) {
             this.boss = bosses[levels[this.game.currentLevel]]
+            console.log('boss', this.boss, abilities[this.boss.name])
+
+            let mobAbilities = abilities[this.boss.name]
+            
+
+
             let monster = this.createSchedule(this.boss)
             monster.boss = true
             this.mobs.push(monster)
+            
+            // TODO large creatures hittable through a mob, not so much for small ones
+            mobAbilities.forEach(a => {
+                let ability = new a(monster)
+                if(ability instanceof EmptySlot){
+                    a = ability.getRandomAbility()
+                    ability = new a(monster)
+                } 
+
+                monster.addAbility(ability)     
+            })
+
+
+            console.log('monster abilities', monster.abilities)
 
             this.game.getGameProgress().text = this.boss.name
         }

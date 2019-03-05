@@ -66,6 +66,17 @@ export class AttackAction extends Action {
             player.x = mob.x
             player.y = mob.y
             player.boss = false
+            // player.abilities = _.clone(mob.abilities)
+
+            player.abilities = []
+            _.clone(mob.abilities).forEach(a => {
+                console.log('adding ability', a)
+                a.actor = player
+                player.addAbility(_.clone(a))
+            })
+
+            console.log('player abilities', player.abilities)
+            // console.log('mob abilities', mob.abilities)
             player.draw()
             game.resetScore()
             // console.log("after attack player", player)
