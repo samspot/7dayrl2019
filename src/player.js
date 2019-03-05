@@ -36,7 +36,7 @@ export class Player extends Actor {
 
     useAbility(ability) {
         // console.log("player.useAbility()", ability)
-        if (ability.cooldown === 0) {
+        if (ability && ability.cooldown === 0) {
             // console.log("abilty available", ability.cooldown, ability.maxCooldown)
             this.state = TARGETTING
             this.usingAbility = ability

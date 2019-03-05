@@ -21,7 +21,7 @@ import Chris from 'assets/chris.json'
 import Barry from 'assets/barry.json'
 import Brad from 'assets/brad.json'
 import Wesker from 'assets/wesker.json'
-import { GrenadeLauncher, EmptySlot, Grab, Ability } from './abilities.js';
+import { GrenadeLauncher, EmptySlot, Grab, Shotgun, Magnum, Charge, Impale } from './abilities.js';
 
 const levels = [
     'lab',
@@ -47,15 +47,25 @@ const bosses = {
     'mansion': Wesker
 }
 
-
 // TODO: finish adding abilities
 const abilities = {
     'Jill Valentine': [GrenadeLauncher, EmptySlot],
-    'Chris Redfield': [],
-    'Barry Burton': [],
-    'Brad Vickers': [],
-    'Albert Wesker': [],
-    'Zombie': [Grab]
+    'Chris Redfield': [Shotgun, EmptySlot],
+    'Barry Burton': [Magnum, EmptySlot],
+    'Brad Vickers': [Shotgun, EmptySlot],
+    'Albert Wesker': [Magnum, EmptySlot],
+    'Tyrant': [Charge, Impale],
+    'Zombie': [Grab],
+    'Chimera': [Grab],
+    'Dog': [Grab],
+    'Hunter': [Grab],
+    'Lisa Trevor': [Grab],
+    'Plant': [Grab],
+    'Plant 42': [Grab],
+    'Shark': [Grab],
+    'Snake Boss': [Grab],
+    'Giant Spider': [Grab],
+    'Black Tiger': [Grab]
 }
 
 export class Director {
@@ -74,7 +84,6 @@ export class Director {
 
     // cleanup all things that need to be cleaned for descending
     resetLevel() {
-        // console.log("director resetLevel()")
         this.game.resetLevel()
         this.boss = null
         this.mobs = []
@@ -84,13 +93,14 @@ export class Director {
 
     // current level matters for monster gen
     levelchange(idx) {
-        // this.currentLevel = idx
         game.currentLevel = idx
     }
 
     // TODO large creatures hittable through a mob, not so much for small ones
     generateAbilities(monster) {
-        let mobAbilities = abilities[this.boss.name]
+        // let mobAbilities = abilities[this.boss.name]
+        console.log('generating abilities for ', monster)
+        let mobAbilities = abilities[monster.name]
         mobAbilities.forEach(a => {
             let ability = new a(monster)
             if (ability instanceof EmptySlot) {
@@ -116,7 +126,6 @@ export class Director {
             monster.boss = true
             this.mobs.push(monster)
 
-            this.generateAbilities(monster)
 
             this.game.getGameProgress().text = this.boss.name
         }
@@ -124,23 +133,18 @@ export class Director {
         this.debug()
         this.countdown--
         if (this.countdown <= 0) {
-            // let Config = { spawnrate: 10}
             let spawnrate = Config.spawnrate
             let minimum = Config.spawnrate / 2
-            // let spawnrate = 10
-            // let minimum = 5
 
             let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, spawnrate)))
             if (num < minimum) {
                 num = minimum
             }
-            // console.log("random", num)
 
             this.countdown = num
 
             let mobspec = this.generateMob()
 
-            // TODO: add to array
             let monster = this.createSchedule(mobspec)
             this.mobs.push(monster)
         }
@@ -156,7 +160,7 @@ export class Director {
         // console.dir("monster add", monster)
 
         this.scheduler.add(monster, true)
-
+        this.generateAbilities(monster)
         return monster
     }
 

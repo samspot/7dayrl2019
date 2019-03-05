@@ -10,15 +10,13 @@ import { GameDisplay } from './display.js'
 
 /* Defects */
 /*
-    winning with an ability probably crashes the game
 */
 
-//TODO: I hope this is not chris' blood
 
 /*
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. swap portraits on death, level change
-2. Implement charge ability
+X. Implement charge ability
 X. add enemy/player special abilities
 3. make mobs able to use, tick their abilities
 4. make mapgen create large rooms.  swarm the tyrant 
@@ -29,6 +27,8 @@ X. add enemy/player special abilities
 6. high scores in local storage
 7. Start Screen w/ high scores
 8. add funny resident evil lines "don't open that dooooor"
+//TODO: I hope this is not chris' blood
+9. status effects like 'grabbed'
 
 BUG: abilities triggering after mobs take turns
 */

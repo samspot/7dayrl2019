@@ -13,12 +13,12 @@ export class Action {
 }
 
 export class DamageAction extends Action {
-    constructor(actor, dmg){
+    constructor(actor, dmg) {
         super(actor)
         this.dmg = dmg
     }
 
-    execute(game){
+    execute(game) {
         let action = this.actor.damage(this.dmg)
 
         if (game.player.hp <= 0) {
@@ -53,6 +53,9 @@ export class DamageAction extends Action {
             player.boss = false
             // player.abilities = _.clone(mob.abilities)
 
+            console.log('player abilities', player.abilities)
+            console.log('mob abilities', mob, mob.abilities)
+            
             player.abilities = []
             _.clone(mob.abilities).forEach(a => {
                 console.log('adding ability', a)
@@ -60,8 +63,6 @@ export class DamageAction extends Action {
                 player.addAbility(_.clone(a))
             })
 
-            console.log('player abilities', player.abilities)
-            // console.log('mob abilities', mob.abilities)
             game.dirty = true
             game.resetScore()
             // console.log("after attack player", player)
@@ -165,32 +166,14 @@ export class AbilityAction extends Action {
         this.ability.cooldown = this.ability.maxCooldown
         let actor = game.getCharacterAt(null, this.x, this.y)
 
-
         this.ability.sideEffects(this, game, actor)
 
         // console.log("executing ability action",
         //     this.ability, this.x, this.y, actor)
 
-
-        // let action = this.target.damage(this.actor.str)
-        // if(action){ return action }
-
-        if(actor){
-        return new DamageAction(actor, this.ability.dmg)
-        }
-        /*
-        let action
-
         if (actor) {
-            action = actor.damage(this.ability.dmg)
-            // actor.hp -= this.ability.dmg
-            // if (actor.hp <= 0 && !actor.isPlayer()) {
-            //     game.destroyMob(actor)
-            // }
+            return new DamageAction(actor, this.ability.dmg)
         }
-        */
-
-        // if(action) { return action }
     }
 }
 
