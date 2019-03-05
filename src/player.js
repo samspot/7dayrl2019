@@ -63,7 +63,7 @@ export class Player extends Actor {
     }
 
     handleTarget(e) {
-        console.log("targetting")
+        // console.log("targetting")
 
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
@@ -105,7 +105,7 @@ export class Player extends Actor {
         let newX = cursor.x + diff[0];
         let newY = cursor.y + diff[1];
 
-        // TODO: also make sure path is clear
+        // TODO: also make sure path is clear, don't shoot through walls
         if (this.inRange(this.usingAbility, this, newX, newY)) {
             this.game.cursor.x = newX
             this.game.cursor.y = newY
@@ -144,6 +144,19 @@ export class Player extends Actor {
             // let action = new PickupAction(this)
             // this.tickAbilities()
             // this.resolve(action)
+            return
+        }
+
+        let abilitykeys = [
+            ROT.KEYS.VK_Q,
+            ROT.KEYS.VK_E,
+            ROT.KEYS.VK_R
+        ]
+        let result = _.findIndex(abilitykeys, x => x === code)
+        if(result >= 0){
+            // console.log('pressed ability key', result)
+
+            this.useAbility(this.abilities[result])
             return
         }
 

@@ -15,10 +15,15 @@ TODO: If they posses the level boss, what then?  maybe only allow posess at low 
 X. swap portraits on death, level change
 3. add enemy/player special abilities
 4. make mapgen create large rooms.  swarm the tyrant 
+4. FOV, ai that reacts only to players it can see. different vision per character
+5. Make trash mobs better when controlled by the player
+5. AI use abilities
 5. mouse controls to ui
 6. high scores in local storage
 7. Start Screen w/ high scores
 8. add funny resident evil lines "don't open that dooooor"
+
+BUG: abilities triggering after mobs take turns
 */
 
 const startingLvlStatus = {

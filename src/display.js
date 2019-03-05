@@ -59,6 +59,10 @@ export class GameDisplay {
             let li = document.createElement('li')
             let span = document.createElement('span')
             span.innerHTML = a.text
+
+            let hotkeySpan = document.createElement('span')
+            hotkeySpan.innerHTML = ['Q', 'E', 'R'][idx] 
+            li.appendChild(hotkeySpan)
             li.appendChild(button)
             li.appendChild(span)
 
