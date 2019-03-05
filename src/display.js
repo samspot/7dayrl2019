@@ -4,6 +4,8 @@ import Jill from '../assets/img/jill.png'
 import JillDead from '../assets/img/jill-dead.png'
 import JillEliminated from '../assets/img/jill-eliminated.png'
 
+import Unknown from '../assets/img/unknown.png'
+
 export class GameDisplay {
     constructor(game) {
         this.game = game
@@ -65,29 +67,66 @@ export class GameDisplay {
         })
     }
 
+
+    renderPortrait(img){
+        let elem = document.getElementById('portrait')
+        elem.innerHTML = ''
+        elem.appendChild(img)
+    }
+
+    renderTarget(img){
+        let elem = document.getElementById('target')
+        elem.innerHTML = ''
+        elem.appendChild(img)
+    }
+
     drawPortraits() {
+        let playerImageMap = {
+            "Tyrant": Tyrant,
+            "Jill Valentine": JillDead,
+            "Chris Redfield": Unknown,
+            "Barry Burton": Unknown,
+            "Brad Vickers": Unknown,
+            "Albert Wesker": Unknown
+        }
+
+        let targetImageMap = {
+            "Jill Valentine": Jill,
+            "Chris Redfield": Unknown,
+            "Barry Burton": Unknown,
+            "Brad Vickers": Unknown,
+            "Albert Wesker": Unknown
+        }
+
+        let deadImageMap = {
+            "Jill Valentine": JillEliminated,
+            "Chris Redfield": Unknown,
+            "Barry Burton": Unknown,
+            "Brad Vickers": Unknown,
+            "Albert Wesker": Unknown
+        }
+
         let game = this.game
-        let elem
-        let portrait = new Image()
-        if(game.player.name === "Jill Valentine"){
-            portrait.src = JillDead
-        } else {
-            portrait.src = Tyrant
-        }
 
-        elem = document.getElementById('portrait')
-        elem.innerHTML = ''
-        elem.appendChild(portrait)
+        let portraitImageFile = playerImageMap[game.player.name] || Unknown
+        let portraitImage = new Image()
+        portraitImage.src = portraitImageFile
 
-        let target = new Image()
+        let targetImageFile = targetImageMap[game.getGameProgress().boss] || Unknown
+        let targetImage = new Image()
+        targetImage.src = targetImageFile
+
+        let deadTargetImageFile = deadImageMap[game.getGameProgress().boss] || Unknown
+        let deadTargetImage = new Image()
+        deadTargetImage.src = deadTargetImageFile 
+
+        this.renderPortrait(portraitImage)
+
         if(game.levelBossPassed()){
-            target.src = JillEliminated
+            this.renderTarget(deadTargetImage)
         } else {
-            target.src = Jill
+            this.renderTarget(targetImage)
         }
-        elem = document.getElementById('target')
-        elem.innerHTML = ''
-        elem.appendChild(target)
     }
 
     drawProgress() {

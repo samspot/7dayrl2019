@@ -19,9 +19,9 @@ X. on boss kill make stairs down, gen new level
 X. fill out monsters
 X. win game if killed all bosses
 3. add enemy/player special abilities
-3. Get rid of * / boxes
-3. Move display code to own class outside game.js
-4. swap portraits on death, level change
+X. Get rid of * / boxes
+X. Move display code to own class outside game.js
+X. swap portraits on death, level change
 4. make mapgen create large rooms.  swarm the tyrant 
 5. mouse controls to ui
 6. high scores in local storage
@@ -56,10 +56,19 @@ export class Game {
         }
 
         this.gameProgress.level0.name = "The Laboratory"
+        this.gameProgress.level0.boss = "Jill Valentine"
+
         this.gameProgress.level1.name = "Catacombs"
+        this.gameProgress.level1.boss = "Chris Redfield"
+
         this.gameProgress.level2.name = "Garden"
+        this.gameProgress.level2.boss = "Barry Burton"
+
         this.gameProgress.level3.name = "Guardhouse"
+        this.gameProgress.level3.boss = "Brad Vickers"
+        
         this.gameProgress.level4.name = "The Mansion"
+        this.gameProgress.level4.boss = "Albert Wesker"
     }
 
     allBossesDown() {
