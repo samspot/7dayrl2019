@@ -1,6 +1,8 @@
 import Tyrant from '../assets/img/tyrant.png'
+
 import Jill from '../assets/img/jill.png'
 import JillDead from '../assets/img/jill-dead.png'
+import JillEliminated from '../assets/img/jill-eliminated.png'
 
 export class GameDisplay {
     constructor(game) {
@@ -79,7 +81,7 @@ export class GameDisplay {
 
         let target = new Image()
         if(game.levelBossPassed()){
-            target.src = JillDead
+            target.src = JillEliminated
         } else {
             target.src = Jill
         }
