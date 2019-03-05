@@ -1,4 +1,5 @@
 import * as ROT from 'rot-js'
+import { YouWinAction, DamageAction } from './actions';
 
 export class Ability {
     constructor(actor, cooldown, range, dmg) {
@@ -35,7 +36,7 @@ export class Ability {
         console.log('no side effects')
     }
 
-    canTargetEmpty(){
+    canTargetEmpty() {
         return false
     }
 }
@@ -68,25 +69,39 @@ export class GrenadeLauncher extends Ability {
         console.log('boom')
         let sets = getCoordsAround(action.x, action.y)
         sets.forEach(s => {
-            let {x, y} = s
+            let { x, y } = s
             console.log(x, y)
             game.display.draw(s[0], s[1], "*", "red")
 
             let actor = game.getCharacterAt(null, s[0], s[1])
-            if(actor){
+            if (actor) {
                 // make do damage fn real quick
                 // TODO: does this need to be a damage action?
-                console.log("damaging actor", actor, this.dmg/2)
+                console.log("damaging actor", actor, this.dmg / 2)
 
-                let action = actor.damage(this.dmg / 2)
-                if(action){
-                    throw "TODO: unhandled action in grenade launcher side effects"
-                }
+                // let action = actor.damage(this.dmg / 2)
+
+                game.scheduler.add({
+                    act: () => {
+                        // return actor.damage(this.dmg / 2)
+                        return new DamageAction(actor, this.dmg/2)
+                    },
+                    isPlayer: () => false
+                })
+
+                /*
+                game.scheduler.add({
+                    act: function(){
+                        (new YouWinAction()).execute(game)
+                    },
+                    isPlayer: () => false
+                })
+                */
             }
         })
     }
 
-    canTargetEmpty(){
+    canTargetEmpty() {
         return true
     }
 }

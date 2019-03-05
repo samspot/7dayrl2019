@@ -12,38 +12,15 @@ export class Action {
     }
 }
 
-export class AttackAction extends Action {
-    constructor(actor, target) {
+export class DamageAction extends Action {
+    constructor(actor, dmg){
         super(actor)
-        this.target = target
+        this.dmg = dmg
     }
 
-    execute(game) {
+    execute(game){
+        let action = this.actor.damage(this.dmg)
 
-        // alert('attack ' + this.actor.out() + ' against ' + this.target.out())
-        let action = this.target.damage(this.actor.str)
-        if(action){ return action }
-
-
-        /*
-        this.target.hp -= this.actor.str
-        if (this.target.hp <= 0) {
-            if (!this.target.isPlayer()) {
-                game.destroyMob(this.target)
-            }
-
-            if (this.target.isBoss()) {
-                game.killBoss()
-
-                if (game.allBossesDown()) {
-                    return new YouWinAction()
-                }
-            }
-        }
-        */
-        //
-
-        // TODO move this logic somewhere, other actions will need it, like AbilityAction
         if (game.player.hp <= 0) {
             let mob
             let player = game.player
@@ -85,11 +62,35 @@ export class AttackAction extends Action {
 
             console.log('player abilities', player.abilities)
             // console.log('mob abilities', mob.abilities)
-            player.draw()
+            game.redraw()
+            // player.draw()
             game.resetScore()
             // console.log("after attack player", player)
 
         }
+
+
+
+        return action
+    }
+}
+
+export class AttackAction extends Action {
+    constructor(actor, target) {
+        super(actor)
+        this.target = target
+    }
+
+    execute(game) {
+
+        // alert('attack ' + this.actor.out() + ' against ' + this.target.out())
+        // if(action){ return action }
+
+        // let action = this.target.damage(this.actor.str)
+        // return action
+
+        return new DamageAction(this.target, this.actor.str)
+
     }
 }
 

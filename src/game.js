@@ -18,6 +18,7 @@ import { GameDisplay } from './display.js'
 /*
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. swap portraits on death, level change
+2. Implement charge ability
 3. add enemy/player special abilities
 4. make mapgen create large rooms.  swarm the tyrant 
 4. FOV, ai that reacts only to players it can see. different vision per character
