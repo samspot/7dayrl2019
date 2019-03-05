@@ -24,7 +24,7 @@ export class Player extends Actor {
         this.state = PLAYER_TURN
         // make the game advance a few turns on startup
         this.debugCount = 0
-        if(Config.debug){
+        if (Config.debug) {
             this.debugCount = 5
         }
     }
@@ -69,25 +69,25 @@ export class Player extends Actor {
         let charStr = String.fromCharCode(charCode)
 
         // escape key
-        if(charCode === 27){
+        if (charCode === 27) {
             this.game.redraw()
             this.state = PLAYER_TURN
             return
         }
 
         // Enter key
-        if(charCode === 13){
+        if (charCode === 13) {
             console.log("enter key, do ability", this)
             // ability.cooldown = ability.maxCooldown
 
-            if(!this.game.getCharacterAt(null, this.game.cursor.x, this.game.cursor.y)){
+            if (!this.game.getCharacterAt(null, this.game.cursor.x, this.game.cursor.y)) {
                 console.log('no character at target loc, cancelling target')
                 this.game.redraw()
                 this.state = PLAYER_TURN
-                return 
+                return
             }
 
-            this.resolve(new AbilityAction(this.game, this.usingAbility, 
+            this.resolve(new AbilityAction(this.game, this.usingAbility,
                 this.game.cursor.x, this.game.cursor.y))
             this.usingAbility = null
             this.state = PLAYER_TURN
@@ -105,11 +105,21 @@ export class Player extends Actor {
         let newX = cursor.x + diff[0];
         let newY = cursor.y + diff[1];
 
-        this.game.cursor.x = newX
-        this.game.cursor.y = newY
+        // TODO: also make sure path is clear
+        if (this.inRange(this.usingAbility, this, newX, newY)) {
+            this.game.cursor.x = newX
+            this.game.cursor.y = newY
 
-        this.game.redraw()
-        cursor.drawMe()
+            this.game.redraw()
+            cursor.drawMe()
+        }
+    }
+
+    inRange(ability, actor, x, y){
+        let distance = Math.sqrt( (x - actor.x) ** 2 + (y - actor.y) ** 2)
+        distance = Math.floor(distance)
+        // console.log('distance', distance, 'range', ability.range)
+        return distance <= ability.range
     }
 
     // TODO: Tank controls?
