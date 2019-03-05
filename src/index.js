@@ -1,7 +1,8 @@
-import _ from 'lodash';
+import _ from 'lodash'
 import * as ROT from 'rot-js'
 import { Game } from './game.js'
-import { Director } from './director.js';
+import { Director } from './director.js'
+
 
 let scheduler = new ROT.Scheduler.Simple()
 let game = new Game(scheduler)

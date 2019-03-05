@@ -4,7 +4,7 @@ module.exports = {
     mode: 'development',
     entry: './src/index.js',
     output: {
-        filename: 'main.js',
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
@@ -13,7 +13,25 @@ module.exports = {
     resolve: {
         alias: {
             assets: path.resolve(__dirname, 'assets'),
+            img: path.resolve(__dirname, 'img'),
             src: path.resolve(__dirname, 'src')
         }
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                    'file-loader'
+                ]
+            }
+        ]
     }
 }

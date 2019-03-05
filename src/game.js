@@ -6,6 +6,8 @@ import { Monster } from './monster.js'
 import { Director } from './director.js'
 import Config from './config.js'
 
+// import Tyrant from 'img/tyrant.png'
+import Tyrant from '../assets/img/tyrant.png'
 /*
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. add boss down list to gui
@@ -17,6 +19,7 @@ X. win game if killed all bosses
 5. mouse controls to ui
 6. high scores in local storage
 7. Start Screen w/ high scores
+8. add funny resident evil lines "don't open that dooooor"
 */
 
 const startingLvlStatus = {
@@ -43,6 +46,12 @@ export class Game {
             level3: _.clone(startingLvlStatus),
             level4: _.clone(startingLvlStatus)
         }
+
+        this.gameProgress.level0.name = "The Laboratory"
+        this.gameProgress.level1.name = "Catacombs"
+        this.gameProgress.level2.name = "Garden"
+        this.gameProgress.level3.name = "Guardhouse"
+        this.gameProgress.level4.name = "The Mansion"
     }
 
     allBossesDown() {
@@ -234,6 +243,10 @@ export class Game {
         document.getElementById('name').innerHTML = this.player.name
         document.getElementById('hp').innerHTML = this.player.hp
         document.getElementById('score').innerHTML = this.score
+        document.getElementById('level').innerHTML = "Hunting in " + this.getGameProgress().name
+        let portrait = new Image()
+        portrait.src = Tyrant
+        document.getElementById('portrait').appendChild(portrait)
 
         // Game Progress
         let gameProgress = this.getGameProgress()

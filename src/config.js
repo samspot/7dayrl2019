@@ -1,7 +1,7 @@
 const Config = {
     spawnrate: 5,
     gamePortWidth: 45,
-    gamePortHeight: 30,
+    gamePortHeight: 27,
     fontSize: 16
 }
 

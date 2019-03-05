@@ -49,9 +49,35 @@
 </head>
 
 <body>
-  <h2>KILL S.T.A.R.S!</h2>
+  <h2 style="margin-top: 10px; margin-bottom: 5px">KILL S.T.A.R.S!</h2>
   <table>
     <tr>
+      <!-- <td id="portrait" style="border: 1px solid black; width: 75px; height: 75px"> -->
+      <td id="portrait">
+        <!-- <img src="assets/img/tyrant.png"> -->
+      </td>
+      <td>
+        <table>
+          <tr>
+            <td style="color: grey">CLASS</td>
+            <td id="name"></td>
+          </tr>
+          <tr>
+            <td style="color: grey">HP</td>
+            <td id="hp" style="color: green"></td>
+          </tr>
+          <tr>
+            <td style="color: grey">Score</td>
+            <td id="score" style="color: purple"></td>
+          </tr>
+          <tr>
+            <td id="level" colspan="2">On level TODO of the Game</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <!-- <tr>
       <td style="color: grey">CLASS</td>
       <td id="name"></td>
 
@@ -62,8 +88,7 @@
       <td id="score" style="color: purple"></td>
 
       <td id="level">On level TODO of the Game</td>
-    </tr>
-  </table>
+    </tr> -->
   <div style="float: left">
     <div style="float: left" id="mapContainer">&nbsp;</div>
     <p id="msg">Welcome to ReRL</p>
@@ -85,7 +110,7 @@
   </div>
   <div style="clear: both">
   </div>
-  <script src="main.js"></script>
+  <script src="bundle.js"></script>
   <script>
     // setTimeout(x => {
     //   document.getElementById('msg').classList.add('fade-in')
