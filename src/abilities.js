@@ -69,34 +69,23 @@ export class GrenadeLauncher extends Ability {
         console.log('boom')
         let sets = getCoordsAround(action.x, action.y)
         sets.forEach(s => {
-            let { x, y } = s
-            console.log(x, y)
             game.display.draw(s[0], s[1], "*", "red")
+
+
+            setTimeout(() => {
+                game.dirty = true
+            }, 0)
 
             let actor = game.getCharacterAt(null, s[0], s[1])
             if (actor) {
-                // make do damage fn real quick
-                // TODO: does this need to be a damage action?
-                console.log("damaging actor", actor, this.dmg / 2)
-
-                // let action = actor.damage(this.dmg / 2)
+                // console.log("damaging actor", actor, this.dmg / 2)
 
                 game.scheduler.add({
                     act: () => {
-                        // return actor.damage(this.dmg / 2)
                         return new DamageAction(actor, this.dmg/2)
                     },
                     isPlayer: () => false
                 })
-
-                /*
-                game.scheduler.add({
-                    act: function(){
-                        (new YouWinAction()).execute(game)
-                    },
-                    isPlayer: () => false
-                })
-                */
             }
         })
     }

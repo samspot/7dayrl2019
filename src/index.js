@@ -36,6 +36,13 @@ async function mainLoop() {
         if(game.gameOver){
             return
         }
+
+        // console.log("game dirty", game.dirty, game)
+        if(game.dirty){
+            // console.log("redraw")
+            game.redraw()
+            game.dirty = false
+        }
     }
 }
 

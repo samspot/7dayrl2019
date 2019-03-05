@@ -82,15 +82,7 @@ export class AttackAction extends Action {
     }
 
     execute(game) {
-
-        // alert('attack ' + this.actor.out() + ' against ' + this.target.out())
-        // if(action){ return action }
-
-        // let action = this.target.damage(this.actor.str)
-        // return action
-
         return new DamageAction(this.target, this.actor.str)
-
     }
 }
 
@@ -187,6 +179,10 @@ export class AbilityAction extends Action {
         // let action = this.target.damage(this.actor.str)
         // if(action){ return action }
 
+        if(actor){
+        return new DamageAction(actor, this.ability.dmg)
+        }
+        /*
         let action
 
         if (actor) {
@@ -196,8 +192,9 @@ export class AbilityAction extends Action {
             //     game.destroyMob(actor)
             // }
         }
+        */
 
-        if(action) { return action }
+        // if(action) { return action }
     }
 }
 
