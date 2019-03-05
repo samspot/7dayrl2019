@@ -9,6 +9,10 @@ import Config from './config.js'
 import Tyrant from '../assets/img/tyrant.png'
 import Jill from '../assets/img/jill.png'
 
+//TODO: Jill Sandwich
+//TODO: I hope this is not chris' blood
+// Gradient for portraits
+
 /*
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. add boss down list to gui
@@ -16,6 +20,9 @@ X. on boss kill make stairs down, gen new level
 X. fill out monsters
 X. win game if killed all bosses
 3. add enemy/player special abilities
+3. Get rid of * / boxes
+3. Move display code to own class outside game.js
+4. swap portraits on death, level change
 4. make mapgen create large rooms.  swarm the tyrant 
 5. mouse controls to ui
 6. high scores in local storage
@@ -246,15 +253,53 @@ export class Game {
         document.getElementById('score').innerHTML = this.score
         document.getElementById('level').innerHTML = "Hunting in " + this.getGameProgress().name
 
-        let elem
+        if (this.player.hp < 30) {
+            document.getElementById('hp').style = "color: red"
+        }
 
+        let elem
+        // Abilities
+        elem = document.getElementById('abilities')
+        elem.innerHTML = ''
+
+        let abilities = []
+        this.player.getAbilities().forEach(ability => {
+            // console.log(ability)
+            let { constructor, maxCooldown, cooldown, dmg, range } = ability
+            if(cooldown === 0){
+                cooldown = "READY"
+            }
+            let text = `[Cooldown: ${cooldown}/${maxCooldown} `
+                + `Damage: ${dmg} Range: ${range}]`
+            abilities.push({ name: constructor.name, text: text, obj: ability })
+        })
+
+        let idx = 0
+        abilities.forEach(a => {
+            let button = document.createElement('button')
+            button.id = "ability" + idx
+            button.innerHTML = a.name
+            button.style = "width: 80px; margin: 2px"
+            button.onclick = a.obj.use
+
+            let li = document.createElement('li')
+            let span = document.createElement('span')
+            span.innerHTML = a.text
+            li.appendChild(button)
+            li.appendChild(span)
+
+            elem.appendChild(li)
+            idx++
+        })
+
+
+        // Images
         let portrait = new Image()
         portrait.src = Tyrant
         elem = document.getElementById('portrait')
         elem.innerHTML = ''
         elem.appendChild(portrait)
 
-        
         let target = new Image()
         target.src = Jill
         elem = document.getElementById('target')
@@ -268,10 +313,8 @@ export class Game {
         elem.innerHTML = gameProgress.text
         elem.style = gameProgress.style
 
-        if (this.player.hp < 30) {
-            document.getElementById('hp').style = "color: red"
-        }
 
+        // Mobs
         let moblist = document.getElementById('monsters')
         if (moblist) {
             moblist.innerHTML = ''

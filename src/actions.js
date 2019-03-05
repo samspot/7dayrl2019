@@ -158,6 +158,16 @@ export class DescendAction extends Action {
     }
 }
 
+export class AbilityAction extends Action {
+    constructor(actor){
+        super(actor)
+    }
+
+    execute(game){
+        console.log("executing ability action")
+    }
+}
+
 export class DefaultAction extends Action {
     constructor(actor) {
         super(actor)

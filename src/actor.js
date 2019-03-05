@@ -13,8 +13,21 @@ export class Actor {
         this.game = game
         this.draw()
         this.boss = false
+        this.abilities = []
 
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
+    }
+
+    tickAbilities(){
+        this.abilities.forEach(a => a.tick())
+    }
+
+    addAbility(ability){
+        this.abilities.push(ability)
+    }
+
+    getAbilities(){
+        return this.abilities
     }
 
     isPlayer() {

@@ -1,7 +1,8 @@
 import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
-import { Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
+import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
 import { keyMap } from './keymap.js'
+import { Impale, Charge } from './abilities.js';
 
 export class Player extends Actor {
     constructor(x, y, game) {
@@ -11,10 +12,18 @@ export class Player extends Actor {
         this.hp = 200
         // this.hp = 1
         this.str = 25
+
+        this.addAbility(new Impale(this))
+        this.addAbility(new Charge(this))
+        // this.getAbilities()[0].use()
     }
 
     isPlayer() {
         return true
+    }
+
+    useAbility(ability){
+        this.resolve(new AbilityAction(ability))
     }
 
     act() {
@@ -56,6 +65,7 @@ export class Player extends Actor {
 
         window.removeEventListener("keydown", this);
         window.removeEventListener("keypress", this);
+        this.tickAbilities()
         this.resolve(new MoveAction(this, code))
     }
 
