@@ -51,6 +51,10 @@ const bosses = {
 // TODO: finish adding abilities
 const abilities = {
     'Jill Valentine': [GrenadeLauncher, EmptySlot],
+    'Chris Redfield': [],
+    'Barry Burton': [],
+    'Brad Vickers': [],
+    'Albert Wesker': [],
     'Zombie': [Grab]
 }
 

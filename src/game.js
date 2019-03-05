@@ -10,8 +10,7 @@ import { GameDisplay } from './display.js'
 
 /* Defects */
 /*
-    error on 2nd level boss gen
-    need to test win condition - kill all bosses
+    winning with an ability probably crashes the game
 */
 
 //TODO: I hope this is not chris' blood
