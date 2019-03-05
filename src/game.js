@@ -18,6 +18,7 @@ TODO: If they posses the level boss, what then?  maybe only allow posess at low 
 X. swap portraits on death, level change
 X. Implement charge ability
 X. add enemy/player special abilities
+2. Remaining boss portraits
 3. make mobs able to use, tick their abilities
 4. make mapgen create large rooms.  swarm the tyrant 
 4. FOV, ai that reacts only to players it can see. different vision per character
@@ -100,7 +101,6 @@ export class Game {
         document.getElementById("mapContainer").appendChild(this.display.getContainer())
 
         this.generateMap()
-
     }
 
     resetLevel() {
