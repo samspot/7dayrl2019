@@ -64,6 +64,33 @@ export class Charge extends Ability {
     constructor(actor) {
         super(actor, 10, 10, 20)
     }
+
+    sideEffects(action, game, actor){
+
+        if(actor){
+
+            // console.log(`player (${game.player.x}, ${game.player.y}) target (${actor.x}, ${actor.y})`)
+
+            let xdiff = game.player.x - actor.x            
+            let ydiff = game.player.y - actor.y
+
+            // console.log(`diff ${xdiff} ${ydiff}`)
+
+            if(xdiff > 0){ actor.x-- }
+            if(xdiff < 0){ actor.x++ }
+            if(ydiff > 0){ actor.y-- }
+            if(ydiff < 0){ actor.y++ }
+        }
+
+        game.player.x = action.x
+        game.player.y = action.y
+
+        game.dirty = true
+    }
+
+    canTargetEmpty(){
+        return true
+    }
 }
 
 export class GrenadeLauncher extends Ability {

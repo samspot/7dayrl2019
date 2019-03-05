@@ -166,7 +166,7 @@ export class AbilityAction extends Action {
         let actor = game.getCharacterAt(null, this.x, this.y)
 
 
-        this.ability.sideEffects(this, game)
+        this.ability.sideEffects(this, game, actor)
 
         // console.log("executing ability action",
         //     this.ability, this.x, this.y, actor)
