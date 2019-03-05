@@ -6,8 +6,9 @@ import { Monster } from './monster.js'
 import { Director } from './director.js'
 import Config from './config.js'
 
-// import Tyrant from 'img/tyrant.png'
 import Tyrant from '../assets/img/tyrant.png'
+import Jill from '../assets/img/jill.png'
+
 /*
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. add boss down list to gui
@@ -244,14 +245,26 @@ export class Game {
         document.getElementById('hp').innerHTML = this.player.hp
         document.getElementById('score').innerHTML = this.score
         document.getElementById('level').innerHTML = "Hunting in " + this.getGameProgress().name
+
+        let elem
+
         let portrait = new Image()
         portrait.src = Tyrant
-        document.getElementById('portrait').appendChild(portrait)
+        elem = document.getElementById('portrait')
+        elem.innerHTML = ''
+        elem.appendChild(portrait)
+
+        
+        let target = new Image()
+        target.src = Jill
+        elem = document.getElementById('target')
+        elem.innerHTML = ''
+        elem.appendChild(target)
 
         // Game Progress
         let gameProgress = this.getGameProgress()
         let key = "level" + this.currentLevel
-        let elem = document.getElementById(key)
+        elem = document.getElementById(key)
         elem.innerHTML = gameProgress.text
         elem.style = gameProgress.style
 
