@@ -144,7 +144,7 @@ export class Director {
 
         // console.log(this.game.getGameProgress())
         // console.log(this.game.gameProgress)
-        console.log("boss status", this.game.allBossesDown())
+        // console.log("boss status", this.game.allBossesDown())
     }
 
     // debug the scheduler

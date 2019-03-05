@@ -8,9 +8,9 @@ export class Ability {
         this.use = this.use.bind(this)
     }
 
-    // TODO call tick when actor finishes their turn
+    // TODO tick for mobs, use for mobs
     tick() {
-        console.log("ability tick")
+        // console.log("ability tick")
         this.cooldown--
         if (this.cooldown < 0) { this.cooldown = 0 }
     }

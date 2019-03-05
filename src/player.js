@@ -22,7 +22,7 @@ export class Player extends Actor {
         return true
     }
 
-    useAbility(ability){
+    useAbility(ability) {
         this.resolve(new AbilityAction(ability))
     }
 
@@ -43,21 +43,24 @@ export class Player extends Actor {
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
-        if(charStr == '>'){
+        if (charStr == '>') {
+            this.tickAbilities()
             this.resolve(new DescendAction(this))
         }
-        
+
         // var code = e.keyCode;
         var code = charCode
         // enter or space
         if (code == 13 || code == 32) {
             // console.log("key hit for pickup action")
             let action = new PickupAction(this)
+            this.tickAbilities()
             this.resolve(action)
             return
         }
 
-        if(code == 190){
+        if (code == 190) {
+            this.tickAbilities()
             this.resolve(new DefaultAction())
         }
 
