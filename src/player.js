@@ -3,6 +3,11 @@ import * as ROT from 'rot-js'
 import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
 import { keyMap } from './keymap.js'
 import { Impale, Charge } from './abilities.js';
+import { Cursor } from './cursor.js';
+import Config from './config.js';
+
+const TARGETTING = "state_targetting"
+const PLAYER_TURN = "state_playerturn"
 
 export class Player extends Actor {
     constructor(x, y, game) {
@@ -10,12 +15,18 @@ export class Player extends Actor {
 
         this.name = "Tyrant"
         this.hp = 200
-        // this.hp = 1
         this.str = 25
 
         this.addAbility(new Impale(this))
         this.addAbility(new Charge(this))
         // this.getAbilities()[0].use()
+
+        this.state = PLAYER_TURN
+        // make the game advance a few turns on startup
+        this.debugCount = 0
+        if(Config.debug){
+            this.debugCount = 5
+        }
     }
 
     isPlayer() {
@@ -23,10 +34,24 @@ export class Player extends Actor {
     }
 
     useAbility(ability) {
-        this.resolve(new AbilityAction(ability))
+        // console.log("player.useAbility()", ability)
+        if (ability.cooldown === 0) {
+            // console.log("abilty available", ability.cooldown, ability.maxCooldown)
+            this.state = TARGETTING
+            this.usingAbility = ability
+            this.game.cursor = new Cursor(this.x, this.y, this.game)
+        }
     }
 
     act() {
+        if (this.debugCount > 0) {
+            this.debugCount--
+            return new Promise(resolve => {
+                this.resolve = resolve
+                this.resolve(new DefaultAction())
+            })
+
+        }
         // console.log('Player act')
         window.addEventListener("keydown", this);
         window.addEventListener("keypress", this);
@@ -37,8 +62,61 @@ export class Player extends Actor {
         })
     }
 
+    handleTarget(e) {
+        console.log("targetting")
+
+        let charCode = e.which || e.keyCode
+        let charStr = String.fromCharCode(charCode)
+
+        // escape key
+        if(charCode === 27){
+            this.game.redraw()
+            this.state = PLAYER_TURN
+            return
+        }
+
+        // Enter key
+        if(charCode === 13){
+            console.log("enter key, do ability", this)
+            // ability.cooldown = ability.maxCooldown
+
+            if(!this.game.getCharacterAt(null, this.game.cursor.x, this.game.cursor.y)){
+                console.log('no character at target loc, cancelling target')
+                this.game.redraw()
+                this.state = PLAYER_TURN
+                return 
+            }
+
+            this.resolve(new AbilityAction(this.game, this.usingAbility, 
+                this.game.cursor.x, this.game.cursor.y))
+            this.usingAbility = null
+            this.state = PLAYER_TURN
+            // TODO: redraw here or on resolution?
+            //this.game.redraw()
+            return
+        }
+
+        if (!(charCode in keyMap)) { return }
+        e.preventDefault()
+
+        let cursor = this.game.cursor
+
+        var diff = ROT.DIRS[8][keyMap[charCode]];
+        let newX = cursor.x + diff[0];
+        let newY = cursor.y + diff[1];
+
+        this.game.cursor.x = newX
+        this.game.cursor.y = newY
+
+        this.game.redraw()
+        cursor.drawMe()
+    }
+
     // TODO: Tank controls?
     handleEvent(e) {
+        if (this.state === TARGETTING) {
+            return this.handleTarget(e)
+        }
         // console.log(e)
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
@@ -53,9 +131,9 @@ export class Player extends Actor {
         // enter or space
         if (code == 13 || code == 32) {
             // console.log("key hit for pickup action")
-            let action = new PickupAction(this)
-            this.tickAbilities()
-            this.resolve(action)
+            // let action = new PickupAction(this)
+            // this.tickAbilities()
+            // this.resolve(action)
             return
         }
 
@@ -65,6 +143,7 @@ export class Player extends Actor {
         }
 
         if (!(code in keyMap)) { return }
+        e.preventDefault()
 
         window.removeEventListener("keydown", this);
         window.removeEventListener("keypress", this);

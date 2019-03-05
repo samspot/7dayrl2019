@@ -51,6 +51,10 @@ export class Actor {
         // console.log(this.name, this.hp)
     }
 
+    drawMe(){
+        this.draw(this.symbol, this.color)
+    }
+
     getX() {
         return this.x
     }

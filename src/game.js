@@ -8,20 +8,12 @@ import Config from './config.js'
 
 import { GameDisplay } from './display.js'
 
-//TODO: Jill Sandwich
 //TODO: I hope this is not chris' blood
-// Gradient for portraits
 
 /*
 TODO: If they posses the level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
-X. add boss down list to gui
-X. on boss kill make stairs down, gen new level
-X. fill out monsters
-X. win game if killed all bosses
-3. add enemy/player special abilities
-X. Get rid of * / boxes
-X. Move display code to own class outside game.js
 X. swap portraits on death, level change
+3. add enemy/player special abilities
 4. make mapgen create large rooms.  swarm the tyrant 
 5. mouse controls to ui
 6. high scores in local storage
@@ -93,16 +85,10 @@ export class Game {
         }
         this.display = new ROT.Display(options);
 
-        // this.resetLevel()
-
         document.getElementById("mapContainer").appendChild(this.display.getContainer())
 
         this.generateMap()
 
-        // this.director = new Director(this.player, this)
-        // this.Director =
-
-        // this.scheduler.add(this.player, true)
     }
 
     resetLevel() {
@@ -110,12 +96,6 @@ export class Game {
         this.map = {}
         this.display.clear()
         this.mobs = []
-
-        // let {x, y} = this.getRandomMapLocation()
-        // this.player.x = x
-        // this.player.y = y
-        // this.display._tick()
-        // this.currentLevel++
     }
 
     getFreeCells() {
@@ -132,9 +112,7 @@ export class Game {
     getCharacterAt(mover, x, y) {
         let actor
         let testgroup = _.clone(this.mobs)
-        // console.log('testgroup1', testgroup)
         testgroup.push(this.player)
-        // console.log('testgroup2', testgroup)
         testgroup.forEach(mob => {
             if (mob !== mover) {
                 // console.log('checking mover', mover.out(), 'heading',
@@ -145,11 +123,8 @@ export class Game {
             }
         })
 
-        // console.log("\n")
         return actor
     }
-
-
 
     generateMap() {
         var digger = new ROT.Map.Digger(Config.gamePortWidth, Config.gamePortHeight)
@@ -263,7 +238,6 @@ export class Game {
     }
 
     updateGui() {
-        console.log(this.gameDisplay)
         this.gameDisplay.updateGui()
     }
 
@@ -273,5 +247,21 @@ export class Game {
 
     resetScore() {
         this.score = 0
+    }
+
+    redraw(){
+        // TODO only do this if the display is dirty, 1 per player turn
+        this.display.clear()
+        this.drawWholeMap()
+        this.player.drawMe()
+        this.mobs.forEach(m => m.drawMe())
+    }
+
+    destroyMob(actor){
+        // console.log('destroying', actor)
+        _.remove(this.mobs, actor)
+        this.scheduler.remove(actor)
+        this.addScore(actor.score)
+        actor.draw('.', 'red')
     }
 }

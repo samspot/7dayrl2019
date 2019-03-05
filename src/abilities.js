@@ -10,19 +10,12 @@ export class Ability {
 
     // TODO tick for mobs, use for mobs
     tick() {
-        // console.log("ability tick")
         this.cooldown--
         if (this.cooldown < 0) { this.cooldown = 0 }
     }
 
     use() {
-        // alert('used me ' + this.constructor.name)
-        if (this.cooldown === 0) {
-            this.cooldown = this.maxCooldown
-            this.actor.useAbility(this)
-            this.actor.tickAbilities()
-            // return this.dmg
-        }
+        this.actor.useAbility(this)
     }
 
     inRange(position, target) {

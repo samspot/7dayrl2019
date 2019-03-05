@@ -1,5 +1,6 @@
 import * as ROT from 'rot-js'
 import { keyMap } from './keymap.js'
+import { Ability } from './abilities.js';
 
 export class Action {
     constructor(actor) {
@@ -17,57 +18,43 @@ export class AttackAction extends Action {
         this.target = target
     }
 
-    execute(game){
+    execute(game) {
 
         // alert('attack ' + this.actor.out() + ' against ' + this.target.out())
-        // console.log('attack ' + this.actor.out() + ' against ' + this.target.out())
-        // console.log(game.mobs)
         this.target.hp -= this.actor.str
-        if(this.target.hp <= 0){
-            if(!this.target.isPlayer()){
-                _.remove(game.mobs, this.target)
-                game.scheduler.remove(this.target)
-                game.addScore(this.target.score)
+        if (this.target.hp <= 0) {
+            if (!this.target.isPlayer()) {
+                game.destroyMob(this.target)
             }
 
-            // console.log("target", this.target)
-            if(this.target.isBoss()){
-                // return new YouWinAction()
-
+            if (this.target.isBoss()) {
                 game.killBoss()
 
-                if(game.allBossesDown()){
+                if (game.allBossesDown()) {
                     return new YouWinAction()
                 }
             }
-
-            this.target.draw('.', 'red')
         }
 
-        if(game.player.hp <= 0){
-            // return new GameOverAction()
-            
+        if (game.player.hp <= 0) {
             let mob
             let player = game.player
-            while(!mob){
+            while (!mob) {
                 let idx = prompt("Choose a new body (enter number)")
-                // if(idx < 0){ idx = 0 }
-                // if(idx > game.mobs.length){ idx = game.mobs.length-1}
-                if(parseInt(idx, 10))
+                if (parseInt(idx, 10)) {
+                    mob = game.mobs[idx - 1]
+                }
 
-                mob = game.mobs[idx-1]
-                // console.log(game.mobs)
-                // console.log(mob)
-                if(!mob){ continue }
+                if (!mob) { continue }
 
-                if(mob.isBoss()){
+                if (mob.isBoss()) {
                     game.possesBoss()
                 }
 
                 _.remove(game.mobs, mob)
                 game.scheduler.remove(mob)
 
-                if(game.allBossesDown()){
+                if (game.allBossesDown()) {
                     game.resetScore()
                     return new YouWinAction()
                 }
@@ -82,7 +69,7 @@ export class AttackAction extends Action {
             player.draw()
             game.resetScore()
             // console.log("after attack player", player)
-            
+
         }
     }
 }
@@ -95,17 +82,17 @@ export class MoveAction extends Action {
         this.newY = newY
     }
 
-    execute(game){
+    execute(game) {
         this.executeParent(game)
         let actor = this.actor
 
         let newX, newY
-        if(this.newX && this.newY){
+        if (this.newX && this.newY) {
             newX = this.newX
             newY = this.newY
         }
 
-        if(actor.isPlayer()){
+        if (actor.isPlayer()) {
             var diff = ROT.DIRS[8][keyMap[this.direction]];
             newX = actor.x + diff[0];
             newY = actor.y + diff[1];
@@ -117,7 +104,7 @@ export class MoveAction extends Action {
 
         // collision here
         let character = game.getCharacterAt(actor, newX, newY)
-        if(character){
+        if (character) {
             return new AttackAction(actor, character)
         }
 
@@ -145,8 +132,8 @@ export class DescendAction extends Action {
         super(actor)
     }
 
-    execute(game){
-        if(game.levelBossPassed()){
+    execute(game) {
+        if (game.levelBossPassed()) {
             // console.log("Descend pressed and allowed")
 
             // game.generateMap()
@@ -159,12 +146,25 @@ export class DescendAction extends Action {
 }
 
 export class AbilityAction extends Action {
-    constructor(actor){
+    constructor(actor, ability, x, y) {
         super(actor)
+        this.ability = ability
+        this.x = x
+        this.y = y
     }
 
-    execute(game){
-        console.log("executing ability action")
+    execute(game) {
+        this.ability.cooldown = this.ability.maxCooldown
+        let actor = game.getCharacterAt(null, this.x, this.y)
+        actor.hp -= this.ability.dmg
+
+        // console.log("executing ability action",
+        //     this.ability, this.x, this.y, actor)
+
+        if (actor.hp <= 0 && !actor.isPlayer()) {
+            game.destroyMob(actor)
+        }
+
     }
 }
 
@@ -173,28 +173,28 @@ export class DefaultAction extends Action {
         super(actor)
     }
 
-    execute(game){
+    execute(game) {
         return
     }
 }
 
 export class GameOverAction extends Action {
-    constructor(actor){
+    constructor(actor) {
         super(actor)
     }
 
-    execute(game){
+    execute(game) {
         game.gameOver = true
         alert("You were killed!  Game Over!")
     }
 }
 
 export class YouWinAction extends Action {
-    constructor(actor){
+    constructor(actor) {
         super(actor)
     }
 
-    execute(game){
+    execute(game) {
         game.gameOver = true
         alert("You defeated the S.T.A.R.S! Final Score " + game.score)
     }
