@@ -21,6 +21,11 @@ export class AttackAction extends Action {
     execute(game) {
 
         // alert('attack ' + this.actor.out() + ' against ' + this.target.out())
+        let action = this.target.damage(this.actor.str)
+        if(action){ return action }
+
+
+        /*
         this.target.hp -= this.actor.str
         if (this.target.hp <= 0) {
             if (!this.target.isPlayer()) {
@@ -35,7 +40,10 @@ export class AttackAction extends Action {
                 }
             }
         }
+        */
+        //
 
+        // TODO move this logic somewhere, other actions will need it, like AbilityAction
         if (game.player.hp <= 0) {
             let mob
             let player = game.player
@@ -167,15 +175,28 @@ export class AbilityAction extends Action {
     execute(game) {
         this.ability.cooldown = this.ability.maxCooldown
         let actor = game.getCharacterAt(null, this.x, this.y)
-        actor.hp -= this.ability.dmg
+
+
+        this.ability.sideEffects(this, game)
 
         // console.log("executing ability action",
         //     this.ability, this.x, this.y, actor)
 
-        if (actor.hp <= 0 && !actor.isPlayer()) {
-            game.destroyMob(actor)
+
+        // let action = this.target.damage(this.actor.str)
+        // if(action){ return action }
+
+        let action
+
+        if (actor) {
+            action = actor.damage(this.ability.dmg)
+            // actor.hp -= this.ability.dmg
+            // if (actor.hp <= 0 && !actor.isPlayer()) {
+            //     game.destroyMob(actor)
+            // }
         }
 
+        if(action) { return action }
     }
 }
 

@@ -3,6 +3,7 @@ import * as ROT from 'rot-js'
 import Tyrant from 'assets/tyrant.json'
 import Zombie from 'assets/zombie.json'
 import Jill from 'assets/jill.json'
+import { YouWinAction } from './actions';
 
 export class Actor {
     constructor(x, y, symbol, color, game) {
@@ -16,6 +17,24 @@ export class Actor {
         this.abilities = []
 
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
+    }
+
+    damage(dmg){
+        this.hp -= dmg
+        if(this.hp <=0 && !this.isPlayer()){
+            // TODO below if is repeated, but we need to add player logic here from actions.js
+            if(!this.isPlayer()){
+                this.game.destroyMob(this)
+            }
+
+            if(this.isBoss()){
+                this.game.killBoss()
+
+                if(this.game.allBossesDown()){
+                    return new YouWinAction()
+                }
+            }
+        }
     }
 
     tickAbilities(){

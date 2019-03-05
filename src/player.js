@@ -2,7 +2,7 @@ import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
 import { keyMap } from './keymap.js'
-import { Impale, Charge } from './abilities.js';
+import { Impale, Charge, GrenadeLauncher } from './abilities.js';
 import { Cursor } from './cursor.js';
 import Config from './config.js';
 
@@ -19,6 +19,7 @@ export class Player extends Actor {
 
         this.addAbility(new Impale(this))
         this.addAbility(new Charge(this))
+        this.addAbility(new GrenadeLauncher(this))
         // this.getAbilities()[0].use()
 
         this.state = PLAYER_TURN
@@ -80,7 +81,7 @@ export class Player extends Actor {
             console.log("enter key, do ability", this)
             // ability.cooldown = ability.maxCooldown
 
-            if (!this.game.getCharacterAt(null, this.game.cursor.x, this.game.cursor.y)) {
+            if (!this.usingAbility.canTargetEmpty() && !this.game.getCharacterAt(null, this.game.cursor.x, this.game.cursor.y)) {
                 console.log('no character at target loc, cancelling target')
                 this.game.redraw()
                 this.state = PLAYER_TURN

@@ -47,6 +47,8 @@ const bosses = {
     'mansion': Wesker
 }
 
+
+// TODO: finish adding abilities
 const abilities = {
     'Jill Valentine': [GrenadeLauncher, EmptySlot],
     'Zombie': [Grab]
@@ -67,8 +69,8 @@ export class Director {
     }
 
     // cleanup all things that need to be cleaned for descending
-    resetLevel(){
-        console.log("director resetLevel()")
+    resetLevel() {
+        // console.log("director resetLevel()")
         this.game.resetLevel()
         this.boss = null
         this.mobs = []
@@ -82,35 +84,35 @@ export class Director {
         game.currentLevel = idx
     }
 
+    // TODO large creatures hittable through a mob, not so much for small ones
+    generateAbilities(monster) {
+        let mobAbilities = abilities[this.boss.name]
+        mobAbilities.forEach(a => {
+            let ability = new a(monster)
+            if (ability instanceof EmptySlot) {
+                a = ability.getRandomAbility()
+                ability = new a(monster)
+            }
+
+            monster.addAbility(ability)
+        })
+
+        // console.log('monster abilities', monster.abilities)
+    }
+
     tick() {
         // load any mob changes
         this.mobs = this.game.mobs
 
         if (!this.boss) {
             this.boss = bosses[levels[this.game.currentLevel]]
-            console.log('boss', this.boss, abilities[this.boss.name])
-
-            let mobAbilities = abilities[this.boss.name]
-            
-
+            // console.log('boss', this.boss, abilities[this.boss.name])
 
             let monster = this.createSchedule(this.boss)
             monster.boss = true
             this.mobs.push(monster)
-            
-            // TODO large creatures hittable through a mob, not so much for small ones
-            mobAbilities.forEach(a => {
-                let ability = new a(monster)
-                if(ability instanceof EmptySlot){
-                    a = ability.getRandomAbility()
-                    ability = new a(monster)
-                } 
 
-                monster.addAbility(ability)     
-            })
-
-
-            console.log('monster abilities', monster.abilities)
+            this.generateAbilities(monster)
 
             this.game.getGameProgress().text = this.boss.name
         }
@@ -126,7 +128,7 @@ export class Director {
 
             let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, spawnrate)))
             if (num < minimum) {
-                num = minimum 
+                num = minimum
             }
             // console.log("random", num)
 

@@ -8,6 +8,12 @@ import Config from './config.js'
 
 import { GameDisplay } from './display.js'
 
+/* Defects */
+/*
+    error on 2nd level boss gen
+    need to test win condition - kill all bosses
+*/
+
 //TODO: I hope this is not chris' blood
 
 /*
