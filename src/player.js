@@ -19,7 +19,7 @@ export class Player extends Actor {
 
         this.addAbility(new Impale(this))
         this.addAbility(new Charge(this))
-        this.addAbility(new GrenadeLauncher(this))
+        // this.addAbility(new GrenadeLauncher(this))
         // this.getAbilities()[0].use()
 
         this.state = PLAYER_TURN
@@ -72,6 +72,7 @@ export class Player extends Actor {
         // escape key
         if (charCode === 27) {
             this.game.redraw()
+            // this.game.dirty = true
             this.state = PLAYER_TURN
             return
         }
@@ -92,8 +93,7 @@ export class Player extends Actor {
                 this.game.cursor.x, this.game.cursor.y))
             this.usingAbility = null
             this.state = PLAYER_TURN
-            // TODO: redraw here or on resolution?
-            //this.game.redraw()
+            this.game.dirty = true
             return
         }
 

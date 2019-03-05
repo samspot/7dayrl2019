@@ -60,6 +60,12 @@ function getCoordsAround(x, y) {
     ]
 }
 
+export class Charge extends Ability {
+    constructor(actor) {
+        super(actor, 10, 10, 20)
+    }
+}
+
 export class GrenadeLauncher extends Ability {
     constructor(actor) {
         super(actor, 10, 20, 30)
@@ -110,12 +116,6 @@ export class Magnum extends Ability {
 export class Impale extends Ability {
     constructor(actor) {
         super(actor, 5, 1, 40)
-    }
-}
-
-export class Charge extends Ability {
-    constructor(actor) {
-        super(actor, 10, 10, 20)
     }
 }
 

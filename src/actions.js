@@ -62,14 +62,10 @@ export class DamageAction extends Action {
 
             console.log('player abilities', player.abilities)
             // console.log('mob abilities', mob.abilities)
-            game.redraw()
-            // player.draw()
+            game.dirty = true
             game.resetScore()
             // console.log("after attack player", player)
-
         }
-
-
 
         return action
     }
