@@ -1,5 +1,6 @@
 import Tyrant from '../assets/img/tyrant.png'
 import Jill from '../assets/img/jill.png'
+import JillDead from '../assets/img/jill-dead.png'
 
 export class GameDisplay {
     constructor(game) {
@@ -63,15 +64,25 @@ export class GameDisplay {
     }
 
     drawPortraits() {
+        let game = this.game
         let elem
         let portrait = new Image()
-        portrait.src = Tyrant
+        if(game.player.name === "Jill Valentine"){
+            portrait.src = JillDead
+        } else {
+            portrait.src = Tyrant
+        }
+
         elem = document.getElementById('portrait')
         elem.innerHTML = ''
         elem.appendChild(portrait)
 
         let target = new Image()
-        target.src = Jill
+        if(game.levelBossPassed()){
+            target.src = JillDead
+        } else {
+            target.src = Jill
+        }
         elem = document.getElementById('target')
         elem.innerHTML = ''
         elem.appendChild(target)
