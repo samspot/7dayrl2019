@@ -31,6 +31,8 @@ X. add enemy/player special abilities
 //TODO: I hope this is not chris' blood
 9. status effects like 'grabbed'
 
+Don't let possess wesker, and require most enemies to be weak <30% hp to possess
+
 BUG: abilities triggering after mobs take turns
 */
 

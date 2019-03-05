@@ -8,6 +8,17 @@ import Chris from '../assets/img/chris.png'
 import ChrisDead from '../assets/img/chris-dead.png'
 import ChrisEliminated from '../assets/img/chris-eliminated.png'
 
+import Barry from '../assets/img/barry.png'
+import BarryDead from '../assets/img/barry-dead.png'
+import BarryEliminated from '../assets/img/barry-eliminated.png'
+
+import Brad from '../assets/img/brad.png'
+import BradDead from '../assets/img/brad-dead.png'
+import BradEliminated from '../assets/img/brad-eliminated.png'
+
+import Wesker from '../assets/img/wesker.png'
+import WeskerEliminated from '../assets/img/wesker-eliminated.png'
+
 import Unknown from '../assets/img/unknown.png'
 
 export class GameDisplay {
@@ -93,25 +104,25 @@ export class GameDisplay {
             "Tyrant": Tyrant,
             "Jill Valentine": JillDead,
             "Chris Redfield": ChrisDead,
-            "Barry Burton": Unknown,
-            "Brad Vickers": Unknown,
-            "Albert Wesker": Unknown
+            "Barry Burton": BarryDead,
+            "Brad Vickers": BradDead,
+            "Albert Wesker": WeskerEliminated // TODO maybe wesker dead portrait too
         }
 
         let targetImageMap = {
             "Jill Valentine": Jill,
             "Chris Redfield": Chris,
-            "Barry Burton": Unknown,
-            "Brad Vickers": Unknown,
-            "Albert Wesker": Unknown
+            "Barry Burton": Barry,
+            "Brad Vickers": Brad,
+            "Albert Wesker": Wesker
         }
 
         let deadImageMap = {
             "Jill Valentine": JillEliminated,
             "Chris Redfield": ChrisEliminated,
-            "Barry Burton": Unknown,
-            "Brad Vickers": Unknown,
-            "Albert Wesker": Unknown
+            "Barry Burton": BarryEliminated,
+            "Brad Vickers": BradEliminated,
+            "Albert Wesker": WeskerEliminated
         }
 
         let game = this.game
