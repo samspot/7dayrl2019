@@ -145,6 +145,13 @@ export class DamageAction extends Action {
 
         if (this.source) {
             let targetName = this.actor.name
+
+            if(!this.actorSource){
+                console.log('dmg', this.dmg, 'source', this.source, 'actorsource', this.actorSource)
+                console.log("ERRRORRRRR FIXIN'")
+                this.actorSource = {name: 'Grue', isPlayer: () => false} 
+            }
+
             let sourceName = this.actorSource.name
             if(this.actor.isPlayer()){
                 targetName = 'Player'
@@ -153,7 +160,7 @@ export class DamageAction extends Action {
             if(this.actorSource.isPlayer()){
                 sourceName = 'Player'
             }
-            game.message(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName)
+            game.dmgMessage(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName)
         }
 
         if (game.player.hp <= 0) {

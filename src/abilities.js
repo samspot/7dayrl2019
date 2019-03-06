@@ -115,7 +115,7 @@ export class GrenadeLauncher extends Ability {
 
                 game.scheduler.add({
                     act: () => {
-                        return new DamageAction(actor, this.dmg/2, `${actor.name}'s Grenade Launcher`)
+                        return new DamageAction(actor, this.dmg/s, "GrenadeLauncher Splash Damage", actor)
                     },
                     isPlayer: () => false
                 })

@@ -226,7 +226,10 @@ export class GameDisplay {
                     let source = message.source
                     let target = message.target
 
-                    let text = `${target} receives ${message.msg} [Source: ${source}]`
+                    let text = message.msg
+                    if(source || target){
+                        text = `${target} receives ${message.msg} [Source: ${source}]`
+                    }
 
                     span.innerHTML = text + '<br>'
                     if (message.turn !== recentTurn) {

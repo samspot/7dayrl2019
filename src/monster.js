@@ -65,6 +65,7 @@ export class Monster extends Actor {
 
             if (!path[0]) {
                 resolve(new DefaultAction(this))
+                return
             }
 
             x = path[0][0]
