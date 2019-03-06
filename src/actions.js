@@ -13,59 +13,70 @@ export class Action {
 }
 
 export class DamageAction extends Action {
-    constructor(actor, dmg) {
+    constructor(actor, dmg, source) {
         super(actor)
         this.dmg = dmg
+        this.source = source
     }
 
     execute(game) {
         let action = this.actor.damage(this.dmg)
 
+        console.log('source', this.source)
+        if (this.source) {
+            game.message(`You take ${this.dmg} damage from ${this.source}`)
+        }
+
+
         if (game.player.hp <= 0) {
+            game.message("You were killed.  You may choose to infect a weakened enemy within line of sight.")
+
             let mob
             let player = game.player
-            while (!mob) {
-                let idx = prompt("Choose a new body (enter number)")
-                if (parseInt(idx, 10)) {
-                    mob = game.mobs[idx - 1]
+            setTimeout(() => {
+                while (!mob) {
+                    let idx = prompt("Choose a new body (enter number)")
+                    if (parseInt(idx, 10)) {
+                        mob = game.mobs[idx - 1]
+                    }
+
+                    if (!mob) { continue }
+
+                    if (mob.isBoss()) {
+                        game.possesBoss()
+                    }
+
+                    _.remove(game.mobs, mob)
+                    game.scheduler.remove(mob)
+
+                    if (game.allBossesDown()) {
+                        game.resetScore()
+                        return new YouWinAction()
+                    }
                 }
+                player.name = mob.name
+                player.hp = mob.hp
+                player.color = mob.color
+                player.str = mob.str
+                player.x = mob.x
+                player.y = mob.y
+                player.boss = false
+                // player.abilities = _.clone(mob.abilities)
 
-                if (!mob) { continue }
+                // console.log('player abilities', player.abilities)
+                // console.log('mob abilities', mob, mob.abilities)
 
-                if (mob.isBoss()) {
-                    game.possesBoss()
-                }
+                player.abilities = []
+                _.clone(mob.abilities).forEach(a => {
+                    console.log('adding ability', a)
+                    a.actor = player
+                    player.addAbility(_.clone(a))
+                })
 
-                _.remove(game.mobs, mob)
-                game.scheduler.remove(mob)
-
-                if (game.allBossesDown()) {
-                    game.resetScore()
-                    return new YouWinAction()
-                }
-            }
-            player.name = mob.name
-            player.hp = mob.hp
-            player.color = mob.color
-            player.str = mob.str
-            player.x = mob.x
-            player.y = mob.y
-            player.boss = false
-            // player.abilities = _.clone(mob.abilities)
-
-            console.log('player abilities', player.abilities)
-            console.log('mob abilities', mob, mob.abilities)
-            
-            player.abilities = []
-            _.clone(mob.abilities).forEach(a => {
-                console.log('adding ability', a)
-                a.actor = player
-                player.addAbility(_.clone(a))
-            })
-
-            game.dirty = true
-            game.resetScore()
-            // console.log("after attack player", player)
+                game.dirty = true
+                game.resetScore()
+                game.gameDisplay.updateGui()
+            }, 0)
         }
 
         return action
@@ -79,7 +90,7 @@ export class AttackAction extends Action {
     }
 
     execute(game) {
-        return new DamageAction(this.target, this.actor.str)
+        return new DamageAction(this.target, this.actor.str, `${this.actor.name}'s melee attack`)
     }
 }
 
@@ -172,7 +183,7 @@ export class AbilityAction extends Action {
         //     this.ability, this.x, this.y, actor)
 
         if (actor) {
-            return new DamageAction(actor, this.ability.dmg)
+            return new DamageAction(actor, this.ability.dmg, `${this.actor.name}'s ${this.ability.constructor.name}`)
         }
     }
 }

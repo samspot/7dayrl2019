@@ -31,6 +31,8 @@ async function mainLoop() {
 
         if (actor.isPlayer()) {
             director.tick()
+            game.clearMessage()
+            game.turns++
         }
 
         if(game.gameOver){

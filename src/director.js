@@ -99,7 +99,7 @@ export class Director {
     // TODO large creatures hittable through a mob, not so much for small ones
     generateAbilities(monster) {
         // let mobAbilities = abilities[this.boss.name]
-        console.log('generating abilities for ', monster)
+        // console.log('generating abilities for ', monster)
         let mobAbilities = abilities[monster.name]
         mobAbilities.forEach(a => {
             let ability = new a(monster)

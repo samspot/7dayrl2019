@@ -33,9 +33,10 @@ export class GameDisplay {
         this.drawPortraits()
         this.drawProgress()
         this.drawMobs()
+        this.drawMessages()
     }
 
-    drawStatusBar(){
+    drawStatusBar() {
         let game = this.game
         document.getElementById('name').innerHTML = game.player.name
         document.getElementById('hp').innerHTML = game.player.hp
@@ -77,7 +78,7 @@ export class GameDisplay {
             span.innerHTML = a.text
 
             let hotkeySpan = document.createElement('span')
-            hotkeySpan.innerHTML = ['Q', 'E', 'R'][idx] 
+            hotkeySpan.innerHTML = ['Q', 'E', 'R'][idx]
             li.appendChild(hotkeySpan)
             li.appendChild(button)
             li.appendChild(span)
@@ -88,13 +89,13 @@ export class GameDisplay {
     }
 
 
-    renderPortrait(img){
+    renderPortrait(img) {
         let elem = document.getElementById('portrait')
         elem.innerHTML = ''
         elem.appendChild(img)
     }
 
-    renderTarget(img){
+    renderTarget(img) {
         let elem = document.getElementById('target')
         elem.innerHTML = ''
         elem.appendChild(img)
@@ -138,11 +139,11 @@ export class GameDisplay {
 
         let deadTargetImageFile = deadImageMap[game.getGameProgress().boss] || Unknown
         let deadTargetImage = new Image()
-        deadTargetImage.src = deadTargetImageFile 
+        deadTargetImage.src = deadTargetImageFile
 
         this.renderPortrait(portraitImage)
 
-        if(game.levelBossPassed()){
+        if (game.levelBossPassed()) {
             this.renderTarget(deadTargetImage)
         } else {
             this.renderTarget(targetImage)
@@ -180,6 +181,38 @@ export class GameDisplay {
                 moblist.appendChild(elem)
             })
         }
+
+    }
+
+    drawMessages() {
+        let messages = this.game.messages
+
+        let elem = document.getElementById('msg')
+        elem.innerHTML = ''
+
+        if (messages[0]) {
+            // let recentTurn = messages[0].turn
+            let recentTurn = this.game.turns
+            for (let i = 0; i < 5; i++) {
+                let message = messages[i]
+                if (message) {
+                    let span = document.createElement('span')
+                    span.innerHTML = message.msg + '<br>'
+                    if (message.turn !== recentTurn) {
+                        span.classList.add('old-message')
+                    }
+                    elem.appendChild(span)
+                }
+
+            }
+        }
+        /*
+        console.log('printing msg', msg)
+        elem.classList.remove('fade-in')
+        elem.classList.add('fade-in')
+        span.innerHTML = msg + '<br>'
+        elem.appendChild(span)
+        */
 
     }
 

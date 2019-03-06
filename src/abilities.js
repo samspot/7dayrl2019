@@ -99,7 +99,7 @@ export class GrenadeLauncher extends Ability {
     }
 
     sideEffects(action, game) {
-        console.log('boom')
+        // console.log('boom')
         let sets = getCoordsAround(action.x, action.y)
         sets.forEach(s => {
             game.display.draw(s[0], s[1], "*", "red")
@@ -115,7 +115,7 @@ export class GrenadeLauncher extends Ability {
 
                 game.scheduler.add({
                     act: () => {
-                        return new DamageAction(actor, this.dmg/2)
+                        return new DamageAction(actor, this.dmg/2, `${actor.name}'s Grenade Launcher`)
                     },
                     isPlayer: () => false
                 })
