@@ -2,7 +2,11 @@ import _ from 'lodash'
 import * as ROT from 'rot-js'
 import { Game } from './game.js'
 import { Director } from './director.js'
+import Config from './config.js'
 
+if(Config.seed){
+    ROT.RNG.setSeed(Config.seed)
+}
 
 let scheduler = new ROT.Scheduler.Simple()
 let game = new Game(scheduler)
