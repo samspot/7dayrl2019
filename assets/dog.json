@@ -1,7 +1,7 @@
 
 {
     "symbol": "d",
-    "color": "grey",
+    "color": "#330000",
     "name": "Dog",
     "hp": 20,
     "score": 2,

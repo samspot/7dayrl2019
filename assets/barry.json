@@ -1,6 +1,6 @@
 {
     "symbol": "B",
-    "color": "orange",
+    "color": "#CC0000",
     "name": "Barry Burton",
     "hp": 80,
     "score": 4000,

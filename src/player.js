@@ -18,6 +18,7 @@ export class Player extends Actor {
         this.hp = Tyrant.hp
         this.maxHp = this.hp
         this.str = Tyrant.str 
+        this.color = Tyrant.color
         this.sightRadius = Tyrant.sightRadius
 
         this.addAbility(new Impale(this))

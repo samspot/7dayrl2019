@@ -1,6 +1,6 @@
 {
     "symbol": "S",
-    "color": "blue",
+    "color": "#0066cc",
     "name": "Snake Boss",
     "hp": 160,
     "score": 200,

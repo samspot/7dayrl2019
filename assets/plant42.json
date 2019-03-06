@@ -1,7 +1,7 @@
 
 {
     "symbol": "P",
-    "color": "green",
+    "color": "#ff0099",
     "name": "Plant 42",
     "hp": 100,
     "score": 100,

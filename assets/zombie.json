@@ -1,6 +1,6 @@
 {
     "symbol": "z",
-    "color": "brown",
+    "color": "#330000",
     "name": "Zombie",
     "hp": 10,
     "score": 1,

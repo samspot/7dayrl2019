@@ -1,7 +1,7 @@
 
 {
     "symbol": "W",
-    "color": "gold",
+    "color": "#993300",
     "name": "Albert Wesker",
     "hp": 120,
     "score": 10000,

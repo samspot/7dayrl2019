@@ -1,7 +1,7 @@
 
 {
     "symbol": "L",
-    "color": "green",
+    "color": "#ff0099",
     "name": "Lisa Trevor",
     "hp": 500,
     "score": 500,

@@ -2,6 +2,7 @@ import * as ROT from 'rot-js'
 import { keyMap } from './keymap.js'
 import { Ability, Impale } from './abilities.js';
 import { Game } from './game.js';
+import Config from './config.js';
 
 export class Action {
     constructor(actor) {
@@ -242,7 +243,7 @@ export class DescendAction extends Action {
     }
 
     execute(game) {
-        if (game.levelBossPassed()) {
+        if (game.levelBossPassed() || Config.debug) {
             game.currentLevel++
             game.director.resetLevel()
             game.generateMap(game.director.getLevelSpec())

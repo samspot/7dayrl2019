@@ -1,6 +1,6 @@
 {
     "symbol": "c",
-    "color": "purple",
+    "color": "#330099",
     "name": "Chimera",
     "hp": 50,
     "score": 50,

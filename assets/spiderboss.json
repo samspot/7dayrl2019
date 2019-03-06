@@ -1,7 +1,7 @@
 
 {
     "symbol": "S",
-    "color": "silver",
+    "color": "#330000",
     "name": "Black Tiger",
     "hp": 200,
     "score": 300,

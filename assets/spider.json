@@ -1,7 +1,7 @@
 
 {
     "symbol": "s",
-    "color": "brown",
+    "color": "#ffff00",
     "name": "Giant Spider",
     "hp": 10,
     "score": 1,

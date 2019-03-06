@@ -1,6 +1,6 @@
 {
     "symbol": "T",
-    "color": "grey",
+    "color": "#CC0000",
     "name": "Tyrant",
     "hp": 200,
     "score": 200,

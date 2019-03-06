@@ -1,6 +1,6 @@
 {
     "symbol": "J",
-    "color": "blue",
+    "color": "#0066cc",
     "name": "Jill Valentine",
     "hp": 60,
     "score": 2000,

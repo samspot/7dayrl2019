@@ -1,7 +1,7 @@
 
 {
     "symbol": "h",
-    "color": "brown",
+    "color": "#ffff00",
     "name": "Hunter",
     "hp": 30,
     "score": 5,

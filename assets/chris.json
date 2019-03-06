@@ -1,7 +1,7 @@
 
 {
     "symbol": "C",
-    "color": "green",
+    "color": "#330099",
     "name": "Chris Redfield",
     "hp": 70,
     "score": 3000,
