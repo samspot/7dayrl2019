@@ -22,22 +22,26 @@ export class DamageAction extends Action {
     execute(game) {
         let action = this.actor.damage(this.dmg)
 
-        console.log('source', this.source)
+        // console.log('source', this.source)
         if (this.source) {
             game.message(`You take ${this.dmg} damage from ${this.source}`)
         }
 
 
         if (game.player.hp <= 0) {
-            game.message("You were killed.  You may choose to infect a weakened enemy within line of sight.")
+            game.message("You were killed.  You may choose to infect a weakened enemy.")
 
             let mob
             let player = game.player
             setTimeout(() => {
                 while (!mob) {
+                    if(game.getVisibleMobs().length === 0){
+                        return new GameOverAction()
+                    }
                     let idx = prompt("Choose a new body (enter number)")
                     if (parseInt(idx, 10)) {
-                        mob = game.mobs[idx - 1]
+                        // mob = game.mobs[idx - 1]
+                        mob = game.getVisibleMobs()[idx - 1]
                     }
 
                     if (!mob) { continue }

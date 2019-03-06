@@ -22,6 +22,7 @@ import Maps from './maps.js'
 
 
 /*
+TODO: Look into showing explored tiles
 TODO: If they posses the final level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. make mapgen create large rooms.  swarm the tyrant 
 2. FOV, ai that reacts only to players it can see. different vision per character
@@ -172,7 +173,7 @@ export class Game {
             generator.create(digCallback.bind(this));
         }
 
-        if(Config.debug && Config.drawWholeMap){
+        if (Config.debug && Config.drawWholeMap) {
             this.drawWholeMap();
         }
 
@@ -264,7 +265,7 @@ export class Game {
     }
 
     message(msg) {
-        console.log('printing msg', msg)
+        // console.log('printing msg', msg)
         this.messages.unshift({ msg: msg, turn: this.turns })
         this.gameDisplay.drawMessages()
     }
@@ -287,41 +288,51 @@ export class Game {
 
     redraw() {
         this.display.clear()
+        if (Config.debug && Config.drawWholeMap) {
+            this.drawWholeMap()
+        }
         this.drawFov()
-        // this.drawWholeMap()
         // this.player.drawMe()
         // this.mobs.forEach(m => m.drawMe())
 
     }
 
-    drawFov(){
+    drawFov() {
+        // TODO liked trent reznor 'on we march' for background music
+
+        // TODO vary these colors by level
+        let fovFloorColor = "#333"
+        let fovWallColor = "#660"
         let map = this.map
 
-        function lightPasses(x, y){
-            let key = x+','+y
-            if(key in map){ return (map[key] === '.')}
+        function lightPasses(x, y) {
+            let key = x + ',' + y
+            if (key in map) { return (map[key] === '.') }
             return false
         }
 
         let fov = new ROT.FOV.PreciseShadowcasting(lightPasses)
 
-        let visibleSquares = []
+        this.visibleSquares = []
+        // TODO get visibility from player data
         fov.compute(this.player.x, this.player.y, 6, (x, y, r, visibility) => {
             let ch = r ? "" : "@"
-            let color = map[x+","+y] ? "#aa0": "#660"
-            visibleSquares.push(x+','+y)
-            this.display.draw(x, y, ch, "#fff", color)
-        })
-        
-        this.mobs.forEach(m => {
-            let idx = _.findIndex(visibleSquares, i => i === m.x+','+m.y)
-            // console.log('idx', idx)
-            if(idx >= 0){
-                // console.log("found mob", m, 'in visible area')
-                m.drawMe('#aa0')
-            }
+            // let color = map[x+","+y] ? "#aa0": "#660"
+            let color = map[x + "," + y] ? fovFloorColor : fovWallColor
+            this.visibleSquares.push(x + ',' + y)
+            // this.display.draw(x, y, ch, "#fff", color)
+            this.display.draw(x, y, ch, this.player.color, color)
         })
 
+        this.getVisibleMobs().forEach(m => m.drawMe(fovFloorColor))
+    }
+
+    getVisibleSquares() {
+        return this.visibleSquares
+    }
+
+    getVisibleMobs() {
+        return _.filter(this.mobs, m => _.findIndex(this.getVisibleSquares(), i => i === m.x + ',' + m.y) >= 0)
     }
 
     destroyMob(actor) {

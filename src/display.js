@@ -165,7 +165,7 @@ export class GameDisplay {
         let moblist = document.getElementById('monsters')
         if (moblist) {
             moblist.innerHTML = ''
-            game.mobs.forEach(x => {
+            game.getVisibleMobs().forEach(x => {
                 let elem = document.createElement('li')
                 elem.innerHTML = x.name
                 elem.style = "color: " + x.color

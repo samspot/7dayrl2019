@@ -33,7 +33,7 @@ export class Ability {
     }
 
     sideEffects(action, game) {
-        console.log('no side effects')
+        // console.log('no side effects')
     }
 
     canTargetEmpty() {
