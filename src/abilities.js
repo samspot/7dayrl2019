@@ -65,30 +65,32 @@ export class Charge extends Ability {
         super(actor, 10, 10, 20)
     }
 
-    sideEffects(action, game, actor){
+    sideEffects(action, game, actor) {
 
-        if(actor){
+        let source = this.actor
+        let target = actor
+        if (actor) {
 
-            // console.log(`player (${game.player.x}, ${game.player.y}) target (${actor.x}, ${actor.y})`)
+            // console.log(`source (${source.x}, ${source.y}) target (${target.x}, ${target.y})`)
 
-            let xdiff = game.player.x - actor.x            
-            let ydiff = game.player.y - actor.y
+            let xdiff = source.x - target.x
+            let ydiff = source.y - target.y
 
             // console.log(`diff ${xdiff} ${ydiff}`)
 
-            if(xdiff > 0){ actor.x-- }
-            if(xdiff < 0){ actor.x++ }
-            if(ydiff > 0){ actor.y-- }
-            if(ydiff < 0){ actor.y++ }
+            if (xdiff > 0) { target.x-- }
+            if (xdiff < 0) { target.x++ }
+            if (ydiff > 0) { target.y-- }
+            if (ydiff < 0) { target.y++ }
         }
 
-        game.player.x = action.x
-        game.player.y = action.y
+        source.x = action.x
+        source.y = action.y
 
         game.dirty = true
     }
 
-    canTargetEmpty(){
+    canTargetEmpty() {
         return true
     }
 }
@@ -115,7 +117,7 @@ export class GrenadeLauncher extends Ability {
 
                 game.scheduler.add({
                     act: () => {
-                        return new DamageAction(actor, this.dmg/s, "GrenadeLauncher Splash Damage", actor)
+                        return new DamageAction(actor, this.dmg / s, "GrenadeLauncher Splash Damage", actor)
                     },
                     isPlayer: () => false
                 })

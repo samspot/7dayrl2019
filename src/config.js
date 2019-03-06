@@ -4,8 +4,8 @@ const Config = {
     gamePortHeight: 27,
     fontSize: 16,
     seed: 12358,
-    turnsToSim: 30,
-    drawWholeMap: false,
+    turnsToSim: 22,
+    // drawWholeMap: false,
     debug: true
 }
 

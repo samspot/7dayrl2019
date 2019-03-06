@@ -65,7 +65,7 @@ const abilities = {
     'Albert Wesker': [Magnum, EmptySlot],
     'Tyrant': [Charge, Impale],
     'Zombie': [Grab],
-    'Chimera': [Grab],
+    'Chimera': [Grab, Charge],
     'Dog': [Grab],
     'Hunter': [Grab],
     'Lisa Trevor': [Grab],
