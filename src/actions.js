@@ -1,6 +1,7 @@
 import * as ROT from 'rot-js'
 import { keyMap } from './keymap.js'
 import { Ability, Impale } from './abilities.js';
+import { Game } from './game.js';
 
 export class Action {
     constructor(actor) {
@@ -148,6 +149,7 @@ export class DamageAction extends Action {
             if(this.actor.isPlayer()){
                 targetName = 'Player'
             }
+            // console.log('this.actorSource', this.actorSource)
             if(this.actorSource.isPlayer()){
                 sourceName = 'Player'
             }
@@ -258,8 +260,15 @@ export class AbilityAction extends Action {
         // console.log("executing ability action",
         //     this.ability, this.x, this.y, actor)
 
+        // TODO: WTH is going on?  AbilityAction creator passing junk data?
+        if(this.actor instanceof Game){
+            this.actor = game.player
+        }
+
+        // console.log("AbilityAction this.actor", this.actor)
         if (actor) {
             let source = this.ability.constructor.name
+
             return new DamageAction(actor, this.ability.dmg, source, this.actor)
         }
     }

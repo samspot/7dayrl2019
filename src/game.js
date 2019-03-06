@@ -130,7 +130,7 @@ export class Game {
     }
 
     resetLevel() {
-        console.log("game resetLevel()")
+        // console.log("game resetLevel()")
         this.map = {}
         this.display.clear()
         this.mobs = []
@@ -280,7 +280,7 @@ export class Game {
     }
 
     message(msg, important, source, target) {
-        console.log('msg', msg)
+        // console.log('msg', msg)
         let message = { 
             msg: msg, 
             turn: this.turns, 
@@ -288,7 +288,7 @@ export class Game {
             source: source,
             target: target
         }
-        console.log('printing msg', message.msg)
+        // console.log('printing msg', message.msg)
         this.messages.unshift(message)
         this.gameDisplay.drawMessages()
     }
@@ -364,7 +364,7 @@ export class Game {
 
     getInfectableMobs(){
         let mobs = _.filter(this.getVisibleMobs(), m => m.isInfectable())
-        console.log("infectable mobs", mobs)
+        // console.log("infectable mobs", mobs)
         return mobs
     }
 
@@ -383,6 +383,6 @@ export class Game {
              this.scheduler.add(m, true)
          })
 
-         console.log('reschedule', this.scheduler)
+        //  console.log('reschedule', this.scheduler)
     }
 }
