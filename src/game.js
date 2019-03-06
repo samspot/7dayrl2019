@@ -18,22 +18,30 @@ import Maps from './maps.js'
 * no longer getting a proper update after infecting an enemy
 * monsters don't move when they charge
 * abilities triggering after mobs take turns
+* need to redraw targeting cursor over FOV when first entering target mode
 
 */
 
 
 /*
+
+infect with impale ability, after posses you are maxHP * 1.5 or some modifier, minimum hp of 150 ish
+if you die with no available targets, the tyrant ressurects.  Impale should come with you when you infect an enemy.
+
+
      don't let enemies have a turn on infection
      redraw on infection (fov function)
 
     TODO: level/wall colors differ for each locale.  make sure all foreground colors are visible
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
-TODO: If they posses the final level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
+TODO: show ? mark for boss until seen, then show splash with their abilities
+X: If they posses the final level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. make mapgen create large rooms.  swarm the tyrant 
-2. FOV, ai that reacts only to players it can see. different vision per character
-2. Spawn enemies only outside explored/lit areas
-2. implement sight range for various characters
+X. FOV, ai that reacts only to players it can see. different vision per character
+X. implement sight range for various characters
+
+X. Spawn enemies only outside explored/lit areas. stop spawning when boss killed
 3. Make trash mobs better when controlled by the player
 4. Swich to ability icons.  grayscale on cooldown with cooldown remaining overlayed
 5. resident evil 1 inventory font

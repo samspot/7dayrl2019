@@ -158,7 +158,7 @@ export class Director {
 
         this.debug()
         this.countdown--
-        if (this.countdown <= 0) {
+        if (this.countdown <= 0 && !this.game.getGameProgress().bossDown) {
             let spawnrate = Config.spawnrate
             let minimum = Config.spawnrate / 2
 
@@ -180,8 +180,12 @@ export class Director {
     }
 
     createSchedule(mobspec) {
+        let freeCells = this.game.getFreeCells()
+        this.game.visibleSquares.forEach(x => {
+            _.remove(freeCells, c => c === x)
+        })
         let monster = this.game.createBeing(Monster,
-            this.game.getFreeCells(), mobspec)
+            freeCells, mobspec)
 
         // console.dir("monster add", monster)
 
