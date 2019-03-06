@@ -23,15 +23,15 @@ async function mainLoop() {
         let actor = scheduler.next()
         if (!actor) { break }
         // console.log("scheduled actor", actor)
-        if (actor.isPlayer()) {
-            game.updateGui()
-        }
 
         if(actor.isPlayer()){
+            game.updateGui()
             game.redraw()
         }
 
         // director.debugScheduler()
+        // TODO add to debug output
+        // console.log("actor turn", actor)
         let action = await actor.act()
         while(action){
             // console.log("got action", action)

@@ -21,11 +21,13 @@ export class Actor {
     }
 
     isInjured(){
+        // console.log(`is ${this.name} ${this.hp}/${this.maxHp} less than ${this.maxHp * .45}`)
         return this.hp < this.maxHp * .45 
     }
 
     isInfectable(){
-        return this.isInjured() || this.hp < 15 || !this.finalBoss
+        if(this.finalBoss){ return false}
+        return this.isInjured() || this.hp < 15  
     }
 
     damage(dmg){

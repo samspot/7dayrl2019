@@ -173,12 +173,13 @@ export class GameDisplay {
             } else {
                 console.log('all visible')
                 mobs = game.getVisibleMobs()
+                // mobs = game.getInfectableMobs()
             }
 
             mobs.forEach(x => {
-                if(onlyInfectable){
-                    console.log('render mob list', x )
-                }
+                // if(onlyInfectable){
+                    // console.log('render mob list', x )
+                // }
                 let elem = document.createElement('li')
 
                 let name = x.name
@@ -224,6 +225,10 @@ export class GameDisplay {
                     span.innerHTML = message.msg + '<br>'
                     if (message.turn !== recentTurn) {
                         span.classList.add('old-message')
+                    } 
+                    if(message.important){
+                        // TODO switch to old mesage after its passed, probably by changing to else-if
+                        span.classList.add('important-message')
                     }
                     elem.appendChild(span)
                 }

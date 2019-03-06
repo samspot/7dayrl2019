@@ -268,9 +268,9 @@ export class Game {
         this.getGameProgress().bossDown = true
     }
 
-    message(msg) {
+    message(msg, important) {
         // console.log('printing msg', msg)
-        this.messages.unshift({ msg: msg, turn: this.turns })
+        this.messages.unshift({ msg: msg, turn: this.turns, important: important })
         this.gameDisplay.drawMessages()
     }
 
@@ -356,5 +356,15 @@ export class Game {
         this.scheduler.remove(actor)
         this.addScore(actor.score)
         actor.draw('.', 'red')
+    }
+
+    reschedule(){
+         this.scheduler.clear()
+         this.scheduler.add(this.player, true)
+         this.mobs.forEach(m => {
+             this.scheduler.add(m, true)
+         })
+
+         console.log('reschedule', this.scheduler)
     }
 }

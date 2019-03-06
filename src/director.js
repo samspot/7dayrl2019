@@ -146,8 +146,7 @@ export class Director {
             let monster = this.createSchedule(this.boss)
             monster.boss = true
 
-            if(this.boss.name === "Jill Valentine" || this.boss.name === "Albert Wesker" || true){
-                // this.boss.finalBoss = true
+            if(this.boss.name === "Albert Wesker"){
                 monster.finalBoss = true
             }
 

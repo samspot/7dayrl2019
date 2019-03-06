@@ -12,14 +12,115 @@ export class Action {
     }
 }
 
+// TODO use a modal for this later to make it more salient
 export class InfectAction extends Action {
-    constructor(actor){
+    constructor(actor, game) {
         super(actor)
+        this.game = game
     }
 
-    execute(game){
-        
+    handleEvent(e) {
+        // console.log('e', e)
+        let charCode = e.which || e.keyCode
+        let charStr = String.fromCharCode(charCode)
+
+        let numberKeys = [
+            ROT.KEYS.VK_0,
+            ROT.KEYS.VK_1,
+            ROT.KEYS.VK_2,
+            ROT.KEYS.VK_3,
+            ROT.KEYS.VK_4,
+            ROT.KEYS.VK_5,
+            ROT.KEYS.VK_6,
+            ROT.KEYS.VK_7,
+            ROT.KEYS.VK_8,
+            ROT.KEYS.VK_9
+        ]
+
+        let idx = _.findIndex(numberKeys, x => x === charCode)
+        if(idx < 0){
+            console.log("invalid key")
+            return
+        }
+
+        let game = this.game
+
+        let mob
+        let player = game.player
+        if (game.getInfectableMobs(true).length === 0) {
+            this.resolve(new GameOverAction())
+        }
+
+
+        if (parseInt(idx, 10)) {
+            mob = game.getInfectableMobs()[idx - 1]
+        }
+
+        if (!mob) { return }
+
+        if (mob.isBoss()) {
+            game.possesBoss()
+        }
+
+        _.remove(game.mobs, mob)
+        game.scheduler.remove(mob)
+
+        if (game.allBossesDown()) {
+            game.resetScore()
+            return new YouWinAction()
+        }
+
+        player.name = mob.name
+        player.hp = mob.hp
+        player.color = mob.color
+        player.str = mob.str
+        player.x = mob.x
+        player.y = mob.y
+        player.boss = false
+
+        player.abilities = []
+        _.clone(mob.abilities).forEach(a => {
+            // console.log('adding ability', a)
+            a.actor = player
+            player.addAbility(_.clone(a))
+        })
+
+        game.dirty = true
+        game.resetScore()
+        // game.gameDisplay.updateGui()
+        window.removeEventListener("keydown", this);
+        window.removeEventListener("keypress", this);
+
+        game.message("you infected " + player.name)
+
+        game.reschedule()
+        this.resolve()
     }
+
+    act(){
+        // console.log("InfectAction.act()")
+        window.addEventListener("keydown", this);
+        window.addEventListener("keypress", this);
+        return new Promise(resolve => {
+            this.resolve = resolve
+        })
+    }
+
+    isPlayer(){
+        return false
+    }
+
+    execute(game) {
+        // console.log("InfectAction.execute()")
+        game.message("You were killed.  You may choose to infect a weakened enemy.", true)
+        game.message("Choose a new body (enter number)", true)
+        game.redraw()
+        game.gameDisplay.drawMobs(true)
+        // game.redraw()
+        game.scheduler.clear()
+        game.scheduler.add(new InfectAction(game.player, game))
+        // console.log(game.scheduler)
+   }
 }
 
 export class DamageAction extends Action {
@@ -32,61 +133,13 @@ export class DamageAction extends Action {
     execute(game) {
         let action = this.actor.damage(this.dmg)
 
-        // console.log('source', this.source)
         if (this.source) {
             game.message(`You take ${this.dmg} damage from ${this.source}`)
         }
 
         if (game.player.hp <= 0) {
-            game.message("You were killed.  You may choose to infect a weakened enemy.")
-            game.gameDisplay.drawMobs(true)
-
-            let mob
-            let player = game.player
-            while (!mob) {
-                // TODO re-enable
-                // if (game.getInfectableMobs(true).length === 0) {
-                    // return new GameOverAction()
-                // }
-                let idx = prompt("Choose a new body (enter number)")
-                if (parseInt(idx, 10)) {
-                    // mob = game.mobs[idx - 1]
-                    mob = game.getInfectableMobs()[idx - 1]
-                }
-
-                if (!mob) { continue }
-
-                if (mob.isBoss()) {
-                    game.possesBoss()
-                }
-
-                _.remove(game.mobs, mob)
-                game.scheduler.remove(mob)
-
-                if (game.allBossesDown()) {
-                    game.resetScore()
-                    return new YouWinAction()
-                }
-            }
-            player.name = mob.name
-            player.hp = mob.hp
-            player.color = mob.color
-            player.str = mob.str
-            player.x = mob.x
-            player.y = mob.y
-            player.boss = false
-
-
-            player.abilities = []
-            _.clone(mob.abilities).forEach(a => {
-                // console.log('adding ability', a)
-                a.actor = player
-                player.addAbility(_.clone(a))
-            })
-
-            game.dirty = true
-            game.resetScore()
-            // game.gameDisplay.updateGui()
+            // console.log("returning new infect action")
+            return new InfectAction(game.player)
         }
 
         return action
@@ -211,7 +264,7 @@ export class GameOverAction extends Action {
 
     execute(game) {
         game.gameOver = true
-        alert("You were killed!  Game Over!")
+        alert("You were killed! No characters weak enough to infect! Game Over!")
     }
 }
 
