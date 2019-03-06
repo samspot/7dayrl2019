@@ -26,7 +26,7 @@ export class Player extends Actor {
         // make the game advance a few turns on startup
         this.debugCount = 0
         if (Config.debug) {
-            this.debugCount = 5
+            this.debugCount = Config.turnsToSim 
         }
     }
 
@@ -176,6 +176,7 @@ export class Player extends Actor {
     }
 
     checkBox() {
+        /*
         var key = this.x + "," + this.y;
         if (this.game.map[key] != "*") {
             alert("There is no box here!");
@@ -186,6 +187,7 @@ export class Player extends Actor {
         } else {
             alert("This box is empty :-(");
         }
+        */
     }
 
 }

@@ -17,6 +17,7 @@ game.director = director
 
 // game.init()
 
+
 async function mainLoop() {
     while (1) {
         let actor = scheduler.next()
@@ -27,7 +28,7 @@ async function mainLoop() {
         }
 
         if(actor.isPlayer()){
-            game.drawFov()
+            game.redraw()
         }
 
         // director.debugScheduler()

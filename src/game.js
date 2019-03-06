@@ -172,7 +172,9 @@ export class Game {
             generator.create(digCallback.bind(this));
         }
 
-        this.drawWholeMap();
+        if(Config.debug && Config.drawWholeMap){
+            this.drawWholeMap();
+        }
 
         if (!this.player) {
             this.player = this.createBeing(Player, freeCells)
@@ -285,9 +287,10 @@ export class Game {
 
     redraw() {
         this.display.clear()
-        this.drawWholeMap()
-        this.player.drawMe()
-        this.mobs.forEach(m => m.drawMe())
+        this.drawFov()
+        // this.drawWholeMap()
+        // this.player.drawMe()
+        // this.mobs.forEach(m => m.drawMe())
 
     }
 
@@ -312,9 +315,9 @@ export class Game {
         
         this.mobs.forEach(m => {
             let idx = _.findIndex(visibleSquares, i => i === m.x+','+m.y)
-            console.log('idx', idx)
+            // console.log('idx', idx)
             if(idx >= 0){
-                console.log("found mob", m, 'in visible area')
+                // console.log("found mob", m, 'in visible area')
                 m.drawMe('#aa0')
             }
         })

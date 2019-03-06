@@ -12,7 +12,7 @@ export class Actor {
         this.symbol = symbol
         this.color = color
         this.game = game
-        this.draw()
+        // this.draw()
         this.boss = false
         this.abilities = []
 
