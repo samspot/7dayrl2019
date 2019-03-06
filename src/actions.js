@@ -99,7 +99,7 @@ export class InfectAction extends Action {
         window.removeEventListener("keydown", this);
         window.removeEventListener("keypress", this);
 
-        game.message("you infected " + player.name)
+        game.message("you infected " + player.name, false, player, mob)
 
         game.reschedule()
         this.resolve()
@@ -120,8 +120,8 @@ export class InfectAction extends Action {
 
     execute(game) {
         // console.log("InfectAction.execute()")
-        game.message("You were killed.  You may choose to infect a weakened enemy.", true)
-        game.message("Choose a new body (enter number)", true)
+        game.message("You were killed.  You may choose to infect a weakened enemy.", true, undefined, game.player)
+        game.message("Choose a new body (enter number)", true, undefined, game.player)
         game.redraw()
         game.gameDisplay.drawMobs(true)
         // game.redraw()
@@ -132,17 +132,26 @@ export class InfectAction extends Action {
 }
 
 export class DamageAction extends Action {
-    constructor(actor, dmg, source) {
+    constructor(actor, dmg, source, actorSource) {
         super(actor)
         this.dmg = dmg
         this.source = source
+        this.actorSource = actorSource
     }
 
     execute(game) {
         let action = this.actor.damage(this.dmg)
 
         if (this.source) {
-            game.message(`You take ${this.dmg} damage from ${this.source}`)
+            let targetName = this.actor.name
+            let sourceName = this.actorSource.name
+            if(this.actor.isPlayer()){
+                targetName = 'Player'
+            }
+            if(this.actorSource.isPlayer()){
+                sourceName = 'Player'
+            }
+            game.message(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName)
         }
 
         if (game.player.hp <= 0) {
@@ -161,7 +170,7 @@ export class AttackAction extends Action {
     }
 
     execute(game) {
-        return new DamageAction(this.target, this.actor.str, `${this.actor.name}'s melee attack`)
+        return new DamageAction(this.target, this.actor.str, `melee attack`, this.actor)
     }
 }
 
@@ -250,7 +259,8 @@ export class AbilityAction extends Action {
         //     this.ability, this.x, this.y, actor)
 
         if (actor) {
-            return new DamageAction(actor, this.ability.dmg, `${this.actor.name}'s ${this.ability.constructor.name}`)
+            let source = this.ability.constructor.name
+            return new DamageAction(actor, this.ability.dmg, source, this.actor)
         }
     }
 }

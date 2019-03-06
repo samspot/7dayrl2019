@@ -15,7 +15,6 @@ game.init()
 let director = new Director(game, scheduler)
 game.director = director
 
-// game.init()
 
 
 async function mainLoop() {
@@ -40,7 +39,6 @@ async function mainLoop() {
 
         if (actor.isPlayer()) {
             director.tick()
-            game.clearMessage()
             game.turns++
         }
 

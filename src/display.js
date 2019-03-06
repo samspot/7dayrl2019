@@ -168,10 +168,10 @@ export class GameDisplay {
 
             let mobs = []
             if(onlyInfectable){
-                console.log('all infectable')
+                // console.log('all infectable')
                 mobs = game.getInfectableMobs()
             } else {
-                console.log('all visible')
+                // console.log('all visible')
                 mobs = game.getVisibleMobs()
                 // mobs = game.getInfectableMobs()
             }
@@ -222,7 +222,13 @@ export class GameDisplay {
                 let message = messages[i]
                 if (message) {
                     let span = document.createElement('span')
-                    span.innerHTML = message.msg + '<br>'
+
+                    let source = message.source
+                    let target = message.target
+
+                    let text = `${target} receives ${message.msg} [Source: ${source}]`
+
+                    span.innerHTML = text + '<br>'
                     if (message.turn !== recentTurn) {
                         span.classList.add('old-message')
                     } 
@@ -232,7 +238,6 @@ export class GameDisplay {
                     }
                     elem.appendChild(span)
                 }
-
             }
         }
         /*
@@ -242,9 +247,5 @@ export class GameDisplay {
         span.innerHTML = msg + '<br>'
         elem.appendChild(span)
         */
-
     }
-
-
-
 }
