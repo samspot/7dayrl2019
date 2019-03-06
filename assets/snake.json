@@ -4,5 +4,7 @@
     "name": "Snake Boss",
     "hp": 160,
     "score": 200,
-    "str": 15 
+    "str": 15 , 
+    "sightRadius": 6 
+
 }

@@ -5,5 +5,7 @@
     "name": "Dog",
     "hp": 20,
     "score": 2,
-    "str": 10
+    "str": 10, 
+    "sightRadius": 15 
+
 }

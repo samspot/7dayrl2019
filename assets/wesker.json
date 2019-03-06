@@ -5,5 +5,7 @@
     "name": "Albert Wesker",
     "hp": 120,
     "score": 10000,
-    "str": 70
+    "str": 70, 
+    "sightRadius": 6 
+
 }

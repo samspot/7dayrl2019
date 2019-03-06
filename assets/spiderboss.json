@@ -5,5 +5,7 @@
     "name": "Black Tiger",
     "hp": 200,
     "score": 300,
-    "str": 50
+    "str": 50, 
+    "sightRadius": 6 
+
 }

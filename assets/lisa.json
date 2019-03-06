@@ -5,5 +5,7 @@
     "name": "Lisa Trevor",
     "hp": 500,
     "score": 500,
-    "str": 5
+    "str": 5, 
+    "sightRadius": 4 
+
 }

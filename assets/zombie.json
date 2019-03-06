@@ -4,5 +4,6 @@
     "name": "Zombie",
     "hp": 10,
     "score": 1,
-    "str": 5
+    "str": 5,
+    "sightRadius": 3
 }

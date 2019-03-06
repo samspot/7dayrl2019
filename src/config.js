@@ -1,12 +1,12 @@
 const Config = {
-    spawnrate: 1,
+    spawnrate: 5,
     gamePortWidth: 45,
     gamePortHeight: 27,
     fontSize: 16,
-    seed: 12358,
-    turnsToSim: 24,
+    // seed: 12358,
+    // turnsToSim: 24,
     drawWholeMap: false,
-    debug: true
+    // debug: true
 }
 
 export default Config

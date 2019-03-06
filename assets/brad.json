@@ -5,5 +5,7 @@
     "name": "Brad Vickers",
     "hp": 60,
     "score": 5000,
-    "str": 20
+    "str": 20, 
+    "sightRadius": 6 
+
 }

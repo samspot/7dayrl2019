@@ -5,5 +5,7 @@
     "name": "Plant 42",
     "hp": 100,
     "score": 100,
-    "str": 20 
+    "str": 20 , 
+    "sightRadius": 2 
+
 }

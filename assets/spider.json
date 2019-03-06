@@ -5,5 +5,7 @@
     "name": "Giant Spider",
     "hp": 10,
     "score": 1,
-    "str": 10
+    "str": 10, 
+    "sightRadius": 5 
+
 }

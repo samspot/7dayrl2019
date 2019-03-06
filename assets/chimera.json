@@ -4,5 +4,7 @@
     "name": "Chimera",
     "hp": 50,
     "score": 50,
-    "str": 20
+    "str": 20, 
+    "sightRadius": 4 
+
 }

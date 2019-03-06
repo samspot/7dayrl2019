@@ -11,6 +11,7 @@ export class Monster extends Actor {
         this.hp = mobspec.hp
         this.str = mobspec.str
         this.score = mobspec.score
+        this.sightRadius = mobspec.sightRadius
     }
 
     // return a list of abilities that are off cooldown and can reach the player

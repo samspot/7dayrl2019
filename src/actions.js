@@ -76,6 +76,7 @@ export class InfectAction extends Action {
         player.str = mob.str
         player.x = mob.x
         player.y = mob.y
+        player.sightRadius = mob.sightRadius
         player.boss = false
 
         player.abilities = []

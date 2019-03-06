@@ -5,6 +5,7 @@ import { keyMap } from './keymap.js'
 import { Impale, Charge, GrenadeLauncher } from './abilities.js';
 import { Cursor } from './cursor.js';
 import Config from './config.js';
+import Tyrant from 'assets/tyrant.json'
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
@@ -13,10 +14,11 @@ export class Player extends Actor {
     constructor(x, y, game) {
         super(x, y, "@", "#ff0", game)
 
-        this.name = "Tyrant"
-        this.hp = 200
+        this.name = Tyrant.name
+        this.hp = Tyrant.hp
         this.maxHp = this.hp
-        this.str = 25
+        this.str = Tyrant.str 
+        this.sightRadius = Tyrant.sightRadius
 
         this.addAbility(new Impale(this))
         this.addAbility(new Charge(this))
