@@ -81,7 +81,7 @@ export class Game {
 
         this.gameProgress.level3.name = "Guardhouse"
         this.gameProgress.level3.boss = "Brad Vickers"
-        
+
         this.gameProgress.level4.name = "The Mansion"
         this.gameProgress.level4.boss = "Albert Wesker"
     }
@@ -149,18 +149,127 @@ export class Game {
     }
 
     generateMap() {
-        var digger = new ROT.Map.Digger(Config.gamePortWidth, Config.gamePortHeight)
+        // 'lab'
+        // 'catacombs'
+        // 'outside' 
+        // 'guardhouse'
+        // 'mansion'
+        let outside1 = {
+            _obj: ROT.Map.Digger,
+            dugPercentage: .9,
+            corridorLength: [10, 13],
+            roomHeight: [4, 6],
+            roomWidth: [4, 6],
+            // timeLimit: undefined
+        }
+        let outside2Winner = {
+            _obj: ROT.Map.Digger,
+            dugPercentage: .5,
+            corridorLength: [2, 5],
+            roomHeight: [4, 6],
+            roomWidth: [4, 6],
+            // timeLimit: undefined
+        }
+        let lab1 = {
+            _obj: ROT.Map.Digger,
+            dugPercentage: .8,
+            corridorLength: [4, 8],
+            roomHeight: [5, 12],
+            roomWidth: [5, 12],
+            // timeLimit: undefined
+        }
+        let mansion1 = {
+            _obj: ROT.Map.Digger,
+            dugPercentage: .3,
+            // corridorLength: [10, 13],
+            roomHeight: [4, 6],
+            roomWidth: [4, 6],
+            // timeLimit: undefined
+        }
+        let mansion2Winner = {
+            _obj: ROT.Map.Uniform,
+            roomDugPercentage: .2,
+            roomHeight: [4, 6],
+            roomWidth: [4, 6],
+            // timeLimit: undefined
+        }
+        let lab2Winner = {
+            _obj: ROT.Map.Uniform,
+            roomDugPercentage: .5,
+            roomHeight: [6, 9],
+            roomWidth: [6, 9],
+            // timeLimit: undefined
+        }
+        let catacombs1Winner = {
+            _obj: ROT.Map.Cellular,
+            _iterations: 5,
+            _randomize: 0.5,
+            // born: undefined,
+            // survive: undefined,
+            // topology: undefined
+        }
+        let catacombs2 = {
+            _obj: ROT.Map.Cellular,
+            _iterations: 3,
+            _randomize: 0.5,
+            born: [4, 5, 6, 7, 8],
+            survive: [2, 3, 4, 5],
+            // topology: undefined
+        }
+
+        let field1 = {
+            _obj: ROT.Map.Cellular,
+            _iterations: 15,
+            _randomize: 0.4,
+            // born: [4, 5, 6, 7, 8],
+            // survive: [2, 3, 4, 5],
+            // topology: undefined
+        }
+
+        let guardhouse1 = {
+            _obj: ROT.Map.Uniform,
+            roomDugPercentage: .1,
+            roomHeight: [2, 4],
+            roomWidth: [2, 4],
+            // timeLimit: undefined
+        }
+
+        let guardhouse2Winner = {
+            _obj: ROT.Map.Digger,
+            dugPercentage: .1,
+            corridorLength: [3, 6],
+            roomHeight: [3, 6],
+            roomWidth: [3, 6],
+            // timeLimit: undefined
+        }
+        let generator = guardhouse2Winner
+
+        let digger = new generator._obj(Config.gamePortWidth, Config.gamePortHeight, generator)
+
         var freeCells = [];
 
         var digCallback = function (x, y, value) {
             if (value) { return; }
 
+            // console.log('digcallback')
             var key = x + "," + y;
             this.map[key] = ".";
             freeCells.push(key);
         }
 
-        digger.create(digCallback.bind(this));
+        if (generator._iterations) {
+            digger.randomize(generator._randomize)
+            for (let i = 0; i < generator._iterations - 1; i++) {
+                digger.create();
+            }
+            digger.create(digCallback.bind(this));
+            digger.connect(x => { console.log('connect cb', x) })
+        } else {
+
+            digger.create(digCallback.bind(this));
+        }
+
+
 
         // this.generateBoxes(freeCells);
 
@@ -255,11 +364,11 @@ export class Game {
 
     message(msg) {
         console.log('printing msg', msg)
-        this.messages.unshift({msg: msg, turn: this.turns})
+        this.messages.unshift({ msg: msg, turn: this.turns })
         this.gameDisplay.drawMessages()
     }
 
-    clearMessage(){
+    clearMessage() {
         //document.getElementById('msg').innerHTML = ''
     }
 
@@ -275,7 +384,7 @@ export class Game {
         this.score = 0
     }
 
-    redraw(){
+    redraw() {
         // TODO only do this if the display is dirty, 1 per player turn
         this.display.clear()
         this.drawWholeMap()
@@ -283,7 +392,7 @@ export class Game {
         this.mobs.forEach(m => m.drawMe())
     }
 
-    destroyMob(actor){
+    destroyMob(actor) {
         // console.log('destroying', actor)
         _.remove(this.mobs, actor)
         this.scheduler.remove(actor)
