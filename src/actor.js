@@ -58,7 +58,7 @@ export class Actor {
         // return true
     }
 
-    draw(symbol, color) {
+    draw(symbol, color, bgColor) {
         let symbolToDraw = this.symbol
         let colorToDraw = this.color
         if(symbol){
@@ -66,12 +66,12 @@ export class Actor {
             colorToDraw = color
         }
         this.game.display.draw(this.x, this.y, 
-            symbolToDraw, colorToDraw)
+            symbolToDraw, colorToDraw, bgColor)
         // console.log(this.name, this.hp)
     }
 
-    drawMe(){
-        this.draw(this.symbol, this.color)
+    drawMe(bgColor){
+        this.draw(this.symbol, this.color, bgColor)
     }
 
     getX() {

@@ -26,6 +26,10 @@ async function mainLoop() {
             game.updateGui()
         }
 
+        if(actor.isPlayer()){
+            game.drawFov()
+        }
+
         // director.debugScheduler()
         let action = await actor.act()
         while(action){
