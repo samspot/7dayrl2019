@@ -1,6 +1,6 @@
 import * as ROT from 'rot-js'
 import { keyMap } from './keymap.js'
-import { Ability } from './abilities.js';
+import { Ability, Impale } from './abilities.js';
 
 export class Action {
     constructor(actor) {
@@ -71,7 +71,8 @@ export class InfectAction extends Action {
         }
 
         player.name = mob.name
-        player.hp = mob.hp
+        player.hp = mob.maxHp * 1.5
+        if(player.hp < 150){ player.hp = 150}
         player.color = mob.color
         player.str = mob.str
         player.x = mob.x
@@ -80,11 +81,17 @@ export class InfectAction extends Action {
         player.boss = false
 
         player.abilities = []
+
+        let hasImpale = false
         _.clone(mob.abilities).forEach(a => {
             // console.log('adding ability', a)
             a.actor = player
             player.addAbility(_.clone(a))
+            if(a.constructor.name === 'Impale'){ hasImpale = true}
         })
+        if(!hasImpale){
+            player.addAbility(new Impale(player))
+        }
 
         game.dirty = true
         game.resetScore()

@@ -33,6 +33,10 @@ export class Player extends Actor {
         }
     }
 
+    isTargetMode(){
+        return this.state === TARGETTING
+    }
+
     isPlayer() {
         return true
     }
@@ -74,9 +78,9 @@ export class Player extends Actor {
 
         // escape key
         if (charCode === 27) {
+            this.state = PLAYER_TURN
             this.game.redraw()
             // this.game.dirty = true
-            this.state = PLAYER_TURN
             return
         }
 
@@ -161,6 +165,7 @@ export class Player extends Actor {
             // console.log('pressed ability key', result)
 
             this.useAbility(this.abilities[result])
+            this.game.redraw()
             return
         }
 
