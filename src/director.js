@@ -22,6 +22,7 @@ import Barry from 'assets/barry.json'
 import Brad from 'assets/brad.json'
 import Wesker from 'assets/wesker.json'
 import { GrenadeLauncher, EmptySlot, Grab, Shotgun, Magnum, Charge, Impale } from './abilities.js';
+import Maps from './maps.js';
 
 const levels = [
     'lab',
@@ -30,6 +31,14 @@ const levels = [
     'guardhouse',
     'mansion'
 ]
+
+const levelNames = {
+    'lab': 'Laboratory',
+    'catacombs': 'Catacombs',
+    'outside': 'Garden',
+    'guardhouse': 'Guardhouse',
+    'mansion': 'Mansion'
+}
 
 const mobs = {
     'lab': [Zombie, Zombie, Chimera],
@@ -112,6 +121,18 @@ export class Director {
         })
 
         // console.log('monster abilities', monster.abilities)
+    }
+
+    getLevelName(){
+        return levels[this.game.currentLevel]
+    }
+
+    getNextLevelDescription(){
+        return levelNames[levels[this.game.currentLevel+1]]
+    }
+
+    getLevelSpec(){
+        return Maps[this.getLevelName()]
     }
 
     tick() {

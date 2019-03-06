@@ -154,13 +154,9 @@ export class DescendAction extends Action {
 
     execute(game) {
         if (game.levelBossPassed()) {
-            // console.log("Descend pressed and allowed")
-
-            // game.generateMap()
             game.currentLevel++
             game.director.resetLevel()
-            game.generateMap()
-            // TODO descend
+            game.generateMap(game.director.getLevelSpec())
         }
     }
 }
