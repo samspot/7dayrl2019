@@ -17,6 +17,7 @@ import BradDead from '../assets/img/brad-dead.png'
 import BradEliminated from '../assets/img/brad-eliminated.png'
 
 import Wesker from '../assets/img/wesker.png'
+import WeskerDead from '../assets/img/wesker-dead.png'
 import WeskerEliminated from '../assets/img/wesker-eliminated.png'
 
 import Unknown from '../assets/img/unknown.png'
@@ -106,7 +107,7 @@ export class GameDisplay {
             "Chris Redfield": ChrisDead,
             "Barry Burton": BarryDead,
             "Brad Vickers": BradDead,
-            "Albert Wesker": WeskerEliminated // TODO maybe wesker dead portrait too
+            "Albert Wesker": WeskerDead
         }
 
         let targetImageMap = {
