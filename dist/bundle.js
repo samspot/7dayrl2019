@@ -1100,7 +1100,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nconst Config = {\r\n    spawnrate: 5,\r\n    gamePortWidth: 45,\r\n    gamePortHeight: 27,\r\n    fontSize: 16,\r\n    debug: true\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (Config);\n\n//# sourceURL=webpack:///./src/config.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nconst Config = {\r\n    spawnrate: 5,\r\n    gamePortWidth: 45,\r\n    gamePortHeight: 27,\r\n    fontSize: 16,\r\n    debug: false\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (Config);\n\n//# sourceURL=webpack:///./src/config.js?");
 
 /***/ }),
 

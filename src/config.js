@@ -3,7 +3,7 @@ const Config = {
     gamePortWidth: 45,
     gamePortHeight: 27,
     fontSize: 16,
-    debug: true
+    debug: false
 }
 
 export default Config

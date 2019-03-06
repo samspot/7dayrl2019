@@ -29,7 +29,7 @@ X. make mobs able to use, tick their abilities
 4. make mapgen create large rooms.  swarm the tyrant 
 4. FOV, ai that reacts only to players it can see. different vision per character
 5. Make trash mobs better when controlled by the player
-5. AI use abilities
+X. AI use abilities
 5. mouse controls to ui
 6. high scores in local storage
 7. Start Screen w/ high scores
