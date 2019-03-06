@@ -336,7 +336,18 @@ export class Game {
     }
 
     getVisibleMobs() {
-        return _.filter(this.mobs, m => _.findIndex(this.getVisibleSquares(), i => i === m.x + ',' + m.y) >= 0)
+        let visibleMobs = _.filter(this.mobs, m => _.findIndex(this.getVisibleSquares(), i => i === m.x + ',' + m.y) >= 0)
+        // if(onlyInfectable){
+            // visibleMobs = _.filter(visibleMobs, m => m.isInfectable())
+            // console.log("infectable mobs", visibleMobs)
+        // }
+        return visibleMobs
+    }
+
+    getInfectableMobs(){
+        let mobs = _.filter(this.getVisibleMobs(), m => m.isInfectable())
+        console.log("infectable mobs", mobs)
+        return mobs
     }
 
     destroyMob(actor) {

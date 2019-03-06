@@ -12,6 +12,16 @@ export class Action {
     }
 }
 
+export class InfectAction extends Action {
+    constructor(actor){
+        super(actor)
+    }
+
+    execute(game){
+        
+    }
+}
+
 export class DamageAction extends Action {
     constructor(actor, dmg, source) {
         super(actor)
@@ -27,60 +37,56 @@ export class DamageAction extends Action {
             game.message(`You take ${this.dmg} damage from ${this.source}`)
         }
 
-
         if (game.player.hp <= 0) {
             game.message("You were killed.  You may choose to infect a weakened enemy.")
+            game.gameDisplay.drawMobs(true)
 
             let mob
             let player = game.player
-            setTimeout(() => {
-                while (!mob) {
-                    if(game.getVisibleMobs().length === 0){
-                        return new GameOverAction()
-                    }
-                    let idx = prompt("Choose a new body (enter number)")
-                    if (parseInt(idx, 10)) {
-                        // mob = game.mobs[idx - 1]
-                        mob = game.getVisibleMobs()[idx - 1]
-                    }
-
-                    if (!mob) { continue }
-
-                    if (mob.isBoss()) {
-                        game.possesBoss()
-                    }
-
-                    _.remove(game.mobs, mob)
-                    game.scheduler.remove(mob)
-
-                    if (game.allBossesDown()) {
-                        game.resetScore()
-                        return new YouWinAction()
-                    }
+            while (!mob) {
+                // TODO re-enable
+                // if (game.getInfectableMobs(true).length === 0) {
+                    // return new GameOverAction()
+                // }
+                let idx = prompt("Choose a new body (enter number)")
+                if (parseInt(idx, 10)) {
+                    // mob = game.mobs[idx - 1]
+                    mob = game.getInfectableMobs()[idx - 1]
                 }
-                player.name = mob.name
-                player.hp = mob.hp
-                player.color = mob.color
-                player.str = mob.str
-                player.x = mob.x
-                player.y = mob.y
-                player.boss = false
-                // player.abilities = _.clone(mob.abilities)
 
-                // console.log('player abilities', player.abilities)
-                // console.log('mob abilities', mob, mob.abilities)
+                if (!mob) { continue }
 
-                player.abilities = []
-                _.clone(mob.abilities).forEach(a => {
-                    console.log('adding ability', a)
-                    a.actor = player
-                    player.addAbility(_.clone(a))
-                })
+                if (mob.isBoss()) {
+                    game.possesBoss()
+                }
 
-                game.dirty = true
-                game.resetScore()
-                game.gameDisplay.updateGui()
-            }, 0)
+                _.remove(game.mobs, mob)
+                game.scheduler.remove(mob)
+
+                if (game.allBossesDown()) {
+                    game.resetScore()
+                    return new YouWinAction()
+                }
+            }
+            player.name = mob.name
+            player.hp = mob.hp
+            player.color = mob.color
+            player.str = mob.str
+            player.x = mob.x
+            player.y = mob.y
+            player.boss = false
+
+
+            player.abilities = []
+            _.clone(mob.abilities).forEach(a => {
+                // console.log('adding ability', a)
+                a.actor = player
+                player.addAbility(_.clone(a))
+            })
+
+            game.dirty = true
+            game.resetScore()
+            // game.gameDisplay.updateGui()
         }
 
         return action

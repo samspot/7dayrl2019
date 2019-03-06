@@ -42,7 +42,8 @@ export class Monster extends Actor {
         let abilities = this.getAvailableAbilities()
         if (abilities && abilities.length > 0) {
             let a = ROT.RNG.getItem(abilities)
-            console.log("monster.act()", this.name, "using ", a.constructor.name, a)
+            // TODO add this log to debug flag
+            // console.log("monster.act()", this.name, "using ", a.constructor.name, a)
             return new Promise(resolve => {
                 resolve(new AbilityAction(this, a, x, y))
             })

@@ -160,12 +160,25 @@ export class GameDisplay {
         elem.style = gameProgress.style
     }
 
-    drawMobs() {
+    drawMobs(onlyInfectable) {
         let game = this.game
         let moblist = document.getElementById('monsters')
         if (moblist) {
             moblist.innerHTML = ''
-            game.getVisibleMobs().forEach(x => {
+
+            let mobs = []
+            if(onlyInfectable){
+                console.log('all infectable')
+                mobs = game.getInfectableMobs()
+            } else {
+                console.log('all visible')
+                mobs = game.getVisibleMobs()
+            }
+
+            mobs.forEach(x => {
+                if(onlyInfectable){
+                    console.log('render mob list', x )
+                }
                 let elem = document.createElement('li')
 
                 let name = x.name
@@ -187,6 +200,9 @@ export class GameDisplay {
 
 
                 moblist.appendChild(elem)
+                // force redraw - not working
+                // moblist.style.display = 'none'
+                // moblist.style.display = 'block'
             })
         }
 

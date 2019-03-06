@@ -141,10 +141,16 @@ export class Director {
 
         if (!this.boss) {
             this.boss = bosses[levels[this.game.currentLevel]]
-            // console.log('boss', this.boss, abilities[this.boss.name])
+            console.log('boss', this.boss, abilities[this.boss.name])
 
             let monster = this.createSchedule(this.boss)
             monster.boss = true
+
+            if(this.boss.name === "Jill Valentine" || this.boss.name === "Albert Wesker" || true){
+                // this.boss.finalBoss = true
+                monster.finalBoss = true
+            }
+
             this.mobs.push(monster)
 
 

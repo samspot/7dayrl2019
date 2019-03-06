@@ -14,6 +14,7 @@ export class Actor {
         this.game = game
         // this.draw()
         this.boss = false
+        this.finalBoss = false
         this.abilities = []
 
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
@@ -24,7 +25,7 @@ export class Actor {
     }
 
     isInfectable(){
-        return this.isInjured() || this.hp < 15
+        return this.isInjured() || this.hp < 15 || !this.finalBoss
     }
 
     damage(dmg){
