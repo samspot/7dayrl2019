@@ -19,6 +19,14 @@ export class Actor {
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
+    isInjured(){
+        return this.hp < this.maxHp * .45 
+    }
+
+    isInfectable(){
+        return this.isInjured() || this.hp < 15
+    }
+
     damage(dmg){
         this.hp -= dmg
         if(this.hp <=0 && !this.isPlayer()){

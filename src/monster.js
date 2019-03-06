@@ -7,6 +7,7 @@ export class Monster extends Actor {
         super(x, y, mobspec.symbol, mobspec.color, game)
 
         this.name = mobspec.name
+        this.maxHp = mobspec.hp
         this.hp = mobspec.hp
         this.str = mobspec.str
         this.score = mobspec.score
@@ -14,6 +15,10 @@ export class Monster extends Actor {
 
     // return a list of abilities that are off cooldown and can reach the player
     getAvailableAbilities() {
+        if(_.findIndex(this.game.getVisibleMobs(), m => m === this) < 0){
+            // console.log('mob not visible, dont use abilities')
+            return []
+        }
         // console.log(this.name, 'getAvailableAbilities()', this.abilities)
         let usable = _.filter(this.abilities, a => a.cooldown === 0).filter(a => {
             let player = this.game.player
@@ -37,7 +42,7 @@ export class Monster extends Actor {
         let abilities = this.getAvailableAbilities()
         if (abilities && abilities.length > 0) {
             let a = ROT.RNG.getItem(abilities)
-            console.log("monster.act() using ", a)
+            console.log("monster.act()", this.name, "using ", a.constructor.name, a)
             return new Promise(resolve => {
                 resolve(new AbilityAction(this, a, x, y))
             })

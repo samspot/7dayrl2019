@@ -22,6 +22,10 @@ import Maps from './maps.js'
 
 
 /*
+     don't let enemies have a turn on infection
+     redraw on infection (fov function)
+
+
 TODO: Look into showing explored tiles
 TODO: If they posses the final level boss, what then?  maybe only allow posess at low hp/dead, then allow descend
 X. make mapgen create large rooms.  swarm the tyrant 

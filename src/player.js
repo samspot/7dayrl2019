@@ -15,6 +15,7 @@ export class Player extends Actor {
 
         this.name = "Tyrant"
         this.hp = 200
+        this.maxHp = this.hp
         this.str = 25
 
         this.addAbility(new Impale(this))

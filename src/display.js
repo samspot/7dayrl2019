@@ -167,15 +167,23 @@ export class GameDisplay {
             moblist.innerHTML = ''
             game.getVisibleMobs().forEach(x => {
                 let elem = document.createElement('li')
-                elem.innerHTML = x.name
+
+                let name = x.name
+                if(x.isInjured()){
+                    name += " (injured)"
+                }
+
+                elem.innerHTML = name
                 elem.style = "color: " + x.color
 
+                /*
                 let list = document.createElement('ul')
                 elem.appendChild(list)
 
                 let hp = document.createElement('li')
                 hp.innerHTML = x.hp
                 list.appendChild(hp)
+                */
 
 
                 moblist.appendChild(elem)
