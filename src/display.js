@@ -156,6 +156,11 @@ export class GameDisplay {
         superContainer.classList.add('ability-super-container')
         superContainer.appendChild(container)
 
+        // hardcode fix for launcher
+        if(ability.name === "GrenadeLauncher"){
+            ability.displayName = "Launcher"
+        }
+
         let span = document.createElement('span')
         span.classList.add('ability-name')
         span.innerHTML = ability.displayName || ability.name

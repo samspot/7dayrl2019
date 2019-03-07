@@ -12,7 +12,8 @@ import Maps from './maps.js'
 /* Defects */
 /*
 
-sometimes vision blacks out, stuck in wall?  Prob becauase enemies are charging
+* enemies can charge you into walls, removing vision
+    - sometimes vision blacks out, stuck in wall?  Prob becauase enemies are charging
 
 * FIXED monsters don't move when they charge
 * FIXED chimera's have grenade launchers - why?  Thought i saw a zombie doing it too
@@ -38,20 +39,20 @@ X. implement sight range for various characters
 X. Don't let possess wesker, and require most enemies to be weak <30% hp to possess
 X. Spawn enemies only outside explored/lit areas. stop spawning when boss killed
 X. Make trash mobs better when controlled by the player
-
-
+X. Swich to ability icons.  grayscale on cooldown with cooldown remaining overlayed
 X: level/wall colors differ for each locale.  make sure all foreground colors are visible
+
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
 TODO infect with impale ability, 
 
 1. if you die with no available targets, the tyrant ressurects.  
 2. show ? mark for boss until seen, then show splash with their abilities
+
 3. Only show combat messages for things you can see (including target seen but not attacker)
-4. Swich to ability icons.  grayscale on cooldown with cooldown remaining overlayed
 5. resident evil 1 inventory font
 6. style gui like the RE1 inventory screen
-7. implement bootstrap or some other framework that gives me easy modal windows
+7. implement bootstrap or some other framework that gives me easy modal windows.  Need one for infect
 8. mouse controls to ui
 9. high scores in local storage
 10. Start Screen w/ high scores

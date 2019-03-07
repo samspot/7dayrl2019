@@ -6,7 +6,7 @@ const Config = {
     // seed: 12358,
     // turnsToSim: 15,
     // drawWholeMap: false,
-    debug: true
+    // debug: true
 }
 
 /*
