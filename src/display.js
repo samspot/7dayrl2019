@@ -27,6 +27,8 @@ import AbilitiesCooldown from '../assets/img/ability-sprite-sheet-gray.png'
 import AbilitiesReady from '../assets/img/ability-sprite-sheet-color.png'
 
 import ConditionFine from '../assets/img/condition-fine.png'
+import ConditionCaution from '../assets/img/condition-caution.png'
+import ConditionDanger from '../assets/img/condition-danger.png'
 
 // import TopBorder from '../assets/img/top-border.png'
 
@@ -183,6 +185,7 @@ export class GameDisplay {
         parent.appendChild(superContainer)
     }
 
+    // fine green, caution yellow, caution orange, danger red
     renderCondition(img){
         let elem = document.getElementById('condition')
         elem.innerHTML = ''
@@ -250,7 +253,16 @@ export class GameDisplay {
         this.renderPortrait(portraitImage)
 
         let conditionImage = new Image()
-        conditionImage.src = ConditionFine
+
+        let hp = game.player.hp
+        if(hp < game.player.maxHp * .5){
+            conditionImage.src = ConditionDanger
+        } else if (hp < game.player.maxHp * .8){
+            conditionImage.src = ConditionCaution
+        } else {
+            conditionImage.src = ConditionFine
+        }
+
         this.renderCondition(conditionImage)
 
         if (game.levelBossPassed()) {
