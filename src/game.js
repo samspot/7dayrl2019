@@ -22,9 +22,9 @@ import Tyrant from 'assets/tyrant.json'
 /* Defects */
 /*
 
-snake boss color not readable. use mansion floor color?
-you revived in original form message repeated too often
+* you revived in original form message repeated too often
 
+* FIXED snake boss color not readable. use mansion floor color?
 * FIXED grenade splash does NaN damage
 * FIXED players can charge through/into walls
 * FIXED jill's launcher splash damage changes her hp to NaN, making her invincible
