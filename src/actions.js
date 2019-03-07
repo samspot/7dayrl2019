@@ -115,6 +115,8 @@ export class InfectAction extends Action {
 
         if (!mob) { return }
 
+        // close modal. TODO less hacky solution
+        undie()
         if (mob.isRevive) {
             player.revive()
         } else {
@@ -129,6 +131,9 @@ export class InfectAction extends Action {
         // console.log("InfectAction.act()")
         window.addEventListener("keydown", this);
         window.addEventListener("keypress", this);
+
+        // open modal. TODO less hacky solution
+        die()
         return new Promise(resolve => {
             this.resolve = resolve
         })

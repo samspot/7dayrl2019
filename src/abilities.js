@@ -61,7 +61,7 @@ function getCoordsAround(x, y) {
     ]
 }
 
-function getCardinalCoords(x, y){
+function getCardinalCoords(x, y) {
     return {
         N: [x, y - 1],     // N
         E: [x + 1, y],     // E
@@ -70,9 +70,9 @@ function getCardinalCoords(x, y){
     }
 }
 
-function isTrapped(map, x, y){
+function isTrapped(map, x, y) {
     let trapped = _.map(getCardinalCoords(x, y), coordlist => {
-        return map[coordlist[0]+','+coordlist[1]] !== '.'
+        return map[coordlist[0] + ',' + coordlist[1]] !== '.'
     })
     return _.every(trapped)
 }
@@ -111,14 +111,14 @@ export class Charge extends Ability {
             game.map[action.x + ',' + action.y] = '.'
 
             // TODO drill around if player is trapped
-            if(isTrapped(game.map, action.x, action.y)){
+            if (isTrapped(game.map, action.x, action.y)) {
                 // console.log('player trapped')
                 let cardinals = getCardinalCoords(action.x, action.y)
                 Object.keys(cardinals).forEach(k => {
                     let x = cardinals[k][0]
                     let y = cardinals[k][1]
                     // console.log("hollowing ", x, ',', y, cardinals[k])
-                    game.map[x +','+y] = '.'
+                    game.map[x + ',' + y] = '.'
                 })
             }
         }
@@ -140,19 +140,19 @@ export class Infect extends Ability {
     constructor(actor) {
         // same damage as melee for this character - use this.str
         let infectStr = actor.str
-        if(infectStr < 20){ infectStr = 20}
+        if (infectStr < 20) { infectStr = 20 }
         super(actor, 1, 1, infectStr)
     }
 
     // action.actor - player
     // actor - monster
     // most actions just run their execute(game) method
-    sideEffects(action, game, actor){
+    sideEffects(action, game, actor) {
         console.log("infect", action, game, actor)
         game.scheduler.add({
             act: () => {
                 return new InfectAbilityAction(action.actor, actor, action)
-            }, 
+            },
             isPlayer: () => false
         })
     }
