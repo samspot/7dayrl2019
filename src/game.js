@@ -13,8 +13,9 @@ import Tyrant from 'assets/tyrant.json'
 /* feedback
     catacombs hard, swarmed
     hard to see who is the boss
-    r key sometimes reloads on linux - fixed?
+    * FIXED r key sometimes reloads on linux - fixed?
     Also is it normal that when I melee attack as chris or a spider I jump bodies instantly ?
+     the hunting mansion is a black screen
 
 
 
