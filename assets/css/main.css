@@ -3,6 +3,7 @@ body {
     background-color: #333;
     color: white;
     font-family: 'Courier New', Courier, monospace;
+    width: 1024px;
 }
 
 #mapContainer {
@@ -31,6 +32,24 @@ body {
         border-image-repeat: repeat;
         border-image-width: 14px 14px;
         border-image-slice: 14;
+    }
+
+     
+    #right-bar {
+        float: left;
+        width: 200px;
+        height: 373px;
+   margin-left: 3px;
+
+         padding: 16px;
+        /* background-color: #000066; */
+        border-width: 14px 2px;
+        border-style: solid;
+        border-image-source: url(../../assets/img/right-border-big.png);
+        border-image-repeat: repeat;
+        border-image-width: 14px 14px;
+        border-image-slice: 14;
+        background-color: #336699;
     }
 
     #status2 {
@@ -184,17 +203,39 @@ body {
         width: 20px;
         height: 18px;
     }
+   
+
+    #monster-container h3 {
+        margin: 0
+    }
+
+    #monster-container ol {
+        margin: 0
+    }
 
     #monster-container {
-        float: left; 
-        width: 200px; 
-        background-color: #999999; 
+        padding: 5px;
+        margin-left: -4px;
+        margin-top: -16px;
+        margin-right: -4px;
+        /* float: left;  */
+        /* width: 200px;  */
+        /* background-color: #999999;  */
+        /* background-color: #006666; */
+        /* background-color: #339999; */
+        background-color: #336699;
         font-weight: bold
+
     }
 
     #progress-container {
-        float: left; 
-        width: 200px; 
-        background-color: #999999; 
+        padding: 5px;
+        margin-left: -4px;
+        margin-top: -16px;
+        margin-right: -4px;
+        /* float: left;  */
+        /* width: 200px;  */
+        /* background-color: #999999;  */
+        background-color: #336699;
         font-weight: bold
     }
