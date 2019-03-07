@@ -2,7 +2,7 @@ import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
 import { keyMap } from './keymap.js'
-import { Impale, Charge, GrenadeLauncher } from './abilities.js';
+import { Impale, Charge, GrenadeLauncher, Infect } from './abilities.js';
 import { Cursor } from './cursor.js';
 import Config from './config.js';
 import Tyrant from 'assets/tyrant.json'
@@ -23,6 +23,7 @@ export class Player extends Actor {
 
         this.addAbility(new Impale(this))
         this.addAbility(new Charge(this))
+        this.addAbility(new Infect(this))
         // this.addAbility(new GrenadeLauncher(this))
         // this.getAbilities()[0].use()
 
@@ -31,6 +32,45 @@ export class Player extends Actor {
         this.debugCount = 0
         if (Config.debug) {
             this.debugCount = Config.turnsToSim 
+        }
+    }
+
+    revive(){
+        this.name = Tyrant.name
+        this.hp = Tyrant.hp
+        this.maxHp = this.hp
+        this.color = Tyrant.color
+        this.str = Tyrant.str
+        this.sightRadius = Tyrant.sightRadius
+        this.boss = false
+        this.abilities = []
+        this.addAbility(new Impale(this))
+        this.addAbility(new Charge(this))
+        this.addAbility(new Infect(this))
+    }
+
+    infectMob(mob){
+        this.name = mob.name
+        this.hp = mob.maxHp * 1.5
+        if(this.hp < 150){ this.hp = 150}
+        this.color = mob.color
+        this.str = mob.str
+        this.x = mob.x
+        this.y = mob.y
+        this.sightRadius = mob.sightRadius
+        this.boss = false
+
+        this.abilities = []
+
+        let hasImpale = false
+        _.clone(mob.abilities).forEach(a => {
+            // console.log('adding ability', a)
+            a.actor = this
+            this.addAbility(_.clone(a))
+            if(a.constructor.name === 'Impale'){ hasImpale = true}
+        })
+        if(!hasImpale){
+            this.addAbility(new Impale(this))
         }
     }
 

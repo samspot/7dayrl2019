@@ -148,6 +148,12 @@ export class Impale extends Ability {
     }
 }
 
+export class Infect extends Ability {
+    constructor(actor){
+        super(actor, 1, 1, 10)
+    }
+}
+
 export class Grab extends Ability {
     constructor(actor) {
         super(actor, 2, 1, 10)

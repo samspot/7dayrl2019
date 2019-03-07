@@ -41,6 +41,7 @@ const levelNames = {
 }
 
 const mobs = {
+    // 'lab': [/*Zombie, Zombie,*/ Chimera],
     'lab': [Zombie, Zombie, Chimera],
     'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Lisa, SpiderBoss],
     'outside': [Zombie, Dog, Dog, Plant, Spider],
@@ -65,7 +66,7 @@ const abilities = {
     'Albert Wesker': [Magnum, EmptySlot],
     'Tyrant': [Charge, Impale],
     'Zombie': [Grab],
-    'Chimera': [Grab, Charge],
+    'Chimera': [Grab/*, Charge*/],
     'Dog': [Grab],
     'Hunter': [Grab],
     'Lisa Trevor': [Grab],

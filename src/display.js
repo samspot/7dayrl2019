@@ -117,7 +117,7 @@ export class GameDisplay {
     }
 
     renderAbilityImage(parent, hotkey, ability, idx){
-        console.log('ability', ability)
+        // console.log('ability', ability)
         let name = ability.name.toLowerCase()
         if(ability.obj.cooldown === 0){
             name += '-ready'
@@ -141,7 +141,7 @@ export class GameDisplay {
         // class name for determining icon
         abilityImage.classList.add(name)
         abilityImage.classList.add('ability-icon')
-        abilityImage.onclick = function(){ alert('hai')}
+        // abilityImage.onclick = function(){ alert('hai')}
         abilityImage.onclick = ability.obj.use
 
         container.appendChild(bottomLeft)

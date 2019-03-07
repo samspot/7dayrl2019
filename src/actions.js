@@ -40,7 +40,7 @@ export class InfectAction extends Action {
         ]
 
         let idx = _.findIndex(numberKeys, x => x === charCode)
-        if(idx < 0){
+        if (idx < 0) {
             console.log("invalid key")
             return
         }
@@ -49,9 +49,16 @@ export class InfectAction extends Action {
 
         let mob
         let player = game.player
+        /*
         if (game.getInfectableMobs(true).length === 0) {
-            this.resolve(new GameOverAction())
+            // this.resolve(new GameOverAction())
+            game.player.revive() // todo test
+            game.message('You revive in your original form')
+            window.removeEventListener("keydown", this);
+            window.removeEventListener("keypress", this);
+            this.resolve(new DefaultAction())
         }
+        */
 
 
         if (parseInt(idx, 10)) {
@@ -60,39 +67,26 @@ export class InfectAction extends Action {
 
         if (!mob) { return }
 
-        if (mob.isBoss()) {
-            game.possesBoss()
-        }
+        if (mob.isRevive) {
+            player.revive()
+        } else {
 
-        _.remove(game.mobs, mob)
-        game.scheduler.remove(mob)
+            if (mob.isBoss()) {
+                game.possesBoss()
+            }
 
-        if (game.allBossesDown()) {
-            game.resetScore()
-            return new YouWinAction()
-        }
+            _.remove(game.mobs, mob)
+            game.scheduler.remove(mob)
 
-        player.name = mob.name
-        player.hp = mob.maxHp * 1.5
-        if(player.hp < 150){ player.hp = 150}
-        player.color = mob.color
-        player.str = mob.str
-        player.x = mob.x
-        player.y = mob.y
-        player.sightRadius = mob.sightRadius
-        player.boss = false
+            if (game.allBossesDown()) {
+                game.resetScore()
 
-        player.abilities = []
+                window.removeEventListener("keydown", this);
+                window.removeEventListener("keypress", this);
+                this.resolve(new YouWinAction())
+            }
 
-        let hasImpale = false
-        _.clone(mob.abilities).forEach(a => {
-            // console.log('adding ability', a)
-            a.actor = player
-            player.addAbility(_.clone(a))
-            if(a.constructor.name === 'Impale'){ hasImpale = true}
-        })
-        if(!hasImpale){
-            player.addAbility(new Impale(player))
+            player.infectMob(mob)
         }
 
         game.dirty = true
@@ -101,13 +95,17 @@ export class InfectAction extends Action {
         window.removeEventListener("keydown", this);
         window.removeEventListener("keypress", this);
 
-        game.message("you infected " + player.name, false, player, mob)
+        if(mob.isRevive){
+            game.message("you revived in your original form")
+        } else {
+            game.message("you infected " + player.name, false, player, mob)
+        }
 
         game.reschedule()
         this.resolve()
     }
 
-    act(){
+    act() {
         // console.log("InfectAction.act()")
         window.addEventListener("keydown", this);
         window.addEventListener("keypress", this);
@@ -116,21 +114,26 @@ export class InfectAction extends Action {
         })
     }
 
-    isPlayer(){
+    isPlayer() {
         return false
     }
 
     execute(game) {
-        // console.log("InfectAction.execute()")
-        game.message("You were killed.  You may choose to infect a weakened enemy.", true, undefined, game.player)
+        //  let game = this.game
+        game.message("You were killed.", true, undefined, game.player)
+        if (game.getInfectableMobs().length === 0) {
+            game.player.revive()
+            game.message('You revive in your original form (no infectable monsters)', true)
+            return
+        }
+
         game.message("Choose a new body (enter number)", true, undefined, game.player)
         game.redraw()
         game.gameDisplay.drawMobs(true)
-        // game.redraw()
+        game.gameDisplay.drawStatusBar()
         game.scheduler.clear()
         game.scheduler.add(new InfectAction(game.player, game))
-        // console.log(game.scheduler)
-   }
+    }
 }
 
 export class DamageAction extends Action {
@@ -147,18 +150,18 @@ export class DamageAction extends Action {
         if (this.source) {
             let targetName = this.actor.name
 
-            if(!this.actorSource){
+            if (!this.actorSource) {
                 console.log('dmg', this.dmg, 'source', this.source, 'actorsource', this.actorSource)
                 console.log("ERRRORRRRR FIXIN'")
-                this.actorSource = {name: 'Grue', isPlayer: () => false} 
+                this.actorSource = { name: 'Grue', isPlayer: () => false }
             }
 
             let sourceName = this.actorSource.name
-            if(this.actor.isPlayer()){
+            if (this.actor.isPlayer()) {
                 targetName = 'Player'
             }
             // console.log('this.actorSource', this.actorSource)
-            if(this.actorSource.isPlayer()){
+            if (this.actorSource.isPlayer()) {
                 sourceName = 'Player'
             }
             game.dmgMessage(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName)
@@ -269,7 +272,7 @@ export class AbilityAction extends Action {
         //     this.ability, this.x, this.y, actor)
 
         // TODO: WTH is going on?  AbilityAction creator passing junk data?
-        if(this.actor instanceof Game){
+        if (this.actor instanceof Game) {
             this.actor = game.player
         }
 
