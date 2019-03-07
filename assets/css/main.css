@@ -32,6 +32,7 @@
         /* width: 245px; */
         /* clear: both; */
         float: left;
+        max-width: 80px;
     }
 
     .ability-icon {
@@ -53,7 +54,9 @@
     }
     .ability-name {
         text-align: center;
-        padding-left: 14px
+        padding-left: 14px;
+        /* text-overflow: ellipsis; */
+        /* word-wrap: break-word */
     }
 
     .center0 {
@@ -88,7 +91,7 @@
 
     .bottom-left0 {
         position: absolute;
-        bottom: -73px;
+        bottom: 10px;
         left: 6px;
         color: black;
         background-color: white;
@@ -97,8 +100,9 @@
     }
     .bottom-left1 {
         position: absolute;
-        bottom: -73px;
-        left: 85px;
+        bottom: 10px;
+        left: 6px;
+        /* left: 85px; */
         color: black;
         background-color: white;
         width: 20px;
@@ -106,8 +110,8 @@
     }
     .bottom-left2 {
         position: absolute;
-        bottom: -73px;
-        left: 164px;
+        bottom: 10px;
+        left: 6px;
         color: black;
         background-color: white;
         width: 20px;

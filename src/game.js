@@ -11,6 +11,9 @@ import Maps from './maps.js'
 
 /* Defects */
 /*
+
+sometimes vision blacks out, stuck in wall?  Prob becauase enemies are charging
+
 * FIXED monsters don't move when they charge
 * FIXED chimera's have grenade launchers - why?  Thought i saw a zombie doing it too
 * FIXED don't show 'you take damage from...' when it's a monster hit by other monsterf

@@ -73,8 +73,22 @@ export class GameDisplay {
             abilities.push({ name: constructor.name, text: text, obj: ability })
         })
 
+        let parent = document.getElementById('ability-icons')
+        parent.innerHTML = ''
+
+        // TODO remove
+        // TODO Ughhhh
+        // let a = _.clone(abilities[0])
+        // a.name = "GrenadeLauncher"
+        // a.displayName = "Grenade Launcher"
+        // abilities.push(a)
+
         let idx = 0
         abilities.forEach(a => {
+            this.renderAbilityImage(parent, ['Q', 'E', 'R'][idx], a, idx)
+
+
+            /*
             let button = document.createElement('button')
             button.id = "ability" + idx
             button.innerHTML = a.name
@@ -92,15 +106,14 @@ export class GameDisplay {
             li.appendChild(span)
 
             elem.appendChild(li)
+            */
             idx++
         })
 
-        let parent = document.getElementById('ability-icons')
-        parent.innerHTML = ''
 
-        this.renderAbilityImage(parent, "Q", abilities[0], 0)
-        this.renderAbilityImage(parent, "W", abilities[1], 1)
-        this.renderAbilityImage(parent, "E", abilities[1], 2)
+        // this.renderAbilityImage(parent, "Q", abilities[0], 0)
+        // this.renderAbilityImage(parent, "W", abilities[1], 1)
+        // this.renderAbilityImage(parent, "E", abilities[1], 2)
     }
 
     renderAbilityImage(parent, hotkey, ability, idx){
@@ -125,8 +138,11 @@ export class GameDisplay {
 
         let abilityImage = new Image()
         abilityImage.src = Empty 
+        // class name for determining icon
         abilityImage.classList.add(name)
         abilityImage.classList.add('ability-icon')
+        abilityImage.onclick = function(){ alert('hai')}
+        abilityImage.onclick = ability.obj.use
 
         container.appendChild(bottomLeft)
         container.appendChild(abilityImage)
@@ -142,7 +158,7 @@ export class GameDisplay {
 
         let span = document.createElement('span')
         span.classList.add('ability-name')
-        span.innerHTML = ability.name
+        span.innerHTML = ability.displayName || ability.name
         superContainer.appendChild(span)
 
         parent.appendChild(superContainer)
