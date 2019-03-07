@@ -22,6 +22,12 @@ import WeskerEliminated from '../assets/img/wesker-eliminated.png'
 
 import Unknown from '../assets/img/unknown.png'
 
+import Empty from '../assets/img/empty.png'
+import AbilitiesCooldown from '../assets/img/ability-sprite-sheet-gray.png'
+import AbilitiesReady from '../assets/img/ability-sprite-sheet-color.png'
+
+import '../assets/css/main.css'
+
 export class GameDisplay {
     constructor(game) {
         this.game = game
@@ -49,6 +55,8 @@ export class GameDisplay {
     }
 
     drawAbilities() {
+
+
         let game = this.game
         let elem = document.getElementById('abilities')
         elem.innerHTML = ''
@@ -86,6 +94,30 @@ export class GameDisplay {
             elem.appendChild(li)
             idx++
         })
+
+        let parent = document.getElementById('ability-icons')
+        parent.innerHTML = ''
+
+        this.renderAbilityImage(parent, "Q", abilities[0])
+        this.renderAbilityImage(parent, "Q", abilities[1])
+        this.renderAbilityImage(parent, "Q", abilities[1])
+    }
+
+    renderAbilityImage(parent, hotkey, ability, isReady){
+        console.log('ability', ability)
+        let name = ability.name.toLowerCase()
+        if(ability.obj.cooldown === 0){
+            name += '-ready'
+        } else {
+            name += '-cooldown'
+        }
+
+        let abilityImage = new Image()
+        abilityImage.src = Empty 
+        abilityImage.classList.add(name)
+        abilityImage.classList.add('ability-icon')
+
+        parent.appendChild(abilityImage)
     }
 
 

@@ -1,0 +1,31 @@
+
+    .important-message {
+      color: yellow;
+      font-weight: bold
+    }
+
+    .impale-ready {
+        background: url(../../assets/img/ability-sprite-sheet-color.png) 0 0;
+    }
+
+    .impale-cooldown {
+        background: url(../../assets/img/ability-sprite-sheet-gray.png) 0 0;
+    }
+
+    .charge-ready {
+        background: url(../../assets/img/ability-sprite-sheet-color.png) -75px 0;
+    }
+
+    .charge-cooldown {
+        background: url(../../assets/img/ability-sprite-sheet-gray.png) -75px 0;
+    }
+
+    #ability-icons {
+        /* float: left; */
+        height: 80px;
+        width: 245px
+    }
+    .ability-icon {
+        margin: 2px;
+        float: left
+    }
