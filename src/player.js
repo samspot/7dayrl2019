@@ -96,11 +96,15 @@ export class Player extends Actor {
     act() {
         if (this.debugCount > 0) {
             this.debugCount--
+
+            if(Config.debug){
+                // ecg 70w x 80h
+                // this.game.message("this is a very long messaged designed to break the web layout.  resident evil is so fun. don't open that door!  I ahve THIS!   I hope this is not Chris's blood! You were almost a jill sandwich!")
+            }
             return new Promise(resolve => {
                 this.resolve = resolve
                 this.resolve(new DefaultAction())
             })
-
         }
         // console.log('Player act')
         window.addEventListener("keydown", this);

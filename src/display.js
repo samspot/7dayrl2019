@@ -26,6 +26,8 @@ import Empty from '../assets/img/empty.png'
 import AbilitiesCooldown from '../assets/img/ability-sprite-sheet-gray.png'
 import AbilitiesReady from '../assets/img/ability-sprite-sheet-color.png'
 
+import ConditionFine from '../assets/img/condition-fine.png'
+
 // import TopBorder from '../assets/img/top-border.png'
 
 import '../assets/css/main.css'
@@ -179,9 +181,14 @@ export class GameDisplay {
         parent.appendChild(superContainer)
     }
 
+    renderCondition(img){
+        let elem = document.getElementById('condition')
+        elem.innerHTML = ''
+        elem.appendChild(img)
+    }
 
     renderPortrait(img) {
-        let elem = document.getElementById('portrait')
+        let elem = document.getElementById('portrait2')
         elem.innerHTML = ''
         elem.appendChild(img)
     }
@@ -239,6 +246,10 @@ export class GameDisplay {
         deadTargetImage.src = deadTargetImageFile
 
         this.renderPortrait(portraitImage)
+
+        let conditionImage = new Image()
+        conditionImage.src = ConditionFine
+        this.renderCondition(conditionImage)
 
         if (game.levelBossPassed()) {
             this.renderTarget(deadTargetImage)

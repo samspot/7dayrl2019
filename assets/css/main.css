@@ -1,26 +1,30 @@
 
+body {
+    background-color: #333;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#mapContainer {
+    margin-left: 0;
+    padding-left: 0;
+}
+
     .important-message {
       color: yellow;
       font-weight: bold
     }
-
-    #top-border {
-        /* height: 8px; */
-        /* background: url(../../assets/img/top-border-repeat.png) 0 0; */
-        /* background-repeat: repeat-x */
-    }
-    #top-border2 {
-        height: 50px;
-        border-width: 7px 2px;
-        border-style: solid;
-        border-image-source: url(../../assets/img/top-border.png);
-        border-image-repeat: repeat;
-        border-image-width: 7px 2px;
-        border-image-slice: 7;
-    }
  
-    #top-border3 {
-        height: 50px;
+    #title {
+        /* margin-bottom: 2px; */
+        margin-top: 0;
+        margin-left: 10px;
+        margin-bottom: 0;
+    }
+    #top-border {
+        /* height: 50px; */
+        padding: 16px;
+        background-color: #000066;
         border-width: 14px 2px;
         border-style: solid;
         border-image-source: url(../../assets/img/top-border-big.png);
@@ -28,6 +32,24 @@
         border-image-width: 14px 14px;
         border-image-slice: 14;
     }
+
+    #status-bar {
+        margin-left: 10px;
+        width: 199px;
+        height: 91px;
+        background: url(../../assets/img/status-bar.png) -10px -20px no-repeat;
+    }
+
+    #portrait2 {
+        padding: 8px;
+    }
+
+    #condition {
+        position: relative;
+        left: 123px;
+        top: -90px;
+    }
+
     .impale-ready {
         background: url(../../assets/img/ability-sprite-sheet-color.png) 0 0;
     }
