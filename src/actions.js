@@ -278,8 +278,16 @@ export class DescendAction extends Action {
     execute(game) {
         if (game.levelBossPassed() || Config.debug) {
             game.currentLevel++
+
+            if(game.currentLevel >= 5){
+                game.currentLevel--
+                game.addScore(10000)
+                return new YouWinAction()
+            }
+
             game.director.resetLevel()
             game.generateMap(game.director.getLevelSpec())
+
         }
     }
 }
@@ -343,6 +351,30 @@ export class YouWinAction extends Action {
 
     execute(game) {
         game.gameOver = true
-        alert("You defeated the S.T.A.R.S! Final Score " + game.score)
+        // game.redraw()
+        game.gameDisplay.updateGui()
+
+        let highScores = JSON.parse(localStorage.getItem("highscores"))
+        console.dir(highScores)
+        if(!_.isArray(highScores)){ highScores = []}
+        highScores.push({name: game.player.name, score: game.score})
+        localStorage.setItem("highscores", JSON.stringify(highScores))
+
+
+        let highScoreHtml = '<h2>High Scores</h2><ol>';
+        highScores.sort((a, b) => b.score - a.score).forEach(s => {
+            highScoreHtml += `<li>${s.name}: ${s.score}</li>`
+        })
+        highScoreHtml += '</ol>'
+
+
+        document.getElementById('modal-text').innerHTML = "<h1>You defeated the S.T.A.R.S!  Final Score " 
+            + game.score + "</h1>" 
+            +  `<p>Try keeping the tyrant alive to improve your score!</p>` 
+            + `<p>${highScoreHtml}</p>`
+
+        // alert("You defeated the S.T.A.R.S! Final Score " + game.score)
+        die()
+
     }
 }
