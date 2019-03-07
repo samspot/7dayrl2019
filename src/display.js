@@ -98,12 +98,12 @@ export class GameDisplay {
         let parent = document.getElementById('ability-icons')
         parent.innerHTML = ''
 
-        this.renderAbilityImage(parent, "Q", abilities[0])
-        this.renderAbilityImage(parent, "Q", abilities[1])
-        this.renderAbilityImage(parent, "Q", abilities[1])
+        this.renderAbilityImage(parent, "Q", abilities[0], 0)
+        this.renderAbilityImage(parent, "W", abilities[1], 1)
+        this.renderAbilityImage(parent, "E", abilities[1], 2)
     }
 
-    renderAbilityImage(parent, hotkey, ability, isReady){
+    renderAbilityImage(parent, hotkey, ability, idx){
         console.log('ability', ability)
         let name = ability.name.toLowerCase()
         if(ability.obj.cooldown === 0){
@@ -112,12 +112,40 @@ export class GameDisplay {
             name += '-cooldown'
         }
 
+        let container = document.createElement('div')
+        container.classList.add('container'+idx)
+
+        let bottomLeft = document.createElement('div')
+        bottomLeft.classList.add('bottom-left'+idx)
+        bottomLeft.innerHTML = hotkey 
+
+        let center = document.createElement('div')
+        center.classList.add('center'+idx)
+        center.innerHTML = ability.obj.cooldown
+
         let abilityImage = new Image()
         abilityImage.src = Empty 
         abilityImage.classList.add(name)
         abilityImage.classList.add('ability-icon')
 
-        parent.appendChild(abilityImage)
+        container.appendChild(bottomLeft)
+        container.appendChild(abilityImage)
+        container.appendChild(center)
+
+        if(ability.obj.cooldown === 0){
+            center.style = "display:none"
+        }
+
+        let superContainer = document.createElement('div')
+        superContainer.classList.add('ability-super-container')
+        superContainer.appendChild(container)
+
+        let span = document.createElement('span')
+        span.classList.add('ability-name')
+        span.innerHTML = ability.name
+        superContainer.appendChild(span)
+
+        parent.appendChild(superContainer)
     }
 
 
