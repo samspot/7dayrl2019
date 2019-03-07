@@ -21,6 +21,10 @@ import Tyrant from 'assets/tyrant.json'
 */
 /* Defects */
 /*
+
+snake boss color not readable. use mansion floor color?
+you revived in original form message repeated too often
+
 * FIXED grenade splash does NaN damage
 * FIXED players can charge through/into walls
 * FIXED jill's launcher splash damage changes her hp to NaN, making her invincible
@@ -36,8 +40,9 @@ X. if you die with no available targets, the tyrant ressurects.
 X. show ? mark for boss until seen
 X: infect with impale ability, kill or wound
 X. resident evil 1 inventory font
+X. implement caution image switching
 
-5. implement caution image switching
+5. add "and DIED!" to damage messages that kill
 6. style gui like the RE1 inventory screen
 7. implement bootstrap or some other framework that gives me easy modal windows.  Need one for infect
 7. Show boss splash when first seen, including abilities
