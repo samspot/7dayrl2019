@@ -26,6 +26,8 @@ import Empty from '../assets/img/empty.png'
 import AbilitiesCooldown from '../assets/img/ability-sprite-sheet-gray.png'
 import AbilitiesReady from '../assets/img/ability-sprite-sheet-color.png'
 
+// import TopBorder from '../assets/img/top-border.png'
+
 import '../assets/css/main.css'
 import Config from './config';
 import { Monster } from './monster';
@@ -45,6 +47,12 @@ export class GameDisplay {
     }
 
     drawStatusBar() {
+        // let borderImage = new Image()
+        // borderImage.src = Empty
+        // borderImage.style = "width: 720px, height: 50px"
+        // document.getElementById('top-border').appendChild(borderImage)
+
+
         let game = this.game
         document.getElementById('name').innerHTML = game.player.name
         document.getElementById('hp').innerHTML = game.player.hp

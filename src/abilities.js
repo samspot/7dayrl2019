@@ -17,7 +17,8 @@ export class Ability {
         if (this.cooldown < 0) { this.cooldown = 0 }
     }
 
-    use() {
+    use(e) {
+        e.preventDefault()
         this.actor.useAbility(this)
     }
 
