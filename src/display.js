@@ -27,6 +27,8 @@ import AbilitiesCooldown from '../assets/img/ability-sprite-sheet-gray.png'
 import AbilitiesReady from '../assets/img/ability-sprite-sheet-color.png'
 
 import '../assets/css/main.css'
+import Config from './config';
+import { Monster } from './monster';
 
 export class GameDisplay {
     constructor(game) {
@@ -216,7 +218,13 @@ export class GameDisplay {
 
         let targetImageFile = targetImageMap[game.getGameProgress().boss] || Unknown
         let targetImage = new Image()
-        targetImage.src = targetImageFile
+
+        let boss = this.game.director.boss
+        if(boss && boss.playerSeen()){
+            targetImage.src = targetImageFile
+        } else {
+            targetImage.src = Unknown
+        }
 
         let deadTargetImageFile = deadImageMap[game.getGameProgress().boss] || Unknown
         let deadTargetImage = new Image()
@@ -233,11 +241,17 @@ export class GameDisplay {
 
     drawProgress() {
         let game = this.game
-
         let gameProgress = game.getGameProgress()
+        let text = "Status Unknown"
+        let boss = this.game.director.boss
+        if(boss && boss.playerSeen()){
+            text = gameProgress.text
+        }
+
+
         let key = "level" + game.currentLevel
         let elem = document.getElementById(key)
-        elem.innerHTML = gameProgress.text
+        elem.innerHTML = text
         elem.style = gameProgress.style
     }
 
@@ -268,7 +282,11 @@ export class GameDisplay {
                     name += " (injured)"
                 }
 
-                elem.innerHTML = name
+                let debugText = ''
+                if(Config.debug){
+                    debugText = ' ' + x.hp + ':' + x.maxHp
+                }
+                elem.innerHTML = name + debugText
                 elem.style = "color: " + x.color
 
                 /*
@@ -299,13 +317,14 @@ export class GameDisplay {
         if (messages[0]) {
             // let recentTurn = messages[0].turn
             let recentTurn = this.game.turns
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < Config.messageListSize; i++) {
                 let message = messages[i]
                 if (message) {
                     let span = document.createElement('span')
 
                     let source = message.source
                     let target = message.target
+
 
                     let text = message.msg
                     if(source || target){
@@ -320,6 +339,12 @@ export class GameDisplay {
                         // TODO switch to old mesage after its passed, probably by changing to else-if
                         span.classList.add('important-message')
                     }
+
+                    if(source instanceof Monster && !source.playerSeen()){
+                        console.log("suppressing message", span.innerHTML)
+                        continue;
+                    }
+
                     elem.appendChild(span)
                 }
             }

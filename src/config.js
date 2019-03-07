@@ -3,10 +3,11 @@ const Config = {
     gamePortWidth: 45,
     gamePortHeight: 27,
     fontSize: 16,
+    messageListSize: 15,
     // seed: 12358,
-    // turnsToSim: 15,
+    // turnsToSim: 27,
     // drawWholeMap: false,
-    // debug: true
+    debug: true
 }
 
 /*

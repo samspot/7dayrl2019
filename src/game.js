@@ -13,21 +13,24 @@ import Tyrant from 'assets/tyrant.json'
 /* Defects */
 /*
 
-* grenade splash does NaN damage
-* enemies can charge you into walls, removing vision
-    - sometimes vision blacks out, stuck in wall?  Prob becauase enemies are charging
+* FIXED grenade splash does NaN damage
+* FIXED players can charge through/into walls
+* FIXED jill's launcher splash damage changes her hp to NaN, making her invincible
+* FIXED enemies can charge you into walls, removing vision
 
+TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
-TODO infect with impale ability, kill or wound, i guess we an 'infect' skill.  infect any time - no cooldown 
+TODO: infect with impale ability, kill or wound
 
 X. if you die with no available targets, the tyrant ressurects.  
-2. show ? mark for boss until seen, then show splash with their abilities
-3. Only show combat messages for things you can see (including target seen but not attacker)
+X. show ? mark for boss until seen
+X. (done? untested) Only show combat messages for things you can see (including target seen but not attacker)
 
 5. resident evil 1 inventory font
 6. style gui like the RE1 inventory screen
 7. implement bootstrap or some other framework that gives me easy modal windows.  Need one for infect
+7. Show boss splash when first seen, including abilities
 8. mouse controls to ui
 9. high scores in local storage
 10. Start Screen w/ high scores
@@ -364,6 +367,7 @@ export class Game {
             // visibleMobs = _.filter(visibleMobs, m => m.isInfectable())
             // console.log("infectable mobs", visibleMobs)
         // }
+        visibleMobs.forEach(m => m.setSeen())
         return visibleMobs
     }
 

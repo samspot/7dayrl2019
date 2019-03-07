@@ -66,7 +66,7 @@ const abilities = {
     'Albert Wesker': [Magnum, EmptySlot],
     'Tyrant': [Charge, Impale],
     'Zombie': [Grab],
-    'Chimera': [Grab/*, Charge*/],
+    'Chimera': [Grab, Charge],
     'Dog': [Grab],
     'Hunter': [Grab],
     'Lisa Trevor': [Grab],
@@ -153,6 +153,7 @@ export class Director {
 
             this.mobs.push(monster)
 
+            this.boss = monster
 
             this.game.getGameProgress().text = this.boss.name
         }

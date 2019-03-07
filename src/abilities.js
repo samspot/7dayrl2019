@@ -60,6 +60,22 @@ function getCoordsAround(x, y) {
     ]
 }
 
+function getCardinalCoords(x, y){
+    return {
+        N: [x, y - 1],     // N
+        E: [x + 1, y],     // E
+        S: [x, y + 1],     // S
+        W: [x - 1, y],     // W
+    }
+}
+
+function isTrapped(map, x, y){
+    let trapped = _.map(getCardinalCoords(x, y), coordlist => {
+        return map[coordlist[0]+','+coordlist[1]] !== '.'
+    })
+    return _.every(trapped)
+}
+
 export class Charge extends Ability {
     constructor(actor) {
         super(actor, 10, 10, 20)
@@ -87,6 +103,30 @@ export class Charge extends Ability {
         source.x = action.x
         source.y = action.y
 
+        // player using, so drill holes where they targetted
+        if (source === game.player) {
+
+            // console.log('creating map hole', action.x, ',', action.y)
+            game.map[action.x + ',' + action.y] = '.'
+
+            // TODO drill around if player is trapped
+            if(isTrapped(game.map, action.x, action.y)){
+                // console.log('player trapped')
+                let cardinals = getCardinalCoords(action.x, action.y)
+                Object.keys(cardinals).forEach(k => {
+                    let x = cardinals[k][0]
+                    let y = cardinals[k][1]
+                    // console.log("hollowing ", x, ',', y, cardinals[k])
+                    game.map[x +','+y] = '.'
+                })
+            }
+        }
+
+        // also drill a hole wherever something was pushed
+        if (target) {
+            // console.log('creating map hole', target.x, ',', target.y)
+            game.map[target.x + ',' + target.y] = '.'
+        }
         game.dirty = true
     }
 
@@ -101,7 +141,6 @@ export class GrenadeLauncher extends Ability {
     }
 
     sideEffects(action, game) {
-        // console.log('boom')
         let sets = getCoordsAround(action.x, action.y)
         sets.forEach(s => {
             game.display.draw(s[0], s[1], "*", "red")
@@ -113,11 +152,12 @@ export class GrenadeLauncher extends Ability {
 
             let actor = game.getCharacterAt(null, s[0], s[1])
             if (actor) {
-                // console.log("damaging actor", actor, this.dmg / 2)
+                // TODO this might not be working
+                console.log("launcher splash damaging actor", actor, this.dmg / 2)
 
                 game.scheduler.add({
                     act: () => {
-                        return new DamageAction(actor, this.dmg / s, "GrenadeLauncher Splash Damage", actor)
+                        return new DamageAction(actor, this.dmg / 2, "Grenade Launcher Splash Damage", actor)
                     },
                     isPlayer: () => false
                 })
@@ -149,7 +189,7 @@ export class Impale extends Ability {
 }
 
 export class Infect extends Ability {
-    constructor(actor){
+    constructor(actor) {
         super(actor, 1, 1, 10)
     }
 }
