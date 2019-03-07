@@ -35,8 +35,9 @@ TODO: adjust spawn rates, mix for each map
 X. if you die with no available targets, the tyrant ressurects.  
 X. show ? mark for boss until seen
 X: infect with impale ability, kill or wound
+X. resident evil 1 inventory font
 
-5. resident evil 1 inventory font
+5. implement caution image switching
 6. style gui like the RE1 inventory screen
 7. implement bootstrap or some other framework that gives me easy modal windows.  Need one for infect
 7. Show boss splash when first seen, including abilities

@@ -68,55 +68,27 @@
       <div id="portrait2"></div>
       <div id="condition"></div>
     </div>
-    <table style="font-weight: bold; ">
-      <tr>
-        <!-- <td id="portrait" style="border: 1px solid black; width: 75px; height: 75px"> -->
-        <td id="portrait">
-          <!-- <img src="assets/img/tyrant.png"> -->
-        </td>
-        <td>
-          <table>
-            <tr>
-              <td style="color: grey">CLASS</td>
-              <td id="name"></td>
-            </tr>
-            <tr>
-              <td style="color: grey">HP</td>
-              <td id="hp" style="color: green"></td>
-            </tr>
-            <tr>
-              <td style="color: grey">Score</td>
-              <td id="score" style="color: #96f "></td>
-            </tr>
-            <tr>
-              <td id="level" colspan="2"></td>
-            </tr>
-          </table>
-        </td>
-        <td>
-          Target
-        </td>
-        <td id="target"></td>
-        <td>Abilities</td>
-        <td>
-          <div id="ability-icons"></div>
-        </td>
-        <td>
-          <ul id="abilities" style="list-style-type: none">
-            <!-- <li>Impale [Cooldown: 1/5 Damage: 20 Range: 10]</li> -->
-          </ul>
-        </td>
-      </tr>
-    </table>
+    <div id="status2">
+      <div id="target">TARGET</div>
+      TODO: Target GUI
+      <div id="ability-icons"></div>
+    </div>
+    <div id="status-info">
+      <span id="name"></span>
+      HP: <span id="hp" style="color: green"></span>
+      Score: <span id="score" style="color: #96f "></span>
+      <span id="level" colspan="2"></span>
+    </div>
+
     <div style="float: left">
       <div style="float: left" id="mapContainer">&nbsp;</div>
     </div>
-    <div style="float: left; width: 200px; background-color: #999999; font-weight: bold">
+    <div id="monster-container">
       <h3>Monsters</h3>
       <ol id="monsters">
       </ol>
     </div>
-    <div style="float: left; width: 200px; background-color: #999999; font-weight: bold">
+    <div id="progress-container">
       <h3>Game Progress</h3>
       <ol id="progress">
         <li id="level0">Status Unknown</li>

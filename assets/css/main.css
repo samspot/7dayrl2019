@@ -33,7 +33,28 @@ body {
         border-image-slice: 14;
     }
 
+    #status2 {
+        float: left;
+    }
+
+    #target {
+        float: left;
+        margin-left: 15px;
+        margin-top: 2px;
+    }
+    #ability-icons {
+        margin-left: 190px;
+        float: left;
+    }
+    #status-info {
+        clear: both;
+        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 5px;
+    }
+
     #status-bar {
+        float: left;
         margin-left: 10px;
         width: 199px;
         height: 91px;
@@ -162,4 +183,18 @@ body {
         background-color: white;
         width: 20px;
         height: 18px;
+    }
+
+    #monster-container {
+        float: left; 
+        width: 200px; 
+        background-color: #999999; 
+        font-weight: bold
+    }
+
+    #progress-container {
+        float: left; 
+        width: 200px; 
+        background-color: #999999; 
+        font-weight: bold
     }

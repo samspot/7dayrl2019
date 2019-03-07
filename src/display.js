@@ -70,18 +70,19 @@ export class GameDisplay {
 
 
         let game = this.game
-        let elem = document.getElementById('abilities')
-        elem.innerHTML = ''
+        // let elem = document.getElementById('abilities')
+        // elem.innerHTML = ''
 
         let abilities = []
         game.player.getAbilities().forEach(ability => {
             // console.log(ability)
             let { constructor, maxCooldown, cooldown, dmg, range } = ability
-            if (cooldown === 0) {
-                cooldown = "READY"
-            }
-            let text = `[Cooldown: ${cooldown}/${maxCooldown} `
-                + `Damage: ${dmg} Range: ${range}]`
+            // if (cooldown === 0) {
+                // cooldown = "READY"
+            // }
+            // let text = `[Cooldown: ${cooldown}/${maxCooldown} `
+                // + `Damage: ${dmg} Range: ${range}]`
+                let text = ''
             abilities.push({ name: constructor.name, text: text, obj: ability })
         })
 
@@ -96,6 +97,7 @@ export class GameDisplay {
         // abilities.push(a)
 
         let idx = 0
+        // let abilities = this.game.player.getAbilities()
         abilities.forEach(a => {
             this.renderAbilityImage(parent, ['Q', 'E', 'R'][idx], a, idx)
 
