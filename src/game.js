@@ -23,8 +23,7 @@ import Tyrant from 'assets/tyrant.json'
 /* Defects */
 /*
 
-* you revived in original form message repeated too often
-
+* FIXED you revived in original form message repeated too often
 * FIXED snake boss color not readable. use mansion floor color?
 * FIXED grenade splash does NaN damage
 * FIXED players can charge through/into walls
@@ -42,10 +41,11 @@ X. show ? mark for boss until seen
 X: infect with impale ability, kill or wound
 X. resident evil 1 inventory font
 X. implement caution image switching
+X. implement bootstrap or some other framework that gives me easy modal windows.  Need one for infect
 
+4. better victory handling at the end.
 5. add "and DIED!" to damage messages that kill
 6. style gui like the RE1 inventory screen
-7. implement bootstrap or some other framework that gives me easy modal windows.  Need one for infect
 7. Show boss splash when first seen, including abilities
 8. mouse controls to ui
 9. high scores in local storage
@@ -53,7 +53,9 @@ X. implement caution image switching
 11. add funny resident evil lines "don't open that dooooor" I hope this is not chris' blood
 12. status effects like 'grabbed'
 13. more monster abilities
+13. Finish Image Queue (in director.js)
 14. tiles
+
 
 */
 

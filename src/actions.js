@@ -26,6 +26,7 @@ export class InfectAbilityAction extends Action {
         if(this.monster.hp <= 0){
             console.log('executing InfectAbilityAction', this.monster.hp, this.monster)
             doInfect(this.player, this.monster, game, this, false)
+            // console.log("infect ability action post infect")
             doPostInfect(this.player, this.monster, game, this, false)
         }
     }
@@ -64,6 +65,7 @@ function doPostInfect(player, mob, game, action, resetScore){
         window.removeEventListener("keypress", this);
 
         if (mob.isRevive) {
+            // console.log('doPostInfect', player, mob, action)
             game.message("you revived in your original form")
         } else {
             game.message("you infected " + player.name, false, player, mob)
@@ -123,6 +125,9 @@ export class InfectAction extends Action {
             doInfect(player, mob, game, this, true)
         }
 
+        window.removeEventListener("keydown", this)
+        window.removeEventListener("keypress", this)
+        // console.log("InfectAction PostInfect")
         doPostInfect(player, mob, game, this, true)
         this.resolve()
     }

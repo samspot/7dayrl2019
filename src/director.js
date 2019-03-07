@@ -57,6 +57,14 @@ const bosses = {
     'mansion': Wesker
 }
 
+/*
+
+image queue
+- Zombie, Chimera, Dog, Hunter, Lisa Trevor, Plant, Plant 42, Shark, Snake Boxx, Giant Spider, Black Tiger
+- Grab, GrenadeLauncher, Shotgun, Magnum, Infect, Bite, Haymaker, Poison
+
+*/
+
 // TODO: finish adding abilities
 const abilities = {
     'Jill Valentine': [GrenadeLauncher, EmptySlot],
@@ -67,16 +75,17 @@ const abilities = {
     'Tyrant': [Charge, Impale],
     'Zombie': [Grab],
     'Chimera': [Grab, Charge],
-    'Dog': [Grab],
-    'Hunter': [Grab],
-    'Lisa Trevor': [Grab],
-    'Plant': [Grab],
-    'Plant 42': [Grab],
-    'Shark': [Grab],
-    'Snake Boss': [Grab],
-    'Giant Spider': [Grab],
-    'Black Tiger': [Grab]
+    'Dog': [Grab], // Bite
+    'Hunter': [Grab], // Bite, Charge
+    'Lisa Trevor': [Grab], // Haymaker
+    'Plant': [Grab], // Poison
+    'Plant 42': [Grab], // Poison, 
+    'Shark': [Grab], // Bite
+    'Snake Boss': [Grab], // Bite, Poison
+    'Giant Spider': [Grab], // Bite, Poison
+    'Black Tiger': [Grab] // Bite, Poison, Charge
 }
+
 
 export class Director {
     constructor(game, scheduler) {
