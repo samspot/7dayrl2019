@@ -1,5 +1,5 @@
 import * as ROT from 'rot-js'
-import { YouWinAction, DamageAction } from './actions';
+import { YouWinAction, DamageAction, InfectAbilityAction } from './actions';
 
 export class Ability {
     constructor(actor, cooldown, range, dmg) {
@@ -135,6 +135,28 @@ export class Charge extends Ability {
     }
 }
 
+export class Infect extends Ability {
+    constructor(actor) {
+        // same damage as melee for this character - use this.str
+        let infectStr = actor.str
+        if(infectStr < 20){ infectStr = 20}
+        super(actor, 1, 1, infectStr)
+    }
+
+    // action.actor - player
+    // actor - monster
+    // most actions just run their execute(game) method
+    sideEffects(action, game, actor){
+        console.log("infect", action, game, actor)
+        game.scheduler.add({
+            act: () => {
+                return new InfectAbilityAction(action.actor, actor, action)
+            }, 
+            isPlayer: () => false
+        })
+    }
+}
+
 export class GrenadeLauncher extends Ability {
     constructor(actor) {
         super(actor, 10, 20, 30)
@@ -188,11 +210,6 @@ export class Impale extends Ability {
     }
 }
 
-export class Infect extends Ability {
-    constructor(actor) {
-        super(actor, 1, 1, 10)
-    }
-}
 
 export class Grab extends Ability {
     constructor(actor) {

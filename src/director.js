@@ -142,7 +142,7 @@ export class Director {
 
         if (!this.boss) {
             this.boss = bosses[levels[this.game.currentLevel]]
-            console.log('boss', this.boss, abilities[this.boss.name])
+            // console.log('boss', this.boss, abilities[this.boss.name])
 
             let monster = this.createSchedule(this.boss)
             monster.boss = true

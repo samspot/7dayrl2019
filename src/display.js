@@ -340,8 +340,11 @@ export class GameDisplay {
                         span.classList.add('important-message')
                     }
 
-                    if(source instanceof Monster && !source.playerSeen()){
-                        console.log("suppressing message", span.innerHTML)
+
+                    let actorSource = message.actorSource
+                    // console.log('message debug source', source, 'instance of monster', source instanceof Monster, message)
+                    if(actorSource instanceof Monster && !actorSource.playerSeen()){
+                        // console.log("suppressing message", span.innerHTML)
                         continue;
                     }
 

@@ -70,8 +70,9 @@ export class Player extends Actor {
             if(a.constructor.name === 'Impale'){ hasImpale = true}
         })
         if(!hasImpale){
-            this.addAbility(new Impale(this))
+            // this.addAbility(new Impale(this))
         }
+        this.addAbility(new Infect(this))
     }
 
     isTargetMode(){

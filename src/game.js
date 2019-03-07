@@ -12,20 +12,20 @@ import Tyrant from 'assets/tyrant.json'
 
 /* Defects */
 /*
-
 * FIXED grenade splash does NaN damage
 * FIXED players can charge through/into walls
 * FIXED jill's launcher splash damage changes her hp to NaN, making her invincible
 * FIXED enemies can charge you into walls, removing vision
+* FIXED Only show combat messages for things you can see (including target seen but not attacker) seed: 12358, turnsToSim: 28
 
 TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
-TODO: infect with impale ability, kill or wound
+TODO: adjust spawn rates, mix for each map
 
 X. if you die with no available targets, the tyrant ressurects.  
 X. show ? mark for boss until seen
-X. (done? untested) Only show combat messages for things you can see (including target seen but not attacker)
+X: infect with impale ability, kill or wound
 
 5. resident evil 1 inventory font
 6. style gui like the RE1 inventory screen
@@ -283,14 +283,15 @@ export class Game {
         this.gameDisplay.drawMessages()
     }
 
-    dmgMessage(msg, important, source, target) {
+    dmgMessage(msg, important, source, target, actorSource) {
         // console.log('msg', msg)
         let message = { 
             msg: msg, 
             turn: this.turns, 
             important: important,
             source: source,
-            target: target
+            target: target,
+            actorSource: actorSource
         }
         // console.log('printing msg', message.msg)
         this.messages.unshift(message)

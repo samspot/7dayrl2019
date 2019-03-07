@@ -14,6 +14,65 @@ export class Action {
     }
 }
 
+export class InfectAbilityAction extends Action {
+    constructor(player, monster, action) {
+        super(player)
+        this.player = player
+        this.monster = monster
+        this.action = action
+    }
+
+    execute(game) {
+        if(this.monster.hp <= 0){
+            console.log('executing InfectAbilityAction', this.monster.hp, this.monster)
+            doInfect(this.player, this.monster, game, this, false)
+            doPostInfect(this.player, this.monster, game, this, false)
+        }
+    }
+}
+
+function doInfect(player, mob, game, action, resetScore ) {
+
+    if (mob.isBoss()) {
+        game.possesBoss()
+    }
+
+    _.remove(game.mobs, mob)
+    game.scheduler.remove(mob)
+
+    if (game.allBossesDown()) {
+        if(resetScore){
+            game.resetScore()
+        }
+
+        window.removeEventListener("keydown", action);
+        window.removeEventListener("keypress", action);
+        action.resolve(new YouWinAction())
+    }
+
+    player.infectMob(mob)
+}
+
+function doPostInfect(player, mob, game, action, resetScore){
+
+        game.dirty = true
+        if(resetScore){
+            game.resetScore()
+        }
+        // game.gameDisplay.updateGui()
+        window.removeEventListener("keydown", this);
+        window.removeEventListener("keypress", this);
+
+        if (mob.isRevive) {
+            game.message("you revived in your original form")
+        } else {
+            game.message("you infected " + player.name, false, player, mob)
+        }
+
+        game.reschedule()
+
+}
+
 // TODO use a modal for this later to make it more salient
 export class InfectAction extends Action {
     constructor(actor, game) {
@@ -49,17 +108,6 @@ export class InfectAction extends Action {
 
         let mob
         let player = game.player
-        /*
-        if (game.getInfectableMobs(true).length === 0) {
-            // this.resolve(new GameOverAction())
-            game.player.revive() // todo test
-            game.message('You revive in your original form')
-            window.removeEventListener("keydown", this);
-            window.removeEventListener("keypress", this);
-            this.resolve(new DefaultAction())
-        }
-        */
-
 
         if (parseInt(idx, 10)) {
             mob = game.getInfectableMobs()[idx - 1]
@@ -70,38 +118,10 @@ export class InfectAction extends Action {
         if (mob.isRevive) {
             player.revive()
         } else {
-
-            if (mob.isBoss()) {
-                game.possesBoss()
-            }
-
-            _.remove(game.mobs, mob)
-            game.scheduler.remove(mob)
-
-            if (game.allBossesDown()) {
-                game.resetScore()
-
-                window.removeEventListener("keydown", this);
-                window.removeEventListener("keypress", this);
-                this.resolve(new YouWinAction())
-            }
-
-            player.infectMob(mob)
+            doInfect(player, mob, game, this, true)
         }
 
-        game.dirty = true
-        game.resetScore()
-        // game.gameDisplay.updateGui()
-        window.removeEventListener("keydown", this);
-        window.removeEventListener("keypress", this);
-
-        if(mob.isRevive){
-            game.message("you revived in your original form")
-        } else {
-            game.message("you infected " + player.name, false, player, mob)
-        }
-
-        game.reschedule()
+        doPostInfect(player, mob, game, this, true)
         this.resolve()
     }
 
@@ -164,7 +184,7 @@ export class DamageAction extends Action {
             if (this.actorSource.isPlayer()) {
                 sourceName = 'Player'
             }
-            game.dmgMessage(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName)
+            game.dmgMessage(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName, this.actorSource)
         }
 
         if (game.player.hp <= 0) {

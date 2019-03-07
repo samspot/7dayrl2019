@@ -5,9 +5,9 @@ const Config = {
     fontSize: 16,
     messageListSize: 15,
     // seed: 12358,
-    // turnsToSim: 27,
-    // drawWholeMap: false,
-    debug: true
+    // turnsToSim: 28,
+    drawWholeMap: false,
+    debug: false
 }
 
 /*
