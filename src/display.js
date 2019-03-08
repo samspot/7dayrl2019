@@ -171,6 +171,22 @@ export class GameDisplay {
             "Albert Wesker": WeskerDead
         }
 
+        let playerImageMap2 = {
+            'Tyrant': 'tyrant',
+            'Jill Valentine': 'jill',
+            'Chris Redfield': 'chris',
+            'Barry Burton': 'barry',
+            'Brad Vickers': 'brad',
+            'Albert Wesker': 'wesker',
+            'Zombie': 'zombie',
+            'Chimera': 'chimera',
+            'Dog': 'dog',
+            'Hunter': 'hunter',
+            'Lisa Trevor': 'lisa',
+            'Shark': 'shark',
+            'Giant Spider': 'spider'
+        }
+
         let targetImageMap = {
             "Jill Valentine": Jill,
             "Chris Redfield": Chris,
@@ -189,9 +205,22 @@ export class GameDisplay {
 
         let game = this.game
 
-        let portraitImageFile = playerImageMap[game.player.name] || Unknown
+        let portraitImageFile = Empty //playerImageMap[game.player.name] || Unknown
         let portraitImage = new Image()
         portraitImage.src = portraitImageFile
+
+    // renderPortrait(img) {
+        // let elem = document.getElementById('portrait2')
+        // elem.innerHTML = ''
+        // elem.appendChild(img)
+    // }
+        this.renderPortrait(portraitImage)
+        let elem = document.getElementById('portrait2')
+
+        // TODO call right pic based on person
+        // elem.classList.add('tyrant')
+        elem.className = ''
+        elem.classList.add(playerImageMap2[game.player.name])
 
         let targetImageFile = targetImageMap[game.getGameProgress().boss] || Unknown
         let targetImage = new Image()
@@ -207,7 +236,6 @@ export class GameDisplay {
         let deadTargetImage = new Image()
         deadTargetImage.src = deadTargetImageFile
 
-        this.renderPortrait(portraitImage)
 
         let conditionImage = new Image()
 
