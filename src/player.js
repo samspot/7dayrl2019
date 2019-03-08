@@ -2,7 +2,7 @@ import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
 import { keyMap } from './keymap.js'
-import { Impale, Charge, GrenadeLauncher, Infect } from './abilities.js';
+import { Impale, Charge, Grab, Shotgun, GrenadeLauncher, Infect } from './abilities.js';
 import { Cursor } from './cursor.js';
 import Config from './config.js';
 import Tyrant from 'assets/tyrant.json'
@@ -21,11 +21,13 @@ export class Player extends Actor {
         this.color = Tyrant.color
         this.sightRadius = Tyrant.sightRadius
 
-        this.addAbility(new Impale(this))
-        this.addAbility(new Charge(this))
-        this.addAbility(new Infect(this))
-        // this.addAbility(new GrenadeLauncher(this))
-        // this.getAbilities()[0].use()
+        // this.addAbility(new Impale(this))
+        // this.addAbility(new Charge(this))
+        // this.addAbility(new Infect(this))
+
+        this.addAbility(new Grab(this))
+        this.addAbility(new GrenadeLauncher(this))
+        this.addAbility(new Shotgun(this))
 
         this.state = PLAYER_TURN
         // make the game advance a few turns on startup

@@ -61,8 +61,8 @@ const bosses = {
 
 image queue
 - Zombie, Chimera, Dog, Hunter, Lisa Trevor, Plant, Plant 42, Shark, Snake Boxx, Giant Spider, Black Tiger
-- Grab, GrenadeLauncher, Shotgun, Magnum, Infect, Bite, Haymaker, Poison
-
+- Magnum, , Bite, Haymaker, Poison
+Infect, Grab, grenadelauncher, shotgun
 */
 
 // TODO: finish adding abilities

@@ -370,7 +370,8 @@ export class YouWinAction extends Action {
 
         document.getElementById('modal-text').innerHTML = "<h1>You defeated the S.T.A.R.S!  Final Score " 
             + game.score + "</h1>" 
-            +  `<p>Try keeping the tyrant alive to improve your score!</p>` 
+            + `<p>Try keeping the tyrant alive to improve your score!  Using your infect ability to possess enemies doesn't cost you points.</p>` 
+            + `<p>Reload the page to try again!<p>`
             + `<p>${highScoreHtml}</p>`
 
         // alert("You defeated the S.T.A.R.S! Final Score " + game.score)

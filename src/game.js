@@ -42,13 +42,13 @@ X: infect with impale ability, kill or wound
 X. resident evil 1 inventory font
 X. implement caution image switching
 X. implement bootstrap or some other framework that gives me easy modal windows.  Need one for infect
+X. better victory handling at the end.
+X. high scores in local storage
 
-4. better victory handling at the end.
 5. add "and DIED!" to damage messages that kill
 6. style gui like the RE1 inventory screen
 7. Show boss splash when first seen, including abilities
 8. mouse controls to ui
-9. high scores in local storage
 10. Start Screen w/ high scores
 11. add funny resident evil lines "don't open that dooooor" I hope this is not chris' blood
 12. status effects like 'grabbed'

@@ -39,7 +39,7 @@ body {
         float: left;
         width: 200px;
         height: 373px;
-   margin-left: 3px;
+        margin-left: 3px;
 
          padding: 16px;
         /* background-color: #000066; */
@@ -71,6 +71,8 @@ body {
         margin-left: 10px;
         padding-top: 15px;
         padding-bottom: 5px;
+        font-size: 1.2em;
+        font-weight: bold;
     }
 
     #status-bar {
@@ -106,6 +108,39 @@ body {
     .charge-cooldown {
         background: url(../../assets/img/ability-sprite-sheet-gray.png) -75px 0;
     }
+
+    .infect-ready {
+        background: url(../../assets/img/ability-sprite-sheet-color.png) -150px 0;
+    }
+
+    .infect-cooldown {
+        background: url(../../assets/img/ability-sprite-sheet-gray.png) -150px 0;
+    }
+
+    .grab-ready {
+        background: url(../../assets/img/ability-sprite-sheet-color.png) -225px 0;
+    }
+
+    .grab-cooldown {
+        background: url(../../assets/img/ability-sprite-sheet-gray.png) -225px 0;
+    }
+
+    .grenadelauncher-ready {
+        background: url(../../assets/img/ability-sprite-sheet-color.png) -300px 0;
+    }
+
+    .grenadelauncher-cooldown {
+        background: url(../../assets/img/ability-sprite-sheet-gray.png) -300px 0;
+    }
+
+    .shotgun-ready {
+        background: url(../../assets/img/ability-sprite-sheet-color.png) -375px 0;
+    }
+
+    .shotgun-cooldown {
+        background: url(../../assets/img/ability-sprite-sheet-gray.png) -375px 0;
+    }
+
 
     #ability-icons {
         /* float: left; */
@@ -262,6 +297,10 @@ body {
   padding: 20px;
   border: 1px solid #888;
   width: 40%; /* Could be more or less, depending on screen size */
+}
+
+#msg {
+    font-size: 1.2em
 }
 
 /* The Close Button */
