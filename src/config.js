@@ -5,12 +5,13 @@ const Config = {
     gamePortHeight: 27,
     fontSize: 16,
     messageListSize: 15,
-    // seed: 12360,
+    // seed: 12362,
     // seed: 12377,
-    // turnsToSim: 2,
-    // drawWholeMap: true,
-    // drawAllMobs: true,
-    // debug: true,
+    // turnsToSim: 12,
+    // turnsToSim: 9,
+    drawWholeMap: true,
+    drawAllMobs: true,
+    debug: true,
     // skipTitle: true
 }
 

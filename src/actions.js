@@ -235,7 +235,7 @@ export class MoveAction extends Action {
         let actor = this.actor
 
         let newX, newY
-        if (this.newX && this.newY) {
+        if (this.newX >=0 && this.newY >= 0) {
             newX = this.newX
             newY = this.newY
         }
@@ -252,6 +252,7 @@ export class MoveAction extends Action {
 
         // collision here
         let character = game.getCharacterAt(actor, newX, newY)
+        // console.log(`spawn-${actor.spawnId} ${actor.x},${actor.y} moving to ${this.newX},${this.newY} blocked by ${character}`)
         if (character) {
             return new AttackAction(actor, character)
         }

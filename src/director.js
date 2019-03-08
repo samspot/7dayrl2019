@@ -107,6 +107,7 @@ export class Director {
         this.boss = null
         this.mobs = []
         this.scheduler.add(this.player, true)
+        this.spawnId = 0
     }
 
     // cleanup all things that need to be cleaned for descending
@@ -216,7 +217,9 @@ export class Director {
         let monster = this.game.createBeing(Monster,
             freeCells, mobspec)
 
-        // console.dir("monster add", monster)
+        this.spawnId++
+        monster.spawnId = this.spawnId
+        // console.log(`spawn-${monster.spawnId} monster add ${monster.x},${monster.y} ${monster.name}`)
 
         this.scheduler.add(monster, true)
         this.generateAbilities(monster)

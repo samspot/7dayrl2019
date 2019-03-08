@@ -24,6 +24,7 @@ TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
 
+FIXED: DEFECT where is chris in this seed  false seed: 12360, turnsToSim: 2, "Hope this is not Chris' bug"
 FIXED: DEFECT Itch.IO doesn't capture keyboard events till you click!!!
 X. Finish Image Queue (in director.js)
 X. style gui like the RE1 inventory screen
@@ -37,7 +38,6 @@ X. Character/Target tooltips
 
 X. Show boss splash when first seen, including abilities
 X. Need a spawn limit, especially in catacombs.
-DEFECT where is chris in this seed  false seed: 12360, turnsToSim: 2,
 3. Revisit enemy colors
 5. status effects like 'grabbed'
 6. add "and DIED!" to damage messages that kill

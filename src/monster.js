@@ -95,7 +95,9 @@ export class Monster extends Actor {
         if (this.isBoss()) {
             // console.log('acting', path[0], path[1], this.name, this.x, this.y)
         }
+
         path.shift()
+        // console.log(`spawn-${this.spawnId} ${this.x},${this.y} path is ${path} for [${this.name}] player at ${this.game.player.x},${this.game.player.y} mob moving to ${path[0][0]},${path[0][1]}`)
 
         return new Promise((resolve, reject) => {
 
@@ -114,9 +116,9 @@ export class Monster extends Actor {
                 return
             }
 
-            if (this.isBoss()) {
-                console.log('acting', path[0], path[1], this.name, this.x, this.y)
-            }
+            // if (this.isBoss()) {
+                // console.log('acting', path[0], path[1], this.name, this.x, this.y)
+            // }
             x = path[0][0]
             y = path[0][1]
 
