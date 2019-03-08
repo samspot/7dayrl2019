@@ -58,13 +58,19 @@ body {
     }
 
     #target {
-        float: left;
-        margin-left: 15px;
-        margin-top: 2px;
+        /* float: left; */
+        /* margin-left: 15px; */
+        /* margin-top: 2px; */
+        top: -179px;
+        position: relative;
+        left: 215px;
     }
     #ability-icons {
-        margin-left: 190px;
-        float: left;
+        position: relative;
+        top: -263px;
+        left: 308px;
+        /* margin-left: 190px; */
+        /* float: left; */
     }
     #status-info {
         clear: both;
@@ -78,9 +84,9 @@ body {
     #status-bar {
         float: left;
         margin-left: 10px;
-        width: 199px;
-        height: 91px;
-        background: url(../../assets/img/status-bar.png) -10px -20px no-repeat;
+        width: 590px;
+        height: 120px;
+        background: url(../../assets/img/status-bar.png) -10px 0 no-repeat;
     }
 
     #portrait2 {
@@ -88,6 +94,7 @@ body {
         margin: 8px;
         height: 75px;
         width: 75px;
+        margin-top: 28px;
     }
 
     #condition {
@@ -235,7 +242,7 @@ body {
     }
 
     .ability-icon {
-        margin: 2px;
+        margin: 4px;
         /* float: left */
     }
 
