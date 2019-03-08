@@ -15,6 +15,7 @@ export class Player extends Actor {
         super(x, y, "@", "#ff0", game)
 
         this.name = Tyrant.name
+        // this.name= "Giant Spider"
         this.hp = Tyrant.hp
         this.maxHp = this.hp
         this.str = Tyrant.str 
