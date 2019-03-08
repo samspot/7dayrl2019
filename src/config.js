@@ -9,9 +9,9 @@ const Config = {
     // seed: 12377,
     // turnsToSim: 12,
     // turnsToSim: 9,
-    drawWholeMap: true,
-    drawAllMobs: true,
-    debug: true,
+    // drawWholeMap: true,
+    // drawAllMobs: true,
+    // debug: true,
     // skipTitle: true
 }
 

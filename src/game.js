@@ -38,6 +38,9 @@ X. Character/Target tooltips
 
 X. Show boss splash when first seen, including abilities
 X. Need a spawn limit, especially in catacombs.
+1. Add boss abilities to their modal
+2. fix name popping out of UI when possessing a zombie
+3. Can i stop the image jump when they change?
 3. Revisit enemy colors
 5. status effects like 'grabbed'
 6. add "and DIED!" to damage messages that kill
