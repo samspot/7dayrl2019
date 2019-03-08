@@ -7,8 +7,8 @@ const Config = {
     // seed: 12358,
     // turnsToSim: 30,
     drawWholeMap: false,
-    debug: true,
-    skipTitle: false
+    // debug: true,
+    // skipTitle: false
 }
 
 /*

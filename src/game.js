@@ -29,17 +29,17 @@ X. Finish Image Queue (in director.js)
 X. style gui like the RE1 inventory screen
 X. Infect is range 2-3, and use a tentacle, hint you can heal by infecting
 X: adjust spawn rates, mix for each map
+X. Start Screen w/ high scores
+X. way to restart without reloading from the you win screen 
 
-10. Start Screen w/ high scores
-1. way to restart without reloading from the you win screen 
 1. Ability info tooltips
 2. make invisible bosses immune to damage (no offscreen boss kills)
-7. Show boss splash when first seen, including abilities
-11. add funny resident evil lines "don't open that dooooor" I hope this is not chris' blood
-12. status effects like 'grabbed'
-5. add "and DIED!" to damage messages that kill
-8. mouse controls to ui
-14. tiles
+3. Show boss splash when first seen, including abilities
+4. add funny resident evil lines "don't open that dooooor" I hope this is not chris' blood
+5. status effects like 'grabbed'
+6. add "and DIED!" to damage messages that kill
+7. mouse controls to ui
+8. tiles
 
 
 */
@@ -83,13 +83,13 @@ export class Game {
         this.gameProgress.level1.boss = "Chris Redfield"
         this.gameProgress.level1.floorColor = '#cc9966'
         this.gameProgress.level1.wallColor = '#660033'
-        this.gameProgress.level1.spawnRate = 6
+        this.gameProgress.level1.spawnRate = 9
 
         this.gameProgress.level2.name = "Garden"
         this.gameProgress.level2.boss = "Barry Burton"
         this.gameProgress.level2.floorColor = '#cc9966'
         this.gameProgress.level2.wallColor = '#006600'
-        this.gameProgress.level2.spawnRate = 5
+        this.gameProgress.level2.spawnRate = 7
 
         this.gameProgress.level3.name = "Guardhouse"
         this.gameProgress.level3.boss = "Brad Vickers"
@@ -101,7 +101,7 @@ export class Game {
         this.gameProgress.level4.boss = "Albert Wesker"
         this.gameProgress.level4.floorColor = '#6699cc'
         this.gameProgress.level4.wallColor = '#660033'
-        this.gameProgress.level4.spawnRate = 5
+        this.gameProgress.level4.spawnRate = 8
     }
 
     allBossesDown() {

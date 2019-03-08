@@ -79,7 +79,7 @@ function updateScores(){
         ;
         highScores.sort((a, b) => b.score - a.score).forEach(s => {
             let li = document.createElement('li')
-            li.innerHTML = `<li>${s.name}: ${s.score}</li>`
+            li.innerHTML = `${s.name}: ${s.score}`
             ol.appendChild(li)
             // highScoreHtml += `<li>${s.name}: ${s.score}</li>`
         })
