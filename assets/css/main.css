@@ -6,6 +6,10 @@ body {
     width: 1018px;
 }
 
+a:link, a:visited, a:hover, a:active {
+    color: white;
+}
+
 .game {
     display: none;
 }

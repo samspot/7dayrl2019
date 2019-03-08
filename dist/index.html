@@ -65,12 +65,32 @@
     <div id="top-border">
       <div class="title">
         <h1>Welcome to Resident Evil the Roguelike</h1>
+        <p>Developed for <a href="https://itch.io/jam/7drl-challenge-2019">#7DRL 2019</a> in 7 days</p>
         <button onclick="mainLoop()">Start Game</button>
 
-        <h2>High Scores</h2>
-        <div id="highScoresSplash">yeah</div>
+        <h2 id="instructions">Instructions</h2>
+        You are the '@' (It's where you are 'at').  Move with the arrow keys, WASD, 
+        or hjkl.  You can wait with the '.' key if you want enemies to get into 
+        a better position.  Once the level boss is dead or infected you can go to the 
+        next level with '>'.  Abilities are mapped to 'q', 'e', or 'r' and will put you into
+        a targetting mode.  Use the directional keys to move your cursor '#' and press enter 
+        to confirm the target.
 
-        <h2>Game by samspot</h2>
+        <h3>Tips</h3>
+        <ul>
+          <li>You cannot heal, but killing an enemy with the 'Infect' ability will take 
+            it over and reset your hp to max</li>
+          <li>Dying resets your score.  Try to stay alive or infect monsters before you die!</li>
+        </ul>
+
+        <h3>High Scores</h3>
+        <div id="highScoresSplash"></div>
+
+        <h3>Game by samspot</h3>
+        <a href="https://twitter.com/samspot">@samspot</a>
+        Hosted at <a href="https://samspot.itch.io/rerl">itch.io</a> along with a daily
+        devlog.  I streamed the entire competition on <a href="https://www.twitch.tv/samspot">Twitch</a>!
+        The game is open sourced on <a href="https://github.com/samspot/7dayrl2019">Github</a>.
         <p>a pixel art pic of me here</p>
       </div>
   <div class="game">
