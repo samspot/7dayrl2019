@@ -177,7 +177,13 @@ export class Director {
         this.debug()
         this.countdown--
         if (this.countdown <= 0 && !this.game.getGameProgress().bossDown) {
-            let spawnrate = Config.spawnrate
+            let spawnrate = this.game.getGameProgress.spawnrate
+
+            if(Config.debug && Config.spawnrate){
+                spawnrate = Config.spawnrate
+            }
+
+
             let minimum = Config.spawnrate / 2
 
             let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, spawnrate)))

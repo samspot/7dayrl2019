@@ -141,7 +141,7 @@ export class Infect extends Ability {
         // same damage as melee for this character - use this.str
         let infectStr = actor.str
         if (infectStr < 20) { infectStr = 20 }
-        super(actor, 1, 1, infectStr)
+        super(actor, 1, 3, infectStr)
     }
 
     // action.actor - player
