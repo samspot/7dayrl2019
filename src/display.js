@@ -71,13 +71,15 @@ export class GameDisplay {
         game.player.getAbilities().forEach(ability => {
             // console.log(ability)
             let { constructor, maxCooldown, cooldown, dmg, range } = ability
+
+            let tooltip = `<b>${constructor.name}</b> cooldown is ${cooldown} (Max ${maxCooldown}) Does ${dmg} damage and has a range of ${range}.`
             // if (cooldown === 0) {
             // cooldown = "READY"
             // }
             // let text = `[Cooldown: ${cooldown}/${maxCooldown} `
             // + `Damage: ${dmg} Range: ${range}]`
             let text = ''
-            abilities.push({ name: constructor.name, text: text, obj: ability })
+            abilities.push({ name: constructor.name, text: text, obj: ability, tooltip: tooltip })
         })
 
         let parent = document.getElementById('ability-icons')
@@ -120,6 +122,13 @@ export class GameDisplay {
         container.appendChild(bottomLeft)
         container.appendChild(abilityImage)
         container.appendChild(center)
+
+        container.classList.add('tooltip')
+
+        let tooltip = document.createElement('span')
+        tooltip.classList.add('tooltiptext')
+        tooltip.innerHTML = ability.tooltip
+        container.appendChild(tooltip)
 
         if (ability.obj.cooldown === 0) {
             center.style = "display:none"

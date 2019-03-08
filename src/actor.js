@@ -31,6 +31,12 @@ export class Actor {
     }
 
     damage(dmg){
+        // if(this.boss){
+            // console.log(`${dmg} vs ${this.name} ${this.hp} seen ${this.playerSeen()}`)
+        // }
+        if(this.boss && !this.playerSeen()){
+            return
+        }
         this.hp -= dmg
         if(this.hp <=0 && !this.isPlayer()){
             // TODO below if is repeated, but we need to add player logic here from actions.js
