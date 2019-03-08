@@ -6,6 +6,14 @@ body {
     width: 1018px;
 }
 
+.game {
+    display: none;
+}
+
+.title {
+    padding: 20px;
+}
+
 #name {
     position: relative;
     top: -366px;

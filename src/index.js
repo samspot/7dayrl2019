@@ -18,6 +18,8 @@ game.director = director
 
 
 async function mainLoop() {
+    document.getElementsByClassName('title')[0].style = "display: none;"
+    document.getElementsByClassName('game')[0].style = "display: block;"
     while (1) {
         let actor = scheduler.next()
         if (!actor) { break }
@@ -55,6 +57,11 @@ async function mainLoop() {
     }
 }
 
-mainLoop()
+if(Config.debug){
+    mainLoop()
+}
+
+window.mainLoop = mainLoop
+// mainLoop()
 
  

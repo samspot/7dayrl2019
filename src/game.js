@@ -30,11 +30,11 @@ X. style gui like the RE1 inventory screen
 X. Infect is range 2-3, and use a tentacle, hint you can heal by infecting
 X: adjust spawn rates, mix for each map
 
-1. Ability info tooltips
-7. Show boss splash when first seen, including abilities
-items below require new game states
 10. Start Screen w/ high scores
-way to restart without reloading from the you win screen 
+1. way to restart without reloading from the you win screen 
+1. Ability info tooltips
+2. make invisible bosses immune to damage (no offscreen boss kills)
+7. Show boss splash when first seen, including abilities
 11. add funny resident evil lines "don't open that dooooor" I hope this is not chris' blood
 12. status effects like 'grabbed'
 5. add "and DIED!" to damage messages that kill
