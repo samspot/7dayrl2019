@@ -66,9 +66,9 @@ function doPostInfect(player, mob, game, action, resetScore){
 
         if (mob.isRevive) {
             // console.log('doPostInfect', player, mob, action)
-            game.message("you revived in your original form")
+            game.message("You revived in your original form")
         } else {
-            game.message("you infected " + player.name, false, player, mob)
+            game.message("You infected " + player.name, false, player, mob)
         }
 
         game.reschedule()

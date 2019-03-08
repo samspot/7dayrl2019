@@ -29,10 +29,19 @@ body {
 }
 
 #level {
+    /* margin-left: 3px; */
+    /* position: relative; */
+    /* top: -265px; */
+    /* left: 200px; */
+    /* margin-top: 75px; */
+    /* font-size: 1.2rem; */
+
+        margin-left: 3px;
     position: relative;
-    top: -265px;
-    left: 200px;
-    /* font-size: 0.9rem; */
+    top: 103px;
+    /* left: 200px; */
+    margin-top: 99px;
+    font-size: 1.2rem
 }
 #mapContainer {
     margin-left: 3px;
@@ -52,7 +61,10 @@ body {
         /* margin-bottom: 0; */
         position: absolute;
         font-size: 2rem;
-        left: 657px;
+        /* left: 657px; */
+
+        left: 670px;
+        top: 41px;
     }
     #top-border {
         /* height: 50px; */
@@ -127,9 +139,11 @@ body {
     }
 
     #status-bar {
+        border: 4px solid white;
+        border-color: #49962f;
         float: left;
         margin-left: 10px;
-        width: 700px;
+        width: 578px;
         height: 120px;
         background: url(../../assets/img/status-bar.png) -10px 0 no-repeat;
     }
