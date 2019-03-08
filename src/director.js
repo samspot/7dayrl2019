@@ -42,7 +42,7 @@ const levelNames = {
 
 const mobs = {
     'lab': [Zombie, Zombie, Chimera],
-    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Lisa], // SpiderBoss
+    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Zombie, Hunter, Spider, Lisa], // SpiderBoss
     'outside': [Zombie, Dog, Dog, Plant, Spider],
     'guardhouse': [Zombie, Spider, Spider, Shark], // Plant, Plant42
     'mansion': [Zombie, Zombie, Hunter, Hunter], //Snake
@@ -51,6 +51,7 @@ const mobs = {
 const bosses = {
     'lab': Jill,
     'catacombs': Chris,
+    // 'catacombs': Jill,
     'outside': Barry,
     'guardhouse': Brad,
     'mansion': Wesker
@@ -82,14 +83,14 @@ const abilities = {
     'Tyrant': [Charge, Impale],
     'Zombie': [Grab],
     'Chimera': [Grab, Charge],
-    'Dog': [Grab, Bite], 
-    'Hunter': [Bite, Charge], 
-    'Lisa Trevor': [Grab, Haymaker], 
-    'Plant': [Poison], 
+    'Dog': [Grab, Bite],
+    'Hunter': [Bite, Charge],
+    'Lisa Trevor': [Grab, Haymaker],
+    'Plant': [Poison],
     'Plant 42': [Grab, Poison],
-    'Shark': [Bite], 
-    'Snake Boss': [Bite, Poison], 
-    'Giant Spider': [Bite, Poison], 
+    'Shark': [Bite],
+    'Snake Boss': [Bite, Poison],
+    'Giant Spider': [Bite, Poison],
     'Black Tiger': [Bite, Poison, Charge]
 }
 
@@ -140,15 +141,15 @@ export class Director {
         // console.log('monster abilities', monster.abilities)
     }
 
-    getLevelName(){
+    getLevelName() {
         return levels[this.game.currentLevel]
     }
 
-    getNextLevelDescription(){
-        return levelNames[levels[this.game.currentLevel+1]]
+    getNextLevelDescription() {
+        return levelNames[levels[this.game.currentLevel + 1]]
     }
 
-    getLevelSpec(){
+    getLevelSpec() {
         return Maps[this.getLevelName()]
     }
 
@@ -158,12 +159,12 @@ export class Director {
 
         if (!this.boss) {
             this.boss = bosses[levels[this.game.currentLevel]]
-            // console.log('boss', this.boss, abilities[this.boss.name])
+            console.log('spawning boss', this.boss, abilities[this.boss.name])
 
             let monster = this.createSchedule(this.boss)
             monster.boss = true
 
-            if(this.boss.name === "Albert Wesker"){
+            if (this.boss.name === "Albert Wesker") {
                 monster.finalBoss = true
             }
 
@@ -179,10 +180,9 @@ export class Director {
         if (this.countdown <= 0 && !this.game.getGameProgress().bossDown) {
             let spawnrate = this.game.getGameProgress.spawnrate
 
-            if(Config.debug && Config.spawnrate){
+            if (Config.debug && Config.spawnrate) {
                 spawnrate = Config.spawnrate
             }
-
 
             let minimum = Config.spawnrate / 2
 
@@ -193,10 +193,15 @@ export class Director {
 
             this.countdown = num
 
-            let mobspec = this.generateMob()
+            if (!this.getLevelSpec().mobs) { this.getLevelSpec().mobs = 0 }
+            if (this.getLevelSpec().mobs < Config.spawnLimit) {
+                // console.log('spawn', this.getLevelSpec())
+                let mobspec = this.generateMob()
 
-            let monster = this.createSchedule(mobspec)
-            this.mobs.push(monster)
+                let monster = this.createSchedule(mobspec)
+                this.mobs.push(monster)
+                this.getLevelSpec().mobs++
+            }
         }
 
         // save any mob changes

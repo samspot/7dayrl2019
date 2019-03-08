@@ -58,7 +58,7 @@ a:link, a:visited, a:hover, a:active {
     font-size: 1.2rem
 }
 #mapContainer {
-    margin-left: 3px;
+    margin-left: 12px;
     padding-left: 0;
     margin-bottom: -4px;
 }
@@ -140,7 +140,7 @@ a:link, a:visited, a:hover, a:active {
         /* margin-left: 190px; */
         /* float: left; */
             position: relative;
-    top: -262px;
+    top: -263px;
     left: 320px;
     }
     #status-info {

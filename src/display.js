@@ -184,7 +184,18 @@ export class GameDisplay {
         return `<b>${actor.name}</b><br><br> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage: ${actor.str}`
     }
 
+    getTargetImageMap(){
+        return {
+            "Jill Valentine": Jill,
+            "Chris Redfield": Chris,
+            "Barry Burton": Barry,
+            "Brad Vickers": Brad,
+            "Albert Wesker": Wesker
+        }
+    }
+
     drawPortraits() {
+        /*
         let playerImageMap = {
             "Tyrant": Tyrant,
             "Jill Valentine": JillDead,
@@ -193,6 +204,7 @@ export class GameDisplay {
             "Brad Vickers": BradDead,
             "Albert Wesker": WeskerDead
         }
+        */
 
         let playerImageMap2 = {
             'Tyrant': 'tyrant',
@@ -209,15 +221,7 @@ export class GameDisplay {
             'Shark': 'shark',
             'Giant Spider': 'spider'
         }
-
-        let targetImageMap = {
-            "Jill Valentine": Jill,
-            "Chris Redfield": Chris,
-            "Barry Burton": Barry,
-            "Brad Vickers": Brad,
-            "Albert Wesker": Wesker
-        }
-
+        let targetImageMap = this.getTargetImageMap()
         let deadImageMap = {
             "Jill Valentine": JillEliminated,
             "Chris Redfield": ChrisEliminated,
@@ -401,5 +405,19 @@ export class GameDisplay {
         span.innerHTML = msg + '<br>'
         elem.appendChild(span)
         */
+    }
+
+    showModal(text, elem){
+        if(elem){
+            document.getElementById('modal-text').innerHTML = ''
+            document.getElementById('modal-text').appendChild(elem)
+        } else {
+            document.getElementById('modal-text').innerHTML = text
+        }
+        document.getElementById('myBtn').onclick()
+    }
+
+    hideModal(){
+        document.getElementsByClassName("close")[0].onclick();
     }
 }

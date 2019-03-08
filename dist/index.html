@@ -120,7 +120,7 @@
  -->
       <div class="main-container">
         <div style="float: left">
-          <div style="float: left" id="mapContainer">&nbsp;</div>
+          <div style="float: left" id="mapContainer"></div>
         </div>
         <div id="right-bar">
           <div id="monster-container">
@@ -161,8 +161,7 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p style="color: black" id="modal-text">You Died and your score was reset to 0.
-          Press a number key to select a character to infect. Umbrella shall never die!</p>
+        <p style="color: black" id="modal-text"></p>
       </div>
 
     </div>
@@ -182,14 +181,10 @@
       modal.style.display = "block";
     }
 
-    let die = btn.onclick
-
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
       modal.style.display = "none";
     }
-
-    let undie = span.onclick
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {

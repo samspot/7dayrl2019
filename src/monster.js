@@ -1,6 +1,7 @@
 import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 import { MoveAction, DefaultAction, AbilityAction } from './actions.js';
+import Jill from '../assets/img/jill.png'
 
 export class Monster extends Actor {
     constructor(x, y, game, mobspec) {
@@ -13,19 +14,45 @@ export class Monster extends Actor {
         this.score = mobspec.score
         this.sightRadius = mobspec.sightRadius
         this.seen = false
+        this.bio = mobspec.bio || ''
+        this.quote = mobspec.quote || ''
     }
 
-    playerSeen(){
+    playerSeen() {
         return this.seen
     }
 
-    setSeen(){
+    setSeen() {
+        if (this.boss && !this.seen) {
+            let gp = this.game.getGameProgress()
+            console.log("boss seen", gp)
+
+
+            // let targetImageFile = targetImageMap[game.getGameProgress().boss] || Unknown
+            // let targetImageFile = Jill
+            let targetImageFile = this.game.gameDisplay.getTargetImageMap()[this.game.getGameProgress().boss]
+            let targetImage = new Image()
+            targetImage.src = targetImageFile
+            // let elem = document.getElementById('target')
+            let text = `<p style="color: red">TARGET<p> <b>${this.name}</b><p> HP ${this.hp}/${this.maxHp}<br> Melee Damage ${this.str}`
+            text += `<p>${this.bio}<p>"${this.quote}"`
+
+            let div = document.createElement('div')
+
+            let span = document.createElement('span')
+            span.innerHTML = text
+
+            div.appendChild(targetImage)
+            div.appendChild(span)
+
+            this.game.gameDisplay.showModal(text, div)
+        }
         this.seen = true
     }
 
     // return a list of abilities that are off cooldown and can reach the player
     getAvailableAbilities() {
-        if(_.findIndex(this.game.getVisibleMobs(), m => m === this) < 0){
+        if (_.findIndex(this.game.getVisibleMobs(), m => m === this) < 0) {
             // console.log('mob not visible, dont use abilities')
             return []
         }
@@ -46,9 +73,6 @@ export class Monster extends Actor {
         var x = this.game.player.getX()
         var y = this.game.player.getY()
 
-        if(this.isBoss()){
-            // console.log("boss abilities", this.abilities)
-        }
         let abilities = this.getAvailableAbilities()
         if (abilities && abilities.length > 0) {
             let a = ROT.RNG.getItem(abilities)
@@ -68,15 +92,31 @@ export class Monster extends Actor {
         }
         astar.compute(this.x, this.y, pathCallback)
 
+        if (this.isBoss()) {
+            // console.log('acting', path[0], path[1], this.name, this.x, this.y)
+        }
         path.shift()
 
         return new Promise((resolve, reject) => {
 
             if (!path[0]) {
-                resolve(new DefaultAction(this))
+                // console.log('returning default action')
+                // resolve(new DefaultAction(this))
+                console.log('kill level boss, were in a bad stae', path[0], path[1], this.name, this.x, this.y)
+                this.game.destroyMob(this)
+                delete this.game.director.boss
+                this.game.killBoss()
+                this.game.message(this.name+" got lost so we killed him.  You may proceed to the next level ('>' key)", true)
+
+                // this.game.message(`A horde of ${this.name}'s arise from the pieces`, true)
+                // this.game.message('The boss is cloning itself, get out NOW!', true)
+                resolve()
                 return
             }
 
+            if (this.isBoss()) {
+                console.log('acting', path[0], path[1], this.name, this.x, this.y)
+            }
             x = path[0][0]
             y = path[0][1]
 

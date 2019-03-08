@@ -4,6 +4,9 @@ import { Game } from './game.js'
 import { Director } from './director.js'
 import Config from './config.js'
 
+
+async function mainLoop() {
+
 if(Config.seed){
     ROT.RNG.setSeed(Config.seed)
 }
@@ -15,9 +18,7 @@ game.init()
 let director = new Director(game, scheduler)
 game.director = director
 
-
-
-async function mainLoop() {
+    console.log('starting main loop')
     document.getElementsByClassName('title')[0].style = "display: none;"
     document.getElementsByClassName('game')[0].style = "display: block;"
     while (1) {
@@ -68,7 +69,7 @@ window.mainLoop = mainLoop
 // mainLoop()
 function updateScores(){
         let highScores = JSON.parse(localStorage.getItem("highscores"))
-        console.dir(highScores)
+        // console.dir(highScores)
         if(!_.isArray(highScores)){ highScores = []}
         // highScores.push({name: game.player.name, score: game.score})
         // localStorage.setItem("highscores", JSON.stringify(highScores))

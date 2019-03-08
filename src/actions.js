@@ -23,7 +23,7 @@ export class InfectAbilityAction extends Action {
     }
 
     execute(game) {
-        if(this.monster.hp <= 0){
+        if (this.monster.hp <= 0) {
             console.log('executing InfectAbilityAction', this.monster.hp, this.monster)
             doInfect(this.player, this.monster, game, this, false)
             // console.log("infect ability action post infect")
@@ -32,7 +32,7 @@ export class InfectAbilityAction extends Action {
     }
 }
 
-function doInfect(player, mob, game, action, resetScore ) {
+function doInfect(player, mob, game, action, resetScore) {
 
     if (mob.isBoss()) {
         game.possesBoss()
@@ -42,7 +42,7 @@ function doInfect(player, mob, game, action, resetScore ) {
     game.scheduler.remove(mob)
 
     if (game.allBossesDown()) {
-        if(resetScore){
+        if (resetScore) {
             game.resetScore()
         }
 
@@ -54,24 +54,24 @@ function doInfect(player, mob, game, action, resetScore ) {
     player.infectMob(mob)
 }
 
-function doPostInfect(player, mob, game, action, resetScore){
+function doPostInfect(player, mob, game, action, resetScore) {
 
-        game.dirty = true
-        if(resetScore){
-            game.resetScore()
-        }
-        // game.gameDisplay.updateGui()
-        window.removeEventListener("keydown", this);
-        window.removeEventListener("keypress", this);
+    game.dirty = true
+    if (resetScore) {
+        game.resetScore()
+    }
+    // game.gameDisplay.updateGui()
+    window.removeEventListener("keydown", this);
+    window.removeEventListener("keypress", this);
 
-        if (mob.isRevive) {
-            // console.log('doPostInfect', player, mob, action)
-            game.message("You revived in your original form")
-        } else {
-            game.message("You infected " + player.name, false, player, mob)
-        }
+    if (mob.isRevive) {
+        // console.log('doPostInfect', player, mob, action)
+        game.message("You revived in your original form")
+    } else {
+        game.message("You infected " + player.name, false, player, mob)
+    }
 
-        game.reschedule()
+    game.reschedule()
 
 }
 
@@ -118,7 +118,8 @@ export class InfectAction extends Action {
         if (!mob) { return }
 
         // close modal. TODO less hacky solution
-        undie()
+        // undie()
+        game.gameDisplay.hideModal()
         if (mob.isRevive) {
             player.revive()
         } else {
@@ -138,7 +139,11 @@ export class InfectAction extends Action {
         window.addEventListener("keypress", this);
 
         // open modal. TODO less hacky solution
-        die()
+        // die()
+        // this.game.gameDisplay.showModal('foo')
+        let modalText = 'You Died and your score was reset to 0.' +
+            ' Press a number key to select a character to infect. Umbrella shall never die!'
+        this.game.gameDisplay.showModal(modalText)
         return new Promise(resolve => {
             this.resolve = resolve
         })
@@ -279,7 +284,7 @@ export class DescendAction extends Action {
         if (game.levelBossPassed() || Config.debug) {
             game.currentLevel++
 
-            if(game.currentLevel >= 5){
+            if (game.currentLevel >= 5) {
                 game.currentLevel--
                 game.addScore(10000)
                 return new YouWinAction()
@@ -356,8 +361,8 @@ export class YouWinAction extends Action {
 
         let highScores = JSON.parse(localStorage.getItem("highscores"))
         console.dir(highScores)
-        if(!_.isArray(highScores)){ highScores = []}
-        highScores.push({name: game.player.name, score: game.score})
+        if (!_.isArray(highScores)) { highScores = [] }
+        highScores.push({ name: game.player.name, score: game.score })
         localStorage.setItem("highscores", JSON.stringify(highScores))
 
 
@@ -368,14 +373,13 @@ export class YouWinAction extends Action {
         highScoreHtml += '</ol>'
 
 
-        document.getElementById('modal-text').innerHTML = "<h1>You defeated the S.T.A.R.S!  Final Score " 
-            + game.score + "</h1>" 
-            + `<p>Try keeping the tyrant alive to improve your score!  Using your infect ability to possess enemies doesn't cost you points.</p>` 
+        // document.getElementById('modal-text').innerHTML = "<h1>You defeated the S.T.A.R.S!  Final Score " 
+        let modalText = "<h1>You defeated the S.T.A.R.S!  Final Score "
+            + game.score + "</h1>"
+            + `<p>Try keeping the tyrant alive to improve your score!  Using your infect ability to possess enemies doesn't cost you points.</p>`
             // + `<p>Reload the page to try again!<p>`
             + `<p>${highScoreHtml}</p>`
 
-        // alert("You defeated the S.T.A.R.S! Final Score " + game.score)
-        die()
-
+        game.gameDisplay.showModal(modalText)
     }
 }

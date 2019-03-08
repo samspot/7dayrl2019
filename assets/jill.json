@@ -5,6 +5,7 @@
     "hp": 60,
     "score": 2000,
     "str": 15 , 
-    "sightRadius": 6 
-
+    "sightRadius": 6,
+    "bio":"An intelligent soldier that has rescued many S.T.A.R.S. members from danger in the past. Jill has been reassigned to Raccoon City. She is excellent with special mechanical devices such as lock-picks.",
+    "quote":"Watch out!  It's a mooonster!"
 }

@@ -32,16 +32,17 @@ X: adjust spawn rates, mix for each map
 X. Start Screen w/ high scores
 X. way to restart without reloading from the you win screen 
 X. make invisible bosses immune to damage (no offscreen boss kills)
-
 X. Ability info tooltips
-1. Character/Target tooltips
-3. Show boss splash when first seen, including abilities
-4. add funny resident evil lines "don't open that dooooor" I hope this is not chris' blood
+X. Character/Target tooltips
+
+X. Show boss splash when first seen, including abilities
+X. Need a spawn limit, especially in catacombs.
+DEFECT where is chris in this seed  false seed: 12360, turnsToSim: 2,
+3. Revisit enemy colors
 5. status effects like 'grabbed'
 6. add "and DIED!" to damage messages that kill
 7. mouse controls to ui
 8. tiles
-
 
 */
 
@@ -123,10 +124,12 @@ export class Game {
             width: Config.gamePortWidth,
             height: Config.gamePortHeight,
             fontSize: Config.fontSize,
-            forceSquareRatio: true
+            forceSquareRatio: true,
+            fontStyle: "bold"
         }
         this.display = new ROT.Display(options);
 
+        document.getElementById("mapContainer").innerHTML = ''
         document.getElementById("mapContainer").appendChild(this.display.getContainer())
 
         this.generateMap(Maps.lab)
@@ -364,7 +367,11 @@ export class Game {
             this.cursor.drawMe()
         }
 
-        this.getVisibleMobs().forEach(m => m.drawMe(fovFloorColor))
+        if(Config.drawAllMobs){
+            this.mobs.forEach(m => m.drawMe())
+        } else {
+            this.getVisibleMobs().forEach(m => m.drawMe(fovFloorColor))
+        }
     }
 
     getVisibleSquares() {

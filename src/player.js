@@ -124,6 +124,7 @@ export class Player extends Actor {
 
         // escape key
         if (charCode === 27) {
+            this.game.gameDisplay.hideModal()
             this.state = PLAYER_TURN
             this.game.redraw()
             // this.game.dirty = true
@@ -188,6 +189,12 @@ export class Player extends Actor {
         if (charStr == '>') {
             this.tickAbilities()
             this.resolve(new DescendAction(this))
+        }
+
+        // escape key
+        if (charCode === 27) {
+            this.game.gameDisplay.hideModal()
+            return
         }
 
         // var code = e.keyCode;
