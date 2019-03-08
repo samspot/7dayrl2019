@@ -140,7 +140,9 @@ body {
 
     #status-bar {
         border: 4px solid white;
-        border-color: #49962f;
+        /* border-color: #49962f; */
+        border-color: black;
+        border-bottom: 1px solid white;
         float: left;
         margin-left: 10px;
         width: 578px;
