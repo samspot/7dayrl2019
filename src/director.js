@@ -21,7 +21,7 @@ import Chris from 'assets/chris.json'
 import Barry from 'assets/barry.json'
 import Brad from 'assets/brad.json'
 import Wesker from 'assets/wesker.json'
-import { GrenadeLauncher, EmptySlot, Grab, Shotgun, Magnum, Charge, Impale } from './abilities.js';
+import { GrenadeLauncher, EmptySlot, Grab, Shotgun, Magnum, Charge, Impale, Bite, Poison, Haymaker } from './abilities.js';
 import Maps from './maps.js';
 
 const levels = [
@@ -41,12 +41,11 @@ const levelNames = {
 }
 
 const mobs = {
-    // 'lab': [/*Zombie, Zombie,*/ Chimera],
     'lab': [Zombie, Zombie, Chimera],
     'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Lisa, SpiderBoss],
     'outside': [Zombie, Dog, Dog, Plant, Spider],
-    'guardhouse': [Zombie, Plant, Plant, Shark, Plant42],
-    'mansion': [Zombie, Hunter, Hunter, Snake],
+    'guardhouse': [Zombie, Spider, Spider, Zombie, Plant, Plant, Shark, Plant42],
+    'mansion': [Zombie, Zombie, Hunter, Hunter, Snake],
 }
 
 const bosses = {
@@ -58,14 +57,11 @@ const bosses = {
 }
 
 /*
-
 image queue
-- Zombie, Chimera, Dog, Hunter, Lisa Trevor, Plant, Plant 42, Shark, Snake Boxx, Giant Spider, Black Tiger
-- Magnum, , Bite, Haymaker, Poison
-Infect, Grab, grenadelauncher, shotgun
+- Zombie, Chimera, Dog, Hunter, Lisa Trevor, Plant, Plant 42, Shark, Snake Boss, 
+- Giant Spider, Black Tiger
 */
 
-// TODO: finish adding abilities
 const abilities = {
     'Jill Valentine': [GrenadeLauncher, EmptySlot],
     'Chris Redfield': [Shotgun, EmptySlot],
@@ -75,15 +71,15 @@ const abilities = {
     'Tyrant': [Charge, Impale],
     'Zombie': [Grab],
     'Chimera': [Grab, Charge],
-    'Dog': [Grab], // Bite
-    'Hunter': [Grab], // Bite, Charge
-    'Lisa Trevor': [Grab], // Haymaker
-    'Plant': [Grab], // Poison
-    'Plant 42': [Grab], // Poison, 
-    'Shark': [Grab], // Bite
-    'Snake Boss': [Grab], // Bite, Poison
-    'Giant Spider': [Grab], // Bite, Poison
-    'Black Tiger': [Grab] // Bite, Poison, Charge
+    'Dog': [Grab, Bite], 
+    'Hunter': [Bite, Charge], 
+    'Lisa Trevor': [Grab, Haymaker], 
+    'Plant': [Poison], 
+    'Plant 42': [Grab, Poison],
+    'Shark': [Bite], 
+    'Snake Boss': [Bite, Poison], 
+    'Giant Spider': [Bite, Poison], 
+    'Black Tiger': [Bite, Poison, Charge]
 }
 
 

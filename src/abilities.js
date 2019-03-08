@@ -211,10 +211,27 @@ export class Impale extends Ability {
     }
 }
 
-
 export class Grab extends Ability {
     constructor(actor) {
         super(actor, 2, 1, 10)
+    }
+}
+
+export class Bite extends Ability {
+    constructor(actor) {
+        super(actor, 5, 2, 10)
+    }
+}
+
+export class Haymaker extends Ability {
+    constructor(actor) {
+        super(actor, 3, 1, 30)
+    }
+}
+
+export class Poison extends Ability {
+    constructor(actor) {
+        super(actor, 4, 2, 20)
     }
 }
 
@@ -224,6 +241,9 @@ const abilities = [
     Magnum,
     Impale,
     Charge,
-    Grab
+    Grab,
+    Bite,
+    Haymaker,
+    Poison
 ]
 
