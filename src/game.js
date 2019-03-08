@@ -19,20 +19,24 @@ import Tyrant from 'assets/tyrant.json'
 /* Defects */
 /*
 
+DEFECT Itch.IO doesn't capture keyboard events till you click!!!
+
 TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
-TODO: adjust spawn rates, mix for each map
 
-5. add "and DIED!" to damage messages that kill
+13. Finish Image Queue (in director.js)
 6. style gui like the RE1 inventory screen
+Infect is range 2-3, and use a tentacle, hint you can heal by infecting
+TODO: adjust spawn rates, mix for each map
 7. Show boss splash when first seen, including abilities
-8. mouse controls to ui
+items below require new game states
 10. Start Screen w/ high scores
+way to restart without reloading from the you win screen 
 11. add funny resident evil lines "don't open that dooooor" I hope this is not chris' blood
 12. status effects like 'grabbed'
-13. more monster abilities
-13. Finish Image Queue (in director.js)
+5. add "and DIED!" to damage messages that kill
+8. mouse controls to ui
 14. tiles
 
 
