@@ -111,11 +111,11 @@ body {
         left: 215px;
     }
     #ability-icons {
-        position: relative;
-        top: -263px;
-        left: 308px;
         /* margin-left: 190px; */
         /* float: left; */
+            position: relative;
+    top: -262px;
+    left: 320px;
     }
     #status-info {
         clear: both;
