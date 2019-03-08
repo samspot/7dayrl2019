@@ -52,6 +52,7 @@ export class Player extends Actor {
         this.name = mob.name
         this.hp = mob.maxHp * 1.5
         if(this.hp < 150){ this.hp = 150}
+        this.maxHp = this.hp
         this.color = mob.color
         this.str = mob.str
         this.x = mob.x

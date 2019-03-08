@@ -123,12 +123,7 @@ export class GameDisplay {
         container.appendChild(abilityImage)
         container.appendChild(center)
 
-        container.classList.add('tooltip')
-
-        let tooltip = document.createElement('span')
-        tooltip.classList.add('tooltiptext')
-        tooltip.innerHTML = ability.tooltip
-        container.appendChild(tooltip)
+        this.addTooltip(container, ability.tooltip)
 
         if (ability.obj.cooldown === 0) {
             center.style = "display:none"
@@ -150,7 +145,6 @@ export class GameDisplay {
 
         parent.appendChild(superContainer)
     }
-
     // fine green, caution yellow, caution orange, danger red
     renderCondition(img) {
         let elem = document.getElementById('condition')
@@ -162,12 +156,32 @@ export class GameDisplay {
         let elem = document.getElementById('portrait2')
         elem.innerHTML = ''
         elem.appendChild(img)
+
     }
 
-    renderTarget(img) {
+    renderTarget(img, boss) {
         let elem = document.getElementById('target')
         elem.innerHTML = ''
         elem.appendChild(img)
+
+        if(boss && boss.playerSeen()){
+            // this.addTooltip(elem, `<b>${boss.name}</b><br><br> HP ${boss.hp}/${boss.maxHp} Melee Damage: ${boss.str}`)
+            this.addTooltip(elem, this.getTooltip(boss))
+        }
+    }
+
+    addTooltip(elem, text){
+        if(!elem){ return }
+        elem.classList.add('tooltip')
+
+        let tooltip = document.createElement('span')
+        tooltip.classList.add('tooltiptext')
+        tooltip.innerHTML = text
+        elem.appendChild(tooltip)
+    }
+
+    getTooltip(actor){
+        return `<b>${actor.name}</b><br><br> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage: ${actor.str}`
     }
 
     drawPortraits() {
@@ -230,6 +244,7 @@ export class GameDisplay {
         // elem.classList.add('tyrant')
         elem.className = ''
         elem.classList.add(playerImageMap2[game.player.name])
+        this.addTooltip(elem, this.getTooltip(game.player))
 
         let targetImageFile = targetImageMap[game.getGameProgress().boss] || Unknown
         let targetImage = new Image()
@@ -262,7 +277,7 @@ export class GameDisplay {
         if (game.levelBossPassed()) {
             this.renderTarget(deadTargetImage)
         } else {
-            this.renderTarget(targetImage)
+            this.renderTarget(targetImage, boss)
         }
     }
 
