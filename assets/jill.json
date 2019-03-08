@@ -4,7 +4,7 @@
     "name": "Jill Valentine",
     "hp": 60,
     "score": 2000,
-    "str": 35 , 
+    "str": 15 , 
     "sightRadius": 6 
 
 }
