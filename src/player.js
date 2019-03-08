@@ -25,11 +25,6 @@ export class Player extends Actor {
         this.addAbility(new Charge(this))
         this.addAbility(new Infect(this))
 
-        // this.addAbility(new Magnum(this))
-        // this.addAbility(new Bite(this))
-        // this.addAbility(new Haymaker(this))
-        // this.addAbility(new Poison(this))
-
         this.state = PLAYER_TURN
         // make the game advance a few turns on startup
         this.debugCount = 0

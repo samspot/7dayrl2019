@@ -42,10 +42,10 @@ const levelNames = {
 
 const mobs = {
     'lab': [Zombie, Zombie, Chimera],
-    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Lisa, SpiderBoss],
+    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Lisa], // SpiderBoss
     'outside': [Zombie, Dog, Dog, Plant, Spider],
-    'guardhouse': [Zombie, Spider, Spider, Zombie, Plant, Plant, Shark, Plant42],
-    'mansion': [Zombie, Zombie, Hunter, Hunter, Snake],
+    'guardhouse': [Zombie, Spider, Spider, Shark], // Plant, Plant42
+    'mansion': [Zombie, Zombie, Hunter, Hunter], //Snake
 }
 
 const bosses = {
@@ -58,8 +58,19 @@ const bosses = {
 
 /*
 image queue
-- Zombie, Chimera, Dog, Hunter, Lisa Trevor, Plant, Plant 42, Shark, Snake Boss, 
-- Giant Spider, Black Tiger
+- Zombie, 
+- Chimera, 
+- Dog, 
+- Hunter, 
+- Lisa Trevor, 
+- Shark, 
+- Giant Spider, 
+
+descoped
+- Black Tiger
+- Snake Boss, 
+- Plant, 
+- Plant 42, 
 */
 
 const abilities = {

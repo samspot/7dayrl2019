@@ -13,37 +13,16 @@ import Tyrant from 'assets/tyrant.json'
 /* feedback
     catacombs hard, swarmed
     hard to see who is the boss
-    * FIXED r key sometimes reloads on linux - fixed?
     Also is it normal that when I melee attack as chris or a spider I jump bodies instantly ?
      the hunting mansion is a black screen
-
-
-
 */
 /* Defects */
 /*
-
-* FIXED you revived in original form message repeated too often
-* FIXED snake boss color not readable. use mansion floor color?
-* FIXED grenade splash does NaN damage
-* FIXED players can charge through/into walls
-* FIXED jill's launcher splash damage changes her hp to NaN, making her invincible
-* FIXED enemies can charge you into walls, removing vision
-* FIXED Only show combat messages for things you can see (including target seen but not attacker) seed: 12358, turnsToSim: 28
 
 TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
 TODO: adjust spawn rates, mix for each map
-
-X. if you die with no available targets, the tyrant ressurects.  
-X. show ? mark for boss until seen
-X: infect with impale ability, kill or wound
-X. resident evil 1 inventory font
-X. implement caution image switching
-X. implement bootstrap or some other framework that gives me easy modal windows.  Need one for infect
-X. better victory handling at the end.
-X. high scores in local storage
 
 5. add "and DIED!" to damage messages that kill
 6. style gui like the RE1 inventory screen

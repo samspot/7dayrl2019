@@ -30,8 +30,6 @@ import ConditionFine from '../assets/img/condition-fine.png'
 import ConditionCaution from '../assets/img/condition-caution.png'
 import ConditionDanger from '../assets/img/condition-danger.png'
 
-// import TopBorder from '../assets/img/top-border.png'
-
 import '../assets/css/main.css'
 import Config from './config';
 import { Monster } from './monster';
@@ -51,12 +49,6 @@ export class GameDisplay {
     }
 
     drawStatusBar() {
-        // let borderImage = new Image()
-        // borderImage.src = Empty
-        // borderImage.style = "width: 720px, height: 50px"
-        // document.getElementById('top-border').appendChild(borderImage)
-
-
         let game = this.game
         document.getElementById('name').innerHTML = game.player.name
         document.getElementById('hp').innerHTML = game.player.hp
@@ -80,80 +72,45 @@ export class GameDisplay {
             // console.log(ability)
             let { constructor, maxCooldown, cooldown, dmg, range } = ability
             // if (cooldown === 0) {
-                // cooldown = "READY"
+            // cooldown = "READY"
             // }
             // let text = `[Cooldown: ${cooldown}/${maxCooldown} `
-                // + `Damage: ${dmg} Range: ${range}]`
-                let text = ''
+            // + `Damage: ${dmg} Range: ${range}]`
+            let text = ''
             abilities.push({ name: constructor.name, text: text, obj: ability })
         })
 
         let parent = document.getElementById('ability-icons')
         parent.innerHTML = ''
-
-        // TODO remove
-        // TODO Ughhhh
-        // let a = _.clone(abilities[0])
-        // a.name = "GrenadeLauncher"
-        // a.displayName = "Grenade Launcher"
-        // abilities.push(a)
-
         let idx = 0
-        // let abilities = this.game.player.getAbilities()
         abilities.forEach(a => {
             this.renderAbilityImage(parent, ['Q', 'E', 'R'][idx], a, idx)
-
-
-            /*
-            let button = document.createElement('button')
-            button.id = "ability" + idx
-            button.innerHTML = a.name
-            button.style = "width: 80px; margin: 2px"
-            button.onclick = a.obj.use
-
-            let li = document.createElement('li')
-            let span = document.createElement('span')
-            span.innerHTML = a.text
-
-            let hotkeySpan = document.createElement('span')
-            hotkeySpan.innerHTML = ['Q', 'E', 'R'][idx]
-            li.appendChild(hotkeySpan)
-            li.appendChild(button)
-            li.appendChild(span)
-
-            elem.appendChild(li)
-            */
             idx++
         })
-
-
-        // this.renderAbilityImage(parent, "Q", abilities[0], 0)
-        // this.renderAbilityImage(parent, "W", abilities[1], 1)
-        // this.renderAbilityImage(parent, "E", abilities[1], 2)
     }
 
-    renderAbilityImage(parent, hotkey, ability, idx){
+    renderAbilityImage(parent, hotkey, ability, idx) {
         // console.log('ability', ability)
         let name = ability.name.toLowerCase()
-        if(ability.obj.cooldown === 0){
+        if (ability.obj.cooldown === 0) {
             name += '-ready'
         } else {
             name += '-cooldown'
         }
 
         let container = document.createElement('div')
-        container.classList.add('container'+idx)
+        container.classList.add('container' + idx)
 
         let bottomLeft = document.createElement('div')
-        bottomLeft.classList.add('bottom-left'+idx)
-        bottomLeft.innerHTML = hotkey 
+        bottomLeft.classList.add('bottom-left' + idx)
+        bottomLeft.innerHTML = hotkey
 
         let center = document.createElement('div')
-        center.classList.add('center'+idx)
+        center.classList.add('center' + idx)
         center.innerHTML = ability.obj.cooldown
 
         let abilityImage = new Image()
-        abilityImage.src = Empty 
+        abilityImage.src = Empty
         // class name for determining icon
         abilityImage.classList.add(name)
         abilityImage.classList.add('ability-icon')
@@ -164,7 +121,7 @@ export class GameDisplay {
         container.appendChild(abilityImage)
         container.appendChild(center)
 
-        if(ability.obj.cooldown === 0){
+        if (ability.obj.cooldown === 0) {
             center.style = "display:none"
         }
 
@@ -173,7 +130,7 @@ export class GameDisplay {
         superContainer.appendChild(container)
 
         // hardcode fix for launcher
-        if(ability.name === "GrenadeLauncher"){
+        if (ability.name === "GrenadeLauncher") {
             ability.displayName = "Launcher"
         }
 
@@ -186,7 +143,7 @@ export class GameDisplay {
     }
 
     // fine green, caution yellow, caution orange, danger red
-    renderCondition(img){
+    renderCondition(img) {
         let elem = document.getElementById('condition')
         elem.innerHTML = ''
         elem.appendChild(img)
@@ -240,7 +197,7 @@ export class GameDisplay {
         let targetImage = new Image()
 
         let boss = this.game.director.boss
-        if(boss && boss.playerSeen()){
+        if (boss && boss.playerSeen()) {
             targetImage.src = targetImageFile
         } else {
             targetImage.src = Unknown
@@ -255,9 +212,9 @@ export class GameDisplay {
         let conditionImage = new Image()
 
         let hp = game.player.hp
-        if(hp < game.player.maxHp * .5){
+        if (hp < game.player.maxHp * .5) {
             conditionImage.src = ConditionDanger
-        } else if (hp < game.player.maxHp * .8){
+        } else if (hp < game.player.maxHp * .8) {
             conditionImage.src = ConditionCaution
         } else {
             conditionImage.src = ConditionFine
@@ -277,7 +234,7 @@ export class GameDisplay {
         let gameProgress = game.getGameProgress()
         let text = "Status Unknown"
         let boss = this.game.director.boss
-        if(boss && boss.playerSeen()){
+        if (boss && boss.playerSeen()) {
             text = gameProgress.text
         }
 
@@ -295,7 +252,7 @@ export class GameDisplay {
             moblist.innerHTML = ''
 
             let mobs = []
-            if(onlyInfectable){
+            if (onlyInfectable) {
                 // console.log('all infectable')
                 mobs = game.getInfectableMobs()
             } else {
@@ -306,17 +263,17 @@ export class GameDisplay {
 
             mobs.forEach(x => {
                 // if(onlyInfectable){
-                    // console.log('render mob list', x )
+                // console.log('render mob list', x )
                 // }
                 let elem = document.createElement('li')
 
                 let name = x.name
-                if(x.isInjured()){
+                if (x.isInjured()) {
                     name += " (injured)"
                 }
 
                 let debugText = ''
-                if(Config.debug){
+                if (Config.debug) {
                     debugText = ' ' + x.hp + ':' + x.maxHp
                 }
                 elem.innerHTML = name + debugText
@@ -360,15 +317,15 @@ export class GameDisplay {
 
 
                     let text = message.msg
-                    if(source || target){
+                    if (source || target) {
                         text = `${target} receives ${message.msg} [Source: ${source}]`
                     }
 
                     span.innerHTML = text + '<br>'
                     if (message.turn !== recentTurn) {
                         span.classList.add('old-message')
-                    } 
-                    if(message.important){
+                    }
+                    if (message.important) {
                         // TODO switch to old mesage after its passed, probably by changing to else-if
                         span.classList.add('important-message')
                     }
@@ -376,7 +333,7 @@ export class GameDisplay {
 
                     let actorSource = message.actorSource
                     // console.log('message debug source', source, 'instance of monster', source instanceof Monster, message)
-                    if(actorSource instanceof Monster && !actorSource.playerSeen()){
+                    if (actorSource instanceof Monster && !actorSource.playerSeen()) {
                         // console.log("suppressing message", span.innerHTML)
                         continue;
                     }
