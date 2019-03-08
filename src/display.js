@@ -52,7 +52,7 @@ export class GameDisplay {
         let game = this.game
         document.getElementById('name').innerHTML = game.player.name
         document.getElementById('hp').innerHTML = game.player.hp
-        document.getElementById('score').innerHTML = game.score
+        document.getElementById('score').innerHTML = "Score " + game.score
         document.getElementById('level').innerHTML = "Hunting in " + game.getGameProgress().name
 
         if (game.player.hp < 30) {

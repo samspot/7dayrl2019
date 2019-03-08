@@ -6,9 +6,38 @@ body {
     width: 1024px;
 }
 
+#name {
+    position: relative;
+    top: -366px;
+    left: -221px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+#hp {
+    position: relative;
+    color: greenyellow;
+   display: none; }
+
+#score {
+    position: relative;
+    /* color: #96f; */
+    top: -366px;
+    left: -202px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+#level {
+    position: relative;
+    top: -265px;
+    left: 200px;
+    /* font-size: 0.9rem; */
+}
 #mapContainer {
-    margin-left: 0;
+    margin-left: 3px;
     padding-left: 0;
+    margin-bottom: -4px;
 }
 
     .important-message {
@@ -18,13 +47,16 @@ body {
  
     #title {
         /* margin-bottom: 2px; */
-        margin-top: 0;
-        margin-left: 10px;
-        margin-bottom: 0;
+        /* margin-top: 0; */
+        /* margin-left: 10px; */
+        /* margin-bottom: 0; */
+        position: absolute;
+        font-size: 2rem;
+        left: 657px;
     }
     #top-border {
         /* height: 50px; */
-        padding: 16px;
+        padding: 7px;
         background-color: #000066;
         border-width: 14px 2px;
         border-style: solid;
@@ -34,12 +66,24 @@ body {
         border-image-slice: 14;
     }
 
+    .main-container {
+        
+        margin-left: 7px;
+        border-width: 14px 2px;
+        border-style: solid;
+        border-image-source: url(../../assets/img/top-border-big.png);
+        border-image-repeat: repeat;
+        border-image-width: 14px 14px;
+        border-image-slice: 14;
+        float: left;
+    }
      
     #right-bar {
         float: left;
         width: 200px;
         height: 373px;
-        margin-left: 3px;
+        margin-left: 0;
+        margin-right: 12px;
 
          padding: 16px;
         /* background-color: #000066; */
@@ -50,7 +94,8 @@ body {
         border-image-width: 14px 14px;
         border-image-slice: 14;
         /* background-color: #336699; */
-        background-color: #6699cc;
+        /* background-color: #6699cc; */
+        background-color:  #88a6c4;
     }
 
     #status2 {
@@ -84,7 +129,7 @@ body {
     #status-bar {
         float: left;
         margin-left: 10px;
-        width: 590px;
+        width: 700px;
         height: 120px;
         background: url(../../assets/img/status-bar.png) -10px 0 no-repeat;
     }
@@ -384,7 +429,8 @@ body {
 }
 
 #msg {
-    font-size: 1.2em
+    font-size: 1.2em;
+    margin-left: 7px;
 }
 
 /* The Close Button */
