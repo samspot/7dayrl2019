@@ -48,8 +48,68 @@ export class GameDisplay {
         this.drawMessages()
     }
 
-    getNameMap(){
+    getNameMap() {
         return nameMap
+    }
+
+    drawBossSplash(actor) {
+        if(!actor.abilities){
+            console.log("no abilities returning")
+            return
+        }
+
+        let textTraits = `<p style="color: red">TARGET<p> <b>${actor.name}</b><p> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage ${actor.str}`
+
+        let abilities = actor.abilities.map(a => {
+            console.log('ability', a)
+            return `<p>${a.constructor.name} Damage ${a.dmg} Range ${a.range} Cooldown ${a.maxCooldown}`
+        }).reduce((string, a) => string += a)
+
+
+        let text = `<h3>Skills</h3>${abilities}`
+        text += `<p>${actor.bio}<p>"${actor.quote}"`
+
+        let gp = this.game.getGameProgress()
+        let targetImage = new Image()
+        targetImage.src = Empty75x75
+        targetImage.id = 'boss-splash'
+        targetImage.style = "margin-left: 48px; margin-top: 48px;"
+
+        // main div
+        let div = document.createElement('div')
+
+        let leftDiv = document.createElement('div')
+        leftDiv.style="float: left; width: 50%"
+
+        let rightDiv = document.createElement('div')
+        rightDiv.style="float: left; width: 50%"
+
+        let bottomDiv = document.createElement('div')
+        bottomDiv.style="clear: both"
+
+        let span = document.createElement('span')
+        span.innerHTML = textTraits
+
+        let span2 = document.createElement('span')
+        span2.innerHTML = text
+
+        leftDiv.appendChild(targetImage)
+        rightDiv.appendChild(span)
+        bottomDiv.appendChild(span2)
+
+        div.appendChild(leftDiv)
+        div.appendChild(rightDiv)
+        div.appendChild(bottomDiv)
+
+        // div.appendChild(targetImage)
+
+        // div.appendChild(span)
+
+        this.game.gameDisplay.showModal(text, div)
+
+        let display = this.game.gameDisplay
+        let bossName = display.getNameMap()[gp.boss]
+        display.renderCharacter(bossName, 'boss-splash')
     }
 
     drawStatusBar() {
@@ -98,7 +158,7 @@ export class GameDisplay {
 
     renderCharacter(className, id) {
         let elem = document.getElementById(id)
-        if(elem){
+        if (elem) {
             elem.classList = []
             elem.classList.add(className)
         } else {

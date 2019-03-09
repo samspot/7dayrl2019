@@ -31,29 +31,7 @@ export class Monster extends Actor {
 
     setSeen() {
         if (this.boss && !this.seen) {
-            let gp = this.game.getGameProgress()
-
-            let targetImage = new Image()
-            targetImage.src = Empty75x75
-            targetImage.id = 'boss-splash'
-
-            let text = `<p style="color: red">TARGET<p> <b>${this.name}</b><p> HP ${this.hp}/${this.maxHp}<br> Melee Damage ${this.str}`
-            text += `<p>${this.bio}<p>"${this.quote}"`
-
-            let div = document.createElement('div')
-
-            let span = document.createElement('span')
-            span.innerHTML = text
-
-            div.appendChild(targetImage)
-
-            div.appendChild(span)
-
-            this.game.gameDisplay.showModal(text, div)
-
-            let display = this.game.gameDisplay
-            let bossName = display.getNameMap()[gp.boss]
-            display.renderCharacter(bossName, 'boss-splash')
+            this.game.gameDisplay.drawBossSplash(this)
         }
         this.seen = true
     }
