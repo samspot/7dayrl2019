@@ -85,7 +85,9 @@ export class Player extends Actor {
 
     useAbility(ability) {
         // console.log("player.useAbility()", ability)
+
         if (ability && ability.cooldown === 0) {
+            this.game.display.drawText(0,  0, "Move your targetting cursor with the directional keys.  ESC to cancel, ENTER to confirm target");
             // console.log("abilty available", ability.cooldown, ability.maxCooldown)
             this.state = TARGETTING
             this.usingAbility = ability
@@ -116,6 +118,14 @@ export class Player extends Actor {
         })
     }
 
+    getInfectStr(){
+        let infect = 20
+        if(this.str > 20){
+            infect = this.str
+        }
+        return infect
+    }
+
     handleTarget(e) {
         // console.log("targetting")
 
@@ -123,7 +133,7 @@ export class Player extends Actor {
         let charStr = String.fromCharCode(charCode)
 
         // escape key
-        if (charCode === 27) {
+        if (charCode === 27 || charCode === ROT.KEYS.VK_Q || charCode === ROT.KEYS.VK_E || charCode === ROT.KEYS.VK_R) {
             this.game.gameDisplay.hideModal()
             this.state = PLAYER_TURN
             this.game.redraw()
@@ -171,7 +181,9 @@ export class Player extends Actor {
 
                 this.game.redraw()
                 cursor.drawMe()
+                this.game.display.drawText(0,  0, "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target");
             }
+                this.game.display.drawText(0,  0, "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target");
         }
     }
 
@@ -185,6 +197,7 @@ export class Player extends Actor {
     // TODO: Tank controls?
     handleEvent(e) {
         if (this.state === TARGETTING) {
+            this.game.display.drawText(0,  0, "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target");
             return this.handleTarget(e)
         }
         // console.log('handle event', e)

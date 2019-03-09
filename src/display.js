@@ -167,7 +167,11 @@ export class GameDisplay {
         game.player.getAbilities().forEach(ability => {
             let { constructor, maxCooldown, cooldown, dmg, range } = ability
 
-            let tooltip = `<b>${constructor.name}</b> cooldown is ${cooldown} (Max ${maxCooldown}) Does ${dmg} damage and has a range of ${range}.`
+            // let tooltip = `<b>${constructor.name}</b> cooldown is ${cooldown} (Max ${maxCooldown}) Does ${dmg} damage and has a range of ${range}.`
+                let tooltip = `<p><b>${ability.constructor.name}</b></p> Damage ${ability.dmg} <br>Range ${ability.range} Cooldown ${ability.maxCooldown}`
+                if(ability.description){
+                    tooltip += `<p>${ability.description}</p>`
+                }
             let text = ''
             abilities.push({ name: constructor.name, text: text, obj: ability, tooltip: tooltip })
         })
@@ -402,6 +406,10 @@ export class GameDisplay {
                 let name = x.name
                 if (x.isInjured()) {
                     name += " (injured)"
+                }
+
+                if(x.hp <= game.player.getInfectStr()){
+                    name = x.name + " (infectable)"
                 }
 
                 let debugText = ''

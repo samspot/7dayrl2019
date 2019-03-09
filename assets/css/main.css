@@ -5,6 +5,10 @@ body {
     width: 1018px;
 }
 
+.firstRun {
+    display: none;
+}
+
 #logo {
     float: right;
     /* width: 630px; */

@@ -142,6 +142,7 @@ export class Infect extends Ability {
         let infectStr = actor.str
         if (infectStr < 20) { infectStr = 20 }
         super(actor, 1, 3, infectStr)
+        this.description = 'Infect does your melee damage to the target, and if the target dies you will take control of them.'
     }
 
     // action.actor - player
@@ -195,13 +196,13 @@ export class GrenadeLauncher extends Ability {
 
 export class Shotgun extends Ability {
     constructor(actor) {
-        super(actor, 3, 5, 20)
+        super(actor, 2, 5, 20)
     }
 }
 
 export class Magnum extends Ability {
     constructor(actor) {
-        super(actor, 3, 10, 50)
+        super(actor, 4, 10, 50)
     }
 }
 

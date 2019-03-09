@@ -235,7 +235,7 @@ export class MoveAction extends Action {
         let actor = this.actor
 
         let newX, newY
-        if (this.newX >=0 && this.newY >= 0) {
+        if (this.newX >= 0 && this.newY >= 0) {
             newX = this.newX
             newY = this.newY
         }
@@ -360,11 +360,29 @@ export class YouWinAction extends Action {
         // game.redraw()
         game.gameDisplay.updateGui()
 
-        let highScores = JSON.parse(localStorage.getItem("highscores"))
-        console.dir(highScores)
-        if (!_.isArray(highScores)) { highScores = [] }
-        highScores.push({ name: game.player.name, score: game.score })
-        localStorage.setItem("highscores", JSON.stringify(highScores))
+
+        let highScores = []
+        try {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('feature_test', 'yes');
+                if (localStorage.getItem('feature_test') === 'yes') {
+                    localStorage.removeItem('feature_test');
+                    // localStorage is enabled
+                    let highScores = JSON.parse(localStorage.getItem("highscores"))
+                    console.dir(highScores)
+                    if (!_.isArray(highScores)) { highScores = [] }
+                    highScores.push({ name: game.player.name, score: game.score })
+                    localStorage.setItem("highscores", JSON.stringify(highScores))
+                } else {
+                    // localStorage is disabled
+                }
+            } else {
+                // localStorage is not available
+            }
+        } catch (e) {
+            // localStorage is disabled
+            console.log("localstorage disabled")
+        }
 
 
         let highScoreHtml = '<h2>High Scores</h2><ol>';

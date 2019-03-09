@@ -12,6 +12,76 @@ import Tyrant from 'assets/tyrant.json'
 
 /* feedback
 
+* boss spawn in same room, no
+* pathing when player unreachable
+
+* special abilities like bite can target diagonal, but you cant bump attack that direction, correct?
+    - i first noticed when a zombie grabbed me around a corner, I thought I was safe
+    - it would be less of a BS moment at first, would increase player power
+    - maybe remove some death learning dark souls style?
+    - you are supposed to die a lot in these games to learn the mechanics right? lol
+    - so if you leave it like it is, it offers a bit more depth
+* on the map I saw the letter for a monster, but it did not appear on the monster list until the next turnthe same will happen for updating the target portrait
+* FIXED cancel target on Q,E,R 
+    - FIXED: show hint about pressing esc
+* FIXED target cursor still under the player
+* FIXED abbreviate start screen on first load
+* FIXED: high score local storage crash 
+* FIXED: special characters on bios
+* FIXED: ability tooltips should show same info as boss splash, I would recommend listing out the CD, damage and range
+* FIXED I do currently feel like the magnum cooldown should be longer
+* FIXED 'm having a little diffculty understanding the infect mechanic
+* FIXED on side bar show 'infectable' instead of 'injured'
+* FIXED level clear message when all mobs dead (going for high score)
+
+samspot:
+	ok that's good to know
+	should i say 'infectable' on the right side instead of injured... currently those aren't exactly the same thing
+
+Dave:
+	That would help
+
+samspot:
+	infect does your melee damage and takes over the creature if you kill it.  otherwise you can take a mob if it's injured status and you die
+
+Dave:
+	Ah ok.  I assumed infect was a status
+	so I was like... uh I may die, let me infect this so when I do die I respawn as it?
+	So its kind of like a possession by killing blow
+
+samspot:
+	yeah, the last part
+	i wonder how best to explain it
+	i don't think i can majorly change the way it works in the time i have left
+	but i can tweak some things
+
+Dave:
+	could have a story explanation or something
+	that you are a parasite
+
+samspot:
+	oh like you are playing as the T virus?
+Dave:
+	yeah
+	so the 'infect' ability would be the actual parasite module/organ/tissue doing an attack independent of its host
+	if it senses its target is weak, it transfers
+	if not, its just that big blob of fleshy stuff doing a spikey attack or whatever
+
+
+    I possesed a chimera and somehow was in the same tile as a zombie
+you dont have to respond to any of this, im just saying whats going on as I see it lol
+lol I charged through a wall and this happene
+
+I was just wondering, since youu can revive unlimited amount of times
+It would be fun to have a choice to revive as the boss you infested in the current run
+But then again, it would not make sense
+
+[2:01 PM]
+samspot:
+	oh you men start the game as jIll next playthrough?
+
+
+
 defect: charge still causing issues
 1. refine start screen my pic, logo
 3. Revisit enemy colors

@@ -195,6 +195,7 @@ export class Director {
         this.game.mobs = this.mobs
     }
 
+    // TODO make sure bosses cant spawn in vision
     createSchedule(mobspec) {
         let freeCells = this.game.getFreeCells()
         this.game.visibleSquares.forEach(x => {
