@@ -14,7 +14,9 @@ import Tyrant from 'assets/tyrant.json'
 
 * FIXED enter key close modal
 * FIXED boss spawn in same room, no
-* pathing when player unreachable
+* FIXED pathing when player unreachable
+
+* FIXED if you are in the top left of the map, the targeting help blocks out your targetting
 
 * special abilities like bite can target diagonal, but you cant bump attack that direction, correct?
     - i first noticed when a zombie grabbed me around a corner, I thought I was safe

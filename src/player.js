@@ -9,7 +9,7 @@ import Tyrant from 'assets/tyrant.json'
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
-                const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
+const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
 export class Player extends Actor {
     constructor(x, y, game) {
@@ -176,16 +176,16 @@ export class Player extends Actor {
             let newX = cursor.x + diff[0];
             let newY = cursor.y + diff[1];
 
+            this.game.display.drawText(0, 0, TARGET_HELP);
             // TODO: also make sure path is clear, don't shoot through walls
             if (this.inRange(this.usingAbility, this, newX, newY)) {
                 this.game.cursor.x = newX
                 this.game.cursor.y = newY
 
                 this.game.redraw()
-                cursor.drawMe()
                 this.game.display.drawText(0, 0, TARGET_HELP);
+                cursor.drawMe()
             }
-            this.game.display.drawText(0, 0, TARGET_HELP);
         }
     }
 

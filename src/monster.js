@@ -9,6 +9,7 @@ import { MoveAction, DefaultAction, AbilityAction } from './actions.js';
 // import Brad from '../assets/img/brad.png'
 import Empty75x75 from '../assets/img/empty.png'
 import { Charge } from './abilities.js';
+import Config from './config.js';
 
 export class Monster extends Actor {
     constructor(x, y, game, mobspec) {
@@ -52,7 +53,9 @@ export class Monster extends Actor {
         })
 
         // TODO fix charge
-        _.remove(usable, x => x instanceof Charge)
+        if(!Config.enableCharge){
+            _.remove(usable, x => x instanceof Charge)
+        }
         // console.log('available', usable)
         return usable
     }
@@ -85,31 +88,36 @@ export class Monster extends Actor {
             // console.log('acting', path[0], path[1], this.name, this.x, this.y)
         }
 
-        path.shift()
-        // console.log(`spawn-${this.spawnId} ${this.x},${this.y} path is ${path} for [${this.name}] player at ${this.game.player.x},${this.game.player.y} mob moving to ${path[0][0]},${path[0][1]}`)
+        let oldpath = path.shift()
+        path = path[0]
+        if(!path){
+            console.log(`spawn-${this.spawnId} ${this.x},${this.y} path is ${path} for [${this.name}] player at ${this.game.player.x},${this.game.player.y} mob moving to ${path},${path}`)
+            path = oldpath
+        }
 
         return new Promise((resolve, reject) => {
 
-            if (!path[0]) {
+            if (!path) {
                 // console.log('returning default action')
                 // resolve(new DefaultAction(this))
-                console.log('kill level boss, were in a bad stae', path[0], path[1], this.name, this.x, this.y)
-                this.game.destroyMob(this)
-                delete this.game.director.boss
-                this.game.killBoss()
-                this.game.message(this.name + " got lost so we killed him.  You may proceed to the next level ('>' key)", true)
+                // console.log('kill level boss, were in a bad stae', path[0], path[1], this.name, this.x, this.y)
+                // this.game.destroyMob(this)
+                // delete this.game.director.boss
+                // this.game.killBoss()
+                // this.game.message(this.name + " got lost so we killed him.  You may proceed to the next level ('>' key)", true)
+                this.game.message(this.name + ' is stuck!')
 
                 // this.game.message(`A horde of ${this.name}'s arise from the pieces`, true)
                 // this.game.message('The boss is cloning itself, get out NOW!', true)
-                resolve()
+                resolve(new DefaultAction())
                 return
             }
 
             // if (this.isBoss()) {
             // console.log('acting', path[0], path[1], this.name, this.x, this.y)
             // }
-            x = path[0][0]
-            y = path[0][1]
+            x = path[0]
+            y = path[1]
 
             resolve(new MoveAction(this, undefined, x, y))
         })

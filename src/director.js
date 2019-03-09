@@ -184,6 +184,9 @@ export class Director {
             this.countdown = num
 
             if (!this.getLevelSpec().mobs) { this.getLevelSpec().mobs = 0 }
+            if(Config.debug){
+                Config.spawnLimit = 1000
+            }
             if (this.getLevelSpec().mobs < Config.spawnLimit) {
                 // console.log('spawn', this.getLevelSpec())
                 let mobspec = this.generateMob()

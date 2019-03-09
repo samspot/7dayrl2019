@@ -1,18 +1,21 @@
 const Config = {
-    // spawnrate: 5,
+    // spawnrate: 1,
     spawnLimit: 20,
     gamePortWidth: 45,
     gamePortHeight: 27,
     fontSize: 16,
     messageListSize: 15,
     // seed: 12362,
-    // turnsToSim: 19,
+    // turnsToSim: 26,
+    // seed: 12368,
+    // turnsToSim: 0,
     // drawWholeMap: true,
     // drawAllMobs: true,
     // debug: true,
+    enableCharge: true,
     // skipTitle: true,
     // playerInvulnerable: true
-    // startLevel: 3
+    // startLevel: 0
 }
 
 /*
