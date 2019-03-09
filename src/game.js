@@ -35,14 +35,16 @@ X. way to restart without reloading from the you win screen
 X. make invisible bosses immune to damage (no offscreen boss kills)
 X. Ability info tooltips
 X. Character/Target tooltips
-
+X. fix name popping out of UI when possessing a zombie
+X. fix image pop issues
+X. Can i stop the image jump when they change?
 X. Show boss splash when first seen, including abilities
 X. Need a spawn limit, especially in catacombs.
-!!! DEFECT !!! killing wesker doesn't win
+
+defect; restart game doesn't clear boss progress
+defect: chare still causing issues
+high scores wrong name
 1. Add boss abilities to their modal
-2. fix name popping out of UI when possessing a zombie
-3. fix image pop issues
-3. Can i stop the image jump when they change?
 3. Revisit enemy colors
 5. status effects like 'grabbed'
 6. add "and DIED!" to damage messages that kill

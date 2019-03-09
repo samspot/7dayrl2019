@@ -7,6 +7,7 @@ import Chris from '../assets/img/chris.png'
 import Barry from '../assets/img/barry.png'
 import Wesker from '../assets/img/wesker.png'
 import Brad from '../assets/img/brad.png'
+import { Charge } from './abilities.js';
 
 export class Monster extends Actor {
     constructor(x, y, game, mobspec) {
@@ -76,6 +77,9 @@ export class Monster extends Actor {
 
             return player.inRange(a, player, this.x, this.y)
         })
+
+        // TODO fix charge
+        _.remove(usable, x => x instanceof Charge)
         // console.log('available', usable)
         return usable
     }

@@ -193,7 +193,7 @@ export class GameDisplay {
 
 
         let charName = nameMap[game.player.name] + '-dead'
-        console.log('char', charName)
+        // console.log('char', charName)
         this.renderCharacter(charName, PORTRAIT)
         let elem = document.getElementById(PORTRAIT)
         this.addTooltip(elem, this.getTooltip(game.player))
@@ -206,7 +206,7 @@ export class GameDisplay {
             bossName = 'unknown'
         }
 
-        console.log('bossName', bossName)
+        // console.log('bossName', bossName)
         if (game.levelBossPassed()) {
             bossName += '-eliminated'
             this.renderTarget(bossName)
