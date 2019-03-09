@@ -5,6 +5,15 @@ body {
     width: 1018px;
 }
 
+#logo {
+    float: right;
+    /* width: 630px; */
+    /* height: 500px; */
+    width: 400px;
+    height: 318px;
+    background: url(../../assets/img/logo-small-no-bg.png) 0 0;
+}
+
 a:link,
 a:visited,
 a:hover,

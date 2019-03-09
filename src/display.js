@@ -53,7 +53,7 @@ export class GameDisplay {
     }
 
     drawBossSplash(actor) {
-        if(!actor.abilities){
+        if (!actor.abilities) {
             console.log("no abilities returning")
             return
         }
@@ -74,7 +74,7 @@ export class GameDisplay {
             let image = new Image()
             image.src = Empty75x75
             image.style = "float: right; margin-top: -18px"
-            image.classList.add(name+'-ready')
+            image.classList.add(name + '-ready')
 
             return {
                 image: image,
@@ -106,13 +106,13 @@ export class GameDisplay {
         let div = document.createElement('div')
 
         let leftDiv = document.createElement('div')
-        leftDiv.style="float: left; width: 50%"
+        leftDiv.style = "float: left; width: 50%"
 
         let rightDiv = document.createElement('div')
-        rightDiv.style="float: left; width: 50%"
+        rightDiv.style = "float: left; width: 50%"
 
         let bottomDiv = document.createElement('div')
-        bottomDiv.style="clear: both"
+        bottomDiv.style = "clear: both"
 
         let span = document.createElement('span')
         span.innerHTML = textTraits
@@ -316,7 +316,7 @@ export class GameDisplay {
         }
     }
 
-    drawProgress() {
+    drawProgress2() {
         let game = this.game
         let gameProgress = game.getGameProgress()
         let text = "Status Unknown"
@@ -329,6 +329,51 @@ export class GameDisplay {
         let elem = document.getElementById(key)
         elem.innerHTML = text
         elem.style = gameProgress.style
+
+        let bossName = boss && boss.name
+        console.log(`gp ${game.getGameProgress().toString()} boss ${bossName} key ${key}`)
+    }
+    /*
+   this.gameProgress.level0.name = "The Laboratory"
+        this.gameProgress.level0.boss = "Jill Valentine"
+        this.gameProgress.level0.text = "Status Unknown"
+        this.gameProgress.level0.style = "font-style: italic"
+        this.gameProgress.level0.bossDown = false
+        */
+
+    drawProgress() {
+        let game = this.game
+        let currentLevelGp = game.getGameProgress()
+        Object.keys(game.gameProgress).forEach(key => {
+            let isCurrentLevel = currentLevelGp.level === game.gameProgress[key].level
+
+            if(isCurrentLevel){
+                console.log(`key ${key} iteration level ${game.gameProgress[key].level} player on level ${currentLevelGp.level} ${currentLevelGp.toString()}`)
+            }
+
+            if(currentLevelGp.level > game.gameProgress[key].level && game.gameProgress[key].text == 'Status Unknown' ){
+                game.gameProgress[key].style = "color: red; text-decoration: line-through"
+            }
+
+            let boss = this.game.director.boss
+            if (boss && isCurrentLevel) {
+                // game.gameProgress[key].text = boss.name
+                if(boss.playerSeen()){
+                    game.gameProgress[key].text = boss.name
+                } else {
+                    game.gameProgress[key].text = "Status Unknown" 
+                }
+            }
+
+            let id = "level" + game.gameProgress[key].level 
+            let elem = document.getElementById(id)
+            elem.innerHTML = game.gameProgress[key].text
+            elem.style = game.gameProgress[key].style
+
+            console.log(game.gameProgress[key])
+
+        })
+        // console.log(`gp ${game.getGameProgress().toString()} boss ${bossName} key ${key}`)
     }
 
     drawMobs(onlyInfectable) {

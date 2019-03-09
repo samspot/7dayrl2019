@@ -164,7 +164,8 @@ export class Director {
         this.debug()
         this.countdown--
         if (this.countdown <= 0 && !this.game.getGameProgress().bossDown) {
-            let spawnrate = this.game.getGameProgress.spawnrate
+            let spawnrate = this.game.getGameProgress().spawnRate
+            // console.log(`spawnrate ${spawnrate}`)
 
             if (Config.debug && Config.spawnrate) {
                 spawnrate = Config.spawnrate

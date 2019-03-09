@@ -11,19 +11,22 @@ import Maps from './maps.js'
 import Tyrant from 'assets/tyrant.json'
 
 /* feedback
-    catacombs hard, swarmed
-    hard to see who is the boss
-    Also is it normal that when I melee attack as chris or a spider I jump bodies instantly ?
-     the hunting mansion is a black screen
 
+defect: charge still causing issues
+1. refine start screen my pic, logo
+3. Revisit enemy colors
+4. block input on boss splash modal
+FB: hard to see who is the boss
 TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
 
-defect; restart game doesn't clear boss progress
-defect: charge still causing issues
-defect: high scores wrong name - cannot reproduce today
-3. Revisit enemy colors
+X. lower spawn rates like a lot!
+FIXED defect; restart game doesn't clear boss progress
+FIXED defect: high scores wrong name - cannot reproduce today
+FIXED (lower spawn rate) FB: catacombs hard, swarmed
+FIXED (remove charge) FB: Also is it normal that when I melee attack as chris or a spider I jump bodies instantly ?
+FIXED (remove charge) FB: the hunting mansion is a black screen
 
 Descoped
 
@@ -34,10 +37,8 @@ Descoped
 
 */
 
-const startingLvlStatus = {
-    text: "Status Unknown",
-    style: "font-style: italic",
-    bossDown: false
+function gpToString(){
+    return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
 
 export class Game {
@@ -55,43 +56,63 @@ export class Game {
         this.gameDisplay = new GameDisplay(this)
         this.messages = []
         this.gameProgress = {
-            level0: _.clone(startingLvlStatus),
-            level1: _.clone(startingLvlStatus),
-            level2: _.clone(startingLvlStatus),
-            level3: _.clone(startingLvlStatus),
-            level4: _.clone(startingLvlStatus)
+            level0: {toString: gpToString},
+            level1: {toString: gpToString},
+            level2: {toString: gpToString},
+            level3: {toString: gpToString},
+            level4: {toString: gpToString}
         }
 
         // TODO remove this duplicate info (also in director.levelNames)
+        this.gameProgress.level0.level = 0
         this.gameProgress.level0.name = "The Laboratory"
         this.gameProgress.level0.boss = "Jill Valentine"
         this.gameProgress.level0.floorColor = '#999999'
         this.gameProgress.level0.wallColor = '#ffffff'
         this.gameProgress.level0.spawnRate = 3
+        this.gameProgress.level0.text = "Status Unknown"
+        this.gameProgress.level0.style = "font-style: italic"
+        this.gameProgress.level0.bossDown = false
 
+        this.gameProgress.level1.level = 1
         this.gameProgress.level1.name = "Catacombs"
         this.gameProgress.level1.boss = "Chris Redfield"
         this.gameProgress.level1.floorColor = '#cc9966'
         this.gameProgress.level1.wallColor = '#660033'
-        this.gameProgress.level1.spawnRate = 9
+        this.gameProgress.level1.spawnRate = 7
+        this.gameProgress.level1.text = "Status Unknown"
+        this.gameProgress.level1.style = "font-style: italic"
+        this.gameProgress.level1.bossDown = false
 
+        this.gameProgress.level2.level = 2
         this.gameProgress.level2.name = "Garden"
         this.gameProgress.level2.boss = "Barry Burton"
         this.gameProgress.level2.floorColor = '#cc9966'
         this.gameProgress.level2.wallColor = '#006600'
-        this.gameProgress.level2.spawnRate = 7
+        this.gameProgress.level2.spawnRate = 6
+        this.gameProgress.level2.text = "Status Unknown"
+        this.gameProgress.level2.style = "font-style: italic"
+        this.gameProgress.level2.bossDown = false
 
+        this.gameProgress.level3.level = 3
         this.gameProgress.level3.name = "Guardhouse"
         this.gameProgress.level3.boss = "Brad Vickers"
         this.gameProgress.level3.floorColor = '#cccc99'
         this.gameProgress.level3.wallColor = '#330066'
         this.gameProgress.level3.spawnRate = 4
+        this.gameProgress.level3.text = "Status Unknown"
+        this.gameProgress.level3.style = "font-style: italic"
+        this.gameProgress.level3.bossDown = false
 
+        this.gameProgress.level4.level = 4
         this.gameProgress.level4.name = "The Mansion"
         this.gameProgress.level4.boss = "Albert Wesker"
         this.gameProgress.level4.floorColor = '#6699cc'
         this.gameProgress.level4.wallColor = '#660033'
-        this.gameProgress.level4.spawnRate = 8
+        this.gameProgress.level4.spawnRate = 5
+        this.gameProgress.level4.text = "Status Unknown"
+        this.gameProgress.level4.style = "font-style: italic"
+        this.gameProgress.level4.bossDown = false
     }
 
     allBossesDown() {
