@@ -2,11 +2,12 @@ import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 import { MoveAction, DefaultAction, AbilityAction } from './actions.js';
 
-import Jill from '../assets/img/jill.png'
-import Chris from '../assets/img/chris.png'
-import Barry from '../assets/img/barry.png'
-import Wesker from '../assets/img/wesker.png'
-import Brad from '../assets/img/brad.png'
+// import Jill from '../assets/img/jill.png'
+// import Chris from '../assets/img/chris.png'
+// import Barry from '../assets/img/barry.png'
+// import Wesker from '../assets/img/wesker.png'
+// import Brad from '../assets/img/brad.png'
+import Empty75x75 from '../assets/img/empty.png'
 import { Charge } from './abilities.js';
 
 export class Monster extends Actor {
@@ -31,22 +32,11 @@ export class Monster extends Actor {
     setSeen() {
         if (this.boss && !this.seen) {
             let gp = this.game.getGameProgress()
-            console.log("boss seen", gp)
 
-
-        let imageMap = {
-            "Jill Valentine": Jill,
-            "Chris Redfield": Chris,
-            "Barry Burton": Barry,
-            "Brad Vickers": Brad,
-            "Albert Wesker": Wesker
-        }
-            // let targetImageFile = targetImageMap[game.getGameProgress().boss] || Unknown
-            // let targetImageFile = Jill
-            let targetImageFile = imageMap[this.game.getGameProgress().boss]
             let targetImage = new Image()
-            targetImage.src = targetImageFile
-            // let elem = document.getElementById('target')
+            targetImage.src = Empty75x75
+            targetImage.id = 'boss-splash'
+
             let text = `<p style="color: red">TARGET<p> <b>${this.name}</b><p> HP ${this.hp}/${this.maxHp}<br> Melee Damage ${this.str}`
             text += `<p>${this.bio}<p>"${this.quote}"`
 
@@ -56,9 +46,14 @@ export class Monster extends Actor {
             span.innerHTML = text
 
             div.appendChild(targetImage)
+
             div.appendChild(span)
 
             this.game.gameDisplay.showModal(text, div)
+
+            let display = this.game.gameDisplay
+            let bossName = display.getNameMap()[gp.boss]
+            display.renderCharacter(bossName, 'boss-splash')
         }
         this.seen = true
     }
@@ -124,7 +119,7 @@ export class Monster extends Actor {
                 this.game.destroyMob(this)
                 delete this.game.director.boss
                 this.game.killBoss()
-                this.game.message(this.name+" got lost so we killed him.  You may proceed to the next level ('>' key)", true)
+                this.game.message(this.name + " got lost so we killed him.  You may proceed to the next level ('>' key)", true)
 
                 // this.game.message(`A horde of ${this.name}'s arise from the pieces`, true)
                 // this.game.message('The boss is cloning itself, get out NOW!', true)
@@ -133,7 +128,7 @@ export class Monster extends Actor {
             }
 
             // if (this.isBoss()) {
-                // console.log('acting', path[0], path[1], this.name, this.x, this.y)
+            // console.log('acting', path[0], path[1], this.name, this.x, this.y)
             // }
             x = path[0][0]
             y = path[0][1]

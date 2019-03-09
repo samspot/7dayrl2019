@@ -48,6 +48,10 @@ export class GameDisplay {
         this.drawMessages()
     }
 
+    getNameMap(){
+        return nameMap
+    }
+
     drawStatusBar() {
         let game = this.game
 
@@ -94,8 +98,12 @@ export class GameDisplay {
 
     renderCharacter(className, id) {
         let elem = document.getElementById(id)
-        elem.classList = []
-        elem.classList.add(className)
+        if(elem){
+            elem.classList = []
+            elem.classList.add(className)
+        } else {
+            console.log('couldnt find elem', className)
+        }
     }
 
     renderAbilityImage(parent, hotkey, ability, idx) {
