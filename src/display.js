@@ -58,22 +58,49 @@ export class GameDisplay {
             return
         }
 
-        let textTraits = `<p style="color: red">TARGET<p> <b>${actor.name}</b><p> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage ${actor.str}`
+        let textTraits = `<span style="color: red">TARGET</span> <b>${actor.name}</b><p> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage ${actor.str}`
 
         let abilities = actor.abilities.map(a => {
             console.log('ability', a)
-            return `<p>${a.constructor.name} Damage ${a.dmg} Range ${a.range} Cooldown ${a.maxCooldown}`
-        }).reduce((string, a) => string += a)
+            // return `<p>${a.constructor.name} Damage ${a.dmg} Range ${a.range} Cooldown ${a.maxCooldown}`
+            return a
+        }).map(a => {
+            let name = a.constructor.name.toLowerCase()
+            // hardcode fix for launcher
+            if (name === "GrenadeLauncher") {
+                name = "Launcher"
+            }
 
+            let image = new Image()
+            image.src = Empty75x75
+            image.style = "float: right; margin-top: -18px"
+            image.classList.add(name+'-ready')
 
-        let text = `<h3>Skills</h3>${abilities}`
-        text += `<p>${actor.bio}<p>"${actor.quote}"`
+            return {
+                image: image,
+                text: `<p><b>${a.constructor.name}</b> Damage ${a.dmg} <br>Range ${a.range} Cooldown ${a.maxCooldown}`
+            }
+        }).map(a => {
+            let div = document.createElement('div')
+            div.style = 'height: 64px'
+            div.appendChild(a.image)
+
+            let span = document.createElement('span')
+            span.innerHTML = a.text
+            // span.style = "float: left;"
+            div.appendChild(span)
+            return div
+        })
+
+        console.log(abilities)
+
+        let text = `<h3>Bio</h3><p>${actor.bio}<p>"${actor.quote}"`
 
         let gp = this.game.getGameProgress()
         let targetImage = new Image()
         targetImage.src = Empty75x75
         targetImage.id = 'boss-splash'
-        targetImage.style = "margin-left: 48px; margin-top: 48px;"
+        targetImage.style = "margin-left: 48px; margin-top: 11px;"
 
         // main div
         let div = document.createElement('div')
@@ -95,6 +122,12 @@ export class GameDisplay {
 
         leftDiv.appendChild(targetImage)
         rightDiv.appendChild(span)
+
+        let spanSkillTitle = document.createElement('span')
+        spanSkillTitle.innerHTML = '<h3>Skills</h3>'
+
+        bottomDiv.appendChild(spanSkillTitle)
+        abilities.forEach(a => bottomDiv.appendChild(a))
         bottomDiv.appendChild(span2)
 
         div.appendChild(leftDiv)
