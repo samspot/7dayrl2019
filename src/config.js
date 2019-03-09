@@ -5,15 +5,15 @@ const Config = {
     gamePortHeight: 27,
     fontSize: 16,
     messageListSize: 15,
-    seed: 12362,
+    // seed: 12362,
     // seed: 12377,
-    turnsToSim: 20,
+    // turnsToSim: 20,
     // turnsToSim: 9,
     // drawWholeMap: true,
     // drawAllMobs: true,
-    debug: true,
-    skipTitle: true,
-    playerInvulnerable: true
+    // debug: true,
+    // skipTitle: true,
+    // playerInvulnerable: true
 }
 
 /*

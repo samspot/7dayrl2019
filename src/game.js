@@ -42,7 +42,7 @@ X. Show boss splash when first seen, including abilities
 X. Need a spawn limit, especially in catacombs.
 
 defect; restart game doesn't clear boss progress
-defect: chare still causing issues
+defect: charge still causing issues
 high scores wrong name
 1. Add boss abilities to their modal
 3. Revisit enemy colors
