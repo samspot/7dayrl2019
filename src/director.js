@@ -43,7 +43,7 @@ const levelNames = {
 const mobs = {
     'lab': [Zombie, Zombie, Chimera],
     'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Zombie, Hunter, Spider, Lisa], // SpiderBoss
-    'outside': [Zombie, Dog, Dog, Plant, Spider],
+    'outside': [Zombie, Dog, Dog, Spider],
     'guardhouse': [Zombie, Spider, Spider, Shark], // Plant, Plant42
     'mansion': [Zombie, Zombie, Hunter, Hunter], //Snake
 }
@@ -51,28 +51,10 @@ const mobs = {
 const bosses = {
     'lab': Jill,
     'catacombs': Chris,
-    // 'catacombs': Jill,
     'outside': Barry,
     'guardhouse': Brad,
     'mansion': Wesker
 }
-
-/*
-image queue
-- Zombie, 
-- Chimera, 
-- Dog, 
-- Hunter, 
-- Lisa Trevor, 
-- Shark, 
-- Giant Spider, 
-
-descoped
-- Black Tiger
-- Snake Boss, 
-- Plant, 
-- Plant 42, 
-*/
 
 const abilities = {
     'Jill Valentine': [GrenadeLauncher, EmptySlot],

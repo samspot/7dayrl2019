@@ -38,8 +38,10 @@ X. Character/Target tooltips
 
 X. Show boss splash when first seen, including abilities
 X. Need a spawn limit, especially in catacombs.
+!!! DEFECT !!! killing wesker doesn't win
 1. Add boss abilities to their modal
 2. fix name popping out of UI when possessing a zombie
+3. fix image pop issues
 3. Can i stop the image jump when they change?
 3. Revisit enemy colors
 5. status effects like 'grabbed'

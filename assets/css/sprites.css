@@ -1,0 +1,107 @@
+.jill {
+    background: url(../../assets/img/mob-sprite-sheet.png) 0 -150px;
+}
+
+.jill-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) 0 -225px;
+}
+
+.jill-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) 0 -300px;
+}
+
+.chris {
+    background: url(../../assets/img/mob-sprite-sheet.png) -75px -150px;
+}
+
+.chris-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -75px -225px;
+}
+
+.chris-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -75px -300px;
+}
+
+.barry {
+    background: url(../../assets/img/mob-sprite-sheet.png) -150px -150px;
+}
+
+.barry-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -150px -225px;
+}
+
+.barry-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -150px -300px;
+}
+
+.brad {
+    background: url(../../assets/img/mob-sprite-sheet.png) -225px -150px;
+}
+
+.brad-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -225px -225px;
+}
+
+.brad-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -225px -300px;
+}
+
+.wesker {
+    background: url(../../assets/img/mob-sprite-sheet.png) -300px -150px;
+}
+
+.wesker-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -300px -225px;
+}
+
+.wesker-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -300px -300px;
+}
+
+.zombie, .zombie-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) 0 0;
+}
+
+.chimera, .chimera-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -75px 0;
+}
+
+.dog, .dog-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -150px 0;
+}
+
+.hunter, .hunter-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -225px 0;
+}
+
+.tyrant, .tyrant-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -450px 0;
+}
+
+.lisa, .lisa-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) 0 -75px;
+}
+
+.shark, .shark-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -75px -75px;
+}
+
+.spider, .spider-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -150px -75px;
+}
+
+.unknown, .unknown-dead, .unknown-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -450px -75px;
+}
+
+.condition-fine {
+    background: url(../../assets/img/mob-sprite-sheet.png) -375px 225px;
+}
+
+.condition-caution {
+    background: url(../../assets/img/mob-sprite-sheet.png) -450px 225px;
+}
+
+.condition-danger {
+    background: url(../../assets/img/mob-sprite-sheet.png) -525px 225px;
+}

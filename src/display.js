@@ -1,45 +1,29 @@
-import Tyrant from '../assets/img/tyrant.png'
-
-import Jill from '../assets/img/jill.png'
-import JillDead from '../assets/img/jill-dead.png'
-import JillEliminated from '../assets/img/jill-eliminated.png'
-
-import Chris from '../assets/img/chris.png'
-import ChrisDead from '../assets/img/chris-dead.png'
-import ChrisEliminated from '../assets/img/chris-eliminated.png'
-
-import Barry from '../assets/img/barry.png'
-import BarryDead from '../assets/img/barry-dead.png'
-import BarryEliminated from '../assets/img/barry-eliminated.png'
-
-import Brad from '../assets/img/brad.png'
-import BradDead from '../assets/img/brad-dead.png'
-import BradEliminated from '../assets/img/brad-eliminated.png'
-
-import Wesker from '../assets/img/wesker.png'
-import WeskerDead from '../assets/img/wesker-dead.png'
-import WeskerEliminated from '../assets/img/wesker-eliminated.png'
-
-import Unknown from '../assets/img/unknown.png'
-
-import Empty from '../assets/img/empty.png'
-import AbilitiesCooldown from '../assets/img/ability-sprite-sheet-gray.png'
-import AbilitiesReady from '../assets/img/ability-sprite-sheet-color.png'
-
-import ConditionFine from '../assets/img/condition-fine.png'
-import ConditionCaution from '../assets/img/condition-caution.png'
-import ConditionDanger from '../assets/img/condition-danger.png'
+import Empty75x75 from '../assets/img/empty.png'
+import Empty70x80 from '../assets/img/empty70x80.png'
 
 import '../assets/css/main.css'
+import '../assets/css/sprites.css'
+import '../assets/css/abilities.css'
 import Config from './config';
 import { Monster } from './monster';
+
+import * as ROT from 'rot-js'
+
+const TARGET = 'target'
+const PORTRAIT = 'portrait2'
+const CONDITION = 'condition'
 
 export class GameDisplay {
     constructor(game) {
         this.game = game
+        this.renderEmptyImage(TARGET, Empty75x75)
+        this.renderEmptyImage(PORTRAIT, Empty75x75)
+        this.renderEmptyImage(CONDITION, Empty70x80)
     }
 
     updateGui() {
+        // cleanup all tooltips
+        document.querySelectorAll('.tooltiptext').forEach(e => e.parentNode.removeChild(e))
         this.drawStatusBar()
         this.drawAbilities()
         this.drawPortraits()
@@ -61,23 +45,13 @@ export class GameDisplay {
     }
 
     drawAbilities() {
-
-
         let game = this.game
-        // let elem = document.getElementById('abilities')
-        // elem.innerHTML = ''
 
         let abilities = []
         game.player.getAbilities().forEach(ability => {
-            // console.log(ability)
             let { constructor, maxCooldown, cooldown, dmg, range } = ability
 
             let tooltip = `<b>${constructor.name}</b> cooldown is ${cooldown} (Max ${maxCooldown}) Does ${dmg} damage and has a range of ${range}.`
-            // if (cooldown === 0) {
-            // cooldown = "READY"
-            // }
-            // let text = `[Cooldown: ${cooldown}/${maxCooldown} `
-            // + `Damage: ${dmg} Range: ${range}]`
             let text = ''
             abilities.push({ name: constructor.name, text: text, obj: ability, tooltip: tooltip })
         })
@@ -91,8 +65,22 @@ export class GameDisplay {
         })
     }
 
+    renderEmptyImage(id, img){
+        let elem = document.getElementById(id)
+        elem.innerHTML = ''
+
+        let empty = new Image()
+        empty.src = img
+        elem.appendChild(empty)
+    }
+
+    renderCharacter(className, id){
+        let elem = document.getElementById(id)
+        elem.classList = []
+        elem.classList.add(className)
+    }
+
     renderAbilityImage(parent, hotkey, ability, idx) {
-        // console.log('ability', ability)
         let name = ability.name.toLowerCase()
         if (ability.obj.cooldown === 0) {
             name += '-ready'
@@ -112,7 +100,7 @@ export class GameDisplay {
         center.innerHTML = ability.obj.cooldown
 
         let abilityImage = new Image()
-        abilityImage.src = Empty
+        abilityImage.src = Empty75x75
         // class name for determining icon
         abilityImage.classList.add(name)
         abilityImage.classList.add('ability-icon')
@@ -145,27 +133,12 @@ export class GameDisplay {
 
         parent.appendChild(superContainer)
     }
-    // fine green, caution yellow, caution orange, danger red
-    renderCondition(img) {
-        let elem = document.getElementById('condition')
-        elem.innerHTML = ''
-        elem.appendChild(img)
-    }
 
-    renderPortrait(img) {
-        let elem = document.getElementById('portrait2')
-        elem.innerHTML = ''
-        elem.appendChild(img)
-
-    }
-
-    renderTarget(img, boss) {
-        let elem = document.getElementById('target')
-        elem.innerHTML = ''
-        elem.appendChild(img)
+    renderTarget(name, boss) {
+        this.renderCharacter(name, TARGET)
+        let elem = document.getElementById(TARGET)
 
         if(boss && boss.playerSeen()){
-            // this.addTooltip(elem, `<b>${boss.name}</b><br><br> HP ${boss.hp}/${boss.maxHp} Melee Damage: ${boss.str}`)
             this.addTooltip(elem, this.getTooltip(boss))
         }
     }
@@ -184,27 +157,20 @@ export class GameDisplay {
         return `<b>${actor.name}</b><br><br> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage: ${actor.str}`
     }
 
-    getTargetImageMap(){
-        return {
-            "Jill Valentine": Jill,
-            "Chris Redfield": Chris,
-            "Barry Burton": Barry,
-            "Brad Vickers": Brad,
-            "Albert Wesker": Wesker
-        }
-    }
 
     drawPortraits() {
-        /*
-        let playerImageMap = {
-            "Tyrant": Tyrant,
-            "Jill Valentine": JillDead,
-            "Chris Redfield": ChrisDead,
-            "Barry Burton": BarryDead,
-            "Brad Vickers": BradDead,
-            "Albert Wesker": WeskerDead
+        let game = this.game
+        let conditionName
+        let hp = game.player.hp
+        if (hp < game.player.maxHp * .5) {
+            conditionName = 'condition-danger'
+        } else if (hp < game.player.maxHp * .8) {
+            conditionName = 'condition-caution'
+        } else {
+            conditionName = 'condition-fine'
         }
-        */
+
+        this.renderCharacter(conditionName, CONDITION)
 
         let playerImageMap2 = {
             'Tyrant': 'tyrant',
@@ -221,67 +187,29 @@ export class GameDisplay {
             'Shark': 'shark',
             'Giant Spider': 'spider'
         }
-        let targetImageMap = this.getTargetImageMap()
-        let deadImageMap = {
-            "Jill Valentine": JillEliminated,
-            "Chris Redfield": ChrisEliminated,
-            "Barry Burton": BarryEliminated,
-            "Brad Vickers": BradEliminated,
-            "Albert Wesker": WeskerEliminated
-        }
 
-        let game = this.game
-
-        let portraitImageFile = Empty //playerImageMap[game.player.name] || Unknown
-        let portraitImage = new Image()
-        portraitImage.src = portraitImageFile
-
-    // renderPortrait(img) {
-        // let elem = document.getElementById('portrait2')
-        // elem.innerHTML = ''
-        // elem.appendChild(img)
-    // }
-        this.renderPortrait(portraitImage)
         let elem = document.getElementById('portrait2')
 
-        // TODO call right pic based on person
-        // elem.classList.add('tyrant')
-        elem.className = ''
-        elem.classList.add(playerImageMap2[game.player.name])
         this.addTooltip(elem, this.getTooltip(game.player))
 
-        let targetImageFile = targetImageMap[game.getGameProgress().boss] || Unknown
-        let targetImage = new Image()
+        let charName = playerImageMap2[game.player.name] + '-dead'
+        console.log('char', charName)
+        this.renderCharacter(charName, PORTRAIT)
 
+        let bossName = playerImageMap2[game.getGameProgress().boss]
         let boss = this.game.director.boss
         if (boss && boss.playerSeen()) {
-            targetImage.src = targetImageFile
+
         } else {
-            targetImage.src = Unknown
+            bossName = 'unknown'
         }
 
-        let deadTargetImageFile = deadImageMap[game.getGameProgress().boss] || Unknown
-        let deadTargetImage = new Image()
-        deadTargetImage.src = deadTargetImageFile
-
-
-        let conditionImage = new Image()
-
-        let hp = game.player.hp
-        if (hp < game.player.maxHp * .5) {
-            conditionImage.src = ConditionDanger
-        } else if (hp < game.player.maxHp * .8) {
-            conditionImage.src = ConditionCaution
-        } else {
-            conditionImage.src = ConditionFine
-        }
-
-        this.renderCondition(conditionImage)
-
+        console.log('bossName', bossName)
         if (game.levelBossPassed()) {
-            this.renderTarget(deadTargetImage)
+            bossName += '-eliminated'
+            this.renderTarget(bossName)
         } else {
-            this.renderTarget(targetImage, boss)
+            this.renderTarget(bossName, boss)
         }
     }
 
@@ -293,7 +221,6 @@ export class GameDisplay {
         if (boss && boss.playerSeen()) {
             text = gameProgress.text
         }
-
 
         let key = "level" + game.currentLevel
         let elem = document.getElementById(key)

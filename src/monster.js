@@ -1,7 +1,12 @@
 import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 import { MoveAction, DefaultAction, AbilityAction } from './actions.js';
+
 import Jill from '../assets/img/jill.png'
+import Chris from '../assets/img/chris.png'
+import Barry from '../assets/img/barry.png'
+import Wesker from '../assets/img/wesker.png'
+import Brad from '../assets/img/brad.png'
 
 export class Monster extends Actor {
     constructor(x, y, game, mobspec) {
@@ -28,9 +33,16 @@ export class Monster extends Actor {
             console.log("boss seen", gp)
 
 
+        let imageMap = {
+            "Jill Valentine": Jill,
+            "Chris Redfield": Chris,
+            "Barry Burton": Barry,
+            "Brad Vickers": Brad,
+            "Albert Wesker": Wesker
+        }
             // let targetImageFile = targetImageMap[game.getGameProgress().boss] || Unknown
             // let targetImageFile = Jill
-            let targetImageFile = this.game.gameDisplay.getTargetImageMap()[this.game.getGameProgress().boss]
+            let targetImageFile = imageMap[this.game.getGameProgress().boss]
             let targetImage = new Image()
             targetImage.src = targetImageFile
             // let elem = document.getElementById('target')

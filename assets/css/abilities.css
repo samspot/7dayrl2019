@@ -1,0 +1,80 @@
+
+.impale-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) 0 0;
+}
+
+.impale-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) 0 0;
+}
+
+.charge-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -75px 0;
+}
+
+.charge-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -75px 0;
+}
+
+.infect-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -150px 0;
+}
+
+.infect-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -150px 0;
+}
+
+.grab-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -225px 0;
+}
+
+.grab-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -225px 0;
+}
+
+.grenadelauncher-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -300px 0;
+}
+
+.grenadelauncher-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -300px 0;
+}
+
+.shotgun-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -375px 0;
+}
+
+.shotgun-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -375px 0;
+}
+
+.magnum-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) 0 75px;
+}
+
+.magnum-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) 0 75px;
+}
+
+.bite-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -75px 75px;
+}
+
+.bite-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -75px 75px;
+}
+
+.haymaker-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -150px 75px;
+}
+
+.haymaker-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -150px 75px;
+}
+
+.poison-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -225px 75px;
+}
+
+.poison-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -225px 75px;
+}

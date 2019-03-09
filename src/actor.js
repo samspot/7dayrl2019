@@ -4,6 +4,7 @@ import Tyrant from 'assets/tyrant.json'
 import Zombie from 'assets/zombie.json'
 import Jill from 'assets/jill.json'
 import { YouWinAction } from './actions';
+import Config from './config';
 
 export class Actor {
     constructor(x, y, symbol, color, game) {
@@ -31,6 +32,9 @@ export class Actor {
     }
 
     damage(dmg){
+        if(this.isPlayer() && Config.debug && Config.playerInvulnerable){
+            return
+        }
         // if(this.boss){
             // console.log(`${dmg} vs ${this.name} ${this.hp} seen ${this.playerSeen()}`)
         // }
