@@ -18,7 +18,7 @@ export class Player extends Actor {
         // this.name= "Giant Spider"
         this.hp = Tyrant.hp
         this.maxHp = this.hp
-        this.str = Tyrant.str 
+        this.str = Tyrant.str
         this.color = Tyrant.color
         this.sightRadius = Tyrant.sightRadius
 
@@ -30,11 +30,11 @@ export class Player extends Actor {
         // make the game advance a few turns on startup
         this.debugCount = 0
         if (Config.debug) {
-            this.debugCount = Config.turnsToSim 
+            this.debugCount = Config.turnsToSim
         }
     }
 
-    revive(){
+    revive() {
         this.name = Tyrant.name
         this.hp = Tyrant.hp
         this.maxHp = this.hp
@@ -48,10 +48,10 @@ export class Player extends Actor {
         this.addAbility(new Infect(this))
     }
 
-    infectMob(mob){
+    infectMob(mob) {
         this.name = mob.name
         this.hp = mob.maxHp * 1.5
-        if(this.hp < 150){ this.hp = 150}
+        if (this.hp < 150) { this.hp = 150 }
         this.maxHp = this.hp
         this.color = mob.color
         this.str = mob.str
@@ -67,15 +67,15 @@ export class Player extends Actor {
             // console.log('adding ability', a)
             a.actor = this
             this.addAbility(_.clone(a))
-            if(a.constructor.name === 'Impale'){ hasImpale = true}
+            if (a.constructor.name === 'Impale') { hasImpale = true }
         })
-        if(!hasImpale){
+        if (!hasImpale) {
             // this.addAbility(new Impale(this))
         }
         this.addAbility(new Infect(this))
     }
 
-    isTargetMode(){
+    isTargetMode() {
         return this.state === TARGETTING
     }
 
@@ -97,7 +97,7 @@ export class Player extends Actor {
         if (this.debugCount > 0) {
             this.debugCount--
 
-            if(Config.debug){
+            if (Config.debug) {
                 // ecg 70w x 80h
                 // this.game.message("this is a very long messaged designed to break the web layout.  resident evil is so fun. don't open that door!  I ahve THIS!   I hope this is not Chris's blood! You were almost a jill sandwich!")
             }
@@ -130,6 +130,9 @@ export class Player extends Actor {
             // this.game.dirty = true
             return
         }
+        if (this.splash) {
+            return;
+        }
 
         // Enter key
         if (charCode === 13) {
@@ -155,23 +158,25 @@ export class Player extends Actor {
         e.preventDefault()
 
         let cursor = this.game.cursor
+        if (cursor) {
 
-        var diff = ROT.DIRS[8][keyMap[charCode]];
-        let newX = cursor.x + diff[0];
-        let newY = cursor.y + diff[1];
+            var diff = ROT.DIRS[8][keyMap[charCode]];
+            let newX = cursor.x + diff[0];
+            let newY = cursor.y + diff[1];
 
-        // TODO: also make sure path is clear, don't shoot through walls
-        if (this.inRange(this.usingAbility, this, newX, newY)) {
-            this.game.cursor.x = newX
-            this.game.cursor.y = newY
+            // TODO: also make sure path is clear, don't shoot through walls
+            if (this.inRange(this.usingAbility, this, newX, newY)) {
+                this.game.cursor.x = newX
+                this.game.cursor.y = newY
 
-            this.game.redraw()
-            cursor.drawMe()
+                this.game.redraw()
+                cursor.drawMe()
+            }
         }
     }
 
-    inRange(ability, actor, x, y){
-        let distance = Math.sqrt( (x - actor.x) ** 2 + (y - actor.y) ** 2)
+    inRange(ability, actor, x, y) {
+        let distance = Math.sqrt((x - actor.x) ** 2 + (y - actor.y) ** 2)
         distance = Math.floor(distance)
         // console.log('distance', distance, 'range', ability.range)
         return distance <= ability.range
@@ -182,7 +187,7 @@ export class Player extends Actor {
         if (this.state === TARGETTING) {
             return this.handleTarget(e)
         }
-        // console.log(e)
+        // console.log('handle event', e)
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
@@ -197,6 +202,9 @@ export class Player extends Actor {
             return
         }
 
+        if (this.splash) {
+            return
+        }
         // var code = e.keyCode;
         var code = charCode
         // enter or space
@@ -214,7 +222,7 @@ export class Player extends Actor {
             ROT.KEYS.VK_R
         ]
         let result = _.findIndex(abilitykeys, x => x === code)
-        if(result >= 0){
+        if (result >= 0) {
             // console.log('pressed ability key', result)
 
             this.useAbility(this.abilities[result])

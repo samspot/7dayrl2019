@@ -35,6 +35,7 @@ export class GameDisplay {
         this.renderEmptyImage(TARGET, Empty75x75)
         this.renderEmptyImage(PORTRAIT, Empty75x75)
         this.renderEmptyImage(CONDITION, Empty70x80)
+        window.gameDisplay = this
     }
 
     updateGui() {
@@ -330,8 +331,8 @@ export class GameDisplay {
         elem.innerHTML = text
         elem.style = gameProgress.style
 
-        let bossName = boss && boss.name
-        console.log(`gp ${game.getGameProgress().toString()} boss ${bossName} key ${key}`)
+        // let bossName = boss && boss.name
+        // console.log(`gp ${game.getGameProgress().toString()} boss ${bossName} key ${key}`)
     }
     /*
    this.gameProgress.level0.name = "The Laboratory"
@@ -348,7 +349,7 @@ export class GameDisplay {
             let isCurrentLevel = currentLevelGp.level === game.gameProgress[key].level
 
             if(isCurrentLevel){
-                console.log(`key ${key} iteration level ${game.gameProgress[key].level} player on level ${currentLevelGp.level} ${currentLevelGp.toString()}`)
+                // console.log(`key ${key} iteration level ${game.gameProgress[key].level} player on level ${currentLevelGp.level} ${currentLevelGp.toString()}`)
             }
 
             if(currentLevelGp.level > game.gameProgress[key].level && game.gameProgress[key].text == 'Status Unknown' ){
@@ -370,7 +371,7 @@ export class GameDisplay {
             elem.innerHTML = game.gameProgress[key].text
             elem.style = game.gameProgress[key].style
 
-            console.log(game.gameProgress[key])
+            // console.log(game.gameProgress[key])
 
         })
         // console.log(`gp ${game.getGameProgress().toString()} boss ${bossName} key ${key}`)
@@ -489,10 +490,17 @@ export class GameDisplay {
         } else {
             document.getElementById('modal-text').innerHTML = text
         }
-        document.getElementById('myBtn').onclick()
+        // document.getElementById('myBtn').onclick()
+        var modal = document.getElementById('myModal')
+        modal.style.display = 'block'
+        this.game.player.splash = true
     }
 
     hideModal() {
-        document.getElementsByClassName("close")[0].onclick();
+        console.log('HIDE MODAL')
+
+        var modal = document.getElementById('myModal')
+        modal.style.display = 'none'
+        this.game.player.splash = false
     }
 }

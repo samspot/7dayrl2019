@@ -15,7 +15,7 @@ import Tyrant from 'assets/tyrant.json'
 defect: charge still causing issues
 1. refine start screen my pic, logo
 3. Revisit enemy colors
-4. block input on boss splash modal
+X. block input on boss splash modal
 FB: hard to see who is the boss
 TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
@@ -372,7 +372,7 @@ export class Game {
             this.display.draw(x, y, ch, this.player.color, color)
         })
 
-        if(this.player.isTargetMode()){
+        if(this.player.isTargetMode() && this.cursor){
             this.cursor.drawMe()
         }
 

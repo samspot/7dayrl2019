@@ -6,7 +6,7 @@ const Config = {
     fontSize: 16,
     messageListSize: 15,
     // seed: 12362,
-    // turnsToSim: 20,
+    // turnsToSim: 19,
     // drawWholeMap: true,
     // drawAllMobs: true,
     // debug: true,

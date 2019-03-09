@@ -70,7 +70,8 @@
       <button onclick="mainLoop()">Start Game</button>
 
       <h2 id="instructions">Instructions</h2>
-      You are the '@' (It's where you are 'at'). Bump into monsters to attack them (or use your skills).  Move with the arrow keys, WASD,
+      You are the '@' (It's where you are 'at'). Bump into monsters to attack them (or use your skills). Move with the
+      arrow keys, WASD,
       or hjkl. You can wait with the '.' key if you want enemies to get into
       a better position. Once the level boss is dead or infected you can go to the
       next level with '>'. Skills are mapped to 'q', 'e', or 'r' and will put you into
@@ -168,35 +169,24 @@
     </div>
   </div>
   <script>
-    // Get the modal
     var modal = document.getElementById('myModal');
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks on the button, open the modal 
-    btn.onclick = function () {
-      modal.style.display = "block";
-    }
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
-      modal.style.display = "none";
+      window.gameDisplay.hideModal()
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        window.gameDisplay.hideModal()
       }
     }
   </script>
-
-
-
 </body>
 
 </html>
