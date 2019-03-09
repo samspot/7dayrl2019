@@ -13,6 +13,22 @@ const TARGET = 'target'
 const PORTRAIT = 'portrait2'
 const CONDITION = 'condition'
 
+const nameMap = {
+    'Tyrant': 'tyrant',
+    'Jill Valentine': 'jill',
+    'Chris Redfield': 'chris',
+    'Barry Burton': 'barry',
+    'Brad Vickers': 'brad',
+    'Albert Wesker': 'wesker',
+    'Zombie': 'zombie',
+    'Chimera': 'chimera',
+    'Dog': 'dog',
+    'Hunter': 'hunter',
+    'Lisa Trevor': 'lisa',
+    'Shark': 'shark',
+    'Giant Spider': 'spider'
+}
+
 export class GameDisplay {
     constructor(game) {
         this.game = game
@@ -34,7 +50,9 @@ export class GameDisplay {
 
     drawStatusBar() {
         let game = this.game
-        document.getElementById('name').innerHTML = game.player.name
+
+
+        document.getElementById('name').innerHTML = nameMap[game.player.name]
         document.getElementById('hp').innerHTML = game.player.hp
         document.getElementById('score').innerHTML = "Score " + game.score
         document.getElementById('level').innerHTML = "Hunting in " + game.getGameProgress().name
@@ -65,7 +83,7 @@ export class GameDisplay {
         })
     }
 
-    renderEmptyImage(id, img){
+    renderEmptyImage(id, img) {
         let elem = document.getElementById(id)
         elem.innerHTML = ''
 
@@ -74,7 +92,7 @@ export class GameDisplay {
         elem.appendChild(empty)
     }
 
-    renderCharacter(className, id){
+    renderCharacter(className, id) {
         let elem = document.getElementById(id)
         elem.classList = []
         elem.classList.add(className)
@@ -138,13 +156,13 @@ export class GameDisplay {
         this.renderCharacter(name, TARGET)
         let elem = document.getElementById(TARGET)
 
-        if(boss && boss.playerSeen()){
+        if (boss && boss.playerSeen()) {
             this.addTooltip(elem, this.getTooltip(boss))
         }
     }
 
-    addTooltip(elem, text){
-        if(!elem){ return }
+    addTooltip(elem, text) {
+        if (!elem) { return }
         elem.classList.add('tooltip')
 
         let tooltip = document.createElement('span')
@@ -153,7 +171,7 @@ export class GameDisplay {
         elem.appendChild(tooltip)
     }
 
-    getTooltip(actor){
+    getTooltip(actor) {
         return `<b>${actor.name}</b><br><br> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage: ${actor.str}`
     }
 
@@ -172,31 +190,15 @@ export class GameDisplay {
 
         this.renderCharacter(conditionName, CONDITION)
 
-        let playerImageMap2 = {
-            'Tyrant': 'tyrant',
-            'Jill Valentine': 'jill',
-            'Chris Redfield': 'chris',
-            'Barry Burton': 'barry',
-            'Brad Vickers': 'brad',
-            'Albert Wesker': 'wesker',
-            'Zombie': 'zombie',
-            'Chimera': 'chimera',
-            'Dog': 'dog',
-            'Hunter': 'hunter',
-            'Lisa Trevor': 'lisa',
-            'Shark': 'shark',
-            'Giant Spider': 'spider'
-        }
 
-        let elem = document.getElementById('portrait2')
 
-        this.addTooltip(elem, this.getTooltip(game.player))
-
-        let charName = playerImageMap2[game.player.name] + '-dead'
+        let charName = nameMap[game.player.name] + '-dead'
         console.log('char', charName)
         this.renderCharacter(charName, PORTRAIT)
+        let elem = document.getElementById(PORTRAIT)
+        this.addTooltip(elem, this.getTooltip(game.player))
 
-        let bossName = playerImageMap2[game.getGameProgress().boss]
+        let bossName = nameMap[game.getGameProgress().boss]
         let boss = this.game.director.boss
         if (boss && boss.playerSeen()) {
 
@@ -334,8 +336,8 @@ export class GameDisplay {
         */
     }
 
-    showModal(text, elem){
-        if(elem){
+    showModal(text, elem) {
+        if (elem) {
             document.getElementById('modal-text').innerHTML = ''
             document.getElementById('modal-text').appendChild(elem)
         } else {
@@ -344,7 +346,7 @@ export class GameDisplay {
         document.getElementById('myBtn').onclick()
     }
 
-    hideModal(){
+    hideModal() {
         document.getElementsByClassName("close")[0].onclick();
     }
 }

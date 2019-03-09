@@ -23,9 +23,10 @@ a:active {
 }
 
 #name {
-    position: relative;
-    top: -366px;
-    left: -221px;
+    /* position: relative; */
+    position: absolute;
+    top: 34px;
+    left: 36px;
     font-size: 0.9rem;
     font-weight: bold;
 }
@@ -37,10 +38,10 @@ a:active {
 }
 
 #score {
-    position: relative;
+    position: absolute;
     /* color: #96f; */
-    top: -366px;
-    left: -202px;
+    top: 34px;
+    left: 125px;
     font-size: 0.9rem;
     font-weight: bold;
 }
@@ -133,7 +134,7 @@ a:active {
     /* float: left; */
     /* margin-left: 15px; */
     /* margin-top: 2px; */
-    top: -179px;
+    top: -175px;
     position: relative;
     left: 215px;
     height: 75px;
@@ -161,7 +162,7 @@ a:active {
     /* margin-left: 190px; */
     /* float: left; */
     position: relative;
-    top: -263px;
+    top: -253px;
     left: 320px;
 }
 
@@ -382,9 +383,9 @@ a:active {
 /* Tooltip container */
 
 .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
+    /* position: relative; */
+    /* display: inline-block; */
+    /* border-bottom: 1px dotted black; */
     /* If you want dots under the hoverable text */
 }
 
