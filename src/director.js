@@ -93,6 +93,7 @@ export class Director {
         this.mobs = []
         this.scheduler.add(this.player, true)
         this.spawnId = 0
+        this.levelTicks = 0
     }
 
     // cleanup all things that need to be cleaned for descending
@@ -107,6 +108,7 @@ export class Director {
     // current level matters for monster gen
     levelchange(idx) {
         game.currentLevel = idx
+        this.levelTicks = 0
     }
 
     // TODO large creatures hittable through a mob, not so much for small ones
@@ -140,10 +142,11 @@ export class Director {
     }
 
     tick() {
+        this.levelTicks++
         // load any mob changes
         this.mobs = this.game.mobs
 
-        if (!this.boss) {
+        if (!this.boss && this.levelTicks > 5) {
             this.boss = bosses[levels[this.game.currentLevel]]
             console.log('spawning boss', this.boss, abilities[this.boss.name])
 
@@ -198,11 +201,22 @@ export class Director {
     // TODO make sure bosses cant spawn in vision
     createSchedule(mobspec) {
         let freeCells = this.game.getFreeCells()
+        let cellsRemoved = []
         this.game.visibleSquares.forEach(x => {
-            _.remove(freeCells, c => c === x)
+            _.remove(freeCells, c => {
+                if(c === x){
+                    cellsRemoved.push(c)
+                    return true
+                }
+                return false
+            })
         })
+        // console.log('cellsRemoved', cellsRemoved)
+        // console.log('freeCells', freeCells)
+        // console.log('player', this.game.player.x, this.game.player.y)
         let monster = this.game.createBeing(Monster,
             freeCells, mobspec)
+        // console.log('monster', monster.x, monster.y)
 
         this.spawnId++
         monster.spawnId = this.spawnId
