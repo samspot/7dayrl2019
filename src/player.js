@@ -133,7 +133,7 @@ export class Player extends Actor {
 
         // Enter key
         if (charCode === 13) {
-            console.log("enter key, do ability", this)
+            // console.log("enter key, do ability", this)
             // ability.cooldown = ability.maxCooldown
 
             if (!this.usingAbility.canTargetEmpty() && !this.game.getCharacterAt(null, this.game.cursor.x, this.game.cursor.y)) {

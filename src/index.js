@@ -31,9 +31,9 @@ async function mainLoop() {
             game.updateGui()
             game.redraw()
 
-            if(game.director.boss){
-                game.gameDisplay.drawBossSplash(game.director.boss)
-            }
+            // if(game.director.boss){
+                // game.gameDisplay.drawBossSplash(game.director.boss)
+            // }
         }
 
         // director.debugScheduler()
@@ -54,6 +54,11 @@ async function mainLoop() {
             updateScores()
             document.getElementsByClassName('title')[0].style = "display: block;"
             document.getElementsByClassName('game')[0].style = "display: true;"
+            // TODO DIDN"T WORK Try and clean gamestate
+            // TODO manually reset game progress here
+            delete game.director
+            delete game.gameDisplay
+            delete director.game
             return
         }
 

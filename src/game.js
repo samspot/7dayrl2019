@@ -15,41 +15,22 @@ import Tyrant from 'assets/tyrant.json'
     hard to see who is the boss
     Also is it normal that when I melee attack as chris or a spider I jump bodies instantly ?
      the hunting mansion is a black screen
-*/
-/* Defects */
-/*
-
 
 TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
 
-FIXED: DEFECT where is chris in this seed  false seed: 12360, turnsToSim: 2, "Hope this is not Chris' bug"
-FIXED: DEFECT Itch.IO doesn't capture keyboard events till you click!!!
-X. Finish Image Queue (in director.js)
-X. style gui like the RE1 inventory screen
-X. Infect is range 2-3, and use a tentacle, hint you can heal by infecting
-X: adjust spawn rates, mix for each map
-X. Start Screen w/ high scores
-X. way to restart without reloading from the you win screen 
-X. make invisible bosses immune to damage (no offscreen boss kills)
-X. Ability info tooltips
-X. Character/Target tooltips
-X. fix name popping out of UI when possessing a zombie
-X. fix image pop issues
-X. Can i stop the image jump when they change?
-X. Show boss splash when first seen, including abilities
-X. Need a spawn limit, especially in catacombs.
-
 defect; restart game doesn't clear boss progress
 defect: charge still causing issues
-high scores wrong name
-1. Add boss abilities to their modal
+defect: high scores wrong name - cannot reproduce today
 3. Revisit enemy colors
-5. status effects like 'grabbed'
-6. add "and DIED!" to damage messages that kill
-7. mouse controls to ui
-8. tiles
+
+Descoped
+
+1. status effects like 'grabbed'
+2. add "and DIED!" to damage messages that kill
+3. mouse controls to ui
+4. tiles
 
 */
 
@@ -119,7 +100,7 @@ export class Game {
             bosses.push(this.gameProgress[key].bossDown)
         })
 
-        return _.every(bosses)
+        return _.every(bosses) || this.gameProgress.level4.bossDown
     }
 
     levelBossPassed() {

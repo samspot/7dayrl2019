@@ -85,6 +85,9 @@ export class Director {
 
         this.scheduler = scheduler
         game.currentLevel = 0
+        if(Config.debug && Config.startLevel){
+            game.currentLevel = Config.startLevel
+        }
 
         this.boss = null
         this.mobs = []

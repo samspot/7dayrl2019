@@ -9,9 +9,10 @@ const Config = {
     // turnsToSim: 20,
     // drawWholeMap: true,
     // drawAllMobs: true,
-    debug: true,
-    skipTitle: true,
+    // debug: true,
+    // skipTitle: true,
     // playerInvulnerable: true
+    // startLevel: 3
 }
 
 /*

@@ -61,7 +61,7 @@ export class GameDisplay {
         let textTraits = `<span style="color: red">TARGET</span> <b>${actor.name}</b><p> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage ${actor.str}`
 
         let abilities = actor.abilities.map(a => {
-            console.log('ability', a)
+            // console.log('ability', a)
             // return `<p>${a.constructor.name} Damage ${a.dmg} Range ${a.range} Cooldown ${a.maxCooldown}`
             return a
         }).map(a => {
@@ -92,7 +92,7 @@ export class GameDisplay {
             return div
         })
 
-        console.log(abilities)
+        // console.log(abilities)
 
         let text = `<h3>Bio</h3><p>${actor.bio}<p>"${actor.quote}"`
 
