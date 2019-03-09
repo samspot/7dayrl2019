@@ -12,7 +12,8 @@ import Tyrant from 'assets/tyrant.json'
 
 /* feedback
 
-* boss spawn in same room, no
+* FIXED enter key close modal
+* FIXED boss spawn in same room, no
 * pathing when player unreachable
 
 * special abilities like bite can target diagonal, but you cant bump attack that direction, correct?

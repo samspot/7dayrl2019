@@ -9,6 +9,7 @@ import Tyrant from 'assets/tyrant.json'
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
+                const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
 export class Player extends Actor {
     constructor(x, y, game) {
@@ -87,7 +88,7 @@ export class Player extends Actor {
         // console.log("player.useAbility()", ability)
 
         if (ability && ability.cooldown === 0) {
-            this.game.display.drawText(0,  0, "Move your targetting cursor with the directional keys.  ESC to cancel, ENTER to confirm target");
+            this.game.display.drawText(0, 0, TARGET_HELP);
             // console.log("abilty available", ability.cooldown, ability.maxCooldown)
             this.state = TARGETTING
             this.usingAbility = ability
@@ -118,16 +119,16 @@ export class Player extends Actor {
         })
     }
 
-    getInfectStr(){
+    getInfectStr() {
         let infect = 20
-        if(this.str > 20){
+        if (this.str > 20) {
             infect = this.str
         }
         return infect
     }
 
     handleTarget(e) {
-        // console.log("targetting")
+        console.log("targetting")
 
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
@@ -146,6 +147,7 @@ export class Player extends Actor {
 
         // Enter key
         if (charCode === 13) {
+            this.game.gameDisplay.hideModal()
             // console.log("enter key, do ability", this)
             // ability.cooldown = ability.maxCooldown
 
@@ -181,9 +183,9 @@ export class Player extends Actor {
 
                 this.game.redraw()
                 cursor.drawMe()
-                this.game.display.drawText(0,  0, "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target");
+                this.game.display.drawText(0, 0, TARGET_HELP);
             }
-                this.game.display.drawText(0,  0, "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target");
+            this.game.display.drawText(0, 0, TARGET_HELP);
         }
     }
 
@@ -197,10 +199,10 @@ export class Player extends Actor {
     // TODO: Tank controls?
     handleEvent(e) {
         if (this.state === TARGETTING) {
-            this.game.display.drawText(0,  0, "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target");
+            this.game.display.drawText(0, 0, TARGET_HELP);
             return this.handleTarget(e)
         }
-        // console.log('handle event', e)
+        console.log('handle event', e)
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
@@ -209,8 +211,8 @@ export class Player extends Actor {
             this.resolve(new DescendAction(this))
         }
 
-        // escape key
-        if (charCode === 27) {
+        // escape key or enter key
+        if (charCode === 27 || charCode === 13) {
             this.game.gameDisplay.hideModal()
             return
         }
