@@ -53,8 +53,12 @@ export class Monster extends Actor {
         })
 
         // TODO fix charge
-        if(!Config.enableCharge){
+        // if(!Config.enableCharge){
+        if(!window.directorsCut){
             _.remove(usable, x => x instanceof Charge)
+            // console.log('charge disabled')
+        } else {
+            // console.log('charge enabled')
         }
         // console.log('available', usable)
         return usable

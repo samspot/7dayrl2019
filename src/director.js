@@ -170,6 +170,11 @@ export class Director {
             let spawnrate = this.game.getGameProgress().spawnRate
             // console.log(`spawnrate ${spawnrate}`)
 
+            if(window.directorsCut){
+                // console.log("directors cut spawn rate 2")
+                spawnrate = 2
+            }
+
             if (Config.debug && Config.spawnrate) {
                 spawnrate = Config.spawnrate
             }
@@ -184,8 +189,9 @@ export class Director {
             this.countdown = num
 
             if (!this.getLevelSpec().mobs) { this.getLevelSpec().mobs = 0 }
-            if(Config.debug){
-                Config.spawnLimit = 1000
+            if(window.directorsCut){
+                // console.log("directors cut set spawn limit 100")
+                Config.spawnLimit = 100
             }
             if (this.getLevelSpec().mobs < Config.spawnLimit) {
                 // console.log('spawn', this.getLevelSpec())

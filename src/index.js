@@ -7,6 +7,17 @@ import SelfPortrait from '../assets/img/self-portrait.png'
 import { GameDisplay } from './display.js'
 import { renderScores } from './score.js'
 
+
+let dc = document.getElementById('dcut')
+dc.onclick = () => {
+    if(dc.checked){
+        window.directorsCut = true
+    } else {
+        window.directorsCut = false
+    }
+    console.log("directorsCut enabled", window.directorsCut)
+}
+
 async function mainLoop() {
 
     if (Config.seed) {
@@ -32,7 +43,7 @@ async function mainLoop() {
         if (actor.isPlayer()) {
             game.updateGui()
             game.redraw()
-            console.log('directors-cut', window.directorsCut)
+            // console.log('directors-cut', window.directorsCut)
 
             // if(game.director.boss){
             // game.gameDisplay.drawBossSplash(game.director.boss)

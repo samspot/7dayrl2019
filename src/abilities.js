@@ -142,7 +142,7 @@ export class Infect extends Ability {
         let infectStr = actor.str
         if (infectStr < 20) { infectStr = 20 }
         super(actor, 1, 3, infectStr)
-        this.description = 'Infect does your melee damage to the target, and if the target dies you will take control of them.'
+        this.description = 'Infect does your melee damage to the target, and if the target dies on this turn then you will take control of them.'
     }
 
     // action.actor - player
