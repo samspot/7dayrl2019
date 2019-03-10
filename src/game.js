@@ -12,11 +12,6 @@ import Tyrant from 'assets/tyrant.json'
 
 /* feedback
 
-* FIXED enter key close modal
-* FIXED boss spawn in same room, no
-* FIXED pathing when player unreachable
-
-* FIXED if you are in the top left of the map, the targeting help blocks out your targetting
 
 * special abilities like bite can target diagonal, but you cant bump attack that direction, correct?
     - i first noticed when a zombie grabbed me around a corner, I thought I was safe
@@ -25,6 +20,11 @@ import Tyrant from 'assets/tyrant.json'
     - you are supposed to die a lot in these games to learn the mechanics right? lol
     - so if you leave it like it is, it offers a bit more depth
 * on the map I saw the letter for a monster, but it did not appear on the monster list until the next turnthe same will happen for updating the target portrait
+
+* FIXED enter key close modal
+* FIXED boss spawn in same room, no
+* FIXED pathing when player unreachable
+* FIXED if you are in the top left of the map, the targeting help blocks out your targetting
 * FIXED cancel target on Q,E,R 
     - FIXED: show hint about pressing esc
 * FIXED target cursor still under the player

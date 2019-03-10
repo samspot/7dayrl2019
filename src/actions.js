@@ -1,8 +1,9 @@
 import * as ROT from 'rot-js'
 import { keyMap } from './keymap.js'
-import { Ability, Impale } from './abilities.js';
-import { Game } from './game.js';
-import Config from './config.js';
+import { Ability, Impale } from './abilities.js'
+import { Game } from './game.js'
+import Config from './config.js'
+import { addScore } from './score.js'
 
 export class Action {
     constructor(actor) {
@@ -24,7 +25,7 @@ export class InfectAbilityAction extends Action {
 
     execute(game) {
         if (this.monster.hp <= 0) {
-            console.log('executing InfectAbilityAction', this.monster.hp, this.monster)
+            // console.log('executing InfectAbilityAction', this.monster.hp, this.monster)
             doInfect(this.player, this.monster, game, this, false)
             // console.log("infect ability action post infect")
             doPostInfect(this.player, this.monster, game, this, false)
@@ -360,29 +361,33 @@ export class YouWinAction extends Action {
         // game.redraw()
         game.gameDisplay.updateGui()
 
+        let highScores = addScore(game.player.name, game.score)
+        // highScores.push({ name: game.player.name, score: game.score })
 
-        let highScores = []
-        try {
-            if (typeof localStorage !== 'undefined') {
-                localStorage.setItem('feature_test', 'yes');
-                if (localStorage.getItem('feature_test') === 'yes') {
-                    localStorage.removeItem('feature_test');
-                    // localStorage is enabled
-                    let highScores = JSON.parse(localStorage.getItem("highscores"))
-                    console.dir(highScores)
-                    if (!_.isArray(highScores)) { highScores = [] }
-                    highScores.push({ name: game.player.name, score: game.score })
-                    localStorage.setItem("highscores", JSON.stringify(highScores))
-                } else {
-                    // localStorage is disabled
-                }
-            } else {
-                // localStorage is not available
-            }
-        } catch (e) {
-            // localStorage is disabled
-            console.log("localstorage disabled")
-        }
+        /*
+let highScores = []
+try {
+if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('feature_test', 'yes');
+    if (localStorage.getItem('feature_test') === 'yes') {
+        localStorage.removeItem('feature_test');
+        // localStorage is enabled
+        let highScores = JSON.parse(localStorage.getItem("highscores"))
+        // console.dir(highScores)
+        if (!_.isArray(highScores)) { highScores = [] }
+        highScores.push({ name: game.player.name, score: game.score })
+        localStorage.setItem("highscores", JSON.stringify(highScores))
+    } else {
+        // localStorage is disabled
+    }
+} else {
+    // localStorage is not available
+}
+} catch (e) {
+// localStorage is disabled
+console.log("localstorage disabled")
+}
+*/
 
 
         let highScoreHtml = '<h2>High Scores</h2><ol>';

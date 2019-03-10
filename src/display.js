@@ -55,7 +55,7 @@ export class GameDisplay {
 
     drawBossSplash(actor) {
         if (!actor.abilities) {
-            console.log("no abilities returning")
+            // console.log("no abilities returning")
             return
         }
 
@@ -168,10 +168,10 @@ export class GameDisplay {
             let { constructor, maxCooldown, cooldown, dmg, range } = ability
 
             // let tooltip = `<b>${constructor.name}</b> cooldown is ${cooldown} (Max ${maxCooldown}) Does ${dmg} damage and has a range of ${range}.`
-                let tooltip = `<p><b>${ability.constructor.name}</b></p> Damage ${ability.dmg} <br>Range ${ability.range} Cooldown ${ability.maxCooldown}`
-                if(ability.description){
-                    tooltip += `<p>${ability.description}</p>`
-                }
+            let tooltip = `<p><b>${ability.constructor.name}</b></p> Damage ${ability.dmg} <br>Range ${ability.range} Cooldown ${ability.maxCooldown}`
+            if (ability.description) {
+                tooltip += `<p>${ability.description}</p>`
+            }
             let text = ''
             abilities.push({ name: constructor.name, text: text, obj: ability, tooltip: tooltip })
         })
@@ -352,25 +352,25 @@ export class GameDisplay {
         Object.keys(game.gameProgress).forEach(key => {
             let isCurrentLevel = currentLevelGp.level === game.gameProgress[key].level
 
-            if(isCurrentLevel){
+            if (isCurrentLevel) {
                 // console.log(`key ${key} iteration level ${game.gameProgress[key].level} player on level ${currentLevelGp.level} ${currentLevelGp.toString()}`)
             }
 
-            if(currentLevelGp.level > game.gameProgress[key].level && game.gameProgress[key].text == 'Status Unknown' ){
+            if (currentLevelGp.level > game.gameProgress[key].level && game.gameProgress[key].text == 'Status Unknown') {
                 game.gameProgress[key].style = "color: red; text-decoration: line-through"
             }
 
             let boss = this.game.director.boss
             if (boss && isCurrentLevel) {
                 // game.gameProgress[key].text = boss.name
-                if(boss.playerSeen()){
+                if (boss.playerSeen()) {
                     game.gameProgress[key].text = boss.name
                 } else {
-                    game.gameProgress[key].text = "Status Unknown" 
+                    game.gameProgress[key].text = "Status Unknown"
                 }
             }
 
-            let id = "level" + game.gameProgress[key].level 
+            let id = "level" + game.gameProgress[key].level
             let elem = document.getElementById(id)
             elem.innerHTML = game.gameProgress[key].text
             elem.style = game.gameProgress[key].style
@@ -408,7 +408,7 @@ export class GameDisplay {
                     name += " (injured)"
                 }
 
-                if(x.hp <= game.player.getInfectStr()){
+                if (x.hp <= game.player.getInfectStr()) {
                     name = x.name + " (infectable)"
                 }
 
@@ -505,10 +505,12 @@ export class GameDisplay {
     }
 
     hideModal() {
-        console.log('HIDE MODAL')
+        // console.log('HIDE MODAL')
 
         var modal = document.getElementById('myModal')
         modal.style.display = 'none'
         this.game.player.splash = false
     }
+
+
 }

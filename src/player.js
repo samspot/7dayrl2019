@@ -128,7 +128,7 @@ export class Player extends Actor {
     }
 
     handleTarget(e) {
-        console.log("targetting")
+        // console.log("targetting")
 
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
@@ -202,7 +202,7 @@ export class Player extends Actor {
             this.game.display.drawText(0, 0, TARGET_HELP);
             return this.handleTarget(e)
         }
-        console.log('handle event', e)
+        // console.log('handle event', e)
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 

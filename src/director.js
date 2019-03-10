@@ -148,7 +148,7 @@ export class Director {
 
         if (!this.boss && this.levelTicks > 5) {
             this.boss = bosses[levels[this.game.currentLevel]]
-            console.log('spawning boss', this.boss, abilities[this.boss.name])
+            // console.log('spawning boss', this.boss, abilities[this.boss.name])
 
             let monster = this.createSchedule(this.boss)
             monster.boss = true
