@@ -1,14 +1,20 @@
-import _ from 'lodash'
+import * as _ from 'lodash'
 import * as ROT from 'rot-js'
-import { Game } from './game.js'
+import { Game } from './game'
 import { Director } from './director.js'
 import Config from './config.js'
 import SelfPortrait from '../assets/img/self-portrait.png'
 import { GameDisplay } from './display.js'
 import { renderScores } from './score.js'
 
+declare global {
+    interface Window {
+        directorsCut: any;
+        mainLoop: any;
+    }
+}
 
-let dc = document.getElementById('dcut')
+var dc = <HTMLInputElement> document.getElementById('dcut')
 dc.onclick = () => {
     if(dc.checked){
         window.directorsCut = true
@@ -17,6 +23,7 @@ dc.onclick = () => {
     }
     console.log("directorsCut enabled", window.directorsCut)
 }
+
 
 async function mainLoop() {
 
@@ -29,11 +36,11 @@ async function mainLoop() {
     game.init()
 
     let director = new Director(game, scheduler)
-    game.director = director
+    game.director = director;
 
     // console.log('starting main loop')
-    document.getElementsByClassName('title')[0].style = "display: none;"
-    document.getElementsByClassName('game')[0].style = "display: block;"
+    (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = 'none';
+    (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = 'block';
 
     while (1) {
         let actor = scheduler.next()
@@ -65,11 +72,11 @@ async function mainLoop() {
         }
 
         if (game.gameOver) {
-            renderScores()
-            document.getElementsByClassName('title')[0].style = "display: block;"
-            document.getElementsByClassName('game')[0].style = "display: none;"
+            renderScores();
+            (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
+            (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";
 
-            document.querySelectorAll('.firstRun').forEach(e => e.style = "display: block;")
+            document.querySelectorAll('.firstRun').forEach( (e: HTMLElement) => e.style.display = "block")
             // document.getElementsByClassName('firstRun').forEach(e => e.style = "display: block;")
             // TODO DIDN"T WORK Try and clean gamestate
             // TODO manually reset game progress here
