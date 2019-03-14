@@ -6,7 +6,6 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Output Management',
-            // template: require('../assets/index.html')
             template: 'assets/index.html'
         })
     ],
@@ -40,12 +39,6 @@ module.exports = {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: [
                     'file-loader'
-                ]
-            },
-            {
-                test: /\.(html)$/,
-                use: [
-                    'html-loader'
                 ]
             },
             {

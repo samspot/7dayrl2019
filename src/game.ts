@@ -99,18 +99,18 @@ export class Game {
     gameDisplay: GameDisplay
     messages: Array<Message>
     gameProgress: {
-        level0: Level
-        level1: Level
-        level2: Level
-        level3: Level
-        level4: Level
+        // level0: Level
+        // level1: Level
+        // level2: Level
+        // level3: Level
+        // level4: Level
         [key: string]: Level
     }
 
     dirty: boolean
     director: Director
     constructor(scheduler: ROT.Scheduler) {
-        this.maps = new Maps()
+        this.maps = new Maps(this)
         this.scheduler = scheduler
         this.display = null
         this.map = {}
@@ -121,15 +121,13 @@ export class Game {
         this.turns = 0
         this.gameDisplay = new GameDisplay(this)
         this.messages = []
-        /*
         this.gameProgress = {
-            level0: { toString: gpToString },
-            level1: { toString: gpToString },
-            level2: { toString: gpToString },
-            level3: { toString: gpToString },
-            level4: { toString: gpToString }
+            level0: new Level(),
+            level1: new Level(),
+            level2: new Level(),
+            level3: new Level(),
+            level4: new Level(),
         }
-        */
 
         // TODO remove this duplicate info (also in director.levelNames)
         this.gameProgress.level0.level = 0
@@ -212,10 +210,13 @@ export class Game {
 
 
         let tileSet = new Image()
-        tileSet.src = ReTiles4
-
-        // let tileSet2 = document.getElementById('tileSet')
-        // console.log(tileSet2.src)
+        if (Config.tileWidth === 8) {
+            tileSet.src = ReTiles1
+        } else if (Config.tileWidth === 16) {
+            tileSet.src = ReTiles2
+        } else if (Config.tileWidth === 32) {
+            tileSet.src = ReTiles4
+        }
 
         let tileWidth = Config.tileWidth
         let optionsTiles = {

@@ -1,5 +1,6 @@
 import * as ROT from 'rot-js'
 import Config from './config.js'
+import { Game } from './game'
 
 // 'lab'
 // 'catacombs'
@@ -133,13 +134,16 @@ interface IWallTileMap {
 let wallTileMap: IWallTileMap = {
     NWCorner: 0,
     NWall: 1,
+    NWall2: 1,
     NECorner: 2,
     WWall: 3,
+    WWall2: 3,
+    WWall3: 3,
     Center: 4,
     EWall: 5,
-    SECorner: 6,
+    SWCorner: 6,
     SWall: 7,
-    SWCorner: 8
+    SECorner: 8,
 }
 
 let tileWidth = Config.tileWidth
@@ -180,6 +184,11 @@ interface IWallPreset {
 
 // TODO variations on walls & corners
 let wallPresets: IWallPreset = {
+    NWall2: [
+        ['.', '#', '#'],
+        ['.', '#', '#'],
+        ['.', '.', '.'],
+    ],
     NWCorner: [
         ['#', '#', '#'],
         ['#', '#', '#'],
@@ -220,6 +229,16 @@ let wallPresets: IWallPreset = {
         ['#', '#', '.'],
         ['#', '#', '.'],
     ],
+    WWall2: [
+        ['.', '#', '.'],
+        ['.', '#', '.'],
+        ['.', '#', '.'],
+    ],
+    WWall3: [
+        ['.', '.', '.'],
+        ['.', '#', '.'],
+        ['.', '#', '.'],
+    ],
 }
 
 interface IJoinedWallPreset {
@@ -230,23 +249,14 @@ Object.keys(wallPresets).forEach(key => {
     joinedWallPresets[key] = wallPresets[key].join(",")
 })
 
-let wallCalc = function (x: number, y: number) {
-    let coords = this.getCoordsAround(x, y).map((x: Array<number>) => x.join(','))
-    let result
-    Object.keys(joinedWallPresets).forEach(key => {
-        if (coords === joinedWallPresets[key]) {
-            result = wallTileMap[key]
-        }
-    })
-    return result
-}
-
 export class Maps {
     mapList: {
         [key: string]: IMapSpec
     }
+    game: Game
 
-    constructor() {
+    constructor(game: Game) {
+        this.game = game
         this.mapList = {
             lab: lab2Winner,
             catacombs: catacombs1Winner,
@@ -255,6 +265,28 @@ export class Maps {
             mansion: mansion2Winner,
         }
     }
+
+    wallCalc(x: number, y: number) {
+        let coords = this.getCoordsAround(x, y).map((x: Array<number>) => x.join(','))
+        let result
+        Object.keys(joinedWallPresets).forEach(key => {
+            let temp = coords
+                .map(c => this.game.map[c])
+                .map(x => typeof x === 'undefined' ? '#' : x)
+                .join(',')
+
+
+            // console.log('temp', temp)
+
+            // console.log(coords, mapCoords, joinedWallPresets[key])
+            if (temp === joinedWallPresets[key]) {
+                result = wallTileMap[key]
+            }
+        })
+        console.log('wallCalc result', result)
+        return result
+    }
+
     // TODO copied from abilities.js
     getCoordsAround(x: number, y: number) {
         return [
@@ -271,7 +303,7 @@ export class Maps {
     }
 
     getWallIndicator(x: number, y: number) {
-        return wallCalc(x, y)
+        return this.wallCalc(x, y)
     }
 
     mapMap() {
