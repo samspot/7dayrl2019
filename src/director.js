@@ -147,7 +147,7 @@ export class Director {
         // load any mob changes
         this.mobs = this.game.mobs
 
-        if (!this.boss && this.levelTicks > 5) {
+        if (!this.boss && this.levelTicks > 5 && Config.spawnboss) {
             this.boss = bosses[levels[this.game.currentLevel]]
             // console.log('spawning boss', this.boss, abilities[this.boss.name])
 
