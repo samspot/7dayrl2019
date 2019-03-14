@@ -1,7 +1,7 @@
 import * as ROT from 'rot-js'
 import { keyMap } from './keymap.js'
 import { Ability, Impale } from './abilities.js'
-import { Game } from './game.js'
+import { Game } from './game'
 import Config from './config.js'
 import { addScore } from './score.js'
 

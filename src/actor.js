@@ -17,56 +17,66 @@ export class Actor {
         this.boss = false
         this.finalBoss = false
         this.abilities = []
+        this.score = 0
+        this.isRevive = false
 
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
-    isInjured(){
+    setSeen() {
+        if (this.boss && !this.seen) {
+            this.game.gameDisplay.drawBossSplash(this)
+        }
+        this.seen = true
+    }
+
+
+    isInjured() {
         // console.log(`is ${this.name} ${this.hp}/${this.maxHp} less than ${this.maxHp * .45}`)
-        return this.hp < this.maxHp * .45 
+        return this.hp < this.maxHp * .45
     }
 
-    isInfectable(){
-        if(this.finalBoss){ return false}
-        return this.isInjured() || this.hp < 15  
+    isInfectable() {
+        if (this.finalBoss) { return false }
+        return this.isInjured() || this.hp < 15
     }
 
-    damage(dmg){
-        if(this.isPlayer() && Config.debug && Config.playerInvulnerable){
+    damage(dmg) {
+        if (this.isPlayer() && Config.debug && Config.playerInvulnerable) {
             return
         }
         // if(this.boss){
-            // console.log(`${dmg} vs ${this.name} ${this.hp} seen ${this.playerSeen()}`)
+        // console.log(`${dmg} vs ${this.name} ${this.hp} seen ${this.playerSeen()}`)
         // }
-        if(this.boss && !this.playerSeen()){
+        if (this.boss && !this.playerSeen()) {
             return
         }
         this.hp -= dmg
-        if(this.hp <=0 && !this.isPlayer()){
+        if (this.hp <= 0 && !this.isPlayer()) {
             // TODO below if is repeated, but we need to add player logic here from actions.js
-            if(!this.isPlayer()){
+            if (!this.isPlayer()) {
                 this.game.destroyMob(this)
             }
 
-            if(this.isBoss()){
+            if (this.isBoss()) {
                 this.game.killBoss()
 
-                if(this.game.allBossesDown()){
+                if (this.game.allBossesDown()) {
                     return new YouWinAction()
                 }
             }
         }
     }
 
-    tickAbilities(){
+    tickAbilities() {
         this.abilities.forEach(a => a.tick())
     }
 
-    addAbility(ability){
+    addAbility(ability) {
         this.abilities.push(ability)
     }
 
-    getAbilities(){
+    getAbilities() {
         return this.abilities
     }
 
@@ -74,7 +84,7 @@ export class Actor {
         return false
     }
 
-    isBoss(){
+    isBoss() {
         return this.boss
         // return true
     }
@@ -82,16 +92,16 @@ export class Actor {
     draw(symbol, color, bgColor) {
         let symbolToDraw = this.symbol
         let colorToDraw = this.color
-        if(symbol){
+        if (symbol) {
             symbolToDraw = symbol
             colorToDraw = color
         }
-        this.game.display.draw(this.x, this.y, 
+        this.game.display.draw(this.x, this.y,
             symbolToDraw, colorToDraw, bgColor)
         // console.log(this.name, this.hp)
     }
 
-    drawMe(bgColor){
+    drawMe(bgColor) {
         this.draw(this.symbol, this.color, bgColor)
     }
 
@@ -103,7 +113,7 @@ export class Actor {
         return this.y
     }
 
-    out(){
+    out() {
         return this.symbol + ' ' + this.x + ',' + this.y
     }
 }

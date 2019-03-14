@@ -1,58 +1,78 @@
 import * as ROT from 'rot-js'
-
+import Config from './config.js'
 
 // 'lab'
 // 'catacombs'
 // 'outside' 
 // 'guardhouse'
 // 'mansion'
-let outside1 = {
+export interface IMapSpec {
+    _obj: Object,
+    _randomize?: number
+    _iterations?: number
+}
+
+interface IDiggerMapSpec extends IMapSpec {
+    dugPercentage: number,
+    corridorLength: Array<number>,
+    roomHeight: Array<number>,
+    roomWidth: Array<number>,
+}
+interface IUniformMapSpec extends IMapSpec {
+    roomDugPercentage: number,
+    roomHeight: Array<number>,
+    roomWidth: Array<number>
+}
+interface ICellularMapSpec extends IMapSpec {
+    _iterations: number,
+    _randomize: number
+}
+
+
+
+let outside1: IDiggerMapSpec = {
     _obj: ROT.Map.Digger,
     dugPercentage: .9,
     corridorLength: [10, 13],
     roomHeight: [4, 6],
     roomWidth: [4, 6],
-    // timeLimit: undefined
 }
-let outside2Winner = {
+let outside2Winner: IDiggerMapSpec = {
     _obj: ROT.Map.Digger,
     dugPercentage: .5,
     corridorLength: [2, 5],
     roomHeight: [4, 6],
     roomWidth: [4, 6],
-    // timeLimit: undefined
 }
-let lab1 = {
+let lab1: IDiggerMapSpec = {
     _obj: ROT.Map.Digger,
     dugPercentage: .8,
     corridorLength: [4, 8],
     roomHeight: [5, 12],
     roomWidth: [5, 12],
-    // timeLimit: undefined
 }
-let mansion1 = {
+let mansion1: IDiggerMapSpec = {
     _obj: ROT.Map.Digger,
     dugPercentage: .3,
-    // corridorLength: [10, 13],
+    corridorLength: [10, 13],
     roomHeight: [4, 6],
     roomWidth: [4, 6],
-    // timeLimit: undefined
 }
-let mansion2Winner = {
+let mansion2Winner: IUniformMapSpec = {
     _obj: ROT.Map.Uniform,
     roomDugPercentage: .2,
     roomHeight: [4, 6],
     roomWidth: [4, 6],
     // timeLimit: undefined
 }
-let lab2Winner = {
+let lab2Winner: IUniformMapSpec = {
     _obj: ROT.Map.Uniform,
     roomDugPercentage: .5,
     roomHeight: [6, 9],
     roomWidth: [6, 9],
     // timeLimit: undefined
 }
-let catacombs1Winner = {
+let catacombs1Winner: ICellularMapSpec = {
     _obj: ROT.Map.Cellular,
     _iterations: 5,
     _randomize: 0.5,
@@ -60,16 +80,16 @@ let catacombs1Winner = {
     // survive: undefined,
     // topology: undefined
 }
-let catacombs2 = {
+let catacombs2: ICellularMapSpec = {
     _obj: ROT.Map.Cellular,
     _iterations: 3,
     _randomize: 0.5,
-    born: [4, 5, 6, 7, 8],
-    survive: [2, 3, 4, 5],
+    // born: [4, 5, 6, 7, 8],
+    // survive: [2, 3, 4, 5],
     // topology: undefined
 }
 
-let field1 = {
+let field1: ICellularMapSpec = {
     _obj: ROT.Map.Cellular,
     _iterations: 15,
     _randomize: 0.4,
@@ -78,7 +98,7 @@ let field1 = {
     // topology: undefined
 }
 
-let guardhouse1 = {
+let guardhouse1: IUniformMapSpec = {
     _obj: ROT.Map.Uniform,
     roomDugPercentage: .1,
     roomHeight: [2, 4],
@@ -86,7 +106,7 @@ let guardhouse1 = {
     // timeLimit: undefined
 }
 
-let guardhouse2Winner = {
+let guardhouse2Winner: IDiggerMapSpec = {
     _obj: ROT.Map.Digger,
     dugPercentage: .1,
     corridorLength: [3, 6],
@@ -107,7 +127,10 @@ let wallMap = {
     SW: 8
 }
 
-let wallTileMap = {
+interface IWallTileMap {
+    [key: string]: number
+}
+let wallTileMap: IWallTileMap = {
     NWCorner: 0,
     NWall: 1,
     NECorner: 2,
@@ -118,6 +141,8 @@ let wallTileMap = {
     SWall: 7,
     SWCorner: 8
 }
+
+let tileWidth = Config.tileWidth
 
 let tileMap = {
     "@": [0 * tileWidth, 3 * tileWidth],
@@ -148,69 +173,90 @@ let tileMap = {
     '8': [2 * tileWidth, 2 * tileWidth],
 }
 
+interface IWallPreset {
+    [key: string]: Array<Array<string>>
+}
+
+
 // TODO variations on walls & corners
-let wallPresets = {
+let wallPresets: IWallPreset = {
     NWCorner: [
-        ['#','#','#'],
-        ['#','#','#'],
-        ['#','#','.'],
+        ['#', '#', '#'],
+        ['#', '#', '#'],
+        ['#', '#', '.'],
     ],
     NWall: [
-        ['#','#','#'],
-        ['#','#','#'],
-        ['.','.','.'],
+        ['#', '#', '#'],
+        ['#', '#', '#'],
+        ['.', '.', '.'],
     ],
     NECorner: [
-        ['#','#','#'],
-        ['#','#','#'],
-        ['.','#','#'],
+        ['#', '#', '#'],
+        ['#', '#', '#'],
+        ['.', '#', '#'],
     ],
     EWall: [
-        ['.','#','#'],
-        ['.','#','#'],
-        ['.','#','#'],
+        ['.', '#', '#'],
+        ['.', '#', '#'],
+        ['.', '#', '#'],
     ],
     SECorner: [
-        ['.','#','#'],
-        ['#','#','#'],
-        ['#','#','#'],
+        ['.', '#', '#'],
+        ['#', '#', '#'],
+        ['#', '#', '#'],
     ],
     SWall: [
-        ['.','.','.'],
-        ['#','#','#'],
-        ['.','.','.'],
+        ['.', '.', '.'],
+        ['#', '#', '#'],
+        ['.', '.', '.'],
     ],
     SWCorner: [
-        ['#','#','.'],
-        ['#','#','#'],
-        ['#','#','#'],
+        ['#', '#', '.'],
+        ['#', '#', '#'],
+        ['#', '#', '#'],
     ],
     WWall: [
-        ['#','#','.'],
-        ['#','#','.'],
-        ['#','#','.'],
+        ['#', '#', '.'],
+        ['#', '#', '.'],
+        ['#', '#', '.'],
     ],
 }
 
-let joinedWallPresets = {}
+interface IJoinedWallPreset {
+    [key: string]: string
+}
+let joinedWallPresets: IJoinedWallPreset = {}
 Object.keys(wallPresets).forEach(key => {
     joinedWallPresets[key] = wallPresets[key].join(",")
 })
 
-let wallCalc = function(x, y){
-    let coords = this.getCoordsAround(x, y).map(x => x.join(','))
+let wallCalc = function (x: number, y: number) {
+    let coords = this.getCoordsAround(x, y).map((x: Array<number>) => x.join(','))
     let result
     Object.keys(joinedWallPresets).forEach(key => {
-        if(coords === joinedWallPresets[key]){
+        if (coords === joinedWallPresets[key]) {
             result = wallTileMap[key]
         }
     })
     return result
 }
 
-class Maps {
+export class Maps {
+    mapList: {
+        [key: string]: IMapSpec
+    }
+
+    constructor() {
+        this.mapList = {
+            lab: lab2Winner,
+            catacombs: catacombs1Winner,
+            outside: outside2Winner,
+            guardhouse: guardhouse2Winner,
+            mansion: mansion2Winner,
+        }
+    }
     // TODO copied from abilities.js
-    getCoordsAround(x, y) {
+    getCoordsAround(x: number, y: number) {
         return [
             [x - 1, y - 1], // NW
             [x, y - 1],     // N
@@ -224,24 +270,17 @@ class Maps {
         ]
     }
 
-    getWallIndicator(x, y) {
+    getWallIndicator(x: number, y: number) {
         return wallCalc(x, y)
     }
 
     mapMap() {
-        return {
-            lab: lab2Winner,
-            catacombs: catacombs1Winner,
-            outside: outside2Winner,
-            guardhouse: guardhouse2Winner,
-            mansion: mansion2Winner
-        }
+        return this.mapList
     }
 
-    getTileMap(){
+    getTileMap() {
         return tileMap
     }
 }
 
-export default Maps
 

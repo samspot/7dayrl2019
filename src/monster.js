@@ -11,6 +11,7 @@ import Empty75x75 from '../assets/img/empty.png'
 import { Charge } from './abilities.js';
 import Config from './config.js';
 
+
 export class Monster extends Actor {
     constructor(x, y, game, mobspec) {
         super(x, y, mobspec.symbol, mobspec.color, game)
@@ -30,12 +31,12 @@ export class Monster extends Actor {
         return this.seen
     }
 
-    setSeen() {
-        if (this.boss && !this.seen) {
-            this.game.gameDisplay.drawBossSplash(this)
-        }
-        this.seen = true
-    }
+    // setSeen() {
+    //     if (this.boss && !this.seen) {
+    //         this.game.gameDisplay.drawBossSplash(this)
+    //     }
+    //     this.seen = true
+    // }
 
     // return a list of abilities that are off cooldown and can reach the player
     getAvailableAbilities() {
@@ -54,7 +55,7 @@ export class Monster extends Actor {
 
         // TODO fix charge
         // if(!Config.enableCharge){
-        if(!window.directorsCut){
+        if (!window.directorsCut) {
             _.remove(usable, x => x instanceof Charge)
             // console.log('charge disabled')
         } else {
@@ -94,7 +95,7 @@ export class Monster extends Actor {
 
         let oldpath = path.shift()
         path = path[0]
-        if(!path){
+        if (!path) {
             console.log(`spawn-${this.spawnId} ${this.x},${this.y} path is ${path} for [${this.name}] player at ${this.game.player.x},${this.game.player.y} mob moving to ${path},${path}`)
             path = oldpath
         }

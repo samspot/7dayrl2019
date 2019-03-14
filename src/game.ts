@@ -6,8 +6,10 @@ import { Director } from './director.js'
 import Config from './config.js'
 
 import { GameDisplay } from './display.js'
-import Maps from './maps.js'
+import { Maps, IMapSpec } from './maps'
 import Tyrant from 'assets/tyrant.json'
+import { Actor } from './actor.js'
+import { Cursor } from './cursor.js'
 
 import ReTiles1 from '../assets/img/re-tiles-1.png'
 import ReTiles2 from '../assets/img/re-tiles-2.png'
@@ -39,6 +41,26 @@ Descoped
 
 */
 
+// TODO move to monster.js or other class
+class MobSpec {
+    symbold: string
+    color: string
+    name: string
+    hp: number
+    score: number
+    str: number
+    sightRadius: number
+}
+
+interface Message {
+    msg: string
+    turn: number
+    important: boolean
+    source?: string
+    target?: string
+    actorSource?: Actor
+}
+
 class Level {
     level: number
     name: string
@@ -60,22 +82,29 @@ function gpToString() {
 
 export class Game {
     maps: Maps
+    currentLevel: number
+    visibleSquares: Array<string>
+    cursor: Cursor
+
     scheduler: ROT.Scheduler
     display: ROT.Display
-    map: {}
+    map: {
+        [key: string]: string
+    }
     player: Player
-    mobs: []
+    mobs: Array<Actor>
     gameOver: boolean
     score: number
     turns: number
     gameDisplay: GameDisplay
-    messages: []
+    messages: Array<Message>
     gameProgress: {
         level0: Level
         level1: Level
         level2: Level
         level3: Level
         level4: Level
+        [key: string]: Level
     }
 
     dirty: boolean
@@ -161,6 +190,7 @@ export class Game {
         let bosses: Boolean[] = []
         // let bosses = []
         Object.keys(this.gameProgress).forEach(key => {
+            // let typedKey: (keyof this.gameProgress) = <string>key
             bosses.push(this.gameProgress[key].bossDown)
         })
 
@@ -187,7 +217,7 @@ export class Game {
         // let tileSet2 = document.getElementById('tileSet')
         // console.log(tileSet2.src)
 
-        let tileWidth = 32
+        let tileWidth = Config.tileWidth
         let optionsTiles = {
             layout: 'tile',
             // bg: 'transparent',
@@ -202,13 +232,13 @@ export class Game {
         if (Config.tiles) {
             this.display = new ROT.Display(optionsTiles);
         } else {
-            // this.display = new ROT.Display(optionsAscii);
+            this.display = new ROT.Display(optionsAscii);
         }
 
         document.getElementById("mapContainer").innerHTML = ''
         document.getElementById("mapContainer").appendChild(this.display.getContainer())
 
-        this.generateMap(this.maps.mapMap()[lab])
+        this.generateMap(this.maps.mapMap()["lab"])
     }
 
     resetLevel() {
@@ -220,7 +250,7 @@ export class Game {
 
     getFreeCells() {
         // console.log("getFreeCells() this.map", this.map)
-        let freeCells = []
+        let freeCells: Array<string> = []
         Object.keys(this.map).forEach(key => {
             if (this.map[key] === '.') {
                 freeCells.push(key)
@@ -229,7 +259,7 @@ export class Game {
         return freeCells
     }
 
-    getCharacterAt(mover, x, y) {
+    getCharacterAt(mover: Actor, x: number, y: number) {
         let actor
         let testgroup = _.clone(this.mobs)
         testgroup.push(this.player)
@@ -246,12 +276,14 @@ export class Game {
         return actor
     }
 
-    generateMap(mapspec) {
+    generateMap(mapspec: IMapSpec) {
+        // TODO change interfaces etc to type defs from ROT
+        //@ts-ignore
         let generator = new mapspec._obj(Config.gamePortWidth, Config.gamePortHeight, mapspec)
 
-        var freeCells = [];
+        var freeCells: Array<string> = [];
 
-        var digCallback = function (x, y, value) {
+        var digCallback = function (x: number, y: number, value: string) {
             if (value) { return; }
             var key = x + "," + y;
             this.map[key] = ".";
@@ -275,7 +307,7 @@ export class Game {
         }
 
         if (!this.player) {
-            this.player = this.createBeing(Player, freeCells)
+            this.player = this.createBeingPlayer(Player, freeCells)
         } else {
             let { x, y } = this.getRandomMapLocation()
             this.player.x = x
@@ -286,7 +318,7 @@ export class Game {
 
     getRandomMapLocation() {
         let freeCells = this.getFreeCells()
-        let index = Math.floor(ROT.RNG.getUniform * freeCells.length)
+        let index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
         let key = freeCells.splice(index, 1)[0]
         let parts = key.split(",")
         return {
@@ -295,7 +327,7 @@ export class Game {
         }
     }
 
-    createPlayer(freeCells) {
+    createPlayer() {
         /*
         var index = Math.floor(ROT.RNG.getUniform * freeCells.length);
         var key = freeCells.splice(index, 1)[0];
@@ -303,17 +335,8 @@ export class Game {
         var x = parseInt(parts[0])
         var y = parseInt(parts[1])
         */
-        let { x, y } = getRandomMapLocation()
+        let { x, y } = this.getRandomMapLocation()
         this.player = new Player(x, y, this)
-    }
-
-    generateBoxes(freeCells) {
-        for (var i = 0; i < 10; i++) {
-            var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
-            var key = freeCells.splice(index, 1)[0];
-            this.map[key] = "*";
-            if (!i) { this.ananas = key; }
-        }
     }
 
     drawWholeMap() {
@@ -323,11 +346,11 @@ export class Game {
             var y = parseInt(parts[1]);
             this.display.draw(x, y, this.map[key]);
         }
-
         // console.log("Player", this.player && this.player.hp)
     }
 
-    createBeing(what, freeCells, mobspec) {
+    // createBeing(what: Object, freeCells: Array<string>, mobspec?: MobSpec) {
+    createBeingMonster(what: new (x: number, y: number, game: Game, mobspec: MobSpec) => Actor, freeCells: Array<string>, mobspec?: MobSpec) {
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
         var key = freeCells.splice(index, 1)[0]
         var parts = key.split(",")
@@ -336,10 +359,22 @@ export class Game {
         return new what(x, y, this, mobspec)
     }
 
-    gameover(msg) {
+    createBeingPlayer(what: new (x: number, y: number, game: Game) => Actor, freeCells: Array<string>) {
+        return <Player>this.createBeingMonster(what, freeCells)
+        /*
+        var index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
+        var key = freeCells.splice(index, 1)[0]
+        var parts = key.split(",")
+        var x = parseInt(parts[0])
+        var y = parseInt(parts[1])
+        return new what(x, y, this)
+        */
+    }
+
+    gameover(msg: string) {
         alert(msg)
         // this.game.scheduler.remove(this)
-        this.game.scheduler.clear()
+        this.scheduler.clear()
     }
 
     getGameProgress() {
@@ -349,7 +384,7 @@ export class Game {
 
     killBoss() {
         this.getGameProgress().style = "text-decoration: line-through; color: red"
-        this.message(`You killed the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true, this.player, this.boss)
+        this.message(`You killed the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true)
         this.getGameProgress().bossDown = true
     }
 
@@ -357,11 +392,11 @@ export class Game {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Infected]"
         // TODO: replace 'next level' with the name of the level
-        this.message(`You infected the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true, this.player, this.boss)
+        this.message(`You infected the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true)
         this.getGameProgress().bossDown = true
     }
 
-    message(msg, important) {
+    message(msg: string, important: boolean) {
         let message = {
             msg: msg,
             turn: this.turns,
@@ -371,7 +406,7 @@ export class Game {
         this.gameDisplay.drawMessages()
     }
 
-    dmgMessage(msg, important, source, target, actorSource) {
+    dmgMessage(msg: string, important: boolean, source: string, target: string, actorSource: Actor) {
         // console.log('msg', msg)
         let message = {
             msg: msg,
@@ -391,7 +426,7 @@ export class Game {
         this.gameDisplay.updateGui()
     }
 
-    addScore(x) {
+    addScore(x: number) {
         this.score += x
     }
 
@@ -417,7 +452,7 @@ export class Game {
 
         let map = this.map
 
-        function lightPasses(x, y) {
+        function lightPasses(x: number, y: number) {
             let key = x + ',' + y
             if (key in map) { return (map[key] === '.') }
             return false
@@ -482,7 +517,7 @@ export class Game {
         return mobs
     }
 
-    destroyMob(actor) {
+    destroyMob(actor: Actor) {
         // console.log('destroying', actor)
         _.remove(this.mobs, actor)
         this.scheduler.remove(actor)

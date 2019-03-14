@@ -1,5 +1,6 @@
 const Config = {
     // spawnrate: 1,
+    tileWidth: 32,
     spawnLimit: 20,
     gamePortWidth: 45,
     gamePortHeight: 27,
@@ -7,15 +8,15 @@ const Config = {
     messageListSize: 15,
     seed: 12362,
     turnsToSim: 26,
-    // seed: 12368,
-    // turnsToSim: 0,
-    // drawWholeMap: true,
-    // drawAllMobs: true,
+    seed: 12368,
+    turnsToSim: 0,
+    drawWholeMap: true,
+    drawAllMobs: true,
     debug: true,
     skipTitle: true,
     tiles: true,
-    // playerInvulnerable: true,
-    // startLevel: 0
+    playerInvulnerable: true,
+    startLevel: 0,
 }
 
 /*

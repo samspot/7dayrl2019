@@ -22,7 +22,7 @@ import Barry from 'assets/barry.json'
 import Brad from 'assets/brad.json'
 import Wesker from 'assets/wesker.json'
 import { GrenadeLauncher, EmptySlot, Grab, Shotgun, Magnum, Charge, Impale, Bite, Poison, Haymaker } from './abilities.js';
-import Maps from './maps.js';
+import Maps from './maps';
 
 const levels = [
     'lab',
@@ -224,7 +224,7 @@ export class Director {
         // console.log('cellsRemoved', cellsRemoved)
         // console.log('freeCells', freeCells)
         // console.log('player', this.game.player.x, this.game.player.y)
-        let monster = this.game.createBeing(Monster,
+        let monster = this.game.createBeingMonster(Monster,
             freeCells, mobspec)
         // console.log('monster', monster.x, monster.y)
 

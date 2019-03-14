@@ -42,12 +42,12 @@ module.exports = {
                     'file-loader'
                 ]
             },
-            // {
-            //     test: /\.(html)$/,
-            //     use: [
-            //         'html-loader'
-            //     ]
-            // },
+            {
+                test: /\.(html)$/,
+                use: [
+                    'html-loader'
+                ]
+            },
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
