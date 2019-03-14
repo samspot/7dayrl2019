@@ -9,8 +9,8 @@ const Config = {
     turnsToSim: 26,
     // seed: 12368,
     // turnsToSim: 0,
-    drawWholeMap: true,
-    drawAllMobs: true,
+    // drawWholeMap: true,
+    // drawAllMobs: true,
     debug: true,
     skipTitle: true,
     // playerInvulnerable: true

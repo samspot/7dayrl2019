@@ -15,7 +15,6 @@ import ReTiles2 from '../assets/img/re-tiles-2.png'
 import ReTiles4 from '../assets/img/re-tiles-4.png'
 /* feedback
 
-
 * special abilities like bite can target diagonal, but you cant bump attack that direction, correct?
     - i first noticed when a zombie grabbed me around a corner, I thought I was safe
     - it would be less of a BS moment at first, would increase player power
@@ -24,85 +23,12 @@ import ReTiles4 from '../assets/img/re-tiles-4.png'
     - so if you leave it like it is, it offers a bit more depth
 * on the map I saw the letter for a monster, but it did not appear on the monster list until the next turnthe same will happen for updating the target portrait
 
-* FIXED enter key close modal
-* FIXED boss spawn in same room, no
-* FIXED pathing when player unreachable
-* FIXED if you are in the top left of the map, the targeting help blocks out your targetting
-* FIXED cancel target on Q,E,R 
-    - FIXED: show hint about pressing esc
-* FIXED target cursor still under the player
-* FIXED abbreviate start screen on first load
-* FIXED: high score local storage crash 
-* FIXED: special characters on bios
-* FIXED: ability tooltips should show same info as boss splash, I would recommend listing out the CD, damage and range
-* FIXED I do currently feel like the magnum cooldown should be longer
-* FIXED 'm having a little diffculty understanding the infect mechanic
-* FIXED on side bar show 'infectable' instead of 'injured'
-* FIXED level clear message when all mobs dead (going for high score)
-
-samspot:
-	ok that's good to know
-	should i say 'infectable' on the right side instead of injured... currently those aren't exactly the same thing
-
-Dave:
-	That would help
-
-samspot:
-	infect does your melee damage and takes over the creature if you kill it.  otherwise you can take a mob if it's injured status and you die
-
-Dave:
-	Ah ok.  I assumed infect was a status
-	so I was like... uh I may die, let me infect this so when I do die I respawn as it?
-	So its kind of like a possession by killing blow
-
-samspot:
-	yeah, the last part
-	i wonder how best to explain it
-	i don't think i can majorly change the way it works in the time i have left
-	but i can tweak some things
-
-Dave:
-	could have a story explanation or something
-	that you are a parasite
-
-samspot:
-	oh like you are playing as the T virus?
-Dave:
-	yeah
-	so the 'infect' ability would be the actual parasite module/organ/tissue doing an attack independent of its host
-	if it senses its target is weak, it transfers
-	if not, its just that big blob of fleshy stuff doing a spikey attack or whatever
-
-
-    I possesed a chimera and somehow was in the same tile as a zombie
-you dont have to respond to any of this, im just saying whats going on as I see it lol
-lol I charged through a wall and this happene
-
-I was just wondering, since youu can revive unlimited amount of times
-It would be fun to have a choice to revive as the boss you infested in the current run
-But then again, it would not make sense
-
-[2:01 PM]
-samspot:
-	oh you men start the game as jIll next playthrough?
-
-
-
 defect: charge still causing issues
-1. refine start screen my pic, logo
 3. Revisit enemy colors
-X. block input on boss splash modal
 FB: hard to see who is the boss
 TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
 TODO: Look into showing explored tiles
-
-X. lower spawn rates like a lot!
-FIXED defect; restart game doesn't clear boss progress
-FIXED defect: high scores wrong name - cannot reproduce today
-FIXED (lower spawn rate) FB: catacombs hard, swarmed
-FIXED (remove charge) FB: Also is it normal that when I melee attack as chris or a spider I jump bodies instantly ?
-FIXED (remove charge) FB: the hunting mansion is a black screen
 
 Descoped
 
@@ -112,6 +38,18 @@ Descoped
 4. tiles
 
 */
+
+let wallMap = {
+    NW: 0,
+    N: 1,
+    NE: 2,
+    W: 3,
+    C: 4,
+    E: 5,
+    SE: 6,
+    S: 7,
+    SW: 8
+}
 
 function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
@@ -220,7 +158,7 @@ export class Game {
         // let tileSet2 = document.getElementById('tileSet')
         // console.log(tileSet2.src)
 
-        let tileWidth = 32 
+        let tileWidth = 32
         let optionsTiles = {
             layout: 'tile',
             // bg: 'transparent',
@@ -228,28 +166,50 @@ export class Game {
             tileHeight: tileWidth,
             tileSet: tileSet,
             tileMap: {
-                "@": [0*tileWidth, 3*tileWidth],
-                "J": [1*tileWidth, 3*tileWidth],
-                "C": [2*tileWidth, 3*tileWidth],
-                "B": [0*tileWidth, 4*tileWidth],
-                "V": [1*tileWidth, 4*tileWidth],
-                "W": [2*tileWidth, 4*tileWidth],
-                "s": [0*tileWidth, 5*tileWidth],
-                "p": [1*tileWidth, 5*tileWidth],
-                "L": [2*tileWidth, 5*tileWidth],
-                "d": [0*tileWidth, 6*tileWidth],
-                "c": [1*tileWidth, 6*tileWidth],
-                "h": [2*tileWidth, 6*tileWidth],
-                "z": [0*tileWidth, 7*tileWidth],
-                "#": [0*tileWidth, 0*tileWidth],
-                '.': [1*tileWidth, 1*tileWidth],
-                '_': [1*tileWidth, 1*tileWidth],
-                '': [1*tileWidth, 1*tileWidth],
+                "@": [0 * tileWidth, 3 * tileWidth],
+                "J": [1 * tileWidth, 3 * tileWidth],
+                "C": [2 * tileWidth, 3 * tileWidth],
+                "B": [0 * tileWidth, 4 * tileWidth],
+                "V": [1 * tileWidth, 4 * tileWidth],
+                "W": [2 * tileWidth, 4 * tileWidth],
+                "s": [0 * tileWidth, 5 * tileWidth],
+                "p": [1 * tileWidth, 5 * tileWidth],
+                "L": [2 * tileWidth, 5 * tileWidth],
+                "d": [0 * tileWidth, 6 * tileWidth],
+                "c": [1 * tileWidth, 6 * tileWidth],
+                "h": [2 * tileWidth, 6 * tileWidth],
+                "z": [0 * tileWidth, 7 * tileWidth],
+                "#": [0 * tileWidth, 0 * tileWidth],
+                '.': [1 * tileWidth, 1 * tileWidth],
+                '_': [1 * tileWidth, 1 * tileWidth],
+                '': [1 * tileWidth, 1 * tileWidth],
+                '0': [0*tileWidth, 0*tileWidth],
+                '1': [1*tileWidth, 0*tileWidth],
+                '2': [2*tileWidth, 0*tileWidth],
+                '3': [0*tileWidth, 1*tileWidth],
+                '4': [1*tileWidth, 1*tileWidth],
+                '5': [2*tileWidth, 1*tileWidth],
+                '6': [0*tileWidth, 2*tileWidth],
+                '7': [1*tileWidth, 2*tileWidth],
+                '8': [2*tileWidth, 2*tileWidth],
             },
             width: Config.gamePortWidth,
             height: Config.gamePortHeight
         }
 
+        /*
+let wallMap = {
+    NW: 0,
+    N: 1,
+    NE: 2,
+    W: 3,
+    // C: 4,
+    E: 5,
+    SE: 6,
+    S: 7,
+    SW: 8
+}
+*/
         // this.display = new ROT.Display(optionsAscii);
         this.display = new ROT.Display(optionsTiles);
 
@@ -257,7 +217,7 @@ export class Game {
 
         // document.
         // tileSet.onload = () => {
-            // this.display.draw(1, 1, '@')
+        // this.display.draw(1, 1, '@')
         // }
 
         document.getElementById("mapContainer").innerHTML = ''
@@ -466,6 +426,8 @@ export class Game {
     }
 
     drawFov() {
+
+
         // TODO liked trent reznor 'on we march' for background music
 
         // TODO vary these colors by level
@@ -489,20 +451,27 @@ export class Game {
         fov.compute(this.player.x, this.player.y, this.player.sightRadius, (x, y, r, visibility) => {
             let ch = r ? "" : "@"
             // let color = map[x+","+y] ? "#aa0": "#660"
-            let isFloor = map[x +','+y]
+            let isFloor = map[x + ',' + y]
             let color = map[x + "," + y] ? fovFloorColor : fovWallColor
             this.visibleSquares.push(x + ',' + y)
             // this.display.draw(x, y, ch, this.player.color, color)
 
+
+
+            // let wallCh = wallMap[wallindicator]
+
             // actor
-            if(ch === "@"){
+            if (ch === "@") {
                 this.display.draw(x, y, "@")
+
                 // floor
-            } else if (isFloor){
-                this.display.draw(x, y, "")
+            } else if (isFloor) {
+                this.display.draw(x, y, ".")
+
                 // wall
             } else {
-                this.display.draw(x, y, '#')
+                ch = this.getWallIndicator(x, y)
+                this.display.draw(x, y, ch)
             }
 
             // this.display.draw(x, y, ch, '#', '#' )
@@ -521,6 +490,64 @@ export class Game {
             this.getVisibleMobs().forEach(m => m.drawMe(fovFloorColor))
         }
     }
+        /*
+let wallMap = {
+    NW: 0,
+    N: 1,
+    NE: 2,
+    W: 3,
+    // C: 4,
+    E: 5,
+    SE: 6,
+    S: 7,
+    SW: 8
+}
+*/
+    // TODO copied from abilities.js
+    getCoordsAround(x, y) {
+        return [
+            [x - 1, y - 1], // NW
+            [x, y - 1],     // N
+            [x + 1, y - 1], // NE
+            [x - 1, y],     // W
+            [x, y],         // C
+            [x + 1, y],     // E
+            [x + 1, y + 1], // SE
+            [x, y + 1],     // S
+            [x - 1, y + 1], // SW
+        ]
+    }
+
+    getWallIndicator(x, y) {
+        let coords = this.getCoordsAround(x, y).map(x => x.join(','))
+        // console.log(coords)
+        let result = {
+            NW: this.map[coords[wallMap.NW]],
+            N: this.map[coords[wallMap.N]],
+            NE: this.map[coords[wallMap.NE]],
+            W: this.map[coords[wallMap.W]],
+            E: this.map[coords[wallMap.E]],
+            SW: this.map[coords[wallMap.SW]],
+            SE: this.map[coords[wallMap.SE]],
+        }
+        console.log(result)
+        // if(this.map[coords[wallMap.NW]] === '#'){
+        // TODO find _.none implementation
+        // TODO figure out each tile to return
+        if (
+            _.every([result.SE]) 
+            // && _.none([result.SW, result.W, result.NW, result.N, result.NE])
+            ) {
+            return wallMap.NW
+        }
+        if (result.NW && !result.SE) {
+            return wallMap.SE
+        }
+        return wallMap.W
+        // console.log(result)
+    }
+    // if(map(coords))
+    // }
 
     getVisibleSquares() {
         return this.visibleSquares
