@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Output Management',
@@ -11,6 +10,8 @@ module.exports = {
             template: 'assets/index.html'
         })
     ],
+    entry: './src/index.ts',
+    devtool: 'inline-source-map',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
@@ -23,7 +24,8 @@ module.exports = {
             assets: path.resolve(__dirname, 'assets'),
             img: path.resolve(__dirname, 'img'),
             src: path.resolve(__dirname, 'src')
-        }
+        },
+        extensions: ['.tsx', '.ts', '.js']
     },
     module: {
         rules: [
@@ -40,14 +42,17 @@ module.exports = {
                     'file-loader'
                 ]
             },
-            /*
+            // {
+            //     test: /\.(html)$/,
+            //     use: [
+            //         'html-loader'
+            //     ]
+            // },
             {
-                test: /\.(html)$/,
-                use: [
-                    'html-loader'
-                ]
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
             }
-            */
         ]
     }
 }

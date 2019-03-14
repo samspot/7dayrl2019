@@ -1,5 +1,4 @@
-
-import _ from 'lodash';
+import * as _ from 'lodash'
 import * as ROT from 'rot-js'
 import { Player } from './player.js'
 import { Monster } from './monster.js'
@@ -40,26 +39,60 @@ Descoped
 
 */
 
+class Level {
+    level: number
+    name: string
+    boss: string
+    floorColor: string
+    wallColor: string
+    spawnRate: number
+    text: string
+    style: string
+    bossDown: boolean
+    toString: Function = function () {
+        return gpToString()
+    }
+}
 
 function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
 
 export class Game {
-    constructor(scheduler) {
+    maps: Maps
+    scheduler: ROT.Scheduler
+    display: ROT.Display
+    map: {}
+    player: Player
+    mobs: []
+    gameOver: boolean
+    score: number
+    turns: number
+    gameDisplay: GameDisplay
+    messages: []
+    gameProgress: {
+        level0: Level
+        level1: Level
+        level2: Level
+        level3: Level
+        level4: Level
+    }
+
+    dirty: boolean
+    director: Director
+    constructor(scheduler: ROT.Scheduler) {
         this.maps = new Maps()
         this.scheduler = scheduler
         this.display = null
         this.map = {}
-        this.engine = null
         this.player = null
-        this.ananas = null
         this.mobs = []
         this.gameOver = false
         this.score = 0
         this.turns = 0
         this.gameDisplay = new GameDisplay(this)
         this.messages = []
+        /*
         this.gameProgress = {
             level0: { toString: gpToString },
             level1: { toString: gpToString },
@@ -67,6 +100,7 @@ export class Game {
             level3: { toString: gpToString },
             level4: { toString: gpToString }
         }
+        */
 
         // TODO remove this duplicate info (also in director.levelNames)
         this.gameProgress.level0.level = 0
@@ -118,10 +152,14 @@ export class Game {
         this.gameProgress.level4.text = "Status Unknown"
         this.gameProgress.level4.style = "font-style: italic"
         this.gameProgress.level4.bossDown = false
+
+        this.dirty = false
+        this.director = undefined
     }
 
     allBossesDown() {
-        let bosses = []
+        let bosses: Boolean[] = []
+        // let bosses = []
         Object.keys(this.gameProgress).forEach(key => {
             bosses.push(this.gameProgress[key].bossDown)
         })
@@ -161,7 +199,7 @@ export class Game {
             height: Config.gamePortHeight
         }
 
-        if(Config.tiles){
+        if (Config.tiles) {
             this.display = new ROT.Display(optionsTiles);
         } else {
             // this.display = new ROT.Display(optionsAscii);
