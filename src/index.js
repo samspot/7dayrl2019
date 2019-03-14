@@ -8,6 +8,7 @@ import { GameDisplay } from './display.js'
 import { renderScores } from './score.js'
 
 
+
 let dc = document.getElementById('dcut')
 dc.onclick = () => {
     if(dc.checked){
@@ -42,13 +43,16 @@ async function mainLoop() {
 
         if (actor.isPlayer()) {
             game.updateGui()
-            game.redraw()
+            // game.redraw()
             // console.log('directors-cut', window.directorsCut)
 
             // if(game.director.boss){
             // game.gameDisplay.drawBossSplash(game.director.boss)
             // }
         }
+
+        // game.display.draw(0, 0, "@")
+        return
 
         // director.debugScheduler()
         // TODO add to debug output

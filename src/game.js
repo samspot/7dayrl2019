@@ -10,6 +10,7 @@ import { GameDisplay } from './display.js'
 import Maps from './maps.js'
 import Tyrant from 'assets/tyrant.json'
 
+import ReTiles1 from '../assets/img/re-tiles-1.png'
 /* feedback
 
 
@@ -110,7 +111,7 @@ Descoped
 
 */
 
-function gpToString(){
+function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
 
@@ -129,11 +130,11 @@ export class Game {
         this.gameDisplay = new GameDisplay(this)
         this.messages = []
         this.gameProgress = {
-            level0: {toString: gpToString},
-            level1: {toString: gpToString},
-            level2: {toString: gpToString},
-            level3: {toString: gpToString},
-            level4: {toString: gpToString}
+            level0: { toString: gpToString },
+            level1: { toString: gpToString },
+            level2: { toString: gpToString },
+            level3: { toString: gpToString },
+            level4: { toString: gpToString }
         }
 
         // TODO remove this duplicate info (also in director.levelNames)
@@ -202,14 +203,52 @@ export class Game {
     }
 
     init() {
-        let options = {
+        let optionsAscii = {
             width: Config.gamePortWidth,
             height: Config.gamePortHeight,
             fontSize: Config.fontSize,
             forceSquareRatio: true,
             fontStyle: "bold"
         }
-        this.display = new ROT.Display(options);
+
+
+        let tileSet = new Image()
+        tileSet.src = ReTiles1
+
+        let tileSet2 = document.getElementById('tileSet')
+        console.log(tileSet2.src)
+
+        let optionsTiles = {
+            layout: 'tile',
+            // bg: 'transparent',
+            tileWidth: 8,
+            tileHeight: 8,
+            tileSet: tileSet2,
+            tileMap: {
+                "@": [0, 24],
+                // "#": [0, 0],
+                '.': [8, 8],
+                // '': [8, -8],
+                // 'z': [8, -32],
+                // 'c': [8, -32],
+                // 'J': [8, -32],
+                // 'z': [8, -32],
+                // 'z': [8, -32],
+                // 'z': [8, -32],
+            },
+            width: Config.gamePortWidth,
+            height: Config.gamePortHeight
+        }
+
+        this.display = new ROT.Display(optionsAscii);
+        this.display = new ROT.Display(optionsTiles);
+
+        // document.getElementById('tiletest').appendChild(tileSet)
+
+        // document.
+        tileSet.onload = () => {
+            this.display.draw(1, 1, '@')
+        }
 
         document.getElementById("mapContainer").innerHTML = ''
         document.getElementById("mapContainer").appendChild(this.display.getContainer())
@@ -367,7 +406,7 @@ export class Game {
         this.getGameProgress().bossDown = true
     }
 
-    message(msg, important){
+    message(msg, important) {
         let message = {
             msg: msg,
             turn: this.turns,
@@ -379,9 +418,9 @@ export class Game {
 
     dmgMessage(msg, important, source, target, actorSource) {
         // console.log('msg', msg)
-        let message = { 
-            msg: msg, 
-            turn: this.turns, 
+        let message = {
+            msg: msg,
+            turn: this.turns,
             important: important,
             source: source,
             target: target,
@@ -442,14 +481,18 @@ export class Game {
             // let color = map[x+","+y] ? "#aa0": "#660"
             let color = map[x + "," + y] ? fovFloorColor : fovWallColor
             this.visibleSquares.push(x + ',' + y)
-            this.display.draw(x, y, ch, this.player.color, color)
+            // this.display.draw(x, y, ch, this.player.color, color)
+            // this.display.draw(x, y, ch, '#', '#' )
+            // this.display.draw(x, y, ch )
+            // this.display.draw(0, 0, '@')
+            // this.display.draw(x, y, [ch, '#'])
         })
 
-        if(this.player.isTargetMode() && this.cursor){
+        if (this.player.isTargetMode() && this.cursor) {
             this.cursor.drawMe()
         }
 
-        if(Config.drawAllMobs){
+        if (Config.drawAllMobs) {
             this.mobs.forEach(m => m.drawMe())
         } else {
             this.getVisibleMobs().forEach(m => m.drawMe(fovFloorColor))
@@ -463,14 +506,14 @@ export class Game {
     getVisibleMobs() {
         let visibleMobs = _.filter(this.mobs, m => _.findIndex(this.getVisibleSquares(), i => i === m.x + ',' + m.y) >= 0)
         // if(onlyInfectable){
-            // visibleMobs = _.filter(visibleMobs, m => m.isInfectable())
-            // console.log("infectable mobs", visibleMobs)
+        // visibleMobs = _.filter(visibleMobs, m => m.isInfectable())
+        // console.log("infectable mobs", visibleMobs)
         // }
         visibleMobs.forEach(m => m.setSeen())
         return visibleMobs
     }
 
-    getInfectableMobs(){
+    getInfectableMobs() {
         let mobs = _.filter(this.getVisibleMobs(), m => m.isInfectable())
         // console.log("infectable mobs", mobs)
         let reviveMob = new Monster(0, 0, this, Tyrant)
@@ -488,12 +531,12 @@ export class Game {
         actor.draw('.', 'red')
     }
 
-    reschedule(){
-         this.scheduler.clear()
-         this.scheduler.add(this.player, true)
-         this.mobs.forEach(m => {
-             this.scheduler.add(m, true)
-         })
+    reschedule() {
+        this.scheduler.clear()
+        this.scheduler.add(this.player, true)
+        this.mobs.forEach(m => {
+            this.scheduler.add(m, true)
+        })
 
         //  console.log('reschedule', this.scheduler)
     }

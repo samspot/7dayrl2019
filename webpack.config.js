@@ -1,8 +1,16 @@
 const path = require("path")
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
     entry: './src/index.js',
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Output Management',
+            // template: require('../assets/index.html')
+            template: 'assets/index.html'
+        })
+    ],
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
@@ -31,7 +39,15 @@ module.exports = {
                 use: [
                     'file-loader'
                 ]
+            },
+            /*
+            {
+                test: /\.(html)$/,
+                use: [
+                    'html-loader'
+                ]
             }
+            */
         ]
     }
 }
