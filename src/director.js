@@ -85,7 +85,7 @@ export class Director {
 
         this.scheduler = scheduler
         game.currentLevel = 0
-        if(Config.debug && Config.startLevel){
+        if (Config.debug && Config.startLevel) {
             game.currentLevel = Config.startLevel
         }
 
@@ -138,7 +138,8 @@ export class Director {
     }
 
     getLevelSpec() {
-        return Maps[this.getLevelName()]
+        // return Maps[this.getLevelName()]
+        return this.game.maps.mapMap()[this.getLevelName()]
     }
 
     tick() {
@@ -170,7 +171,7 @@ export class Director {
             let spawnrate = this.game.getGameProgress().spawnRate
             // console.log(`spawnrate ${spawnrate}`)
 
-            if(window.directorsCut){
+            if (window.directorsCut) {
                 // console.log("directors cut spawn rate 2")
                 spawnrate = 2
             }
@@ -189,7 +190,7 @@ export class Director {
             this.countdown = num
 
             if (!this.getLevelSpec().mobs) { this.getLevelSpec().mobs = 0 }
-            if(window.directorsCut){
+            if (window.directorsCut) {
                 // console.log("directors cut set spawn limit 100")
                 Config.spawnLimit = 100
             }
@@ -213,7 +214,7 @@ export class Director {
         let cellsRemoved = []
         this.game.visibleSquares.forEach(x => {
             _.remove(freeCells, c => {
-                if(c === x){
+                if (c === x) {
                     cellsRemoved.push(c)
                     return true
                 }

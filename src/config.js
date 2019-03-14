@@ -13,7 +13,8 @@ const Config = {
     // drawAllMobs: true,
     debug: true,
     skipTitle: true,
-    // playerInvulnerable: true
+    tiles: true,
+    // playerInvulnerable: true,
     // startLevel: 0
 }
 

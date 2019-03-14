@@ -13,6 +13,7 @@ import Tyrant from 'assets/tyrant.json'
 import ReTiles1 from '../assets/img/re-tiles-1.png'
 import ReTiles2 from '../assets/img/re-tiles-2.png'
 import ReTiles4 from '../assets/img/re-tiles-4.png'
+
 /* feedback
 
 * special abilities like bite can target diagonal, but you cant bump attack that direction, correct?
@@ -39,17 +40,6 @@ Descoped
 
 */
 
-let wallMap = {
-    NW: 0,
-    N: 1,
-    NE: 2,
-    W: 3,
-    C: 4,
-    E: 5,
-    SE: 6,
-    S: 7,
-    SW: 8
-}
 
 function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
@@ -57,6 +47,7 @@ function gpToString() {
 
 export class Game {
     constructor(scheduler) {
+        this.maps = new Maps()
         this.scheduler = scheduler
         this.display = null
         this.map = {}
@@ -165,65 +156,21 @@ export class Game {
             tileWidth: tileWidth,
             tileHeight: tileWidth,
             tileSet: tileSet,
-            tileMap: {
-                "@": [0 * tileWidth, 3 * tileWidth],
-                "J": [1 * tileWidth, 3 * tileWidth],
-                "C": [2 * tileWidth, 3 * tileWidth],
-                "B": [0 * tileWidth, 4 * tileWidth],
-                "V": [1 * tileWidth, 4 * tileWidth],
-                "W": [2 * tileWidth, 4 * tileWidth],
-                "s": [0 * tileWidth, 5 * tileWidth],
-                "p": [1 * tileWidth, 5 * tileWidth],
-                "L": [2 * tileWidth, 5 * tileWidth],
-                "d": [0 * tileWidth, 6 * tileWidth],
-                "c": [1 * tileWidth, 6 * tileWidth],
-                "h": [2 * tileWidth, 6 * tileWidth],
-                "z": [0 * tileWidth, 7 * tileWidth],
-                "#": [0 * tileWidth, 0 * tileWidth],
-                '.': [1 * tileWidth, 1 * tileWidth],
-                '_': [1 * tileWidth, 1 * tileWidth],
-                '': [1 * tileWidth, 1 * tileWidth],
-                '0': [0*tileWidth, 0*tileWidth],
-                '1': [1*tileWidth, 0*tileWidth],
-                '2': [2*tileWidth, 0*tileWidth],
-                '3': [0*tileWidth, 1*tileWidth],
-                '4': [1*tileWidth, 1*tileWidth],
-                '5': [2*tileWidth, 1*tileWidth],
-                '6': [0*tileWidth, 2*tileWidth],
-                '7': [1*tileWidth, 2*tileWidth],
-                '8': [2*tileWidth, 2*tileWidth],
-            },
+            tileMap: this.maps.getTileMap(),
             width: Config.gamePortWidth,
             height: Config.gamePortHeight
         }
 
-        /*
-let wallMap = {
-    NW: 0,
-    N: 1,
-    NE: 2,
-    W: 3,
-    // C: 4,
-    E: 5,
-    SE: 6,
-    S: 7,
-    SW: 8
-}
-*/
-        // this.display = new ROT.Display(optionsAscii);
-        this.display = new ROT.Display(optionsTiles);
-
-        // document.getElementById('tiletest').appendChild(tileSet)
-
-        // document.
-        // tileSet.onload = () => {
-        // this.display.draw(1, 1, '@')
-        // }
+        if(Config.tiles){
+            this.display = new ROT.Display(optionsTiles);
+        } else {
+            // this.display = new ROT.Display(optionsAscii);
+        }
 
         document.getElementById("mapContainer").innerHTML = ''
         document.getElementById("mapContainer").appendChild(this.display.getContainer())
 
-        this.generateMap(Maps.lab)
+        this.generateMap(this.maps.mapMap()[lab])
     }
 
     resetLevel() {
@@ -426,14 +373,7 @@ let wallMap = {
     }
 
     drawFov() {
-
-
         // TODO liked trent reznor 'on we march' for background music
-
-        // TODO vary these colors by level
-        // let fovFloorColor = "#333"
-        // let fovWallColor = "#660"
-
         let fovFloorColor = this.getGameProgress().floorColor
         let fovWallColor = this.getGameProgress().wallColor
 
@@ -450,34 +390,22 @@ let wallMap = {
         this.visibleSquares = []
         fov.compute(this.player.x, this.player.y, this.player.sightRadius, (x, y, r, visibility) => {
             let ch = r ? "" : "@"
-            // let color = map[x+","+y] ? "#aa0": "#660"
-            let isFloor = map[x + ',' + y]
+            // let color = map[x + "," + y] ? "#aa0" : "#660"
             let color = map[x + "," + y] ? fovFloorColor : fovWallColor
             this.visibleSquares.push(x + ',' + y)
-            // this.display.draw(x, y, ch, this.player.color, color)
-
-
-
-            // let wallCh = wallMap[wallindicator]
-
-            // actor
-            if (ch === "@") {
-                this.display.draw(x, y, "@")
-
-                // floor
-            } else if (isFloor) {
-                this.display.draw(x, y, ".")
-
-                // wall
+            if (Config.tiles) {
+                let isFloor = map[x + ',' + y]
+                if (ch === "@") { // actor
+                    this.display.draw(x, y, "@")
+                } else if (isFloor) { // floor
+                    this.display.draw(x, y, ".")
+                } else { // wall
+                    ch = this.maps.getWallIndicator(x, y)
+                    this.display.draw(x, y, ch)
+                }
             } else {
-                ch = this.getWallIndicator(x, y)
-                this.display.draw(x, y, ch)
+                this.display.draw(x, y, ch, this.player.color, color)
             }
-
-            // this.display.draw(x, y, ch, '#', '#' )
-            // this.display.draw(x, y, ch )
-            // this.display.draw(0, 0, '@')
-            // this.display.draw(x, y, [ch, '#'])
         })
 
         if (this.player.isTargetMode() && this.cursor) {
@@ -490,64 +418,7 @@ let wallMap = {
             this.getVisibleMobs().forEach(m => m.drawMe(fovFloorColor))
         }
     }
-        /*
-let wallMap = {
-    NW: 0,
-    N: 1,
-    NE: 2,
-    W: 3,
-    // C: 4,
-    E: 5,
-    SE: 6,
-    S: 7,
-    SW: 8
-}
-*/
-    // TODO copied from abilities.js
-    getCoordsAround(x, y) {
-        return [
-            [x - 1, y - 1], // NW
-            [x, y - 1],     // N
-            [x + 1, y - 1], // NE
-            [x - 1, y],     // W
-            [x, y],         // C
-            [x + 1, y],     // E
-            [x + 1, y + 1], // SE
-            [x, y + 1],     // S
-            [x - 1, y + 1], // SW
-        ]
-    }
 
-    getWallIndicator(x, y) {
-        let coords = this.getCoordsAround(x, y).map(x => x.join(','))
-        // console.log(coords)
-        let result = {
-            NW: this.map[coords[wallMap.NW]],
-            N: this.map[coords[wallMap.N]],
-            NE: this.map[coords[wallMap.NE]],
-            W: this.map[coords[wallMap.W]],
-            E: this.map[coords[wallMap.E]],
-            SW: this.map[coords[wallMap.SW]],
-            SE: this.map[coords[wallMap.SE]],
-        }
-        console.log(result)
-        // if(this.map[coords[wallMap.NW]] === '#'){
-        // TODO find _.none implementation
-        // TODO figure out each tile to return
-        if (
-            _.every([result.SE]) 
-            // && _.none([result.SW, result.W, result.NW, result.N, result.NE])
-            ) {
-            return wallMap.NW
-        }
-        if (result.NW && !result.SE) {
-            return wallMap.SE
-        }
-        return wallMap.W
-        // console.log(result)
-    }
-    // if(map(coords))
-    // }
 
     getVisibleSquares() {
         return this.visibleSquares
