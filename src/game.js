@@ -11,6 +11,8 @@ import Maps from './maps.js'
 import Tyrant from 'assets/tyrant.json'
 
 import ReTiles1 from '../assets/img/re-tiles-1.png'
+import ReTiles2 from '../assets/img/re-tiles-2.png'
+import ReTiles4 from '../assets/img/re-tiles-4.png'
 /* feedback
 
 
@@ -213,42 +215,50 @@ export class Game {
 
 
         let tileSet = new Image()
-        tileSet.src = ReTiles1
+        tileSet.src = ReTiles4
 
-        let tileSet2 = document.getElementById('tileSet')
-        console.log(tileSet2.src)
+        // let tileSet2 = document.getElementById('tileSet')
+        // console.log(tileSet2.src)
 
+        let tileWidth = 32 
         let optionsTiles = {
             layout: 'tile',
             // bg: 'transparent',
-            tileWidth: 8,
-            tileHeight: 8,
-            tileSet: tileSet2,
+            tileWidth: tileWidth,
+            tileHeight: tileWidth,
+            tileSet: tileSet,
             tileMap: {
-                "@": [0, 24],
-                // "#": [0, 0],
-                '.': [8, 8],
-                // '': [8, -8],
-                // 'z': [8, -32],
-                // 'c': [8, -32],
-                // 'J': [8, -32],
-                // 'z': [8, -32],
-                // 'z': [8, -32],
-                // 'z': [8, -32],
+                "@": [0*tileWidth, 3*tileWidth],
+                "J": [1*tileWidth, 3*tileWidth],
+                "C": [2*tileWidth, 3*tileWidth],
+                "B": [0*tileWidth, 4*tileWidth],
+                "V": [1*tileWidth, 4*tileWidth],
+                "W": [2*tileWidth, 4*tileWidth],
+                "s": [0*tileWidth, 5*tileWidth],
+                "p": [1*tileWidth, 5*tileWidth],
+                "L": [2*tileWidth, 5*tileWidth],
+                "d": [0*tileWidth, 6*tileWidth],
+                "c": [1*tileWidth, 6*tileWidth],
+                "h": [2*tileWidth, 6*tileWidth],
+                "z": [0*tileWidth, 7*tileWidth],
+                "#": [0*tileWidth, 0*tileWidth],
+                '.': [1*tileWidth, 1*tileWidth],
+                '_': [1*tileWidth, 1*tileWidth],
+                '': [1*tileWidth, 1*tileWidth],
             },
             width: Config.gamePortWidth,
             height: Config.gamePortHeight
         }
 
-        this.display = new ROT.Display(optionsAscii);
+        // this.display = new ROT.Display(optionsAscii);
         this.display = new ROT.Display(optionsTiles);
 
         // document.getElementById('tiletest').appendChild(tileSet)
 
         // document.
-        tileSet.onload = () => {
-            this.display.draw(1, 1, '@')
-        }
+        // tileSet.onload = () => {
+            // this.display.draw(1, 1, '@')
+        // }
 
         document.getElementById("mapContainer").innerHTML = ''
         document.getElementById("mapContainer").appendChild(this.display.getContainer())
@@ -479,9 +489,22 @@ export class Game {
         fov.compute(this.player.x, this.player.y, this.player.sightRadius, (x, y, r, visibility) => {
             let ch = r ? "" : "@"
             // let color = map[x+","+y] ? "#aa0": "#660"
+            let isFloor = map[x +','+y]
             let color = map[x + "," + y] ? fovFloorColor : fovWallColor
             this.visibleSquares.push(x + ',' + y)
             // this.display.draw(x, y, ch, this.player.color, color)
+
+            // actor
+            if(ch === "@"){
+                this.display.draw(x, y, "@")
+                // floor
+            } else if (isFloor){
+                this.display.draw(x, y, "")
+                // wall
+            } else {
+                this.display.draw(x, y, '#')
+            }
+
             // this.display.draw(x, y, ch, '#', '#' )
             // this.display.draw(x, y, ch )
             // this.display.draw(0, 0, '@')

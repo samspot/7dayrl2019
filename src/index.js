@@ -43,7 +43,7 @@ async function mainLoop() {
 
         if (actor.isPlayer()) {
             game.updateGui()
-            // game.redraw()
+            game.redraw()
             // console.log('directors-cut', window.directorsCut)
 
             // if(game.director.boss){
@@ -52,7 +52,7 @@ async function mainLoop() {
         }
 
         // game.display.draw(0, 0, "@")
-        return
+        // return
 
         // director.debugScheduler()
         // TODO add to debug output
