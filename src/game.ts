@@ -14,6 +14,7 @@ import { Cursor } from './cursor.js'
 import ReTiles1 from '../assets/img/re-tiles-1.png'
 import ReTiles2 from '../assets/img/re-tiles-2.png'
 import ReTiles4 from '../assets/img/re-tiles-4.png'
+import ReTiles16 from '../assets/img/re-tiles-16.png'
 
 /* feedback
 
@@ -213,7 +214,8 @@ export class Game {
         if (Config.tileWidth === 8) {
             tileSet.src = ReTiles1
         } else if (Config.tileWidth === 16) {
-            tileSet.src = ReTiles2
+            // tileSet.src = ReTiles2
+            tileSet.src = ReTiles16
         } else if (Config.tileWidth === 32) {
             tileSet.src = ReTiles4
         }
@@ -470,7 +472,7 @@ export class Game {
             if (Config.tiles) {
                 let isFloor = map[x + ',' + y]
                 if (ch === "@") { // actor
-                    this.display.draw(x, y, "@")
+                    this.display.draw(x, y, ['.',"@"])
                 } else if (isFloor) { // floor
                     this.display.draw(x, y, ".")
                 } else { // wall

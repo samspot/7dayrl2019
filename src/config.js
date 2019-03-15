@@ -1,5 +1,5 @@
 const Config = {
-    spawnrate: 100,
+    spawnrate: 1,
     spawnboss: false,
     tileWidth: 16,
     spawnLimit: 20,
@@ -10,7 +10,7 @@ const Config = {
     // seed: 12362,
     turnsToSim: 26,
     // seed: 12368,
-    seed: 12380,
+    seed: 12370,
     turnsToSim: 0,
     drawWholeMap: true,
     drawAllMobs: true,

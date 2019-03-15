@@ -96,8 +96,13 @@ export class Actor {
             symbolToDraw = symbol
             colorToDraw = color
         }
-        this.game.display.draw(this.x, this.y,
+        if(Config.tiles){
+            // this.game.display.draw(this.x, this.y, [symbolToDraw, '.'])
+            this.game.display.draw(this.x, this.y, ['.', symbolToDraw])
+        } else {
+            this.game.display.draw(this.x, this.y,
             symbolToDraw, colorToDraw, bgColor)
+        }
         // console.log(this.name, this.hp)
     }
 
