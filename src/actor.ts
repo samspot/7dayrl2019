@@ -3,11 +3,30 @@ import * as ROT from 'rot-js'
 import Tyrant from 'assets/tyrant.json'
 import Zombie from 'assets/zombie.json'
 import Jill from 'assets/jill.json'
-import { YouWinAction } from './actions';
+import { YouWinAction } from './actions'
 import Config from './config';
+import { Game } from './game'
+import { Ability } from './abilities.js'
 
 export class Actor {
-    constructor(x, y, symbol, color, game) {
+    x: number
+    y: number
+    symbol: string
+    color: string
+    game: Game
+    boss: boolean
+    finalBoss: boolean
+    abilities: Array<Ability>
+    score: number
+    isRevive: boolean
+    seen: boolean
+    hp: number
+    maxHp: number
+    spawnId: number
+    name: string
+    str: number
+    sightRadius: number
+    constructor(x: number, y: number, symbol: string, color: string, game: Game) {
         this.x = x
         this.y = y
         this.symbol = symbol
@@ -30,6 +49,9 @@ export class Actor {
         this.seen = true
     }
 
+    playerSeen() {
+        return this.seen
+    }
 
     isInjured() {
         // console.log(`is ${this.name} ${this.hp}/${this.maxHp} less than ${this.maxHp * .45}`)
@@ -41,7 +63,7 @@ export class Actor {
         return this.isInjured() || this.hp < 15
     }
 
-    damage(dmg) {
+    damage(dmg: number) {
         if (this.isPlayer() && Config.debug && Config.playerInvulnerable) {
             return
         }
@@ -72,7 +94,7 @@ export class Actor {
         this.abilities.forEach(a => a.tick())
     }
 
-    addAbility(ability) {
+    addAbility(ability: Ability) {
         this.abilities.push(ability)
     }
 
@@ -89,24 +111,24 @@ export class Actor {
         // return true
     }
 
-    draw(symbol, color, bgColor) {
+    draw(symbol: string, color: string, bgColor: string) {
         let symbolToDraw = this.symbol
         let colorToDraw = this.color
         if (symbol) {
             symbolToDraw = symbol
             colorToDraw = color
         }
-        if(Config.tiles){
+        if (Config.tiles) {
             // this.game.display.draw(this.x, this.y, [symbolToDraw, '.'])
             this.game.display.draw(this.x, this.y, ['.', symbolToDraw])
         } else {
             this.game.display.draw(this.x, this.y,
-            symbolToDraw, colorToDraw, bgColor)
+                symbolToDraw, colorToDraw, bgColor)
         }
         // console.log(this.name, this.hp)
     }
 
-    drawMe(bgColor) {
+    drawMe(bgColor?: string) {
         this.draw(this.symbol, this.color, bgColor)
     }
 

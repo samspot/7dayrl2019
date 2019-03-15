@@ -1,19 +1,18 @@
 import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
-import { MoveAction, DefaultAction, AbilityAction } from './actions.js';
+import { MoveAction, DefaultAction, AbilityAction } from './actions.js'
+import { Game, MobSpec } from './game'
+import * as _ from 'lodash'
 
-// import Jill from '../assets/img/jill.png'
-// import Chris from '../assets/img/chris.png'
-// import Barry from '../assets/img/barry.png'
-// import Wesker from '../assets/img/wesker.png'
-// import Brad from '../assets/img/brad.png'
 import Empty75x75 from '../assets/img/empty.png'
 import { Charge } from './abilities.js';
 import Config from './config.js';
 
 
 export class Monster extends Actor {
-    constructor(x, y, game, mobspec) {
+    bio: string
+    quote: string
+    constructor(x: number, y: number, game: Game, mobspec: MobSpec) {
         super(x, y, mobspec.symbol, mobspec.color, game)
 
         this.name = mobspec.name
@@ -26,17 +25,6 @@ export class Monster extends Actor {
         this.bio = mobspec.bio || ''
         this.quote = mobspec.quote || ''
     }
-
-    playerSeen() {
-        return this.seen
-    }
-
-    // setSeen() {
-    //     if (this.boss && !this.seen) {
-    //         this.game.gameDisplay.drawBossSplash(this)
-    //     }
-    //     this.seen = true
-    // }
 
     // return a list of abilities that are off cooldown and can reach the player
     getAvailableAbilities() {
@@ -72,6 +60,7 @@ export class Monster extends Actor {
 
         let abilities = this.getAvailableAbilities()
         if (abilities && abilities.length > 0) {
+            //@ts-ignore
             let a = ROT.RNG.getItem(abilities)
             // TODO add this log to debug flag
             // console.log("monster.act()", this.name, "using ", a.constructor.name, a)
@@ -80,12 +69,12 @@ export class Monster extends Actor {
             })
         }
 
-        let passableCallback = (x, y) => x + ',' + y in this.game.map
+        let passableCallback = (x: number, y: number) => x + ',' + y in this.game.map
         var astar = new ROT.Path.AStar(x, y, passableCallback, { topology: 4 })
 
-        var path = []
-        var pathCallback = function (x, y) {
-            path.push([x, y])
+        var pathList: Array<Array<number>> = []
+        var pathCallback = function (x: number, y: number) {
+            pathList.push([x, y])
         }
         astar.compute(this.x, this.y, pathCallback)
 
@@ -93,8 +82,8 @@ export class Monster extends Actor {
             // console.log('acting', path[0], path[1], this.name, this.x, this.y)
         }
 
-        let oldpath = path.shift()
-        path = path[0]
+        let oldpath = pathList.shift()
+        let path = pathList[0]
         if (!path) {
             console.log(`spawn-${this.spawnId} ${this.x},${this.y} path is ${path} for [${this.name}] player at ${this.game.player.x},${this.game.player.y} mob moving to ${path},${path}`)
             path = oldpath

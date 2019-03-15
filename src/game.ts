@@ -43,14 +43,16 @@ Descoped
 */
 
 // TODO move to monster.js or other class
-class MobSpec {
-    symbold: string
+export class MobSpec {
+    symbol: string
     color: string
     name: string
     hp: number
     score: number
     str: number
     sightRadius: number
+    bio: string
+    quote: string
 }
 
 interface Message {
@@ -399,7 +401,7 @@ export class Game {
         this.getGameProgress().bossDown = true
     }
 
-    message(msg: string, important: boolean) {
+    message(msg: string, important?: boolean) {
         let message = {
             msg: msg,
             turn: this.turns,
@@ -472,7 +474,7 @@ export class Game {
             if (Config.tiles) {
                 let isFloor = map[x + ',' + y]
                 if (ch === "@") { // actor
-                    this.display.draw(x, y, ['.',"@"])
+                    this.display.draw(x, y, ['.', "@"])
                 } else if (isFloor) { // floor
                     this.display.draw(x, y, ".")
                 } else { // wall

@@ -2,17 +2,26 @@ import { Actor } from './actor.js'
 import * as ROT from 'rot-js'
 import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
 import { keyMap } from './keymap.js'
-import { Impale, Charge, Grab, Shotgun, GrenadeLauncher, Infect, Magnum, Bite, Haymaker, Poison } from './abilities.js';
-import { Cursor } from './cursor.js';
-import Config from './config.js';
+import { Impale, Charge, Grab, Shotgun, GrenadeLauncher, Infect, Magnum, Bite, Haymaker, Poison, Ability } from './abilities.js'
+import { Cursor } from './cursor.js'
+import Config from './config.js'
 import Tyrant from 'assets/tyrant.json'
+import { Game } from './game'
+import { Monster } from './monster'
+import * as _ from 'lodash'
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
 const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
 export class Player extends Actor {
-    constructor(x, y, game) {
+    state: string
+    debugCount: number
+    usingAbility: Ability
+    resolve: Function
+    reject: Function
+    splash: boolean
+    constructor(x: number, y: number, game: Game) {
         super(x, y, "@", "#ff0", game)
 
         this.name = Tyrant.name
@@ -49,7 +58,7 @@ export class Player extends Actor {
         this.addAbility(new Infect(this))
     }
 
-    infectMob(mob) {
+    infectMob(mob: Monster) {
         this.name = mob.name
         this.hp = mob.maxHp * 1.5
         if (this.hp < 150) { this.hp = 150 }
@@ -84,7 +93,7 @@ export class Player extends Actor {
         return true
     }
 
-    useAbility(ability) {
+    useAbility(ability: Ability) {
         // console.log("player.useAbility()", ability)
 
         if (ability && ability.cooldown === 0) {
@@ -127,13 +136,15 @@ export class Player extends Actor {
         return infect
     }
 
-    handleTarget(e) {
+    handleTarget(e: Event) {
         // console.log("targetting")
 
+        //@ts-ignore
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
         // escape key
+        //@ts-ignore
         if (charCode === 27 || charCode === ROT.KEYS.VK_Q || charCode === ROT.KEYS.VK_E || charCode === ROT.KEYS.VK_R) {
             this.game.gameDisplay.hideModal()
             this.state = PLAYER_TURN
@@ -172,6 +183,7 @@ export class Player extends Actor {
         let cursor = this.game.cursor
         if (cursor) {
 
+            //@ts-ignore
             var diff = ROT.DIRS[8][keyMap[charCode]];
             let newX = cursor.x + diff[0];
             let newY = cursor.y + diff[1];
@@ -189,7 +201,7 @@ export class Player extends Actor {
         }
     }
 
-    inRange(ability, actor, x, y) {
+    inRange(ability: Ability, actor: Actor, x: number, y: number) {
         let distance = Math.sqrt((x - actor.x) ** 2 + (y - actor.y) ** 2)
         distance = Math.floor(distance)
         // console.log('distance', distance, 'range', ability.range)
@@ -197,12 +209,13 @@ export class Player extends Actor {
     }
 
     // TODO: Tank controls?
-    handleEvent(e) {
+    handleEvent(e: Event) {
         if (this.state === TARGETTING) {
             this.game.display.drawText(0, 0, TARGET_HELP);
             return this.handleTarget(e)
         }
         // console.log('handle event', e)
+        // @ts-ignore
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
@@ -232,8 +245,11 @@ export class Player extends Actor {
         }
 
         let abilitykeys = [
+            //@ts-ignore
             ROT.KEYS.VK_Q,
+            //@ts-ignore
             ROT.KEYS.VK_E,
+            //@ts-ignore
             ROT.KEYS.VK_R
         ]
         let result = _.findIndex(abilitykeys, x => x === code)
