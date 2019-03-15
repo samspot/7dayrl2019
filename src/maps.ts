@@ -2,11 +2,6 @@ import * as ROT from 'rot-js'
 import Config from './config.js'
 import { Game } from './game'
 
-// 'lab'
-// 'catacombs'
-// 'outside' 
-// 'guardhouse'
-// 'mansion'
 export interface IMapSpec {
     _obj: Object,
     _randomize?: number
@@ -28,8 +23,6 @@ interface ICellularMapSpec extends IMapSpec {
     _iterations: number,
     _randomize: number
 }
-
-
 
 let outside1: IDiggerMapSpec = {
     _obj: ROT.Map.Digger,
@@ -126,7 +119,7 @@ let wallMap = {
     SW: 6,
     S: 7,
     SE: 8,
-    '-': 9
+    '-': 'tall'
 }
 
 interface IWallTileMap {
@@ -177,56 +170,15 @@ let tileMap = {
     '7': [1 * tileWidth, 2 * tileWidth],
     '8': [2 * tileWidth, 2 * tileWidth],
     '9': [0 * tileWidth, 6 * tileWidth], // placeholder
+    'tall': [1*tileWidth, 9*tileWidth],
+    'wide': [0*tileWidth, 9*tileWidth]
 }
 
 interface IWallPreset {
     [key: string]: Array<Array<string>>
 }
+
 /*
-        [' ', ' ', ' '],
-        [' ', '#', '.'],
-        [' ', ' ', ' '],
-
-        [' ', ' ', ' '],
-        ['f', '#', 'f'],
-        [' ', ' ', ' '],
-
-        // e-w middle wall
-        'f#f' 'f#f'
-        'f#f' 'f#f'
-        'f#f' 'fff'
-
-        // west wall
-        '##f'
-        '##f'
-        '##f'
-
-        // east wall
-        'f##'
-        'f##'
-        'f##'
-
-        // n-s middle wall
-        'fff'
-        '###'
-        'fff'
-
-        // north wall
-        '###' 
-        '###' 
-        'fff'
-
-        // south wall
-        'fff'
-        '###'
-        '###'
-
-        // corners
-        // ce, cw, cn, cs
-        'fff' 'fff' 'f#f' 'fff'
-        'f##' '##f' 'f#f' 'f#f'
-        'fff' 'fff' 'fff' 'f#f'
-
 North West = 2^0 = 1
 North      = 2^1 = 2
 North East = 2^2 = 4
@@ -236,16 +188,10 @@ South West = 2^5 = 32
 South      = 2^6 = 64
 South East = 2^7 = 128 
 
-// Need to convert to a binary value
-let coords = this.getCoordsAround(x, y).map((x: Array<number>) => x.join(','))
-
-        let coords = this.getCoordsAround(x, y).map((x: Array<number>) => x.join(','))
-        let result
-        Object.keys(joinedWallPresets).forEach(key => {
-            let temp = coords
-                .map(c => this.game.map[c])
-                .map(x => typeof x === 'undefined' ? '#' : x)
-                .join(',')
+North      = 2^0 = 1
+West       = 2^1 = 2
+East       = 2^2 = 4 
+South      = 2^3 = 8 
 
 */
 interface IWM {
@@ -419,117 +365,6 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     }
     return finalAnswer
 }
-/*
-let wallMap = {
-    NW: 0,
-    N: 1,
-    NE: 2,
-    W: 3,
-    C: 4,
-    E: 5,
-    SE: 6,
-    S: 7,
-    SW: 8
-}
-        */
-
-
-
-let calc2 = function (x: number, y: number, coords: Array<string>, map: { [key: string]: string }) {
-    let result = 0
-    Object.keys(wallMapBinary).forEach(k => {
-        let binary = wallMapBinary[k].binary
-        let index = wallMapBinary[k].index
-        let square = map[coords[index]]
-
-        if (typeof square === 'undefined') {
-            result = result | binary
-        }
-    })
-    console.log(`coords[0] ${coords[0]} map ${map[coords[0]]} calc ${x},${y} result ${result.toString(2)} result decimal ${result}`)
-    return result
-}
-
-/*
-let wallMap = {
-    NW: 0,
-    N: 1,
-    NE: 2,
-    W: 3,
-    C: 4,
-    E: 5,
-    SE: 6,
-    S: 7,
-    SW: 8
-}
-        */
-
-// TODO variations on walls & corners
-let wallPresets: IWallPreset = {
-    NWall2: [
-        ['.', '#', '#'],
-        ['.', '#', '#'],
-        ['.', '.', '.'],
-    ],
-    NWCorner: [
-        ['#', '#', '#'],
-        ['#', '#', '#'],
-        ['#', '#', '.'],
-    ],
-    NWall: [
-        ['#', '#', '#'],
-        ['#', '#', '#'],
-        ['.', '.', '.'],
-    ],
-    NECorner: [
-        ['#', '#', '#'],
-        ['#', '#', '#'],
-        ['.', '#', '#'],
-    ],
-    EWall: [
-        ['.', '#', '#'],
-        ['.', '#', '#'],
-        ['.', '#', '#'],
-    ],
-    SECorner: [
-        ['.', '#', '#'],
-        ['#', '#', '#'],
-        ['#', '#', '#'],
-    ],
-    SWall: [
-        ['.', '.', '.'],
-        ['#', '#', '#'],
-        ['.', '.', '.'],
-    ],
-    SWCorner: [
-        ['#', '#', '.'],
-        ['#', '#', '#'],
-        ['#', '#', '#'],
-    ],
-    WWall: [
-        ['#', '#', '.'],
-        ['#', '#', '.'],
-        ['#', '#', '.'],
-    ],
-    WWall2: [
-        ['.', '#', '.'],
-        ['.', '#', '.'],
-        ['.', '#', '.'],
-    ],
-    WWall3: [
-        ['.', '.', '.'],
-        ['.', '#', '.'],
-        ['.', '#', '.'],
-    ],
-}
-
-interface IJoinedWallPreset {
-    [key: string]: string
-}
-let joinedWallPresets: IJoinedWallPreset = {}
-Object.keys(wallPresets).forEach(key => {
-    joinedWallPresets[key] = wallPresets[key].join(",")
-})
 
 export class Maps {
     mapList: {
@@ -551,30 +386,12 @@ export class Maps {
     wallCalc(x: number, y: number) {
         let coords = this.getCoordsAround(x, y).map((x: Array<number>) => x.join(','))
         let finalAnswer = calc(x, y, coords, this.game.map)
-        // /*
-        let result
-        Object.keys(joinedWallPresets).forEach(key => {
-            let temp = coords
-                .map(c => this.game.map[c])
-                .map(x => typeof x === 'undefined' ? '#' : x)
-                .join(',')
-
-
-            // console.log('temp', temp)
-
-            // console.log(coords, mapCoords, joinedWallPresets[key])
-            if (temp === joinedWallPresets[key]) {
-                result = wallTileMap[key]
-            }
-        })
-        // console.log('wallCalc result', result, finalAnswer)
-        // if (finalAnswer) { return finalAnswer + '' }
+ 
         if (typeof finalAnswer === 'undefined') {
             return '5'
         }
+
         return finalAnswer + ''
-        // return result
-        // */
     }
 
     // TODO copied from abilities.js
@@ -591,6 +408,17 @@ export class Maps {
             [x - 1, y + 1], // SW
         ]
     }
+
+    getCardinalCoordsAround(x: number, y: number) {
+        return [
+            [x, y - 1],     // N
+            [x - 1, y],     // W
+            [x, y],         // C
+            [x + 1, y],     // E
+            [x, y + 1],     // S
+        ]
+    }
+
 
     getWallIndicator(x: number, y: number) {
         return this.wallCalc(x, y)
