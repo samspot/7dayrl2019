@@ -119,7 +119,18 @@ let wallMap = {
     SW: 6,
     S: 7,
     SE: 8,
-    '-': 'tall'
+    '-': 9,
+    'placeholder': 'placeholder',
+    'tall': 'tall',
+    'wide': 'wide',
+    'corner0': 'corner0',
+    'corner1': 'corner1',
+    'corner2': 'corner2',
+    'corner3': 'corner3',
+    'point0': 'point0',
+    'point1': 'point1',
+    'point2': 'point2',
+    'point3': 'point3',
 }
 
 interface IWallTileMap {
@@ -169,9 +180,18 @@ let tileMap = {
     '6': [0 * tileWidth, 2 * tileWidth],
     '7': [1 * tileWidth, 2 * tileWidth],
     '8': [2 * tileWidth, 2 * tileWidth],
-    '9': [0 * tileWidth, 6 * tileWidth], // placeholder
+    // '9': [1 * tileWidth, 1 * tileWidth], // placeholder
+    'placeholder': [0 * tileWidth, 5 * tileWidth], // placeholder
     'tall': [1*tileWidth, 9*tileWidth],
-    'wide': [0*tileWidth, 9*tileWidth]
+    'wide': [0*tileWidth, 9*tileWidth],
+    'corner0':[1*tileWidth, 7*tileWidth ],
+    'corner1':[2*tileWidth, 7*tileWidth ],
+    'corner2':[1*tileWidth, 8*tileWidth ],
+    'corner3':[2*tileWidth, 8*tileWidth ],
+    'point0': [0*tileWidth, 9*tileWidth],
+    'point1': [0*tileWidth, 10*tileWidth],
+    'point2': [1*tileWidth, 10*tileWidth],
+    'point3': [0*tileWidth, 10*tileWidth],
 }
 
 interface IWallPreset {
@@ -192,7 +212,6 @@ North      = 2^0 = 1
 West       = 2^1 = 2
 East       = 2^2 = 4 
 South      = 2^3 = 8 
-
 */
 interface IWM {
     [key: string]: {
@@ -200,6 +219,16 @@ interface IWM {
         index: number
     }
 }
+
+/*
+let wallMapBinary: IWM = {
+    N: { binary: 0b00000001, index: 0 },
+    W: { binary: 0b00000010, index: 1 },
+    E: { binary: 0b00000100, index: 2 },
+    S: { binary: 0b00001000, index: 3 },
+}
+*/
+
 let wallMapBinary: IWM = {
     NW: { binary: 0b00000001, index: 0 },
     N: { binary: 0b00000010, index: 1 },
@@ -223,10 +252,10 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     let result = 0
 
 
-    let isNwWall = isWall(getSquare('NW', coords, map))
-    let isNeWall = isWall(getSquare('NE', coords, map))
-    let isSwWall = isWall(getSquare('SW', coords, map))
-    let isSeWall = isWall(getSquare('SE', coords, map))
+    // let isNwWall = isWall(getSquare('NW', coords, map))
+    // let isNeWall = isWall(getSquare('NE', coords, map))
+    // let isSwWall = isWall(getSquare('SW', coords, map))
+    // let isSeWall = isWall(getSquare('SE', coords, map))
 
     let isNWall = isWall(getSquare('N', coords, map))
     let isWWall = isWall(getSquare('W', coords, map))
@@ -235,6 +264,7 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
 
     let keys = ['N', 'S', 'E', 'W']
 
+    /*
     if (isNwWall) {
         if (isNWall || isWWall) {
             keys.push('NW')
@@ -255,6 +285,7 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
             keys.push('SE')
         }
     }
+    */
 
     // Object.keys(wallMapBinary).forEach(k => {
     keys.forEach(k => {
@@ -267,6 +298,7 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
         }
     })
 
+    /*
     let translate = []
     translate[31] = wallMap['N']
     translate[30] = wallMap['N']
@@ -354,14 +386,41 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     translate[6] = wallMap['-'] // TODO
     translate[48] = wallMap['-'] // TODO
     translate[244] = wallMap['-'] // TODO
+    */
 
-    let finalAnswer = translate[result]
+    /* attempt 2 */
+    // left, right, up, down
+    let translate = []
+    // translate[6] = wallMap['point2']
+    // translate[8] = wallMap['S']
+    // translate[9] = wallMap['S']
+    // translate[15] = wallMap['N']
+
+
+
+    /* attempt 3 */
+    translate[90] = wallMap['SW']
+    translate[2] = wallMap['point2']
+    translate[64] = wallMap['point3']
+    translate[18] = wallMap['point2']
+    translate[66] = wallMap['tall']
+    translate[26] = wallMap['N']
+    translate[82] = wallMap['E']
+    translate[88] = wallMap['S']
+    translate[74] = wallMap['W']
+    translate[10] = wallMap['point3']
+
+
+    // translate[74] = wallMap['placeholder']
+
+    let finalAnswer:any = translate[result]
 
     if (typeof finalAnswer === 'undefined') {
         console.log(`coords[0] ${coords[0]} map ${map[coords[0]]} calc ${x},${y} result ${result.toString(2)} result decimal ${result}`)
         console.log([coords[0], coords[1], coords[2]].map(c => map[c]).map(x => typeof x === 'undefined' ? '#' : x))
         console.log([coords[3], coords[4], coords[5]].map(c => map[c]).map(x => typeof x === 'undefined' ? '#' : x))
         console.log([coords[6], coords[7], coords[8]].map(c => map[c]).map(x => typeof x === 'undefined' ? '#' : x))
+        finalAnswer = wallMap['placeholder']
     }
     return finalAnswer
 }
