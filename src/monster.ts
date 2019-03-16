@@ -1,4 +1,4 @@
-import { Actor } from './actor.js'
+import { Actor } from './actor'
 import * as ROT from 'rot-js'
 import { MoveAction, DefaultAction, AbilityAction } from './actions.js'
 import { Game, MobSpec } from './game'

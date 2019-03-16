@@ -1,4 +1,4 @@
-import { Actor } from './actor.js'
+import { Actor } from './actor'
 import * as ROT from 'rot-js'
 import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
 import { keyMap } from './keymap.js'

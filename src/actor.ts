@@ -111,7 +111,7 @@ export class Actor {
         // return true
     }
 
-    draw(symbol: string, color: string, bgColor: string) {
+    draw(symbol?: string, color?: string, bgColor?: string) {
         let symbolToDraw = this.symbol
         let colorToDraw = this.color
         if (symbol) {

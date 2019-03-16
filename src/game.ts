@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import * as ROT from 'rot-js'
-import { Player } from './player.js'
-import { Monster } from './monster.js'
+import { Player } from './player'
+import { Monster } from './monster'
 import { Director } from './director.js'
 import Config from './config.js'
 

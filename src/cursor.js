@@ -1,4 +1,4 @@
-import { Actor } from './actor.js'
+import { Actor } from './actor'
 
 export class Cursor extends Actor {
     constructor(x, y, game) {

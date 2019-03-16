@@ -12,7 +12,7 @@ const Config = {
     // seed: 12368,
     seed: 12370,
     turnsToSim: 0,
-    drawWholeMap: true,
+    drawWholeMap: false,
     drawAllMobs: true,
     debug: true,
     skipTitle: true,
