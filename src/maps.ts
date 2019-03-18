@@ -79,7 +79,9 @@ let tileMap = {
     'point0': [0 * tileWidth, 9 * tileWidth],
     'point1': [0 * tileWidth, 10 * tileWidth],
     'point2': [1 * tileWidth, 10 * tileWidth],
-    'pillar': [0 * tileWidth, 11 * tileWidth]
+    'pillar': [0 * tileWidth, 11 * tileWidth],
+    r: [0 * tileWidth, 12 * tileWidth],
+    m: [0 * tileWidth, 12 * tileWidth],
 }
 
 interface IWallPreset {

@@ -17,8 +17,8 @@ import { Cursor } from './cursor'
 import ReTiles16Lab from '../assets/img/re-tiles-16-lab.png'
 import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png'
 import ReTiles16Outside from '../assets/img/re-tiles-16-outside.png'
-import ReTiles16Guardhouse from '../assets/img/re-tiles-16-lab.png'
-import ReTiles16Mansion from '../assets/img/re-tiles-16-lab.png'
+import ReTiles16Guardhouse from '../assets/img/re-tiles-16-guardhouse.png'
+import ReTiles16Mansion from '../assets/img/re-tiles-16-mansion.png'
 
 /* feedback
 

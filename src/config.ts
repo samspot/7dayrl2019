@@ -1,6 +1,25 @@
-const Config = {
-    spawnrate: 1,
-    spawnboss: false,
+interface IConfig {
+    seed?: number
+    spawnrate?: number
+    spawnboss: boolean
+    tileWidth: number
+    spawnLimit: number
+    gamePortWidth: number
+    gamePortHeight: number
+    fontSize: number
+    messageListSize: number
+    turnsToSim?: number
+    drawWholeMap: boolean
+    drawAllMobs: boolean
+    debug: boolean
+    skipTitle: boolean
+    tiles: boolean
+    playerInvulnerable: boolean
+    startLevel: number
+}
+const Config: IConfig = {
+    // spawnrate: 1,
+    spawnboss: true,
     tileWidth: 16,
     spawnLimit: 20,
     gamePortWidth: 45,
@@ -8,11 +27,12 @@ const Config = {
     fontSize: 16,
     messageListSize: 15,
     // seed: 12362,
-    turnsToSim: 26,
-    // seed: 12368,
-    seed: 12370,
+    // turnsToSim: 26,
+    // turnsToSim: 0,
+    seed: 12368,
+    // seed: 12370,
     drawWholeMap: false,
-    drawAllMobs: true,
+    drawAllMobs: false,
     debug: true,
     skipTitle: true,
     tiles: true,
