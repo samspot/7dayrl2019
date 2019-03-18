@@ -78,7 +78,7 @@ let tileMap = {
     'point0': [0 * tileWidth, 9 * tileWidth],
     'point1': [0 * tileWidth, 10 * tileWidth],
     'point2': [1 * tileWidth, 10 * tileWidth],
-    'pillar': [0 * tileWidth, 11 * tileWidth],
+    'pillar': [2 * tileWidth, 9 * tileWidth],
     "#": [0 * tileWidth, 11 * tileWidth],
     "b": [2 * tileWidth, 10 * tileWidth],
 }

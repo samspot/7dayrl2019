@@ -17,9 +17,13 @@ import { Cursor } from './cursor'
 import ReTiles16Lab from '../assets/img/re-tiles-16-lab.png'
 import ReTiles16LabF2 from '../assets/img/re-tiles-16-lab-f2.png'
 import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png'
+import ReTiles16CatacombsF2 from '../assets/img/re-tiles-16-catacombs-f2.png'
 import ReTiles16Outside from '../assets/img/re-tiles-16-outside.png'
+import ReTiles16OutsideF2 from '../assets/img/re-tiles-16-outside-f2.png'
 import ReTiles16Guardhouse from '../assets/img/re-tiles-16-guardhouse.png'
+import ReTiles16GuardhouseF2 from '../assets/img/re-tiles-16-guardhouse-f2.png'
 import ReTiles16Mansion from '../assets/img/re-tiles-16-mansion.png'
+import ReTiles16MansionF2 from '../assets/img/re-tiles-16-mansion-f2.png'
 
 /* feedback
 
@@ -166,7 +170,7 @@ export class Game {
         this.gameProgress.level1.style = "font-style: italic"
         this.gameProgress.level1.bossDown = false
         this.gameProgress.level1.tiles = ReTiles16Catacombs
-        this.gameProgress.level1.tilesf2 = ReTiles16Catacombs
+        this.gameProgress.level1.tilesf2 = ReTiles16CatacombsF2
 
         this.gameProgress.level2.level = 2
         this.gameProgress.level2.name = "Garden"
@@ -178,7 +182,7 @@ export class Game {
         this.gameProgress.level2.style = "font-style: italic"
         this.gameProgress.level2.bossDown = false
         this.gameProgress.level2.tiles = ReTiles16Outside
-        this.gameProgress.level2.tilesf2 = ReTiles16Outside
+        this.gameProgress.level2.tilesf2 = ReTiles16OutsideF2
 
 
         this.gameProgress.level3.level = 3
@@ -191,7 +195,7 @@ export class Game {
         this.gameProgress.level3.style = "font-style: italic"
         this.gameProgress.level3.bossDown = false
         this.gameProgress.level3.tiles = ReTiles16Guardhouse
-        this.gameProgress.level3.tilesf2 = ReTiles16Guardhouse
+        this.gameProgress.level3.tilesf2 = ReTiles16GuardhouseF2
 
         this.gameProgress.level4.level = 4
         this.gameProgress.level4.name = "The Mansion"
@@ -203,7 +207,7 @@ export class Game {
         this.gameProgress.level4.style = "font-style: italic"
         this.gameProgress.level4.bossDown = false
         this.gameProgress.level4.tiles = ReTiles16Mansion
-        this.gameProgress.level4.tilesf2 = ReTiles16Mansion
+        this.gameProgress.level4.tilesf2 = ReTiles16MansionF2
 
         this.dirty = false
         this.director = undefined
