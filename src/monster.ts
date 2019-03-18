@@ -1,12 +1,10 @@
-import { Actor } from './actor'
-import * as ROT from 'rot-js'
-import { Game, MobSpec } from './game'
-import * as _ from 'lodash'
-
-import Empty75x75 from '../assets/img/empty.png'
+import * as _ from 'lodash';
+import * as ROT from 'rot-js';
 import { Charge } from './abilities';
-import { AbilityAction, DefaultAction, MoveAction } from './actions';
-
+import { AbilityAction, MoveAction } from './actions';
+import { Actor } from './actor';
+import { Game } from './game';
+import { MobSpec } from "./MobSpec";
 
 export class Monster extends Actor {
     bio: string
@@ -26,7 +24,7 @@ export class Monster extends Actor {
     }
 
     // return a list of abilities that are off cooldown and can reach the player
-    getAvailableAbilities() {
+    _getAvailableAbilities() {
         if (_.findIndex(this.game.getVisibleMobs(), m => m === this) < 0) {
             // console.log('mob not visible, dont use abilities')
             return []
@@ -57,7 +55,7 @@ export class Monster extends Actor {
         var x = this.game.player.getX()
         var y = this.game.player.getY()
 
-        let abilities = this.getAvailableAbilities()
+        let abilities = this._getAvailableAbilities()
         if (abilities && abilities.length > 0) {
             //@ts-ignore
             let a = ROT.RNG.getItem(abilities)

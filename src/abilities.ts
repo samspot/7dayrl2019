@@ -1,9 +1,9 @@
-import * as ROT from 'rot-js'
+import * as _ from 'lodash';
+import * as ROT from 'rot-js';
+import { Action, DamageAction, InfectAbilityAction } from './actions';
 import { Actor } from './actor';
 import { Game } from './game';
-import * as _ from 'lodash'
 import { IGameMap } from './maps';
-import { Action, InfectAbilityAction, DamageAction } from './actions';
 
 export class Ability {
     actor: Actor
@@ -18,7 +18,7 @@ export class Ability {
         this.cooldown = 0
         this.range = range
         this.dmg = dmg
-        this.use = this.use.bind(this)
+        this._use = this._use.bind(this)
     }
 
     // TODO tick for mobs, use for mobs
@@ -27,15 +27,10 @@ export class Ability {
         if (this.cooldown < 0) { this.cooldown = 0 }
     }
 
-    use(e: InputEvent) {
+    _use(e: InputEvent) {
         e.preventDefault()
         this.actor.useAbility(this)
     }
-
-    // inRange(position, target) {
-    // TODO implement range
-    // return true
-    // }
 
     getRandomAbility() {
         //@ts-ignore

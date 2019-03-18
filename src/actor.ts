@@ -1,12 +1,8 @@
 
-import * as ROT from 'rot-js'
-import Tyrant from 'assets/tyrant.json'
-import Zombie from 'assets/zombie.json'
-import Jill from 'assets/jill.json'
-import { Game } from './game'
-import { Ability } from './abilities'
+import { Ability } from './abilities';
 import { YouWinAction } from './actions';
 import Config from './config';
+import { Game } from './game';
 
 const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
@@ -49,8 +45,8 @@ export class Actor {
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
-    drawOtherCharacters() {
-        return this.drawOtherCharacters
+    _drawOtherCharacters() {
+        return this.shouldDrawOtherCharacters
     }
     setSeen() {
         if (this.boss && !this.seen) {
@@ -127,7 +123,6 @@ export class Actor {
 
     isBoss() {
         return this.boss
-        // return true
     }
 
     useAbility(ability: Ability) {
@@ -153,7 +148,7 @@ export class Actor {
         if (Config.tiles) {
             // this.game.display.draw(this.x, this.y, [symbolToDraw, '.'])
             let characters = ['.', symbolToDraw]
-            if (this.drawOtherCharacters()) {
+            if (this._drawOtherCharacters()) {
                 let mob = this.game.getCharacterAt(this, this.x, this.y)
                 if (mob) {
                     // console.log('drawing over mob', symbolToDraw, mob)
@@ -183,11 +178,9 @@ export class Actor {
         return this.y
     }
 
-    out() {
-        return this.symbol + ' ' + this.x + ',' + this.y
-    }
 }
 
+// TODO: WHY?
 class Cursor extends Actor {
     constructor(x: number, y: number, game: Game) {
         super(x, y, '#', 'white', game)

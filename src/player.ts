@@ -1,14 +1,12 @@
-import { Actor } from './actor'
-import * as ROT from 'rot-js'
-import { keyMap } from './keymap'
-import { Impale, Charge, Grab, Shotgun, GrenadeLauncher, Infect, Magnum, Bite, Haymaker, Poison, Ability } from './abilities'
-import { Cursor } from './cursor'
-import Tyrant from 'assets/tyrant.json'
-import { Game } from './game'
-import { Monster } from './monster'
-import * as _ from 'lodash'
-import { DefaultAction, AbilityAction, DescendAction, MoveAction } from './actions';
+import Tyrant from 'assets/tyrant.json';
+import * as _ from 'lodash';
+import * as ROT from 'rot-js';
+import { Ability, Charge, Impale, Infect } from './abilities';
+import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './actions';
+import { Actor } from './actor';
 import Config from './config';
+import { Game } from './game';
+import { keyMap } from './keymap';
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
@@ -260,20 +258,4 @@ export class Player extends Actor {
         // @ts-ignore
         this.resolve(new MoveAction(this, code))
     }
-
-    checkBox() {
-        /*
-        var key = this.x + "," + this.y;
-        if (this.game.map[key] != "*") {
-            alert("There is no box here!");
-            this.game.display.drawText(20, 2, "There is no box here")
-        } else if (key == this.game.ananas) {
-            window.removeEventListener("keydown", this);
-            this.game.gameover("Hooray! You found an ananas and won the game.")
-        } else {
-            alert("This box is empty :-(");
-        }
-        */
-    }
-
 }

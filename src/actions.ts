@@ -1,13 +1,13 @@
-import * as ROT from 'rot-js'
-import { keyMap } from './keymap'
-import { Ability, Impale } from './abilities'
-import { Game } from './game'
-import Config from './config'
-import { addScore } from './score'
+import * as _ from 'lodash';
+import * as ROT from 'rot-js';
+import { Ability } from './abilities';
 import { Actor } from './actor';
-import { Player } from './player';
+import Config from './config';
+import { Game } from './game';
+import { keyMap } from './keymap';
 import { Monster } from './monster';
-import * as _ from 'lodash'
+import { Player } from './player';
+import { addScore } from './score';
 
 export class Action {
     actor: Actor

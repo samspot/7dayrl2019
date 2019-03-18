@@ -29,6 +29,7 @@ const nameMap = {
     'Giant Spider': 'spider'
 }
 
+// TODO organize functions (check for private, etc)
 export class GameDisplay {
     constructor(game) {
         this.game = game

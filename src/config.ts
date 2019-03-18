@@ -17,6 +17,7 @@ interface IConfig {
     playerInvulnerable?: boolean
     startLevel?: number
 }
+
 const Config: IConfig = {
     // spawnrate: 1,
     spawnboss: true,
@@ -33,7 +34,7 @@ const Config: IConfig = {
     // seed: 12370,
     drawWholeMap: false,
     drawAllMobs: false,
-    // debug: true,
+    debug: true,
     skipTitle: true,
     tiles: true,
     // playerInvulnerable: true,
@@ -66,5 +67,3 @@ sprite colors:
 */
 
 export default Config
-
-// TODO i'm sure you broke the messaging for infect/etc

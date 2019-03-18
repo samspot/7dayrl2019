@@ -1,29 +1,18 @@
-import * as _ from 'lodash'
-import * as ROT from 'rot-js'
-import { Player } from './player'
-import { Monster } from './monster'
-import { Director } from './director'
-import Config from './config'
-
-import { GameDisplay } from './display'
-import { Maps, IMapSpec } from './maps'
-import Tyrant from 'assets/tyrant.json'
-import { Actor } from './actor'
-import { Cursor } from './cursor'
-
-// import ReTiles1 from '../assets/img/re-tiles-1.png'
-// import ReTiles2 from '../assets/img/re-tiles-2.png'
-// import ReTiles4 from '../assets/img/re-tiles-4.png'
-import ReTiles16Lab from '../assets/img/re-tiles-16-lab.png'
-import ReTiles16LabF2 from '../assets/img/re-tiles-16-lab-f2.png'
-import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png'
-import ReTiles16CatacombsF2 from '../assets/img/re-tiles-16-catacombs-f2.png'
-import ReTiles16Outside from '../assets/img/re-tiles-16-outside.png'
-import ReTiles16OutsideF2 from '../assets/img/re-tiles-16-outside-f2.png'
-import ReTiles16Guardhouse from '../assets/img/re-tiles-16-guardhouse.png'
-import ReTiles16GuardhouseF2 from '../assets/img/re-tiles-16-guardhouse-f2.png'
-import ReTiles16Mansion from '../assets/img/re-tiles-16-mansion.png'
-import ReTiles16MansionF2 from '../assets/img/re-tiles-16-mansion-f2.png'
+import Tyrant from 'assets/tyrant.json';
+import * as _ from 'lodash';
+import * as ROT from 'rot-js';
+import { Actor } from './actor';
+import Config from './config';
+import { Cursor } from './cursor';
+import { Director } from './director';
+import { GameDisplay } from './display';
+import { IMessage } from './IMessage';
+import { GameProgress } from './Level';
+import { IMapSpec, Maps } from './maps';
+import { MobSpec } from './MobSpec';
+import { Monster } from './monster';
+import { Player } from './player';
+import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 
 /* feedback
 
@@ -35,8 +24,6 @@ import ReTiles16MansionF2 from '../assets/img/re-tiles-16-mansion-f2.png'
     - so if you leave it like it is, it offers a bit more depth
 * on the map I saw the letter for a monster, but it did not appear on the monster list until the next turnthe same will happen for updating the target portrait
 
-defect: charge still causing issues
-3. Revisit enemy colors
 FB: hard to see who is the boss
 TODO: charge can take you out of bounds, but this might be fun?
 TODO: enemies in the dark can use abilities - decide on this
@@ -47,59 +34,13 @@ Descoped
 1. status effects like 'grabbed'
 2. add "and DIED!" to damage messages that kill
 3. mouse controls to ui
-4. tiles
-
 */
-
-// TODO move to monster.js or other class
-export class MobSpec {
-    symbol: string
-    color: string
-    name: string
-    hp: number
-    score: number
-    str: number
-    sightRadius: number
-    bio: string
-    quote: string
-}
-
-interface Message {
-    msg: string
-    turn: number
-    important: boolean
-    source?: string
-    target?: string
-    actorSource?: Actor
-}
-
-class Level {
-    level: number
-    name: string
-    boss: string
-    floorColor: string
-    wallColor: string
-    spawnRate: number
-    text: string
-    style: string
-    bossDown: boolean
-    toString: Function = function () {
-        return gpToString()
-    }
-    tiles: ImageData
-    tilesf2: ImageData
-}
-
-function gpToString() {
-    return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
-}
 
 export class Game {
     maps: Maps
     currentLevel: number
     visibleSquares: Array<string>
     cursor: Cursor
-
     scheduler: ROT.Scheduler
     display: ROT.Display
     map: {
@@ -114,15 +55,8 @@ export class Game {
     score: number
     turns: number
     gameDisplay: GameDisplay
-    messages: Array<Message>
-    gameProgress: {
-        // level0: Level
-        // level1: Level
-        // level2: Level
-        // level3: Level
-        // level4: Level
-        [key: string]: Level
-    }
+    messages: Array<IMessage>
+    gameProgress: GameProgress
 
     dirty: boolean
     director: Director
@@ -139,76 +73,7 @@ export class Game {
         this.turns = 0
         this.gameDisplay = new GameDisplay(this)
         this.messages = []
-        this.gameProgress = {
-            level0: new Level(),
-            level1: new Level(),
-            level2: new Level(),
-            level3: new Level(),
-            level4: new Level(),
-        }
-
-        // TODO remove this duplicate info (also in director.levelNames)
-        this.gameProgress.level0.level = 0
-        this.gameProgress.level0.name = "The Laboratory"
-        this.gameProgress.level0.boss = "Jill Valentine"
-        this.gameProgress.level0.floorColor = '#999999'
-        this.gameProgress.level0.wallColor = '#ffffff'
-        this.gameProgress.level0.spawnRate = 3
-        this.gameProgress.level0.text = "Status Unknown"
-        this.gameProgress.level0.style = "font-style: italic"
-        this.gameProgress.level0.bossDown = false
-        this.gameProgress.level0.tiles = ReTiles16Lab
-        this.gameProgress.level0.tilesf2 = ReTiles16LabF2
-
-        this.gameProgress.level1.level = 1
-        this.gameProgress.level1.name = "Catacombs"
-        this.gameProgress.level1.boss = "Chris Redfield"
-        this.gameProgress.level1.floorColor = '#cc9966'
-        this.gameProgress.level1.wallColor = '#660033'
-        this.gameProgress.level1.spawnRate = 7
-        this.gameProgress.level1.text = "Status Unknown"
-        this.gameProgress.level1.style = "font-style: italic"
-        this.gameProgress.level1.bossDown = false
-        this.gameProgress.level1.tiles = ReTiles16Catacombs
-        this.gameProgress.level1.tilesf2 = ReTiles16CatacombsF2
-
-        this.gameProgress.level2.level = 2
-        this.gameProgress.level2.name = "Garden"
-        this.gameProgress.level2.boss = "Barry Burton"
-        this.gameProgress.level2.floorColor = '#cc9966'
-        this.gameProgress.level2.wallColor = '#006600'
-        this.gameProgress.level2.spawnRate = 6
-        this.gameProgress.level2.text = "Status Unknown"
-        this.gameProgress.level2.style = "font-style: italic"
-        this.gameProgress.level2.bossDown = false
-        this.gameProgress.level2.tiles = ReTiles16Outside
-        this.gameProgress.level2.tilesf2 = ReTiles16OutsideF2
-
-
-        this.gameProgress.level3.level = 3
-        this.gameProgress.level3.name = "Guardhouse"
-        this.gameProgress.level3.boss = "Brad Vickers"
-        this.gameProgress.level3.floorColor = '#cccc99'
-        this.gameProgress.level3.wallColor = '#330066'
-        this.gameProgress.level3.spawnRate = 4
-        this.gameProgress.level3.text = "Status Unknown"
-        this.gameProgress.level3.style = "font-style: italic"
-        this.gameProgress.level3.bossDown = false
-        this.gameProgress.level3.tiles = ReTiles16Guardhouse
-        this.gameProgress.level3.tilesf2 = ReTiles16GuardhouseF2
-
-        this.gameProgress.level4.level = 4
-        this.gameProgress.level4.name = "The Mansion"
-        this.gameProgress.level4.boss = "Albert Wesker"
-        this.gameProgress.level4.floorColor = '#6699cc'
-        this.gameProgress.level4.wallColor = '#660033'
-        this.gameProgress.level4.spawnRate = 5
-        this.gameProgress.level4.text = "Status Unknown"
-        this.gameProgress.level4.style = "font-style: italic"
-        this.gameProgress.level4.bossDown = false
-        this.gameProgress.level4.tiles = ReTiles16Mansion
-        this.gameProgress.level4.tilesf2 = ReTiles16MansionF2
-
+        this.gameProgress = new GameProgress()
         this.dirty = false
         this.director = undefined
     }
@@ -228,7 +93,7 @@ export class Game {
         return this.getGameProgress().bossDown
     }
 
-    setTiles(imgsrc: ImageData) {
+    _setTiles(imgsrc: ImageData) {
         if (Config.tiles) {
             let tileSet = this.display.getOptions().tileSet
             if (tileSet.src !== imgsrc) {
@@ -238,16 +103,6 @@ export class Game {
     }
 
     swapTiles(idx: number) {
-
-        let options = this.display.getOptions()
-        if (idx === 0) {
-            options.tileSet.src = ReTiles16Lab
-        } else {
-            options.tileSet.src = ReTiles16Catacombs
-        }
-    }
-
-    swapTiles2(idx: number) {
         if (Config.tiles) {
             let options = this.display.getOptions()
             if (idx % 2 === 0) {
@@ -258,7 +113,7 @@ export class Game {
                 options.tileSet.src = this.getGameProgress().tilesf2
             }
             // this.redraw()
-            this.drawFov()
+            this._drawFov()
         }
     }
 
@@ -369,20 +224,20 @@ export class Game {
         }
 
         if (Config.debug && Config.drawWholeMap) {
-            this.drawWholeMap();
+            this._drawWholeMap();
         }
 
         if (!this.player) {
-            this.player = this.createBeingPlayer(Player, freeCells)
+            this.player = this._createBeingPlayer(Player, freeCells)
         } else {
-            let { x, y } = this.getRandomMapLocation()
+            let { x, y } = this._getRandomMapLocation()
             this.player.x = x
             this.player.y = y
             this.player.draw()
         }
     }
 
-    getRandomMapLocation() {
+    _getRandomMapLocation() {
         let freeCells = this.getFreeCells()
         let index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
         let key = freeCells.splice(index, 1)[0]
@@ -393,19 +248,7 @@ export class Game {
         }
     }
 
-    createPlayer() {
-        /*
-        var index = Math.floor(ROT.RNG.getUniform * freeCells.length);
-        var key = freeCells.splice(index, 1)[0];
-        var parts = key.split(",");
-        var x = parseInt(parts[0])
-        var y = parseInt(parts[1])
-        */
-        let { x, y } = this.getRandomMapLocation()
-        this.player = new Player(x, y, this)
-    }
-
-    drawWholeMap() {
+    _drawWholeMap() {
         // console.log('decorations', this.decorations)
         for (var key in this.map) {
             var parts = key.split(",");
@@ -435,22 +278,8 @@ export class Game {
         return new what(x, y, this, mobspec)
     }
 
-    createBeingPlayer(what: new (x: number, y: number, game: Game) => Actor, freeCells: Array<string>) {
+    _createBeingPlayer(what: new (x: number, y: number, game: Game) => Actor, freeCells: Array<string>) {
         return <Player>this.createBeingMonster(what, freeCells)
-        /*
-        var index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
-        var key = freeCells.splice(index, 1)[0]
-        var parts = key.split(",")
-        var x = parseInt(parts[0])
-        var y = parseInt(parts[1])
-        return new what(x, y, this)
-        */
-    }
-
-    gameover(msg: string) {
-        alert(msg)
-        // this.game.scheduler.remove(this)
-        this.scheduler.clear()
     }
 
     getGameProgress() {
@@ -512,18 +341,15 @@ export class Game {
 
     redraw() {
         let imageSrc = this.getGameProgress().tiles
-        this.setTiles(imageSrc)
+        this._setTiles(imageSrc)
         this.display.clear()
         if (Config.debug && Config.drawWholeMap) {
-            this.drawWholeMap()
+            this._drawWholeMap()
         }
-        this.drawFov()
-        // this.player.drawMe()
-        // this.mobs.forEach(m => m.drawMe())
-
+        this._drawFov()
     }
 
-    drawFov() {
+    _drawFov() {
         // TODO liked trent reznor 'on we march' for background music
         let fovFloorColor = this.getGameProgress().floorColor
         let fovWallColor = this.getGameProgress().wallColor
@@ -583,16 +409,13 @@ export class Game {
 
 
 
-    getVisibleSquares() {
+    _getVisibleSquares() {
         return this.visibleSquares
     }
 
     getVisibleMobs() {
-        let visibleMobs = _.filter(this.mobs, m => _.findIndex(this.getVisibleSquares(), i => i === m.x + ',' + m.y) >= 0)
-        // if(onlyInfectable){
-        // visibleMobs = _.filter(visibleMobs, m => m.isInfectable())
-        // console.log("infectable mobs", visibleMobs)
-        // }
+        let visibleMobs = _.filter(this.mobs, m => _.findIndex(this._getVisibleSquares(), i => i === m.x + ',' + m.y) >= 0)
+
         visibleMobs.forEach(m => m.setSeen())
         return visibleMobs
     }
@@ -621,7 +444,6 @@ export class Game {
         this.mobs.forEach(m => {
             this.scheduler.add(m, true)
         })
-
         //  console.log('reschedule', this.scheduler)
     }
 }
