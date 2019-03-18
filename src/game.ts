@@ -14,6 +14,9 @@ import { Monster } from './monster';
 import { Player } from './player';
 import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 
+// TODO Map stuff to maps or levels js
+// TODO create player/mob stuff to director js
+
 /* feedback
 
 * special abilities like bite can target diagonal, but you cant bump attack that direction, correct?

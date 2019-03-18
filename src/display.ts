@@ -8,6 +8,9 @@ import Config from './config';
 import { Monster } from './monster';
 
 import * as ROT from 'rot-js'
+import { Game } from './game';
+import { Actor } from './actor';
+import { Ability } from './abilities';
 
 const TARGET = 'target'
 const PORTRAIT = 'portrait2'
@@ -31,11 +34,13 @@ const nameMap = {
 
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
-    constructor(game) {
+    game: Game
+    constructor(game: Game) {
         this.game = game
         this.renderEmptyImage(TARGET, Empty75x75)
         this.renderEmptyImage(PORTRAIT, Empty75x75)
         this.renderEmptyImage(CONDITION, Empty70x80)
+        // @ts-ignore
         window.gameDisplay = this
     }
 
@@ -54,7 +59,7 @@ export class GameDisplay {
         return nameMap
     }
 
-    drawBossSplash(actor) {
+    drawBossSplash(actor: Actor) {
         if (!actor.abilities) {
             // console.log("no abilities returning")
             return
@@ -75,6 +80,7 @@ export class GameDisplay {
 
             let image = new Image()
             image.src = Empty75x75
+            // @ts-ignore
             image.style = "float: right; margin-top: -18px"
             image.classList.add(name + '-ready')
 
@@ -84,6 +90,7 @@ export class GameDisplay {
             }
         }).map(a => {
             let div = document.createElement('div')
+            // @ts-ignore
             div.style = 'height: 64px'
             div.appendChild(a.image)
 
@@ -96,24 +103,29 @@ export class GameDisplay {
 
         // console.log(abilities)
 
+        // @ts-ignore
         let text = `<h3>Bio</h3><p>${actor.bio}<p>"${actor.quote}"`
 
         let gp = this.game.getGameProgress()
         let targetImage = new Image()
         targetImage.src = Empty75x75
         targetImage.id = 'boss-splash'
+        // @ts-ignore
         targetImage.style = "margin-left: 48px; margin-top: 11px;"
 
         // main div
         let div = document.createElement('div')
 
         let leftDiv = document.createElement('div')
+        // @ts-ignore
         leftDiv.style = "float: left; width: 50%"
 
         let rightDiv = document.createElement('div')
+        // @ts-ignore
         rightDiv.style = "float: left; width: 50%"
 
         let bottomDiv = document.createElement('div')
+        // @ts-ignore
         bottomDiv.style = "clear: both"
 
         let span = document.createElement('span')
@@ -143,6 +155,7 @@ export class GameDisplay {
         this.game.gameDisplay.showModal(text, div)
 
         let display = this.game.gameDisplay
+        // @ts-ignore
         let bossName = display.getNameMap()[gp.boss]
         display.renderCharacter(bossName, 'boss-splash')
     }
@@ -151,12 +164,15 @@ export class GameDisplay {
         let game = this.game
 
 
+        // @ts-ignore
         document.getElementById('name').innerHTML = nameMap[game.player.name]
+        // @ts-ignore
         document.getElementById('hp').innerHTML = game.player.hp
         document.getElementById('score').innerHTML = "Score " + game.score
         document.getElementById('level').innerHTML = "Hunting in " + game.getGameProgress().name
 
         if (game.player.hp < 30) {
+            // @ts-ignore
             document.getElementById('hp').style = "color: red"
         }
     }
@@ -164,7 +180,7 @@ export class GameDisplay {
     drawAbilities() {
         let game = this.game
 
-        let abilities = []
+        let abilities: Array<Ability> = []
         game.player.getAbilities().forEach(ability => {
             let { constructor, maxCooldown, cooldown, dmg, range } = ability
 
@@ -174,6 +190,7 @@ export class GameDisplay {
                 tooltip += `<p>${ability.description}</p>`
             }
             let text = ''
+            // @ts-ignore
             abilities.push({ name: constructor.name, text: text, obj: ability, tooltip: tooltip })
         })
 
@@ -186,18 +203,20 @@ export class GameDisplay {
         })
     }
 
-    renderEmptyImage(id, img) {
+    renderEmptyImage(id: string, img: ImageData) {
         let elem = document.getElementById(id)
         elem.innerHTML = ''
 
         let empty = new Image()
+        // @ts-ignore
         empty.src = img
         elem.appendChild(empty)
     }
 
-    renderCharacter(className, id) {
+    renderCharacter(className: string, id: string) {
         let elem = document.getElementById(id)
         if (elem) {
+            // @ts-ignore
             elem.classList = []
             elem.classList.add(className)
         } else {
@@ -205,8 +224,10 @@ export class GameDisplay {
         }
     }
 
-    renderAbilityImage(parent, hotkey, ability, idx) {
+    renderAbilityImage(parent: Element, hotkey: string, ability: Ability, idx: number) {
+        // @ts-ignore
         let name = ability.name.toLowerCase()
+        // @ts-ignore
         if (ability.obj.cooldown === 0) {
             name += '-ready'
         } else {
@@ -222,6 +243,7 @@ export class GameDisplay {
 
         let center = document.createElement('div')
         center.classList.add('center' + idx)
+        // @ts-ignore
         center.innerHTML = ability.obj.cooldown
 
         let abilityImage = new Image()
@@ -230,15 +252,19 @@ export class GameDisplay {
         abilityImage.classList.add(name)
         abilityImage.classList.add('ability-icon')
         // abilityImage.onclick = function(){ alert('hai')}
+        // @ts-ignore
         abilityImage.onclick = ability.obj.use
 
         container.appendChild(bottomLeft)
         container.appendChild(abilityImage)
         container.appendChild(center)
 
+        // @ts-ignore
         this.addTooltip(container, ability.tooltip)
 
+        // @ts-ignore
         if (ability.obj.cooldown === 0) {
+            // @ts-ignore
             center.style = "display:none"
         }
 
@@ -247,19 +273,22 @@ export class GameDisplay {
         superContainer.appendChild(container)
 
         // hardcode fix for launcher
+        // @ts-ignore
         if (ability.name === "GrenadeLauncher") {
+            // @ts-ignore
             ability.displayName = "Launcher"
         }
 
         let span = document.createElement('span')
         span.classList.add('ability-name')
+        // @ts-ignore
         span.innerHTML = ability.displayName || ability.name
         superContainer.appendChild(span)
 
         parent.appendChild(superContainer)
     }
 
-    renderTarget(name, boss) {
+    renderTarget(name: string, boss: Actor) {
         this.renderCharacter(name, TARGET)
         let elem = document.getElementById(TARGET)
 
@@ -268,7 +297,7 @@ export class GameDisplay {
         }
     }
 
-    addTooltip(elem, text) {
+    addTooltip(elem: Element, text: string) {
         if (!elem) { return }
         elem.classList.add('tooltip')
 
@@ -278,7 +307,7 @@ export class GameDisplay {
         elem.appendChild(tooltip)
     }
 
-    getTooltip(actor) {
+    getTooltip(actor: Actor) {
         return `<b>${actor.name}</b><br><br> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage: ${actor.str}`
     }
 
@@ -299,12 +328,14 @@ export class GameDisplay {
 
 
 
+        // @ts-ignore
         let charName = nameMap[game.player.name] + '-dead'
         // console.log('char', charName)
         this.renderCharacter(charName, PORTRAIT)
         let elem = document.getElementById(PORTRAIT)
         this.addTooltip(elem, this.getTooltip(game.player))
 
+        // @ts-ignore
         let bossName = nameMap[game.getGameProgress().boss]
         let boss = this.game.director.boss
         if (boss && boss.playerSeen()) {
@@ -316,6 +347,7 @@ export class GameDisplay {
         // console.log('bossName', bossName)
         if (game.levelBossPassed()) {
             bossName += '-eliminated'
+            // @ts-ignore
             this.renderTarget(bossName)
         } else {
             this.renderTarget(bossName, boss)
@@ -334,6 +366,7 @@ export class GameDisplay {
         let key = "level" + game.currentLevel
         let elem = document.getElementById(key)
         elem.innerHTML = text
+        // @ts-ignore
         elem.style = gameProgress.style
 
         // let bossName = boss && boss.name
@@ -374,6 +407,7 @@ export class GameDisplay {
             let id = "level" + game.gameProgress[key].level
             let elem = document.getElementById(id)
             elem.innerHTML = game.gameProgress[key].text
+            // @ts-ignore
             elem.style = game.gameProgress[key].style
 
             // console.log(game.gameProgress[key])
@@ -382,7 +416,7 @@ export class GameDisplay {
         // console.log(`gp ${game.getGameProgress().toString()} boss ${bossName} key ${key}`)
     }
 
-    drawMobs(onlyInfectable) {
+    drawMobs(onlyInfectable?: boolean) {
         let game = this.game
         let moblist = document.getElementById('monsters')
         if (moblist) {
@@ -418,22 +452,12 @@ export class GameDisplay {
                     debugText = ' ' + x.hp + ':' + x.maxHp
                 }
                 elem.innerHTML = name + debugText
+                // @ts-ignore
                 elem.style = "color: " + x.color
 
-                /*
-                let list = document.createElement('ul')
-                elem.appendChild(list)
-
-                let hp = document.createElement('li')
-                hp.innerHTML = x.hp
-                list.appendChild(hp)
-                */
 
 
                 moblist.appendChild(elem)
-                // force redraw - not working
-                // moblist.style.display = 'none'
-                // moblist.style.display = 'block'
             })
         }
 
@@ -483,16 +507,10 @@ export class GameDisplay {
                 }
             }
         }
-        /*
-        console.log('printing msg', msg)
-        elem.classList.remove('fade-in')
-        elem.classList.add('fade-in')
-        span.innerHTML = msg + '<br>'
-        elem.appendChild(span)
-        */
+
     }
 
-    showModal(text, elem) {
+    showModal(text: string, elem?: Element) {
         if (elem) {
             document.getElementById('modal-text').innerHTML = ''
             document.getElementById('modal-text').appendChild(elem)
