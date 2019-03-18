@@ -15,6 +15,7 @@ import ReTiles1 from '../assets/img/re-tiles-1.png'
 import ReTiles2 from '../assets/img/re-tiles-2.png'
 import ReTiles4 from '../assets/img/re-tiles-4.png'
 import ReTiles16 from '../assets/img/re-tiles-16.png'
+import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png'
 
 /* feedback
 
@@ -202,6 +203,16 @@ export class Game {
         return this.getGameProgress().bossDown
     }
 
+    swapTiles(idx: number) {
+
+        let options = this.display.getOptions()
+        if (idx === 0) {
+            options.tileSet.src = ReTiles16
+        } else {
+            options.tileSet.src = ReTiles16Catacombs
+        }
+    }
+
     init() {
         let optionsAscii = {
             width: Config.gamePortWidth,
@@ -217,7 +228,8 @@ export class Game {
             tileSet.src = ReTiles1
         } else if (Config.tileWidth === 16) {
             // tileSet.src = ReTiles2
-            tileSet.src = ReTiles16
+            // tileSet.src = ReTiles16
+            tileSet.src = ReTiles16Catacombs
         } else if (Config.tileWidth === 32) {
             tileSet.src = ReTiles4
         }

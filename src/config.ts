@@ -1,6 +1,6 @@
 const Config = {
     spawnrate: 1,
-    spawnboss: true,
+    spawnboss: false,
     tileWidth: 16,
     spawnLimit: 20,
     gamePortWidth: 45,

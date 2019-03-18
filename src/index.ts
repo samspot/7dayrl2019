@@ -72,6 +72,8 @@ async function mainLoop() {
         if (actor.isPlayer()) {
             director.tick()
             game.turns++
+
+            game.swapTiles(game.turns % 2)
         }
 
         if (game.gameOver) {
