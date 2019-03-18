@@ -31,6 +31,7 @@ export class Actor {
     str: number
     sightRadius: number
     usingAbility: Ability
+    shouldDrawOtherCharacters: boolean
     constructor(x: number, y: number, symbol: string, color: string, game: Game) {
         this.x = x
         this.y = y
@@ -43,10 +44,14 @@ export class Actor {
         this.abilities = []
         this.score = 0
         this.isRevive = false
+        this.shouldDrawOtherCharacters = false
 
         // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
+    drawOtherCharacters() {
+        return this.drawOtherCharacters
+    }
     setSeen() {
         if (this.boss && !this.seen) {
             this.game.gameDisplay.drawBossSplash(this)
@@ -121,7 +126,7 @@ export class Actor {
         // console.log("player.useAbility()", ability)
 
         if (ability && ability.cooldown === 0) {
-            this.game.display.drawText(0, 0, TARGET_HELP);
+            // this.game.display.drawText(0, 0, TARGET_HELP);
             // console.log("abilty available", ability.cooldown, ability.maxCooldown)
             this.state = TARGETTING
             this.usingAbility = ability
@@ -139,7 +144,18 @@ export class Actor {
         }
         if (Config.tiles) {
             // this.game.display.draw(this.x, this.y, [symbolToDraw, '.'])
-            this.game.display.draw(this.x, this.y, ['.', symbolToDraw])
+            let characters = ['.', symbolToDraw]
+            if (this.drawOtherCharacters()) {
+                let mob = this.game.getCharacterAt(this, this.x, this.y)
+                if (mob) {
+                    // console.log('drawing over mob', symbolToDraw, mob)
+                    characters = ['.', mob.symbol, symbolToDraw]
+                } else {
+                    characters = ['.', symbolToDraw]
+                }
+            }
+            this.game.display.draw(this.x, this.y, characters)
+
         } else {
             this.game.display.draw(this.x, this.y,
                 symbolToDraw, colorToDraw, bgColor)

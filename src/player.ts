@@ -173,14 +173,14 @@ export class Player extends Actor {
             let newX = cursor.x + diff[0];
             let newY = cursor.y + diff[1];
 
-            this.game.display.drawText(0, 0, TARGET_HELP);
+            // this.game.display.drawText(0, 0, TARGET_HELP);
             // TODO: also make sure path is clear, don't shoot through walls
             if (this.inRange(this.usingAbility, this, newX, newY)) {
                 this.game.cursor.x = newX
                 this.game.cursor.y = newY
 
                 this.game.redraw()
-                this.game.display.drawText(0, 0, TARGET_HELP);
+                // this.game.display.drawText(0, 0, TARGET_HELP);
                 cursor.drawMe()
             }
         }
@@ -196,7 +196,7 @@ export class Player extends Actor {
     // TODO: Tank controls?
     handleEvent(e: Event) {
         if (this.state === TARGETTING) {
-            this.game.display.drawText(0, 0, TARGET_HELP);
+            // this.game.display.drawText(0, 0, TARGET_HELP);
             return this.handleTarget(e)
         }
         // console.log('handle event', e)

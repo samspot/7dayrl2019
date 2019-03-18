@@ -53,7 +53,6 @@ let tileMap = {
     "c": [1 * tileWidth, 6 * tileWidth],
     "h": [2 * tileWidth, 6 * tileWidth],
     "z": [0 * tileWidth, 7 * tileWidth],
-    "#": [0 * tileWidth, 0 * tileWidth],
     '.': [1 * tileWidth, 1 * tileWidth],
     '_': [1 * tileWidth, 1 * tileWidth],
     '': [1 * tileWidth, 1 * tileWidth],
@@ -82,6 +81,7 @@ let tileMap = {
     'pillar': [0 * tileWidth, 11 * tileWidth],
     r: [0 * tileWidth, 12 * tileWidth],
     m: [0 * tileWidth, 12 * tileWidth],
+    "#": [0 * tileWidth, 11 * tileWidth],
 }
 
 interface IWallPreset {

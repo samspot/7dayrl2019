@@ -307,7 +307,7 @@ export class Game {
     }
 
     getCharacterAt(mover: Actor, x: number, y: number) {
-        let actor
+        let actor: Actor
         let testgroup = _.clone(this.mobs)
         testgroup.push(this.player)
         testgroup.forEach(mob => {

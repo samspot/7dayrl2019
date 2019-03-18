@@ -54,6 +54,7 @@ async function mainLoop() {
         if (actor.isPlayer()) {
             game.updateGui()
             game.redraw()
+            // game.display.drawText(0, 0, "Hello World")
             // console.log('directors-cut', window.directorsCut)
 
             // if(game.director.boss){
