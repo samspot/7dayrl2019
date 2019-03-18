@@ -5,7 +5,6 @@ import * as _ from 'lodash'
 
 import Empty75x75 from '../assets/img/empty.png'
 import { Charge } from './abilities';
-import Config from './config';
 import { AbilityAction, DefaultAction, MoveAction } from './actions';
 
 

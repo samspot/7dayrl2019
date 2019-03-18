@@ -1,6 +1,6 @@
 import * as ROT from 'rot-js'
-import Config from './config'
 import { Game } from './game'
+import Config from './config';
 
 export interface IMapSpec {
     _obj: Object,

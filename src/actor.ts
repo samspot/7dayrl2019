@@ -3,11 +3,10 @@ import * as ROT from 'rot-js'
 import Tyrant from 'assets/tyrant.json'
 import Zombie from 'assets/zombie.json'
 import Jill from 'assets/jill.json'
-import Config from './config';
 import { Game } from './game'
 import { Ability } from './abilities'
-import { Cursor } from './cursor'
 import { YouWinAction } from './actions';
+import Config from './config';
 
 const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
@@ -162,5 +161,11 @@ export class Actor {
 
     out() {
         return this.symbol + ' ' + this.x + ',' + this.y
+    }
+}
+
+class Cursor extends Actor {
+    constructor(x: number, y: number, game: Game) {
+        super(x, y, '#', 'white', game)
     }
 }

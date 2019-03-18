@@ -3,12 +3,12 @@ import * as ROT from 'rot-js'
 import { keyMap } from './keymap'
 import { Impale, Charge, Grab, Shotgun, GrenadeLauncher, Infect, Magnum, Bite, Haymaker, Poison, Ability } from './abilities'
 import { Cursor } from './cursor'
-import Config from './config'
 import Tyrant from 'assets/tyrant.json'
 import { Game } from './game'
 import { Monster } from './monster'
 import * as _ from 'lodash'
 import { DefaultAction, AbilityAction, DescendAction, MoveAction } from './actions';
+import Config from './config';
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
