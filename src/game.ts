@@ -81,6 +81,7 @@ class Level {
     toString: Function = function () {
         return gpToString()
     }
+    tiles: ImageData
 }
 
 function gpToString() {
@@ -146,6 +147,7 @@ export class Game {
         this.gameProgress.level0.text = "Status Unknown"
         this.gameProgress.level0.style = "font-style: italic"
         this.gameProgress.level0.bossDown = false
+        this.gameProgress.level0.tiles = ReTiles16Lab
 
         this.gameProgress.level1.level = 1
         this.gameProgress.level1.name = "Catacombs"
@@ -156,6 +158,7 @@ export class Game {
         this.gameProgress.level1.text = "Status Unknown"
         this.gameProgress.level1.style = "font-style: italic"
         this.gameProgress.level1.bossDown = false
+        this.gameProgress.level1.tiles = ReTiles16Catacombs
 
         this.gameProgress.level2.level = 2
         this.gameProgress.level2.name = "Garden"
@@ -166,6 +169,8 @@ export class Game {
         this.gameProgress.level2.text = "Status Unknown"
         this.gameProgress.level2.style = "font-style: italic"
         this.gameProgress.level2.bossDown = false
+        this.gameProgress.level2.tiles = ReTiles16Outside
+
 
         this.gameProgress.level3.level = 3
         this.gameProgress.level3.name = "Guardhouse"
@@ -176,6 +181,7 @@ export class Game {
         this.gameProgress.level3.text = "Status Unknown"
         this.gameProgress.level3.style = "font-style: italic"
         this.gameProgress.level3.bossDown = false
+        this.gameProgress.level3.tiles = ReTiles16Guardhouse
 
         this.gameProgress.level4.level = 4
         this.gameProgress.level4.name = "The Mansion"
@@ -186,6 +192,7 @@ export class Game {
         this.gameProgress.level4.text = "Status Unknown"
         this.gameProgress.level4.style = "font-style: italic"
         this.gameProgress.level4.bossDown = false
+        this.gameProgress.level4.tiles = ReTiles16Mansion
 
         this.dirty = false
         this.director = undefined
@@ -204,6 +211,13 @@ export class Game {
 
     levelBossPassed() {
         return this.getGameProgress().bossDown
+    }
+
+    setTiles(imgsrc: ImageData) {
+        let tileSet = this.display.getOptions().tileSet
+        if (tileSet.src !== imgsrc) {
+            tileSet.src = imgsrc
+        }
     }
 
     swapTiles(idx: number) {
@@ -468,6 +482,8 @@ export class Game {
     }
 
     redraw() {
+        let imageSrc = this.getGameProgress().tiles
+        this.setTiles(imageSrc)
         this.display.clear()
         if (Config.debug && Config.drawWholeMap) {
             this.drawWholeMap()
