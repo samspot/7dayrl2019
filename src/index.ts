@@ -1,11 +1,11 @@
 import * as _ from 'lodash'
 import * as ROT from 'rot-js'
 import { Game } from './game'
-import { Director } from './director.js'
-import Config from './config.js'
+import { Director } from './director'
+import Config from './config'
 import SelfPortrait from '../assets/img/self-portrait.png'
-import { GameDisplay } from './display.js'
-import { renderScores } from './score.js'
+import { GameDisplay } from './display'
+import { renderScores } from './score'
 
 declare global {
     interface Window {

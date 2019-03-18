@@ -1,29 +1,43 @@
 import * as ROT from 'rot-js'
-import { keyMap } from './keymap.js'
-import { Ability, Impale } from './abilities.js'
+import { keyMap } from './keymap'
+import { Ability, Impale } from './abilities'
 import { Game } from './game'
-import Config from './config.js'
-import { addScore } from './score.js'
+import Config from './config'
+import { addScore } from './score'
+import { Actor } from './actor';
+import { Player } from './player';
+import { Monster } from './monster';
+import * as _ from 'lodash'
 
 export class Action {
-    constructor(actor) {
+    actor: Actor
+    x: number
+    y: number
+    player: Player
+    monster: Monster
+    action: Action
+    resolve: Function
+    game: Game
+    constructor(actor?: Actor) {
         this.actor = actor
+        this.x = 0
+        this.y = 0
     }
 
-    executeParent(game) {
+    executeParent(game: Game) {
         // console.log('executing', this)
     }
 }
 
 export class InfectAbilityAction extends Action {
-    constructor(player, monster, action) {
+    constructor(player: Player, monster: Monster, action: Action) {
         super(player)
         this.player = player
         this.monster = monster
         this.action = action
     }
 
-    execute(game) {
+    execute(game: Game) {
         if (this.monster.hp <= 0) {
             // console.log('executing InfectAbilityAction', this.monster.hp, this.monster)
             doInfect(this.player, this.monster, game, this, false)
@@ -33,7 +47,7 @@ export class InfectAbilityAction extends Action {
     }
 }
 
-function doInfect(player, mob, game, action, resetScore) {
+function doInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: Boolean) {
 
     if (mob.isBoss()) {
         game.possesBoss()
@@ -47,15 +61,17 @@ function doInfect(player, mob, game, action, resetScore) {
             game.resetScore()
         }
 
+        // @ts-ignore
         window.removeEventListener("keydown", action);
+        // @ts-ignore
         window.removeEventListener("keypress", action);
-        action.resolve(new YouWinAction())
+        action.resolve(new YouWinAction(player))
     }
 
     player.infectMob(mob)
 }
 
-function doPostInfect(player, mob, game, action, resetScore) {
+function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: Boolean) {
 
     game.dirty = true
     if (resetScore) {
@@ -69,7 +85,7 @@ function doPostInfect(player, mob, game, action, resetScore) {
         // console.log('doPostInfect', player, mob, action)
         game.message("You revived in your original form")
     } else {
-        game.message("You infected " + player.name, false, player, mob)
+        game.message("You infected " + player.name)
     }
 
     game.reschedule()
@@ -78,26 +94,37 @@ function doPostInfect(player, mob, game, action, resetScore) {
 
 // TODO use a modal for this later to make it more salient
 export class InfectAction extends Action {
-    constructor(actor, game) {
+    constructor(actor: Actor, game: Game) {
         super(actor)
         this.game = game
     }
 
-    handleEvent(e) {
+    handleEvent(e: InputEvent) {
         // console.log('e', e)
+        // @ts-ignore
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
         let numberKeys = [
+            //@ts-ignore
             ROT.KEYS.VK_0,
+            //@ts-ignore
             ROT.KEYS.VK_1,
+            //@ts-ignore
             ROT.KEYS.VK_2,
+            //@ts-ignore
             ROT.KEYS.VK_3,
+            //@ts-ignore
             ROT.KEYS.VK_4,
+            //@ts-ignore
             ROT.KEYS.VK_5,
+            //@ts-ignore
             ROT.KEYS.VK_6,
+            //@ts-ignore
             ROT.KEYS.VK_7,
+            //@ts-ignore
             ROT.KEYS.VK_8,
+            //@ts-ignore
             ROT.KEYS.VK_9
         ]
 
@@ -112,9 +139,9 @@ export class InfectAction extends Action {
         let mob
         let player = game.player
 
-        if (parseInt(idx, 10)) {
-            mob = game.getInfectableMobs()[idx - 1]
-        }
+        // if (parseInt(idx, 10)) {
+        mob = game.getInfectableMobs()[idx - 1]
+        // }
 
         if (!mob) { return }
 
@@ -154,43 +181,46 @@ export class InfectAction extends Action {
         return false
     }
 
-    execute(game) {
+    execute(game: Game) {
         //  let game = this.game
-        game.message("You were killed.", true, undefined, game.player)
+        game.message("You were killed.", true)
         if (game.getInfectableMobs().length === 0) {
             game.player.revive()
             game.message('You revive in your original form (no infectable monsters)', true)
             return
         }
 
-        game.message("Choose a new body (enter number)", true, undefined, game.player)
+        game.message("Choose a new body (enter number)", true)
         game.redraw()
         game.gameDisplay.drawMobs(true)
         game.gameDisplay.drawStatusBar()
         game.scheduler.clear()
-        game.scheduler.add(new InfectAction(game.player, game))
+        game.scheduler.add(new InfectAction(game.player, game), false)
     }
 }
 
 export class DamageAction extends Action {
-    constructor(actor, dmg, source, actorSource) {
+    dmg: number
+    source: string
+    actorSource: Actor
+    constructor(actor: Actor, dmg: number, source: string, actorSource: Actor) {
         super(actor)
         this.dmg = dmg
         this.source = source
         this.actorSource = actorSource
     }
 
-    execute(game) {
+    execute(game: Game) {
         let action = this.actor.damage(this.dmg)
 
         if (this.source) {
             let targetName = this.actor.name
 
-            if (!this.actorSource) {
-                console.log('dmg', this.dmg, 'source', this.source, 'actorsource', this.actorSource)
-                console.log("ERRRORRRRR FIXIN'")
-                this.actorSource = { name: 'Grue', isPlayer: () => false }
-            }
+            // if (!this.actorSource) {
+            // console.log('dmg', this.dmg, 'source', this.source, 'actorsource', this.actorSource)
+            // console.log("ERRRORRRRR FIXIN'")
+            // this.actorSource = { name: 'Grue', isPlayer: () => false }
+            // }
 
             let sourceName = this.actorSource.name
             if (this.actor.isPlayer()) {
@@ -205,7 +235,7 @@ export class DamageAction extends Action {
 
         if (game.player.hp <= 0) {
             // console.log("returning new infect action")
-            return new InfectAction(game.player)
+            return new InfectAction(game.player, game)
         }
 
         return action
@@ -213,25 +243,29 @@ export class DamageAction extends Action {
 }
 
 export class AttackAction extends Action {
-    constructor(actor, target) {
+    target: Actor
+    constructor(actor: Actor, target: Actor) {
         super(actor)
         this.target = target
     }
 
-    execute(game) {
+    execute(game: Game) {
         return new DamageAction(this.target, this.actor.str, `melee attack`, this.actor)
     }
 }
 
 export class MoveAction extends Action {
-    constructor(actor, direction, newX, newY) {
+    direction: string
+    newX: number
+    newY: number
+    constructor(actor: Actor, direction: string, newX: number, newY: number) {
         super(actor)
         this.direction = direction
         this.newX = newX
         this.newY = newY
     }
 
-    execute(game) {
+    execute(game: Game) {
         this.executeParent(game)
         let actor = this.actor
 
@@ -242,6 +276,7 @@ export class MoveAction extends Action {
         }
 
         if (actor.isPlayer()) {
+            // @ts-ignore
             var diff = ROT.DIRS[8][keyMap[this.direction]];
             newX = actor.x + diff[0];
             newY = actor.y + diff[1];
@@ -266,30 +301,30 @@ export class MoveAction extends Action {
 }
 
 export class PickupAction extends Action {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor)
     }
 
-    execute(game) {
+    execute(game: Game) {
         // console.log("execute pickup action")
         this.executeParent(game)
-        this.actor.checkBox()
+        // this.actor.checkBox()
     }
 }
 
 export class DescendAction extends Action {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor)
     }
 
-    execute(game) {
+    execute(game: Game) {
         if (game.levelBossPassed() || Config.debug) {
             game.currentLevel++
 
             if (game.currentLevel >= 5) {
                 game.currentLevel--
                 game.addScore(10000)
-                return new YouWinAction()
+                return new YouWinAction(this.actor)
             }
 
             game.director.resetLevel()
@@ -300,14 +335,15 @@ export class DescendAction extends Action {
 }
 
 export class AbilityAction extends Action {
-    constructor(actor, ability, x, y) {
+    ability: Ability
+    constructor(actor: Actor, ability: Ability, x: number, y: number) {
         super(actor)
         this.ability = ability
         this.x = x
         this.y = y
     }
 
-    execute(game) {
+    execute(game: Game) {
         this.ability.cooldown = this.ability.maxCooldown
         let actor = game.getCharacterAt(null, this.x, this.y)
 
@@ -331,32 +367,32 @@ export class AbilityAction extends Action {
 }
 
 export class DefaultAction extends Action {
-    constructor(actor) {
-        super(actor)
+    constructor() {
+        super()
     }
 
-    execute(game) {
+    execute(game: Game) {
         return
     }
 }
 
 export class GameOverAction extends Action {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor)
     }
 
-    execute(game) {
+    execute(game: Game) {
         game.gameOver = true
         alert("You were killed! No characters weak enough to infect! Game Over!")
     }
 }
 
 export class YouWinAction extends Action {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor)
     }
 
-    execute(game) {
+    execute(game: Game) {
         game.gameOver = true
         // game.redraw()
         game.gameDisplay.updateGui()

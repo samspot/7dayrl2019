@@ -1,11 +1,15 @@
 import * as ROT from 'rot-js'
-import Config from './config.js'
+import Config from './config'
 import { Game } from './game'
 
 export interface IMapSpec {
     _obj: Object,
     _randomize?: number
     _iterations?: number
+}
+
+export interface IGameMap {
+    [key: string]: string
 }
 
 let wallMap = {
@@ -30,7 +34,7 @@ let wallMap = {
     'point1': 'point1',
     'point2': 'point2',
     'point3': 'point3',
-    'pillar':'pillar'
+    'pillar': 'pillar'
 }
 
 let tileWidth = Config.tileWidth
@@ -64,18 +68,18 @@ let tileMap = {
     '8': [2 * tileWidth, 2 * tileWidth],
     // '9': [1 * tileWidth, 1 * tileWidth], // placeholder
     'placeholder': [0 * tileWidth, 11 * tileWidth], // placeholder
-    'tall': [1*tileWidth, 9*tileWidth],
-    'wide': [2*tileWidth, 9*tileWidth],
-    'corner0':[1*tileWidth, 7*tileWidth ],
-    'corner1':[2*tileWidth, 7*tileWidth ],
-    'corner2':[1*tileWidth, 8*tileWidth ],
-    'corner3':[2*tileWidth, 8*tileWidth ],
+    'tall': [1 * tileWidth, 9 * tileWidth],
+    'wide': [2 * tileWidth, 9 * tileWidth],
+    'corner0': [1 * tileWidth, 7 * tileWidth],
+    'corner1': [2 * tileWidth, 7 * tileWidth],
+    'corner2': [1 * tileWidth, 8 * tileWidth],
+    'corner3': [2 * tileWidth, 8 * tileWidth],
 
-    'point3': [0*tileWidth, 8*tileWidth],
-    'point0': [0*tileWidth, 9*tileWidth],
-    'point1': [0*tileWidth, 10*tileWidth],
-    'point2': [1*tileWidth, 10*tileWidth],
-    'pillar': [0*tileWidth, 11*tileWidth]
+    'point3': [0 * tileWidth, 8 * tileWidth],
+    'point0': [0 * tileWidth, 9 * tileWidth],
+    'point1': [0 * tileWidth, 10 * tileWidth],
+    'point2': [1 * tileWidth, 10 * tileWidth],
+    'pillar': [0 * tileWidth, 11 * tileWidth]
 }
 
 interface IWallPreset {
@@ -144,19 +148,19 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     }
 
     let nwHasFriends = isNwWall && isNWall && isWWall
-    if(nwHasFriends){
+    if (nwHasFriends) {
         keys.push('NW')
     }
     let neHasFriends = isNeWall && isNWall && isEWall
-    if(neHasFriends){
+    if (neHasFriends) {
         keys.push('NE')
     }
     let swHasFriends = isSWall && isWWall && isSWall
-    if(swHasFriends){
+    if (swHasFriends) {
         keys.push('SW')
     }
     let seHasFriends = isSeWall && isSWall && isEWall
-    if(seHasFriends){
+    if (seHasFriends) {
         keys.push('SE')
     }
 
@@ -176,7 +180,7 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     translate[222] = wallMap.pillar
     translate[218] = wallMap.pillar
     translate[123] = wallMap.pillar
-    
+
     translate[75] = wallMap.W
     translate[74] = wallMap.W
     translate[107] = wallMap.W
@@ -207,7 +211,7 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     translate[11] = wallMap.corner3
     translate[80] = wallMap.corner0
     translate[208] = wallMap.corner0
-    
+
     translate[66] = wallMap.tall
     translate[91] = wallMap.tall
     translate[126] = wallMap.tall
@@ -224,7 +228,7 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     // translate[999] = wallMap['placeholder']
 
 
-    let finalAnswer:any = translate[result]
+    let finalAnswer: any = translate[result]
 
     if (typeof finalAnswer === 'undefined') {
         console.log(`coords[0] ${coords[0]} map ${map[coords[0]]} calc ${x},${y} result ${result.toString(2)} result decimal ${result}`)
@@ -257,7 +261,7 @@ export class Maps {
     wallCalc(x: number, y: number) {
         let coords = this.getCoordsAround(x, y).map((x: Array<number>) => x.join(','))
         let finalAnswer = calc(x, y, coords, this.game.map)
- 
+
         if (typeof finalAnswer === 'undefined') {
             return '5'
         }

@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/samspot/7dayrl2019#readme",
   "devDependencies": {
+    "@types/dom-inputevent": "^1.0.4",
     "@types/jquery": "^3.3.29",
     "@types/lodash": "^4.14.123",
     "@types/rot-js": "^0.6.5",

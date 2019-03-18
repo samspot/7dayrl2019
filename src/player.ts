@@ -1,23 +1,21 @@
 import { Actor } from './actor'
 import * as ROT from 'rot-js'
-import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
-import { keyMap } from './keymap.js'
-import { Impale, Charge, Grab, Shotgun, GrenadeLauncher, Infect, Magnum, Bite, Haymaker, Poison, Ability } from './abilities.js'
-import { Cursor } from './cursor.js'
-import Config from './config.js'
+import { keyMap } from './keymap'
+import { Impale, Charge, Grab, Shotgun, GrenadeLauncher, Infect, Magnum, Bite, Haymaker, Poison, Ability } from './abilities'
+import { Cursor } from './cursor'
+import Config from './config'
 import Tyrant from 'assets/tyrant.json'
 import { Game } from './game'
 import { Monster } from './monster'
 import * as _ from 'lodash'
+import { DefaultAction, AbilityAction, DescendAction, MoveAction } from './actions';
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
 const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
 export class Player extends Actor {
-    state: string
     debugCount: number
-    usingAbility: Ability
     resolve: Function
     reject: Function
     splash: boolean
@@ -58,7 +56,7 @@ export class Player extends Actor {
         this.addAbility(new Infect(this))
     }
 
-    infectMob(mob: Monster) {
+    infectMob(mob: Actor) {
         this.name = mob.name
         this.hp = mob.maxHp * 1.5
         if (this.hp < 150) { this.hp = 150 }
@@ -92,19 +90,6 @@ export class Player extends Actor {
     isPlayer() {
         return true
     }
-
-    useAbility(ability: Ability) {
-        // console.log("player.useAbility()", ability)
-
-        if (ability && ability.cooldown === 0) {
-            this.game.display.drawText(0, 0, TARGET_HELP);
-            // console.log("abilty available", ability.cooldown, ability.maxCooldown)
-            this.state = TARGETTING
-            this.usingAbility = ability
-            this.game.cursor = new Cursor(this.x, this.y, this.game)
-        }
-    }
-
     act() {
         if (this.debugCount > 0) {
             this.debugCount--
@@ -169,7 +154,7 @@ export class Player extends Actor {
                 return
             }
 
-            this.resolve(new AbilityAction(this.game, this.usingAbility,
+            this.resolve(new AbilityAction(this.game.player, this.usingAbility,
                 this.game.cursor.x, this.game.cursor.y))
             this.usingAbility = null
             this.state = PLAYER_TURN
@@ -272,6 +257,7 @@ export class Player extends Actor {
         window.removeEventListener("keydown", this);
         window.removeEventListener("keypress", this);
         this.tickAbilities()
+        // @ts-ignore
         this.resolve(new MoveAction(this, code))
     }
 

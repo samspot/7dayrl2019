@@ -3,14 +3,19 @@ import * as ROT from 'rot-js'
 import Tyrant from 'assets/tyrant.json'
 import Zombie from 'assets/zombie.json'
 import Jill from 'assets/jill.json'
-import { YouWinAction } from './actions'
 import Config from './config';
 import { Game } from './game'
-import { Ability } from './abilities.js'
+import { Ability } from './abilities'
+import { Cursor } from './cursor'
+import { YouWinAction } from './actions';
 
+const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
+
+const TARGETTING = "state_targetting"
 export class Actor {
     x: number
     y: number
+    state: string
     symbol: string
     color: string
     game: Game
@@ -26,6 +31,7 @@ export class Actor {
     name: string
     str: number
     sightRadius: number
+    usingAbility: Ability
     constructor(x: number, y: number, symbol: string, color: string, game: Game) {
         this.x = x
         this.y = y
@@ -63,6 +69,7 @@ export class Actor {
         return this.isInjured() || this.hp < 15
     }
 
+    // @ts-ignore
     damage(dmg: number) {
         if (this.isPlayer() && Config.debug && Config.playerInvulnerable) {
             return
@@ -84,7 +91,7 @@ export class Actor {
                 this.game.killBoss()
 
                 if (this.game.allBossesDown()) {
-                    return new YouWinAction()
+                    return new YouWinAction(this.game.player)
                 }
             }
         }
@@ -110,6 +117,19 @@ export class Actor {
         return this.boss
         // return true
     }
+
+    useAbility(ability: Ability) {
+        // console.log("player.useAbility()", ability)
+
+        if (ability && ability.cooldown === 0) {
+            this.game.display.drawText(0, 0, TARGET_HELP);
+            // console.log("abilty available", ability.cooldown, ability.maxCooldown)
+            this.state = TARGETTING
+            this.usingAbility = ability
+            this.game.cursor = new Cursor(this.x, this.y, this.game)
+        }
+    }
+
 
     draw(symbol?: string, color?: string, bgColor?: string) {
         let symbolToDraw = this.symbol

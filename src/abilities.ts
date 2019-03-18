@@ -1,8 +1,18 @@
 import * as ROT from 'rot-js'
-import { YouWinAction, DamageAction, InfectAbilityAction } from './actions';
+import { Actor } from './actor';
+import { Game } from './game';
+import * as _ from 'lodash'
+import { IGameMap } from './maps';
+import { Action, InfectAbilityAction, DamageAction } from './actions';
 
 export class Ability {
-    constructor(actor, cooldown, range, dmg) {
+    actor: Actor
+    maxCooldown: number
+    cooldown: number
+    range: number
+    dmg: number
+    description: string
+    constructor(actor: Actor, cooldown: number, range: number, dmg: number) {
         this.actor = actor
         this.maxCooldown = cooldown
         this.cooldown = 0
@@ -17,23 +27,24 @@ export class Ability {
         if (this.cooldown < 0) { this.cooldown = 0 }
     }
 
-    use(e) {
+    use(e: InputEvent) {
         e.preventDefault()
         this.actor.useAbility(this)
     }
 
-    inRange(position, target) {
-        // TODO implement range
-        return true
-    }
+    // inRange(position, target) {
+    // TODO implement range
+    // return true
+    // }
 
     getRandomAbility() {
-        let a = ROT.RNG.getItem(abilities)
+        //@ts-ignore
+        let a: Ability = ROT.RNG.getItem(abilities)
         // console.log(a)
         return a
     }
 
-    sideEffects(action, game) {
+    sideEffects(action: Action, game: Game, actor: Actor) {
         // console.log('no side effects')
     }
 
@@ -43,12 +54,12 @@ export class Ability {
 }
 
 export class EmptySlot extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 0, 1, 0)
     }
 }
 
-function getCoordsAround(x, y) {
+function getCoordsAround(x: number, y: number) {
     return [
         [x - 1, y - 1], // NW
         [x, y - 1],     // N
@@ -61,16 +72,21 @@ function getCoordsAround(x, y) {
     ]
 }
 
-function getCardinalCoords(x, y) {
-    return {
+interface ICardinalCoords {
+    [key: string]: Array<number>
+}
+
+function getCardinalCoords(x: number, y: number) {
+    let c: ICardinalCoords = {
         N: [x, y - 1],     // N
         E: [x + 1, y],     // E
         S: [x, y + 1],     // S
         W: [x - 1, y],     // W
     }
+    return c
 }
 
-function isTrapped(map, x, y) {
+function isTrapped(map: IGameMap, x: number, y: number) {
     let trapped = _.map(getCardinalCoords(x, y), coordlist => {
         return map[coordlist[0] + ',' + coordlist[1]] !== '.'
     })
@@ -78,11 +94,11 @@ function isTrapped(map, x, y) {
 }
 
 export class Charge extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 10, 10, 20)
     }
 
-    sideEffects(action, game, actor) {
+    sideEffects(action: Action, game: Game, actor: Actor) {
 
         let source = this.actor
         let target = actor
@@ -137,7 +153,7 @@ export class Charge extends Ability {
 }
 
 export class Infect extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         // same damage as melee for this character - use this.str
         let infectStr = actor.str
         if (infectStr < 20) { infectStr = 20 }
@@ -148,23 +164,24 @@ export class Infect extends Ability {
     // action.actor - player
     // actor - monster
     // most actions just run their execute(game) method
-    sideEffects(action, game, actor) {
+    sideEffects(action: Action, game: Game, actor: Actor) {
         console.log("infect", action, game, actor)
         game.scheduler.add({
             act: () => {
+                // @ts-ignore
                 return new InfectAbilityAction(action.actor, actor, action)
             },
             isPlayer: () => false
-        })
+        }, false)
     }
 }
 
 export class GrenadeLauncher extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 10, 20, 30)
     }
 
-    sideEffects(action, game) {
+    sideEffects(action: Action, game: Game) {
         let sets = getCoordsAround(action.x, action.y)
         sets.forEach(s => {
             game.display.draw(s[0], s[1], "*", "red")
@@ -184,7 +201,7 @@ export class GrenadeLauncher extends Ability {
                         return new DamageAction(actor, this.dmg / 2, "Grenade Launcher Splash Damage", actor)
                     },
                     isPlayer: () => false
-                })
+                }, false)
             }
         })
     }
@@ -195,43 +212,43 @@ export class GrenadeLauncher extends Ability {
 }
 
 export class Shotgun extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 2, 5, 20)
     }
 }
 
 export class Magnum extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 4, 10, 50)
     }
 }
 
 export class Impale extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 5, 1, 40)
     }
 }
 
 export class Grab extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 2, 1, 10)
     }
 }
 
 export class Bite extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 5, 2, 10)
     }
 }
 
 export class Haymaker extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 3, 1, 30)
     }
 }
 
 export class Poison extends Ability {
-    constructor(actor) {
+    constructor(actor: Actor) {
         super(actor, 4, 2, 20)
     }
 }

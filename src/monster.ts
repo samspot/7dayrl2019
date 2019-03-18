@@ -1,12 +1,12 @@
 import { Actor } from './actor'
 import * as ROT from 'rot-js'
-import { MoveAction, DefaultAction, AbilityAction } from './actions.js'
 import { Game, MobSpec } from './game'
 import * as _ from 'lodash'
 
 import Empty75x75 from '../assets/img/empty.png'
-import { Charge } from './abilities.js';
-import Config from './config.js';
+import { Charge } from './abilities';
+import Config from './config';
+import { AbilityAction, DefaultAction, MoveAction } from './actions';
 
 
 export class Monster extends Actor {
@@ -103,7 +103,8 @@ export class Monster extends Actor {
 
                 // this.game.message(`A horde of ${this.name}'s arise from the pieces`, true)
                 // this.game.message('The boss is cloning itself, get out NOW!', true)
-                resolve(new DefaultAction())
+                // resolve(new DefaultAction())
+                resolve()
                 return
             }
 
