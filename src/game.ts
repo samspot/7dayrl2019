@@ -11,11 +11,14 @@ import Tyrant from 'assets/tyrant.json'
 import { Actor } from './actor'
 import { Cursor } from './cursor'
 
-import ReTiles1 from '../assets/img/re-tiles-1.png'
-import ReTiles2 from '../assets/img/re-tiles-2.png'
-import ReTiles4 from '../assets/img/re-tiles-4.png'
-import ReTiles16 from '../assets/img/re-tiles-16.png'
+// import ReTiles1 from '../assets/img/re-tiles-1.png'
+// import ReTiles2 from '../assets/img/re-tiles-2.png'
+// import ReTiles4 from '../assets/img/re-tiles-4.png'
+import ReTiles16Lab from '../assets/img/re-tiles-16-lab.png'
 import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png'
+import ReTiles16Outside from '../assets/img/re-tiles-16-lab.png'
+import ReTiles16Guardhouse from '../assets/img/re-tiles-16-lab.png'
+import ReTiles16Mansion from '../assets/img/re-tiles-16-lab.png'
 
 /* feedback
 
@@ -207,7 +210,7 @@ export class Game {
 
         let options = this.display.getOptions()
         if (idx === 0) {
-            options.tileSet.src = ReTiles16
+            options.tileSet.src = ReTiles16Lab
         } else {
             options.tileSet.src = ReTiles16Catacombs
         }
@@ -220,7 +223,7 @@ export class Game {
         }
 
         if (idx % 2 === 1) {
-            options.tileSet.src = ReTiles16
+            options.tileSet.src = ReTiles16Lab
         }
         // this.redraw()
         this.drawFov()
@@ -238,13 +241,13 @@ export class Game {
 
         let tileSet = new Image()
         if (Config.tileWidth === 8) {
-            tileSet.src = ReTiles1
+            // tileSet.src = ReTiles1
         } else if (Config.tileWidth === 16) {
             // tileSet.src = ReTiles2
             // tileSet.src = ReTiles16
             tileSet.src = ReTiles16Catacombs
         } else if (Config.tileWidth === 32) {
-            tileSet.src = ReTiles4
+            // tileSet.src = ReTiles4
         }
 
         let tileWidth = Config.tileWidth

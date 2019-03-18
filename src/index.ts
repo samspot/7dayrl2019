@@ -76,18 +76,6 @@ async function mainLoop() {
         if (actor.isPlayer()) {
             director.tick()
             game.turns++
-
-            // if (!hasInterval) {
-            // let i = 0
-            // setInterval(() => {
-            // game.swapTiles2.bind(game)
-            // game.swapTiles2(i++)
-            // game.swapTiles(game.turns % 2)
-            // }, 1500)
-
-            // hasInterval = true
-            // }
-            // game.swapTiles(game.turns % 2)
         }
 
         if (game.gameOver) {
