@@ -229,9 +229,11 @@ export class Game {
     }
 
     setTiles(imgsrc: ImageData) {
-        let tileSet = this.display.getOptions().tileSet
-        if (tileSet.src !== imgsrc) {
-            tileSet.src = imgsrc
+        if (Config.tiles) {
+            let tileSet = this.display.getOptions().tileSet
+            if (tileSet.src !== imgsrc) {
+                tileSet.src = imgsrc
+            }
         }
     }
 
@@ -246,16 +248,18 @@ export class Game {
     }
 
     swapTiles2(idx: number) {
-        let options = this.display.getOptions()
-        if (idx % 2 === 0) {
-            options.tileSet.src = this.getGameProgress().tiles
-        }
+        if (Config.tiles) {
+            let options = this.display.getOptions()
+            if (idx % 2 === 0) {
+                options.tileSet.src = this.getGameProgress().tiles
+            }
 
-        if (idx % 2 === 1) {
-            options.tileSet.src = this.getGameProgress().tilesf2
+            if (idx % 2 === 1) {
+                options.tileSet.src = this.getGameProgress().tilesf2
+            }
+            // this.redraw()
+            this.drawFov()
         }
-        // this.redraw()
-        this.drawFov()
     }
 
     init() {
