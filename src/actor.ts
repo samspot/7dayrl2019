@@ -86,6 +86,14 @@ export class Actor {
         }
         this.hp -= dmg
         if (this.hp <= 0 && !this.isPlayer()) {
+            let key = this.x + "," + this.y
+            // this.game.map[key] = 'b'
+            if (!this.game.decorations[key]) {
+                this.game.decorations[key] = []
+            }
+            console.log('adding decoration')
+            this.game.decorations[key].push('b')
+
             // TODO below if is repeated, but we need to add player logic here from actions.js
             if (!this.isPlayer()) {
                 this.game.destroyMob(this)

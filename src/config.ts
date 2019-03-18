@@ -27,7 +27,7 @@ const Config: IConfig = {
     fontSize: 16,
     messageListSize: 15,
     // seed: 12362,
-    // turnsToSim: 26,
+    turnsToSim: 26,
     // turnsToSim: 0,
     seed: 12368,
     // seed: 12370,

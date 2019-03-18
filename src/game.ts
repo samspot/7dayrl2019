@@ -99,6 +99,9 @@ export class Game {
     map: {
         [key: string]: string
     }
+    decorations: {
+        [key: string]: Array<string>
+    }
     player: Player
     mobs: Array<Actor>
     gameOver: boolean
@@ -122,6 +125,7 @@ export class Game {
         this.scheduler = scheduler
         this.display = null
         this.map = {}
+        this.decorations = {}
         this.player = null
         this.mobs = []
         this.gameOver = false
@@ -387,11 +391,21 @@ export class Game {
     }
 
     drawWholeMap() {
+        // console.log('decorations', this.decorations)
         for (var key in this.map) {
             var parts = key.split(",");
             var x = parseInt(parts[0]);
             var y = parseInt(parts[1]);
-            this.display.draw(x, y, this.map[key]);
+            if (this.decorations[key]) {
+                let decorations = _.clone(this.decorations[key])
+                decorations.unshift(this.map[key])
+                console.log('drawing decorations', decorations)
+                this.display.draw(x, y, decorations)
+            } else {
+
+                this.display.draw(x, y, this.map[key]);
+            }
+
         }
         // console.log("Player", this.player && this.player.hp)
     }
@@ -520,7 +534,19 @@ export class Game {
                 if (ch === "@") { // actor
                     this.display.draw(x, y, ['.', "@"])
                 } else if (isFloor) { // floor
-                    this.display.draw(x, y, ".")
+                    // this.display.draw(x, y, ".")
+
+                    let key = x + ',' + y
+                    if (this.decorations[key]) {
+                        let decorations = _.clone(this.decorations[key])
+                        // decorations.unshift(this.map[key])
+                        decorations.unshift('.')
+                        // console.log('drawing decorations', decorations)
+                        this.display.draw(x, y, decorations)
+                    } else {
+                        // this.display.draw(x, y, this.map[key]);
+                        this.display.draw(x, y, ".")
+                    }
                 } else { // wall
                     ch = this.maps.getWallIndicator(x, y)
                     this.display.draw(x, y, ch)
