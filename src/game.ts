@@ -15,6 +15,7 @@ import { Cursor } from './cursor'
 // import ReTiles2 from '../assets/img/re-tiles-2.png'
 // import ReTiles4 from '../assets/img/re-tiles-4.png'
 import ReTiles16Lab from '../assets/img/re-tiles-16-lab.png'
+import ReTiles16LabF2 from '../assets/img/re-tiles-16-lab-f2.png'
 import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png'
 import ReTiles16Outside from '../assets/img/re-tiles-16-outside.png'
 import ReTiles16Guardhouse from '../assets/img/re-tiles-16-guardhouse.png'
@@ -82,6 +83,7 @@ class Level {
         return gpToString()
     }
     tiles: ImageData
+    tilesf2: ImageData
 }
 
 function gpToString() {
@@ -152,6 +154,7 @@ export class Game {
         this.gameProgress.level0.style = "font-style: italic"
         this.gameProgress.level0.bossDown = false
         this.gameProgress.level0.tiles = ReTiles16Lab
+        this.gameProgress.level0.tilesf2 = ReTiles16LabF2
 
         this.gameProgress.level1.level = 1
         this.gameProgress.level1.name = "Catacombs"
@@ -163,6 +166,7 @@ export class Game {
         this.gameProgress.level1.style = "font-style: italic"
         this.gameProgress.level1.bossDown = false
         this.gameProgress.level1.tiles = ReTiles16Catacombs
+        this.gameProgress.level1.tilesf2 = ReTiles16Catacombs
 
         this.gameProgress.level2.level = 2
         this.gameProgress.level2.name = "Garden"
@@ -174,6 +178,7 @@ export class Game {
         this.gameProgress.level2.style = "font-style: italic"
         this.gameProgress.level2.bossDown = false
         this.gameProgress.level2.tiles = ReTiles16Outside
+        this.gameProgress.level2.tilesf2 = ReTiles16Outside
 
 
         this.gameProgress.level3.level = 3
@@ -186,6 +191,7 @@ export class Game {
         this.gameProgress.level3.style = "font-style: italic"
         this.gameProgress.level3.bossDown = false
         this.gameProgress.level3.tiles = ReTiles16Guardhouse
+        this.gameProgress.level3.tilesf2 = ReTiles16Guardhouse
 
         this.gameProgress.level4.level = 4
         this.gameProgress.level4.name = "The Mansion"
@@ -197,6 +203,7 @@ export class Game {
         this.gameProgress.level4.style = "font-style: italic"
         this.gameProgress.level4.bossDown = false
         this.gameProgress.level4.tiles = ReTiles16Mansion
+        this.gameProgress.level4.tilesf2 = ReTiles16Mansion
 
         this.dirty = false
         this.director = undefined
@@ -237,11 +244,11 @@ export class Game {
     swapTiles2(idx: number) {
         let options = this.display.getOptions()
         if (idx % 2 === 0) {
-            options.tileSet.src = ReTiles16Catacombs
+            options.tileSet.src = this.getGameProgress().tiles
         }
 
         if (idx % 2 === 1) {
-            options.tileSet.src = ReTiles16Lab
+            options.tileSet.src = this.getGameProgress().tilesf2
         }
         // this.redraw()
         this.drawFov()
