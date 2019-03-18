@@ -213,6 +213,19 @@ export class Game {
         }
     }
 
+    swapTiles2(idx: number) {
+        let options = this.display.getOptions()
+        if (idx % 2 === 0) {
+            options.tileSet.src = ReTiles16Catacombs
+        }
+
+        if (idx % 2 === 1) {
+            options.tileSet.src = ReTiles16
+        }
+        // this.redraw()
+        this.drawFov()
+    }
+
     init() {
         let optionsAscii = {
             width: Config.gamePortWidth,

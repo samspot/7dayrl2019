@@ -42,6 +42,10 @@ async function mainLoop() {
     (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = 'none';
     (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = 'block';
 
+    let i = 0
+    // setInterval(() => {
+    // game.swapTiles2(i++)
+    // }, 400)
     while (1) {
         let actor = scheduler.next()
         if (!actor) { break }
@@ -73,7 +77,17 @@ async function mainLoop() {
             director.tick()
             game.turns++
 
-            game.swapTiles(game.turns % 2)
+            // if (!hasInterval) {
+            // let i = 0
+            // setInterval(() => {
+            // game.swapTiles2.bind(game)
+            // game.swapTiles2(i++)
+            // game.swapTiles(game.turns % 2)
+            // }, 1500)
+
+            // hasInterval = true
+            // }
+            // game.swapTiles(game.turns % 2)
         }
 
         if (game.gameOver) {
