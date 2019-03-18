@@ -567,16 +567,16 @@ export class Game {
             }
         })
 
-        if (this.player.isTargetMode() && this.cursor) {
-            this.cursor.drawMe()
-        }
-
         if (Config.drawAllMobs) {
             this.mobs.forEach(m => m.drawMe())
         } else {
             this.getVisibleMobs().forEach(m => m.drawMe(fovFloorColor))
         }
+        if (this.player.isTargetMode() && this.cursor) {
+            this.cursor.drawMe()
+        }
     }
+
 
 
     getVisibleSquares() {

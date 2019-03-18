@@ -11,11 +11,11 @@ interface IConfig {
     turnsToSim?: number
     drawWholeMap: boolean
     drawAllMobs: boolean
-    debug: boolean
-    skipTitle: boolean
+    debug?: boolean
+    skipTitle?: boolean
     tiles: boolean
-    playerInvulnerable: boolean
-    startLevel: number
+    playerInvulnerable?: boolean
+    startLevel?: number
 }
 const Config: IConfig = {
     // spawnrate: 1,
@@ -27,17 +27,17 @@ const Config: IConfig = {
     fontSize: 16,
     messageListSize: 15,
     // seed: 12362,
-    turnsToSim: 26,
+    // turnsToSim: 26,
     // turnsToSim: 0,
-    seed: 12368,
+    // seed: 12368,
     // seed: 12370,
     drawWholeMap: false,
     drawAllMobs: false,
-    debug: true,
+    // debug: true,
     skipTitle: true,
     tiles: true,
-    playerInvulnerable: true,
-    startLevel: 0,
+    // playerInvulnerable: true,
+    // startLevel: 0,
 }
 
 /*
