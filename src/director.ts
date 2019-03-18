@@ -1,15 +1,4 @@
-import Barry from 'assets/barry.json';
-import Brad from 'assets/brad.json';
-import Chimera from 'assets/chimera.json';
-import Chris from 'assets/chris.json';
-import Dog from 'assets/dog.json';
-import Hunter from 'assets/hunter.json';
-import Jill from 'assets/jill.json';
-import Lisa from 'assets/lisa.json';
-import Shark from 'assets/shark.json';
-import Spider from 'assets/spider.json';
-import Wesker from 'assets/wesker.json';
-import Zombie from 'assets/zombie.json';
+
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
 import { Ability, Bite, Charge, EmptySlot, Grab, GrenadeLauncher, Haymaker, Impale, Magnum, Poison, Shotgun } from './abilities';
@@ -19,60 +8,7 @@ import { Game } from './game';
 import { MobSpec } from "./MobSpec";
 import { Monster } from './monster';
 import { Player } from './player';
-
-// TODO move most of this to Level.ts
-const levels = [
-    'lab',
-    'catacombs',
-    'outside',
-    'guardhouse',
-    'mansion'
-]
-
-const levelNames = {
-    'lab': 'Laboratory',
-    'catacombs': 'Catacombs',
-    'outside': 'Garden',
-    'guardhouse': 'Guardhouse',
-    'mansion': 'Mansion'
-}
-
-const mobs = {
-    'lab': [Zombie, Zombie, Chimera],
-    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Zombie, Hunter, Spider, Lisa], // SpiderBoss
-    'outside': [Zombie, Dog, Dog, Spider],
-    'guardhouse': [Zombie, Spider, Spider, Shark], // Plant, Plant42
-    'mansion': [Zombie, Zombie, Hunter, Hunter], //Snake
-}
-
-const bosses = {
-    'lab': Jill,
-    'catacombs': Chris,
-    'outside': Barry,
-    'guardhouse': Brad,
-    'mansion': Wesker
-}
-
-const abilities: { [key: string]: Array<Object> } = {
-    'Jill Valentine': [GrenadeLauncher, EmptySlot],
-    'Chris Redfield': [Shotgun, EmptySlot],
-    'Barry Burton': [Magnum, EmptySlot],
-    'Brad Vickers': [Shotgun, EmptySlot],
-    'Albert Wesker': [Magnum, EmptySlot],
-    'Tyrant': [Charge, Impale],
-    'Zombie': [Grab],
-    'Chimera': [Grab, Charge],
-    'Dog': [Grab, Bite],
-    'Hunter': [Bite, Charge],
-    'Lisa Trevor': [Grab, Haymaker],
-    'Plant': [Poison],
-    'Plant 42': [Grab, Poison],
-    'Shark': [Bite],
-    'Snake Boss': [Bite, Poison],
-    'Giant Spider': [Bite, Poison],
-    'Black Tiger': [Bite, Poison, Charge]
-}
-
+import { levels, levelNames } from './Level'
 
 export class Director {
     player: Player
@@ -83,6 +19,7 @@ export class Director {
     mobs: Array<Actor>
     spawnId: number
     levelTicks: number
+    mobSpec: MobSpec
     constructor(game: Game, scheduler: ROT.Scheduler) {
         this.player = game.player
         this.game = game
@@ -99,6 +36,7 @@ export class Director {
         this.scheduler.add(this.player, true)
         this.spawnId = 0
         this.levelTicks = 0
+        this.mobSpec = new MobSpec()
     }
 
     // cleanup all things that need to be cleaned for descending
@@ -112,7 +50,7 @@ export class Director {
 
     generateAbilities(monster: Actor) {
         // console.log('generating abilities for ', monster)
-        let mobAbilities = abilities[monster.name]
+        let mobAbilities = this.mobSpec.getMobAbilities()[monster.name]
         mobAbilities.forEach((a: new (monster: Monster) => Ability) => {
             // @ts-ignore
             let ability = new a(monster)
@@ -150,7 +88,7 @@ export class Director {
 
         if (!this.boss && this.levelTicks > 5 && Config.spawnboss) {
             // @ts-ignore
-            this.boss = bosses[levels[this.game.currentLevel]]
+            this.boss = this.mobSpec.getBossesByLevel()[levels[this.game.currentLevel]]
             // console.log('spawning boss', this.boss, abilities[this.boss.name])
 
             // @ts-ignore
@@ -244,12 +182,11 @@ export class Director {
 
     _generateMob() {
         // @ts-ignore
-        let mob = ROT.RNG.getItem(mobs[levels[this.game.currentLevel]])
+        let mob = ROT.RNG.getItem(this.mobSpec.getMobsByLevel()[levels[this.game.currentLevel]])
         // console.log(mob)
         // this.mobs.push(mob)
         return mob
     }
-
 
     // debug the scheduler
     _debugScheduler() {

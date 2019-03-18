@@ -26,6 +26,22 @@ export class Level {
     tilesf2: ImageData;
 }
 
+export const levels = [
+    'lab',
+    'catacombs',
+    'outside',
+    'guardhouse',
+    'mansion'
+]
+
+export const levelNames = {
+    'lab': 'Laboratory',
+    'catacombs': 'Catacombs',
+    'outside': 'Garden',
+    'guardhouse': 'Guardhouse',
+    'mansion': 'Mansion'
+}
+
 function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
