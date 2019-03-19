@@ -1,18 +1,15 @@
-import { Actor } from './actor.js'
-import * as ROT from 'rot-js'
-import { MoveAction, DefaultAction, AbilityAction } from './actions.js';
-
-// import Jill from '../assets/img/jill.png'
-// import Chris from '../assets/img/chris.png'
-// import Barry from '../assets/img/barry.png'
-// import Wesker from '../assets/img/wesker.png'
-// import Brad from '../assets/img/brad.png'
-import Empty75x75 from '../assets/img/empty.png'
-import { Charge } from './abilities.js';
-import Config from './config.js';
+import * as _ from 'lodash';
+import * as ROT from 'rot-js';
+import { Charge } from './abilities';
+import { AbilityAction, MoveAction } from './actions';
+import { Actor } from './actor';
+import { Game } from './game';
+import { MobSpec } from "./MobSpec";
 
 export class Monster extends Actor {
-    constructor(x, y, game, mobspec) {
+    bio: string
+    quote: string
+    constructor(x: number, y: number, game: Game, mobspec: MobSpec) {
         super(x, y, mobspec.symbol, mobspec.color, game)
 
         this.name = mobspec.name
@@ -26,19 +23,8 @@ export class Monster extends Actor {
         this.quote = mobspec.quote || ''
     }
 
-    playerSeen() {
-        return this.seen
-    }
-
-    setSeen() {
-        if (this.boss && !this.seen) {
-            this.game.gameDisplay.drawBossSplash(this)
-        }
-        this.seen = true
-    }
-
     // return a list of abilities that are off cooldown and can reach the player
-    getAvailableAbilities() {
+    _getAvailableAbilities() {
         if (_.findIndex(this.game.getVisibleMobs(), m => m === this) < 0) {
             // console.log('mob not visible, dont use abilities')
             return []
@@ -54,7 +40,7 @@ export class Monster extends Actor {
 
         // TODO fix charge
         // if(!Config.enableCharge){
-        if(!window.directorsCut){
+        if (!window.directorsCut) {
             _.remove(usable, x => x instanceof Charge)
             // console.log('charge disabled')
         } else {
@@ -69,8 +55,9 @@ export class Monster extends Actor {
         var x = this.game.player.getX()
         var y = this.game.player.getY()
 
-        let abilities = this.getAvailableAbilities()
+        let abilities = this._getAvailableAbilities()
         if (abilities && abilities.length > 0) {
+            //@ts-ignore
             let a = ROT.RNG.getItem(abilities)
             // TODO add this log to debug flag
             // console.log("monster.act()", this.name, "using ", a.constructor.name, a)
@@ -79,12 +66,12 @@ export class Monster extends Actor {
             })
         }
 
-        let passableCallback = (x, y) => x + ',' + y in this.game.map
+        let passableCallback = (x: number, y: number) => x + ',' + y in this.game.map
         var astar = new ROT.Path.AStar(x, y, passableCallback, { topology: 4 })
 
-        var path = []
-        var pathCallback = function (x, y) {
-            path.push([x, y])
+        var pathList: Array<Array<number>> = []
+        var pathCallback = function (x: number, y: number) {
+            pathList.push([x, y])
         }
         astar.compute(this.x, this.y, pathCallback)
 
@@ -92,9 +79,9 @@ export class Monster extends Actor {
             // console.log('acting', path[0], path[1], this.name, this.x, this.y)
         }
 
-        let oldpath = path.shift()
-        path = path[0]
-        if(!path){
+        let oldpath = pathList.shift()
+        let path = pathList[0]
+        if (!path) {
             console.log(`spawn-${this.spawnId} ${this.x},${this.y} path is ${path} for [${this.name}] player at ${this.game.player.x},${this.game.player.y} mob moving to ${path},${path}`)
             path = oldpath
         }
@@ -113,7 +100,8 @@ export class Monster extends Actor {
 
                 // this.game.message(`A horde of ${this.name}'s arise from the pieces`, true)
                 // this.game.message('The boss is cloning itself, get out NOW!', true)
-                resolve(new DefaultAction())
+                // resolve(new DefaultAction())
+                resolve()
                 return
             }
 

@@ -1,91 +1,33 @@
-import * as ROT from 'rot-js'
-import { Player } from './player.js'
-import { Monster } from './monster.js'
-import { Actor } from './actor.js'
-import Tyrant from 'assets/tyrant.json'
-import Zombie from 'assets/zombie.json'
-import Chimera from 'assets/chimera.json'
-import Config from './config.js'
-import Hunter from 'assets/hunter.json'
-import Spider from 'assets/spider.json'
-import Lisa from 'assets/lisa.json'
-import SpiderBoss from 'assets/spiderboss.json'
-import Dog from 'assets/dog.json'
-import Plant from 'assets/plant.json'
-import Shark from 'assets/shark.json'
-import Snake from 'assets/snake.json'
-import Plant42 from 'assets/plant42.json'
 
-import Jill from 'assets/jill.json'
-import Chris from 'assets/chris.json'
-import Barry from 'assets/barry.json'
-import Brad from 'assets/brad.json'
-import Wesker from 'assets/wesker.json'
-import { GrenadeLauncher, EmptySlot, Grab, Shotgun, Magnum, Charge, Impale, Bite, Poison, Haymaker } from './abilities.js';
-import Maps from './maps.js';
-
-const levels = [
-    'lab',
-    'catacombs',
-    'outside',
-    'guardhouse',
-    'mansion'
-]
-
-const levelNames = {
-    'lab': 'Laboratory',
-    'catacombs': 'Catacombs',
-    'outside': 'Garden',
-    'guardhouse': 'Guardhouse',
-    'mansion': 'Mansion'
-}
-
-const mobs = {
-    'lab': [Zombie, Zombie, Chimera],
-    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Zombie, Hunter, Spider, Lisa], // SpiderBoss
-    'outside': [Zombie, Dog, Dog, Spider],
-    'guardhouse': [Zombie, Spider, Spider, Shark], // Plant, Plant42
-    'mansion': [Zombie, Zombie, Hunter, Hunter], //Snake
-}
-
-const bosses = {
-    'lab': Jill,
-    'catacombs': Chris,
-    'outside': Barry,
-    'guardhouse': Brad,
-    'mansion': Wesker
-}
-
-const abilities = {
-    'Jill Valentine': [GrenadeLauncher, EmptySlot],
-    'Chris Redfield': [Shotgun, EmptySlot],
-    'Barry Burton': [Magnum, EmptySlot],
-    'Brad Vickers': [Shotgun, EmptySlot],
-    'Albert Wesker': [Magnum, EmptySlot],
-    'Tyrant': [Charge, Impale],
-    'Zombie': [Grab],
-    'Chimera': [Grab, Charge],
-    'Dog': [Grab, Bite],
-    'Hunter': [Bite, Charge],
-    'Lisa Trevor': [Grab, Haymaker],
-    'Plant': [Poison],
-    'Plant 42': [Grab, Poison],
-    'Shark': [Bite],
-    'Snake Boss': [Bite, Poison],
-    'Giant Spider': [Bite, Poison],
-    'Black Tiger': [Bite, Poison, Charge]
-}
-
+import * as _ from 'lodash';
+import * as ROT from 'rot-js';
+import { Ability, Bite, Charge, EmptySlot, Grab, GrenadeLauncher, Haymaker, Impale, Magnum, Poison, Shotgun } from './abilities';
+import { Actor } from './actor';
+import Config from './config';
+import { Game } from './game';
+import { MobSpec } from "./MobSpec";
+import { Monster } from './monster';
+import { Player } from './player';
+import { levels, levelNames } from './Level'
 
 export class Director {
-    constructor(game, scheduler) {
+    player: Player
+    game: Game
+    countdown: number
+    scheduler: ROT.Scheduler
+    boss: Actor
+    mobs: Array<Actor>
+    spawnId: number
+    levelTicks: number
+    mobSpec: MobSpec
+    constructor(game: Game, scheduler: ROT.Scheduler) {
         this.player = game.player
         this.game = game
         this.countdown = 5
 
         this.scheduler = scheduler
         game.currentLevel = 0
-        if(Config.debug && Config.startLevel){
+        if (Config.debug && Config.startLevel) {
             game.currentLevel = Config.startLevel
         }
 
@@ -94,6 +36,7 @@ export class Director {
         this.scheduler.add(this.player, true)
         this.spawnId = 0
         this.levelTicks = 0
+        this.mobSpec = new MobSpec()
     }
 
     // cleanup all things that need to be cleaned for descending
@@ -105,21 +48,16 @@ export class Director {
         this.scheduler.add(this.player, true)
     }
 
-    // current level matters for monster gen
-    levelchange(idx) {
-        game.currentLevel = idx
-        this.levelTicks = 0
-    }
-
-    // TODO large creatures hittable through a mob, not so much for small ones
-    generateAbilities(monster) {
-        // let mobAbilities = abilities[this.boss.name]
+    generateAbilities(monster: Actor) {
         // console.log('generating abilities for ', monster)
-        let mobAbilities = abilities[monster.name]
-        mobAbilities.forEach(a => {
+        let mobAbilities = this.mobSpec.getMobAbilities()[monster.name]
+        mobAbilities.forEach((a: new (monster: Monster) => Ability) => {
+            // @ts-ignore
             let ability = new a(monster)
             if (ability instanceof EmptySlot) {
+                // @ts-ignore
                 a = ability.getRandomAbility()
+                // @ts-ignore
                 ability = new a(monster)
             }
 
@@ -134,11 +72,13 @@ export class Director {
     }
 
     getNextLevelDescription() {
+        // @ts-ignore
         return levelNames[levels[this.game.currentLevel + 1]]
     }
 
     getLevelSpec() {
-        return Maps[this.getLevelName()]
+        // return Maps[this.getLevelName()]
+        return this.game.maps.mapMap()[this.getLevelName()]
     }
 
     tick() {
@@ -146,11 +86,13 @@ export class Director {
         // load any mob changes
         this.mobs = this.game.mobs
 
-        if (!this.boss && this.levelTicks > 5) {
-            this.boss = bosses[levels[this.game.currentLevel]]
+        if (!this.boss && this.levelTicks > 5 && Config.spawnboss) {
+            // @ts-ignore
+            this.boss = this.mobSpec.getBossesByLevel()[levels[this.game.currentLevel]]
             // console.log('spawning boss', this.boss, abilities[this.boss.name])
 
-            let monster = this.createSchedule(this.boss)
+            // @ts-ignore
+            let monster = this._createSchedule(this.boss)
             monster.boss = true
 
             if (this.boss.name === "Albert Wesker") {
@@ -164,13 +106,12 @@ export class Director {
             this.game.getGameProgress().text = this.boss.name
         }
 
-        this.debug()
         this.countdown--
         if (this.countdown <= 0 && !this.game.getGameProgress().bossDown) {
             let spawnrate = this.game.getGameProgress().spawnRate
             // console.log(`spawnrate ${spawnrate}`)
 
-            if(window.directorsCut){
+            if (window.directorsCut) {
                 // console.log("directors cut spawn rate 2")
                 spawnrate = 2
             }
@@ -188,17 +129,20 @@ export class Director {
 
             this.countdown = num
 
+            // @ts-ignore
             if (!this.getLevelSpec().mobs) { this.getLevelSpec().mobs = 0 }
-            if(window.directorsCut){
+            if (window.directorsCut) {
                 // console.log("directors cut set spawn limit 100")
                 Config.spawnLimit = 100
             }
+            // @ts-ignore
             if (this.getLevelSpec().mobs < Config.spawnLimit) {
                 // console.log('spawn', this.getLevelSpec())
-                let mobspec = this.generateMob()
+                let mobspec = this._generateMob()
 
-                let monster = this.createSchedule(mobspec)
+                let monster = this._createSchedule(mobspec)
                 this.mobs.push(monster)
+                // @ts-ignore
                 this.getLevelSpec().mobs++
             }
         }
@@ -208,12 +152,12 @@ export class Director {
     }
 
     // TODO make sure bosses cant spawn in vision
-    createSchedule(mobspec) {
+    _createSchedule(mobspec: MobSpec) {
         let freeCells = this.game.getFreeCells()
         let cellsRemoved = []
         this.game.visibleSquares.forEach(x => {
             _.remove(freeCells, c => {
-                if(c === x){
+                if (c === x) {
                     cellsRemoved.push(c)
                     return true
                 }
@@ -223,7 +167,7 @@ export class Director {
         // console.log('cellsRemoved', cellsRemoved)
         // console.log('freeCells', freeCells)
         // console.log('player', this.game.player.x, this.game.player.y)
-        let monster = this.game.createBeing(Monster,
+        let monster = this.game.createBeingMonster(Monster,
             freeCells, mobspec)
         // console.log('monster', monster.x, monster.y)
 
@@ -236,25 +180,16 @@ export class Director {
         return monster
     }
 
-    generateMob() {
-        let mob = ROT.RNG.getItem(mobs[levels[this.game.currentLevel]])
+    _generateMob() {
+        // @ts-ignore
+        let mob = ROT.RNG.getItem(this.mobSpec.getMobsByLevel()[levels[this.game.currentLevel]])
         // console.log(mob)
         // this.mobs.push(mob)
         return mob
     }
 
-    debug() {
-        // console.log(this.game.map)
-        // let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, 10)))
-        // console.log("random", num)
-
-        // console.log(this.game.getGameProgress())
-        // console.log(this.game.gameProgress)
-        // console.log("boss status", this.game.allBossesDown())
-    }
-
     // debug the scheduler
-    debugScheduler() {
+    _debugScheduler() {
         var turns = [];
         for (var i = 0; i < 20; i++) {
             var current = this.scheduler.next();

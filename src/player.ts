@@ -1,18 +1,23 @@
-import { Actor } from './actor.js'
-import * as ROT from 'rot-js'
-import { AbilityAction, Action, MoveAction, AttackAction, PickupAction, DefaultAction, DescendAction } from './actions.js'
-import { keyMap } from './keymap.js'
-import { Impale, Charge, Grab, Shotgun, GrenadeLauncher, Infect, Magnum, Bite, Haymaker, Poison } from './abilities.js';
-import { Cursor } from './cursor.js';
-import Config from './config.js';
-import Tyrant from 'assets/tyrant.json'
+import Tyrant from 'assets/tyrant.json';
+import * as _ from 'lodash';
+import * as ROT from 'rot-js';
+import { Ability, Charge, Impale, Infect } from './abilities';
+import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './actions';
+import { Actor } from './actor';
+import Config from './config';
+import { Game } from './game';
+import { keyMap } from './keymap';
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
 const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
 export class Player extends Actor {
-    constructor(x, y, game) {
+    debugCount: number
+    resolve: Function
+    reject: Function
+    splash: boolean
+    constructor(x: number, y: number, game: Game) {
         super(x, y, "@", "#ff0", game)
 
         this.name = Tyrant.name
@@ -49,7 +54,7 @@ export class Player extends Actor {
         this.addAbility(new Infect(this))
     }
 
-    infectMob(mob) {
+    infectMob(mob: Actor) {
         this.name = mob.name
         this.hp = mob.maxHp * 1.5
         if (this.hp < 150) { this.hp = 150 }
@@ -83,19 +88,6 @@ export class Player extends Actor {
     isPlayer() {
         return true
     }
-
-    useAbility(ability) {
-        // console.log("player.useAbility()", ability)
-
-        if (ability && ability.cooldown === 0) {
-            this.game.display.drawText(0, 0, TARGET_HELP);
-            // console.log("abilty available", ability.cooldown, ability.maxCooldown)
-            this.state = TARGETTING
-            this.usingAbility = ability
-            this.game.cursor = new Cursor(this.x, this.y, this.game)
-        }
-    }
-
     act() {
         if (this.debugCount > 0) {
             this.debugCount--
@@ -127,13 +119,15 @@ export class Player extends Actor {
         return infect
     }
 
-    handleTarget(e) {
+    handleTarget(e: Event) {
         // console.log("targetting")
 
+        //@ts-ignore
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
         // escape key
+        //@ts-ignore
         if (charCode === 27 || charCode === ROT.KEYS.VK_Q || charCode === ROT.KEYS.VK_E || charCode === ROT.KEYS.VK_R) {
             this.game.gameDisplay.hideModal()
             this.state = PLAYER_TURN
@@ -158,7 +152,7 @@ export class Player extends Actor {
                 return
             }
 
-            this.resolve(new AbilityAction(this.game, this.usingAbility,
+            this.resolve(new AbilityAction(this.game.player, this.usingAbility,
                 this.game.cursor.x, this.game.cursor.y))
             this.usingAbility = null
             this.state = PLAYER_TURN
@@ -172,24 +166,25 @@ export class Player extends Actor {
         let cursor = this.game.cursor
         if (cursor) {
 
+            //@ts-ignore
             var diff = ROT.DIRS[8][keyMap[charCode]];
             let newX = cursor.x + diff[0];
             let newY = cursor.y + diff[1];
 
-            this.game.display.drawText(0, 0, TARGET_HELP);
+            // this.game.display.drawText(0, 0, TARGET_HELP);
             // TODO: also make sure path is clear, don't shoot through walls
             if (this.inRange(this.usingAbility, this, newX, newY)) {
                 this.game.cursor.x = newX
                 this.game.cursor.y = newY
 
                 this.game.redraw()
-                this.game.display.drawText(0, 0, TARGET_HELP);
+                // this.game.display.drawText(0, 0, TARGET_HELP);
                 cursor.drawMe()
             }
         }
     }
 
-    inRange(ability, actor, x, y) {
+    inRange(ability: Ability, actor: Actor, x: number, y: number) {
         let distance = Math.sqrt((x - actor.x) ** 2 + (y - actor.y) ** 2)
         distance = Math.floor(distance)
         // console.log('distance', distance, 'range', ability.range)
@@ -197,12 +192,13 @@ export class Player extends Actor {
     }
 
     // TODO: Tank controls?
-    handleEvent(e) {
+    handleEvent(e: Event) {
         if (this.state === TARGETTING) {
-            this.game.display.drawText(0, 0, TARGET_HELP);
+            // this.game.display.drawText(0, 0, TARGET_HELP);
             return this.handleTarget(e)
         }
         // console.log('handle event', e)
+        // @ts-ignore
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
@@ -232,8 +228,11 @@ export class Player extends Actor {
         }
 
         let abilitykeys = [
+            //@ts-ignore
             ROT.KEYS.VK_Q,
+            //@ts-ignore
             ROT.KEYS.VK_E,
+            //@ts-ignore
             ROT.KEYS.VK_R
         ]
         let result = _.findIndex(abilitykeys, x => x === code)
@@ -256,22 +255,7 @@ export class Player extends Actor {
         window.removeEventListener("keydown", this);
         window.removeEventListener("keypress", this);
         this.tickAbilities()
+        // @ts-ignore
         this.resolve(new MoveAction(this, code))
     }
-
-    checkBox() {
-        /*
-        var key = this.x + "," + this.y;
-        if (this.game.map[key] != "*") {
-            alert("There is no box here!");
-            this.game.display.drawText(20, 2, "There is no box here")
-        } else if (key == this.game.ananas) {
-            window.removeEventListener("keydown", this);
-            this.game.gameover("Hooray! You found an ananas and won the game.")
-        } else {
-            alert("This box is empty :-(");
-        }
-        */
-    }
-
 }
