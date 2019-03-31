@@ -5,6 +5,10 @@ import { Director } from './director';
 import { Game } from './game';
 import { renderScores } from './score';
 
+import * as  React from "react"
+import * as ReactDOM from "react-dom"
+// import ReactDOM from 'react-dom'
+
 declare global {
     interface Window {
         directorsCut: any;
@@ -93,3 +97,6 @@ renderScores()
 let sam = new Image()
 sam.src = SelfPortrait
 document.getElementById('pixelSam').appendChild(sam)
+
+import { go } from './foo'
+go()

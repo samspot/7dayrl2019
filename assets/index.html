@@ -60,6 +60,7 @@
 <!-- <body style="background-color: #333; color: white; font-family: Sans-Serif"> -->
 
 <body>
+  <div id="index"></div>
   <div id="tiletest">
     <img src="<%=require('assets/img/re-tiles-16-lab.png')%>" style="display: none">
     <img src="<%=require('assets/img/re-tiles-16-lab-f2.png')%>" style="display: none">
@@ -172,7 +173,14 @@
       <div style="clear: both">
         <p id="msg">Welcome to ReRL</p>
       </div>
-      <script src="bundle.js"></script>
+
+      <!-- Dependencies -->
+      <script src="./react.development.js"></script>
+      <script src="./react-dom.development.js"></script>
+      <script src="./node_modules/react/umd/react.development.js"></script>
+      <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
+
+      <!-- <script src="bundle.js"></script> -->
       <script>
     // setTimeout(x => {
     //   document.getElementById('msg').classList.add('fade-in')
