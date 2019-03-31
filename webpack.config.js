@@ -1,5 +1,6 @@
 const path = require("path")
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 
 module.exports = {
     mode: 'development',
@@ -7,7 +8,17 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Output Management',
             template: 'assets/index.html'
-        })
+        }),
+        new HtmlWebpackExternalsPlugin({
+            // See API section
+            externals: [{
+                module: 'react/umd',
+                entry: 'react.development.js'
+            }, {
+                module: 'react-dom/umd',
+                entry: 'react-dom.development.js'
+            }]
+        }),
     ],
     entry: './src/index.ts',
     devtool: 'inline-source-map',
@@ -51,7 +62,7 @@ module.exports = {
         ]
     },
     externals: {
-        // "react": "React",
-        // "react-dom": "ReactDOM"
+        "react": "React",
+        "react-dom": "ReactDOM"
     }
 }
