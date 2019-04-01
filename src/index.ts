@@ -5,12 +5,7 @@ import { Director } from './director';
 import { Game } from './game';
 import { renderScores } from './score';
 
-import * as  React from "react"
-import * as ReactDOM from "react-dom"
-// import ReactDOM from 'react-dom'
-import { render } from './markup'
 
-render()
 
 declare global {
     interface Window {

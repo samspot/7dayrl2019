@@ -4,32 +4,63 @@ import * as ReactDOM from "react-dom"
 import { Ability } from './abilities';
 import { Actor } from './actor';
 
-export const render = () => {
-    ReactDOM.render(<GameComponent />, document.getElementById("gamediv"));
+export const render = (props) => {
+    return ReactDOM.render(
+        <GameComponent game={props.game} />,
+        document.getElementById("gamediv")
+    );
 }
 
-export const GameComponent = () =>
-    <div id="game" className="game">
-        <h2 id="title">KILL S.T.A.R.S</h2>
-        <StatusBar />
-        <Level />
-        <MainContainer />
-        <Messages />
-    </div>
 
-const StatusBar = () =>
-    <div id="status-bar">
-        <div id="portrait2"></div>
-        <div id="condition"></div>
-        <div id="target">TARGET</div>
-        <div id="ability-icons"></div>
-        <span id="name"></span>
-        <span id="hp"></span>
-        <span id="score"></span>
-    </div>
+// export const GameComponent = (props: any) =>
+class GameComponent extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { game: props.game }
+    }
+    render() {
+        return (
+            <div id="game" className="game">
+                <h2 id="title">KILL S.T.A.R.S</h2>
+                <StatusBar game={this.state.game} player={this.state.game.player} />
+                <Level game={this.state.game} />
+                <MainContainer />
+                <Messages />
+            </div>
+        )
+    }
+}
 
-const Level = () =>
-    <span id="level" />
+
+// const StatusBar = (props: any) => {
+class StatusBar extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+
+        return (
+            <div id="status-bar">
+                <div id="portrait2"></div>
+                <div id="condition"></div>
+                <div id="target">TARGET</div>
+                <div id="ability-icons"></div>
+                <span id="name"> {this.props.player && this.props.player.name} </span>
+                <span id="hp">{this.props.player && this.props.player.hp}</span>
+                <span id="score">{this.props.game.score}</span>
+            </div>
+        )
+    }
+}
+
+const Level = (props) => {
+    let name = props.game.getGameProgress() ? props.game.getGameProgress().name : ''
+    return (
+
+        <span id="level">Hunting in {name}</span>
+    )
+}
 
 const MainContainer = () =>
     <div className="main-container">
@@ -61,7 +92,7 @@ const Messages = () =>
     </div>
 
 
-export const BossSplash = (props: any) => {
+export const BossSplash = (props) => {
     return (
         <div>
             <div style={{ float: 'left', width: '50%' }}>
@@ -74,14 +105,14 @@ export const BossSplash = (props: any) => {
     )
 }
 
-const BossText = (props: any) =>
+const BossText = (props) =>
     <div>
         <h3>Bio</h3>
         <p>{props.actor.bio}</p>
         <p>{props.actor.quote}</p>
     </div>
 
-const BossTraits = (props: any) =>
+const BossTraits = (props) =>
     <div style={{ float: 'right', width: '50%' }}>
         <span style={{ color: 'red' }}>TARGET</span>
         <p style={{ padding: 0, margin: 0 }}>
@@ -96,8 +127,8 @@ const BossTraits = (props: any) =>
     </div>
 
 // const AbilityList = (props: { [key: string]: Array<Ability> }) => {
-const AbilityList = (props: any) => {
-    const listItems = props.abilities.map((a: Array<Ability>) => <AbilityComponent value={a} key={a.constructor.name} />)
+const AbilityList = (props) => {
+    const listItems = props.abilities.map(a => <AbilityComponent value={a} key={a.constructor.name} />)
     return (
         <div style={{ clear: 'both' }}>
             <h3>Skills</h3>
@@ -106,7 +137,7 @@ const AbilityList = (props: any) => {
     )
 }
 
-const AbilityComponent = (props: any) => {
+const AbilityComponent = (props) => {
     const ability = props.value
 
     return (

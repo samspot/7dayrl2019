@@ -35,7 +35,7 @@ module.exports = {
             img: path.resolve(__dirname, 'img'),
             src: path.resolve(__dirname, 'src')
         },
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js', '.jsx']
     },
     module: {
         rules: [
@@ -53,9 +53,9 @@ module.exports = {
                 ]
             },
             {
-                test: /\.tsx?$/,
+                test: /\.(ts|tsx|js|jsx)$/,
                 use: 'ts-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
             }
             // { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
             // { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }

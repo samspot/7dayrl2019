@@ -193,7 +193,7 @@ export class InfectAction extends Action {
         game.message("Choose a new body (enter number)", true)
         game.redraw()
         game.gameDisplay.drawMobs(true)
-        game.gameDisplay.drawStatusBar()
+        // game.gameDisplay.drawStatusBar()
         game.scheduler.clear()
         game.scheduler.add(new InfectAction(game.player, game), false)
     }

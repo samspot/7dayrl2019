@@ -3,61 +3,7 @@
 
 <head>
   <title>7dayRL 2019</title>
-  <style>
-    #msg {
-      /* opacity: .5; */
-    }
-
-    .old-message {
-      opacity: .6
-    }
-
-    /* .important-message { */
-    /* color: yellow; */
-    /* font-weight: bold */
-    /* } */
-
-    .fade {
-      /* color: grey; */
-      opacity: 1.0;
-      transition: opacity .25s ease-in-out;
-      -moz-transition: opacity .25s ease-in-out;
-      -webkit-transition: opacity .25s ease-in-out;
-    }
-
-    .fade2 {
-      /* color: grey; */
-      opacity: 1.0;
-      transition: opacity .25s ease-out;
-      -moz-transition: opacity .25s ease-out;
-      -webkit-transition: opacity .25s ease-out;
-    }
-
-    .fade:hover {
-      opacity: 0.5;
-    }
-
-    .fade-in {
-      opacity: 1;
-      animation-name: fadeInOpacity;
-      animation-iteration-count: 1;
-      animation-timing-function: ease-in;
-      animation-duration: 1s;
-    }
-
-    @keyframes fadeInOpacity {
-      0% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-  </style>
 </head>
-
-<!-- <body style="background-color: #333; color: white; font-family: Sans-Serif"> -->
 
 <body>
   <div id="index"></div>
@@ -73,23 +19,19 @@
     <img src="10ae7d1764ab792c201180be348405f5.png" style="display: none">
     <img src="4da4458a8a69512c9d5ff80a98a171de.png" style="display: none">
   </div>
-  <!-- <div id="top-border"></div> -->
-  <!-- <div id="top-border2"></div> -->
+
   <div id="top-border">
     <div class="title">
       <div id="logo"></div>
       <h1>Welcome to Resident Evil the Roguelike</h1>
-      <!-- <div style=""> -->
       <button onclick="mainLoop()">Start Game</button>
-      <!-- </div> -->
-      <!-- <div style=""> -->
+
       <p>
         <label for="dcut" class="firstRun">
           <input type="checkbox" id="dcut">
           Director's Cut (More enemies, Enemy Charge Enabled)
         </label>
       </p>
-      <!-- </div> -->
 
       <h2 id="instructions">Instructions</h2>
       You are the '@' (It's where you are 'at'). Bump into monsters to attack them (or use your skills).
@@ -126,79 +68,16 @@
       </p>
       <p class="firstRun" id="pixelSam"></p>
     </div>
-    <div class="game">
-      <h2 id="title">KILL S.T.A.R.S!</h2>
-      <div id="status-bar">
-        <div id="portrait2"></div>
-        <div id="condition"></div>
-        <div id="target">TARGET</div>
-        <div id="ability-icons"></div>
-        <span id="name"></span>
-        <span id="hp"></span>
-        <span id="score"></span>
-      </div>
-      <span id="level"></span>
-      <!-- <div id="status2"> -->
-      <!-- </div> -->
-      <!--     
-    <div id="status-info">
-      <span id="name"></span>
-      HP: <span id="hp" style="color: green"></span>
-      Score: <span id="score" style="color: #96f "></span>
-      <span id="level" colspan="2"></span>
-    </div>
- -->
-      <div class="main-container">
-        <div style="float: left">
-          <div style="float: left" id="mapContainer"></div>
-        </div>
-        <div id="right-bar">
-          <div id="monster-container">
-            <h3>Monsters</h3>
-            <ol id="monsters">
-            </ol>
-          </div>
-          <div id="progress-container">
-            <h3>Game Progress</h3>
-            <ul id="progress">
-              <li id="level0">Status Unknown</li>
-              <li id="level1">Status Unknown</li>
-              <li id="level2">Status Unknown</li>
-              <li id="level3">Status Unknown</li>
-              <li id="level4">Status Unknown</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div style="clear: both">
-        <p id="msg">Welcome to ReRL</p>
-      </div>
 
-      <!-- Dependencies -->
-      <!-- <script src="./react.development.js"></script> -->
-      <!-- <script src="./react-dom.development.js"></script> -->
+    <div id="gamediv"></div>
 
-      <!-- <script src="bundle.js"></script> -->
-      <script>
-    // setTimeout(x => {
-    //   document.getElementById('msg').classList.add('fade-in')
-    // }, 1000)
-      </script>
-    </div>
+    <div id="modaldiv"></div>
 
-
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn" style="visibility: hidden">Open Modal</button>
-
-    <!-- The Modal -->
     <div id="myModal" class="modal">
-
-      <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p style="color: black" id="modal-text"></p>
+        <span style="color: black" id="modal-text"></span>
       </div>
-
     </div>
   </div>
 

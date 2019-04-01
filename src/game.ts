@@ -74,11 +74,11 @@ export class Game {
         this.gameOver = false
         this.score = 0
         this.turns = 0
-        this.gameDisplay = new GameDisplay(this)
         this.messages = []
         this.gameProgress = new GameProgress()
         this.dirty = false
         this.director = undefined
+        this.gameDisplay = new GameDisplay(this)
     }
 
     allBossesDown() {
@@ -159,8 +159,11 @@ export class Game {
             this.display = new ROT.Display(optionsAscii);
         }
 
-        document.getElementById("mapContainer").innerHTML = ''
-        document.getElementById("mapContainer").appendChild(this.display.getContainer())
+        let mapElem = document.getElementById("mapContainer")
+        if (mapElem) {
+            document.getElementById("mapContainer").innerHTML = ''
+            document.getElementById("mapContainer").appendChild(this.display.getContainer())
+        }
 
         this.generateMap(this.maps.mapMap()["lab"])
     }

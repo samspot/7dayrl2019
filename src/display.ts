@@ -13,7 +13,7 @@ import { Game } from './game';
 import { Actor } from './actor';
 import { Ability } from './abilities';
 
-import { BossSplash } from './markup';
+import { BossSplash, render } from './markup.jsx';
 import { ModalContainer } from './modal'
 
 const TARGET = 'target'
@@ -39,24 +39,30 @@ const nameMap = {
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
     game: Game
+    react: ReactDOM.Renderer
     constructor(game: Game) {
+        // @ts-ignore
+        this.react = render({ game: game })
+
         this.game = game
         this.renderEmptyImage(TARGET, Empty75x75)
         this.renderEmptyImage(PORTRAIT, Empty75x75)
         this.renderEmptyImage(CONDITION, Empty70x80)
         // @ts-ignore
         window.gameDisplay = this
+
     }
 
     updateGui() {
         // cleanup all tooltips
         document.querySelectorAll('.tooltiptext').forEach(e => e.parentNode.removeChild(e))
-        this.drawStatusBar()
         this.drawAbilities()
         this.drawPortraits()
         this.drawProgress()
         this.drawMobs()
         this.drawMessages()
+        // @ts-ignore
+        this.react.forceUpdate()
     }
 
     getNameMap() {
@@ -76,22 +82,6 @@ export class GameDisplay {
         // @ts-ignore
         let bossName = this.getNameMap()[gp.boss]
         this.renderCharacter(bossName, 'boss-splash')
-    }
-
-    drawStatusBar() {
-        let game = this.game
-
-        // @ts-ignore
-        document.getElementById('name').innerHTML = nameMap[game.player.name]
-        // @ts-ignore
-        document.getElementById('hp').innerHTML = game.player.hp
-        document.getElementById('score').innerHTML = "Score " + game.score
-        document.getElementById('level').innerHTML = "Hunting in " + game.getGameProgress().name
-
-        if (game.player.hp < 30) {
-            // @ts-ignore
-            document.getElementById('hp').style = "color: red"
-        }
     }
 
     drawAbilities() {
