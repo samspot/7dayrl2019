@@ -1,6 +1,7 @@
 import Empty75x75 from '../assets/img/empty.png'
 import Empty70x80 from '../assets/img/empty70x80.png'
 
+import * as ReactDOM from "react-dom"
 import '../assets/css/main.css'
 import '../assets/css/sprites.css'
 import '../assets/css/abilities.css'
@@ -11,6 +12,9 @@ import * as ROT from 'rot-js'
 import { Game } from './game';
 import { Actor } from './actor';
 import { Ability } from './abilities';
+
+import { bossSplash } from './markup';
+import { ModalContainer } from './modal'
 
 const TARGET = 'target'
 const PORTRAIT = 'portrait2'
@@ -65,104 +69,17 @@ export class GameDisplay {
             return
         }
 
-        let textTraits = `<span style="color: red">TARGET</span> <b>${actor.name}</b><p> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage ${actor.str}`
-
-        let abilities = actor.abilities.map(a => {
-            // console.log('ability', a)
-            // return `<p>${a.constructor.name} Damage ${a.dmg} Range ${a.range} Cooldown ${a.maxCooldown}`
-            return a
-        }).map(a => {
-            let name = a.constructor.name.toLowerCase()
-            // hardcode fix for launcher
-            if (name === "GrenadeLauncher") {
-                name = "Launcher"
-            }
-
-            let image = new Image()
-            image.src = Empty75x75
-            // @ts-ignore
-            image.style = "float: right; margin-top: -18px"
-            image.classList.add(name + '-ready')
-
-            return {
-                image: image,
-                text: `<p><b>${a.constructor.name}</b> Damage ${a.dmg} <br>Range ${a.range} Cooldown ${a.maxCooldown}`
-            }
-        }).map(a => {
-            let div = document.createElement('div')
-            // @ts-ignore
-            div.style = 'height: 64px'
-            div.appendChild(a.image)
-
-            let span = document.createElement('span')
-            span.innerHTML = a.text
-            // span.style = "float: left;"
-            div.appendChild(span)
-            return div
-        })
-
-        // console.log(abilities)
-
-        // @ts-ignore
-        let text = `<h3>Bio</h3><p>${actor.bio}<p>"${actor.quote}"`
+        // this.showModalJsx(bossSplash(actor))
+        this.showModalJsx(bossSplash(actor))
 
         let gp = this.game.getGameProgress()
-        let targetImage = new Image()
-        targetImage.src = Empty75x75
-        targetImage.id = 'boss-splash'
         // @ts-ignore
-        targetImage.style = "margin-left: 48px; margin-top: 11px;"
-
-        // main div
-        let div = document.createElement('div')
-
-        let leftDiv = document.createElement('div')
-        // @ts-ignore
-        leftDiv.style = "float: left; width: 50%"
-
-        let rightDiv = document.createElement('div')
-        // @ts-ignore
-        rightDiv.style = "float: left; width: 50%"
-
-        let bottomDiv = document.createElement('div')
-        // @ts-ignore
-        bottomDiv.style = "clear: both"
-
-        let span = document.createElement('span')
-        span.innerHTML = textTraits
-
-        let span2 = document.createElement('span')
-        span2.innerHTML = text
-
-        leftDiv.appendChild(targetImage)
-        rightDiv.appendChild(span)
-
-        let spanSkillTitle = document.createElement('span')
-        spanSkillTitle.innerHTML = '<h3>Skills</h3>'
-
-        bottomDiv.appendChild(spanSkillTitle)
-        abilities.forEach(a => bottomDiv.appendChild(a))
-        bottomDiv.appendChild(span2)
-
-        div.appendChild(leftDiv)
-        div.appendChild(rightDiv)
-        div.appendChild(bottomDiv)
-
-        // div.appendChild(targetImage)
-
-        // div.appendChild(span)
-
-        this.game.gameDisplay.showModal(text, div)
-
-        let display = this.game.gameDisplay
-        // @ts-ignore
-        let bossName = display.getNameMap()[gp.boss]
-        display.renderCharacter(bossName, 'boss-splash')
+        let bossName = this.getNameMap()[gp.boss]
+        this.renderCharacter(bossName, 'boss-splash')
     }
 
     drawStatusBar() {
         let game = this.game
-
 
         // @ts-ignore
         document.getElementById('name').innerHTML = nameMap[game.player.name]
@@ -213,6 +130,7 @@ export class GameDisplay {
         elem.appendChild(empty)
     }
 
+    // this.renderCharacter(bossName, 'boss-splash')
     renderCharacter(className: string, id: string) {
         let elem = document.getElementById(id)
         if (elem) {
@@ -521,6 +439,18 @@ export class GameDisplay {
         var modal = document.getElementById('myModal')
         modal.style.display = 'block'
         this.game.player.splash = true
+    }
+
+    showModalJsx(elem: JSX.Element) {
+        ReactDOM.render(elem, document.getElementById('modal-text'))
+        var modal = document.getElementById('myModal')
+        modal.style.display = 'block'
+        this.game.player.splash = true
+    }
+
+    showModalJsx2(elem: JSX.Element) {
+        // let modal = new ModalContainer()
+        // modal.render()
     }
 
     hideModal() {

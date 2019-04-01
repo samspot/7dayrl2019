@@ -8,6 +8,9 @@ import { renderScores } from './score';
 import * as  React from "react"
 import * as ReactDOM from "react-dom"
 // import ReactDOM from 'react-dom'
+import { render } from './markup'
+
+render()
 
 declare global {
     interface Window {
@@ -40,6 +43,8 @@ async function mainLoop() {
     let director = new Director(game, scheduler)
     game.director = director;
 
+    // $('.title').hide()
+    // $('.game').show()
     (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = 'none';
     (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = 'block';
 
@@ -97,6 +102,3 @@ renderScores()
 let sam = new Image()
 sam.src = SelfPortrait
 document.getElementById('pixelSam').appendChild(sam)
-
-import { go } from './foo'
-go()

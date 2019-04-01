@@ -28,6 +28,8 @@ export class Actor {
     sightRadius: number
     usingAbility: Ability
     shouldDrawOtherCharacters: boolean
+    bio: string
+    quote: string
     constructor(x: number, y: number, symbol: string, color: string, game: Game) {
         this.x = x
         this.y = y
