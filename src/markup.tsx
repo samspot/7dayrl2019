@@ -60,56 +60,65 @@ const Messages = () =>
         <p id="msg"></p>
     </div>
 
-export const bossSplash = (actor: Actor) =>
-    <div>
-        <div style={{ float: 'left', width: '50%' }}>
-            <img src={Empty75x75} id='boss-splash' />
-        </div>
-        <div style={{ float: 'right', width: '50%' }}>
-            {bossTraits(actor)}
-        </div>
-        <div style={{ clear: 'both' }}>
-            <h3>Skills</h3>
-            {actor.abilities.map(i => ability(i))}
-        </div>
-        {bossText(actor)}
-    </div>
 
-const bossText = (actor: Actor) =>
+export const BossSplash = (props: any) => {
+    return (
+        <div>
+            <div style={{ float: 'left', width: '50%' }}>
+                <img src={Empty75x75} id='boss-splash' />
+            </div>
+            <BossTraits actor={props.actor} />
+            <AbilityList abilities={props.actor.abilities} />
+            <BossText actor={props.actor} />
+        </div>
+    )
+}
+
+const BossText = (props: any) =>
     <div>
         <h3>Bio</h3>
-        <p>{actor.bio}</p>
-        <p>{actor.quote}</p>
+        <p>{props.actor.bio}</p>
+        <p>{props.actor.quote}</p>
     </div>
 
-const bossTraits = (actor: Actor) =>
-    <div>
+const BossTraits = (props: any) =>
+    <div style={{ float: 'right', width: '50%' }}>
         <span style={{ color: 'red' }}>TARGET</span>
         <p style={{ padding: 0, margin: 0 }}>
-            <b>{actor.name}</b>
+            <b>{props.actor.name}</b>
         </p>
         <p style={{ padding: 0, margin: 0 }}>
-            HP {actor.hp}/{actor.maxHp}
+            HP {props.actor.hp}/{props.actor.maxHp}
         </p>
         <p style={{ padding: 0, margin: 0 }}>
-            Melee Damage {actor.str}
+            Melee Damage {props.actor.str}
         </p>
     </div>
 
-// const bossAbilities = (actor: Actor) =>
-const ability = (a: Ability) =>
-    <div style={{ height: '75px' }} key={a.constructor.name}>
-        <img src={Empty75x75}
-            style={{ float: 'right', marginTop: '-18px' }}
-            className={a.constructor.name.toLowerCase() + '-ready'} />
-        <p>
-            <b>{a.constructor.name}</b> Damage {a.dmg}
-            <br />
-            Range {a.range} Cooldown {a.maxCooldown}
-        </p>
-    </div >
+// const AbilityList = (props: { [key: string]: Array<Ability> }) => {
+const AbilityList = (props: any) => {
+    const listItems = props.abilities.map((a: Array<Ability>) => <AbilityComponent value={a} key={a.constructor.name} />)
+    return (
+        <div style={{ clear: 'both' }}>
+            <h3>Skills</h3>
+            {listItems}
+        </div>
+    )
+}
 
-// export const bossSplash = (abilities: Array<Element>, actor: Actor) => {
-// export const bossSplash = (actor: Actor) => {
-    // return bossModal(actor)
-// }
+const AbilityComponent = (props: any) => {
+    const ability = props.value
+
+    return (
+        <div style={{ height: '75px' }}>
+            <img src={Empty75x75}
+                style={{ float: 'right', marginTop: '-18px' }}
+                className={ability.constructor.name.toLowerCase() + '-ready'} />
+            <p>
+                <b>{ability.constructor.name}</b> Damage {ability.dmg}
+                <br />
+                Range {ability.range} Cooldown {ability.maxCooldown}
+            </p>
+        </div >
+    )
+}

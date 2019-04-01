@@ -13,7 +13,7 @@ import { Game } from './game';
 import { Actor } from './actor';
 import { Ability } from './abilities';
 
-import { bossSplash } from './markup';
+import { BossSplash } from './markup';
 import { ModalContainer } from './modal'
 
 const TARGET = 'target'
@@ -69,7 +69,7 @@ export class GameDisplay {
             return
         }
 
-        this.showModalJsx(bossSplash(actor))
+        this.showModalJsx(BossSplash({ actor: actor }))
         // this.showModalJsx2(bossSplash(actor))
 
         let gp = this.game.getGameProgress()
@@ -287,16 +287,7 @@ export class GameDisplay {
         // @ts-ignore
         elem.style = gameProgress.style
 
-        // let bossName = boss && boss.name
-        // console.log(`gp ${game.getGameProgress().toString()} boss ${bossName} key ${key}`)
     }
-    /*
-   this.gameProgress.level0.name = "The Laboratory"
-        this.gameProgress.level0.boss = "Jill Valentine"
-        this.gameProgress.level0.text = "Status Unknown"
-        this.gameProgress.level0.style = "font-style: italic"
-        this.gameProgress.level0.bossDown = false
-        */
 
     drawProgress() {
         let game = this.game
@@ -388,7 +379,6 @@ export class GameDisplay {
         elem.innerHTML = ''
 
         if (messages[0]) {
-            // let recentTurn = messages[0].turn
             let recentTurn = this.game.turns
             for (let i = 0; i < Config.messageListSize; i++) {
                 let message = messages[i]
@@ -455,11 +445,8 @@ export class GameDisplay {
 
     hideModal() {
         // console.log('HIDE MODAL')
-
         var modal = document.getElementById('myModal')
         modal.style.display = 'none'
         this.game.player.splash = false
     }
-
-
 }
