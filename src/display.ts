@@ -69,8 +69,8 @@ export class GameDisplay {
             return
         }
 
-        // this.showModalJsx(bossSplash(actor))
         this.showModalJsx(bossSplash(actor))
+        // this.showModalJsx2(bossSplash(actor))
 
         let gp = this.game.getGameProgress()
         // @ts-ignore
@@ -449,8 +449,8 @@ export class GameDisplay {
     }
 
     showModalJsx2(elem: JSX.Element) {
-        // let modal = new ModalContainer()
-        // modal.render()
+        let modal = new ModalContainer()
+        modal.render()
     }
 
     hideModal() {

@@ -10,6 +10,7 @@ const ModalInner = () =>
     </div>
 
 function Modal(props: any) {
+    console.log('Modal() called')
     return ReactDOM
         .createPortal(
             <ModalInner {...props} />,
@@ -17,6 +18,7 @@ function Modal(props: any) {
         )
 }
 
+// TODO: This doesn't work at all - need to learn more react
 
 export class ModalContainer {
     render() {

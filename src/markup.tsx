@@ -98,9 +98,9 @@ const bossTraits = (actor: Actor) =>
 
 // const bossAbilities = (actor: Actor) =>
 const ability = (a: Ability) =>
-    <div style={{ height: '75px' }}>
+    <div style={{ height: '75px' }} key={a.constructor.name}>
         <img src={Empty75x75}
-            style={{ float: 'right', 'margin-top': '-18px' }}
+            style={{ float: 'right', marginTop: '-18px' }}
             className={a.constructor.name.toLowerCase() + '-ready'} />
         <p>
             <b>{a.constructor.name}</b> Damage {a.dmg}
