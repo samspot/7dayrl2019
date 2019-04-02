@@ -4,6 +4,8 @@ import * as ReactDOM from "react-dom"
 import { Ability } from './abilities';
 import { Actor } from './actor';
 
+import { nameMap } from './namemap'
+
 export const render = (props) => {
     return ReactDOM.render(
         <GameComponent game={props.game} />,
@@ -16,13 +18,19 @@ export const render = (props) => {
 class GameComponent extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { game: props.game }
+        this.state = {
+            game: props.game,
+        }
+
     }
     render() {
         return (
             <div id="game" className="game">
                 <h2 id="title">KILL S.T.A.R.S</h2>
-                <StatusBar game={this.state.game} player={this.state.game.player} />
+                <StatusBar
+                    player={this.state.game.player}
+                    game={this.state.game}
+                />
                 <Level game={this.state.game} />
                 <MainContainer />
                 <Messages />
@@ -40,15 +48,49 @@ class StatusBar extends React.Component {
 
     render() {
 
+        let name = this.props.player && this.props.player.name
+        name = nameMap[name]
+
+        let hp = this.props.player && this.props.player.name
+
+        let gp = this.props.game.getGameProgress()
+        let director = this.props.game.director
+
+        let bossName = gp && nameMap[gp.boss]
+        let boss = director && director.boss
+
+        if (boss && boss.playerSeen()) {
+            if (this.props.game.levelBossPassed()) {
+                bossName += '-eliminated'
+            }
+        } else {
+            bossName = 'unknown'
+        }
+
         return (
             <div id="status-bar">
-                <div id="portrait2"></div>
+                <Portrait name={name + '-dead'} id="portrait2" />
                 <div id="condition"></div>
-                <div id="target">TARGET</div>
+                {/* <div id="target">TARGET</div> */}
+                <Portrait name={bossName} id="target" />
                 <div id="ability-icons"></div>
-                <span id="name"> {this.props.player && this.props.player.name} </span>
-                <span id="hp">{this.props.player && this.props.player.hp}</span>
+                <span id="name"> {name} </span>
+                <span id="hp">{hp}</span>
                 <span id="score">{this.props.game.score}</span>
+            </div>
+        )
+    }
+}
+
+class Portrait extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+            <div id={this.props.id} className={this.props.name}>
+                <img src={Empty75x75} />
             </div>
         )
     }

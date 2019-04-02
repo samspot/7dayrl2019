@@ -16,25 +16,13 @@ import { Ability } from './abilities';
 import { BossSplash, render } from './markup.jsx';
 import { ModalContainer } from './modal'
 
+import { nameMap } from './namemap'
+
 const TARGET = 'target'
 const PORTRAIT = 'portrait2'
 const CONDITION = 'condition'
 
-const nameMap = {
-    'Tyrant': 'tyrant',
-    'Jill Valentine': 'jill',
-    'Chris Redfield': 'chris',
-    'Barry Burton': 'barry',
-    'Brad Vickers': 'brad',
-    'Albert Wesker': 'wesker',
-    'Zombie': 'zombie',
-    'Chimera': 'chimera',
-    'Dog': 'dog',
-    'Hunter': 'hunter',
-    'Lisa Trevor': 'lisa',
-    'Shark': 'shark',
-    'Giant Spider': 'spider'
-}
+
 
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
@@ -46,7 +34,7 @@ export class GameDisplay {
 
         this.game = game
         this.renderEmptyImage(TARGET, Empty75x75)
-        this.renderEmptyImage(PORTRAIT, Empty75x75)
+        // this.renderEmptyImage(PORTRAIT, Empty75x75)
         this.renderEmptyImage(CONDITION, Empty70x80)
         // @ts-ignore
         window.gameDisplay = this
@@ -57,7 +45,7 @@ export class GameDisplay {
         // cleanup all tooltips
         document.querySelectorAll('.tooltiptext').forEach(e => e.parentNode.removeChild(e))
         this.drawAbilities()
-        this.drawPortraits()
+        // this.drawPortraits()
         this.drawProgress()
         this.drawMobs()
         this.drawMessages()
@@ -236,6 +224,7 @@ export class GameDisplay {
 
 
 
+        /*
         // @ts-ignore
         let charName = nameMap[game.player.name] + '-dead'
         // console.log('char', charName)
@@ -260,6 +249,7 @@ export class GameDisplay {
         } else {
             this.renderTarget(bossName, boss)
         }
+        */
     }
 
     drawProgress2() {

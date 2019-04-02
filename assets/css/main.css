@@ -154,7 +154,8 @@ a:active {
     width: 75px;
 }
 
-#portrait2 {
+#portrait2,
+.portrait {
     /* padding: 8px; */
     margin: 8px;
     height: 75px;
