@@ -40,7 +40,7 @@ export class GameDisplay {
     updateGui() {
         // cleanup all tooltips
         document.querySelectorAll('.tooltiptext').forEach(e => e.parentNode.removeChild(e))
-        this.drawAbilities()
+        // this.drawAbilities()
         this.drawMobs()
         this.drawMessages()
         // @ts-ignore

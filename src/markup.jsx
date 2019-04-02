@@ -72,7 +72,8 @@ class StatusBar extends React.Component {
                 <Portrait name={name + '-dead'} id="portrait2" />
                 <Condition hp={hp} maxHp={maxHp} />
                 <Portrait name={bossName} id="target" />
-                <div id="ability-icons"></div>
+                {/* <div id="ability-icons"></div> */}
+                <PlayerSkillList />
                 <span id="name"> {name} </span>
                 <span id="hp">{hp}</span>
                 <span id="score">{this.props.game.score}</span>
@@ -210,6 +211,46 @@ const BossTraits = (props) =>
             Melee Damage {props.actor.str}
         </p>
     </div>
+
+const PlayerSkillList = (props) => {
+    return (
+        <div className='ability-icons'>
+            <PlayerSkill hotkey='Q' cooldown='1' name="uno" />
+            <PlayerSkill hotkey='W' cooldown='2' name="dos" />
+            <PlayerSkill hotkey='E' cooldown='3' name="tres" />
+        </div>
+    )
+}
+
+const PlayerSkill = (props) => {
+    return (
+        <div className='ability-super-container'>
+            <div className='container0 tooltip'>
+                <div className='bottom-left0'>{props.hotkey}</div>
+                <img src={Empty75x75} className='impale-ready ability-icon' />
+                <div className='center0'>{props.cooldown}</div>
+                <PlayerSkillTooltip name="foo" damage="1" range="1" cooldown="1" description="hurr durr" />
+            </div>
+            <span class="ability-name">{props.name}</span>
+        </div>
+    )
+}
+
+const PlayerSkillTooltip = (props) => {
+    return (
+        <span className='tooltiptext'>
+            <p>
+                <b>{props.name}</b>
+            </p>
+            Damage {props.damage} <br />
+            Range {props.range} <br />
+            Cooldown {props.maxCooldown}
+            <p>
+                {props.description}
+            </p>
+        </span>
+    )
+}
 
 // const AbilityList = (props: { [key: string]: Array<Ability> }) => {
 const AbilityList = (props) => {
