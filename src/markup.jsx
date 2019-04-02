@@ -5,6 +5,8 @@ import { Ability } from './abilities';
 import { Actor } from './actor';
 
 import { nameMap } from './namemap'
+import { GameProgress } from './Level';
+import { Monster } from './monster';
 
 export const render = (props) => {
     return ReactDOM.render(
@@ -32,7 +34,7 @@ class GameComponent extends React.Component {
                     game={this.state.game}
                 />
                 <Level game={this.state.game} />
-                <MainContainer />
+                <MainContainer game={this.state.game} />
                 <Messages />
             </div>
         )
@@ -42,16 +44,12 @@ class GameComponent extends React.Component {
 
 // const StatusBar = (props: any) => {
 class StatusBar extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
 
         let name = this.props.player && this.props.player.name
         name = nameMap[name]
 
-        let hp = this.props.player && this.props.player.name
+        let hp = this.props.player && this.props.player.hp
 
         let gp = this.props.game.getGameProgress()
         let director = this.props.game.director
@@ -67,17 +65,37 @@ class StatusBar extends React.Component {
             bossName = 'unknown'
         }
 
+        let maxHp = this.props.player && this.props.player.maxHp
+
         return (
             <div id="status-bar">
                 <Portrait name={name + '-dead'} id="portrait2" />
-                <div id="condition"></div>
-                {/* <div id="target">TARGET</div> */}
+                <Condition hp={hp} maxHp={maxHp} />
                 <Portrait name={bossName} id="target" />
                 <div id="ability-icons"></div>
                 <span id="name"> {name} </span>
                 <span id="hp">{hp}</span>
                 <span id="score">{this.props.game.score}</span>
             </div>
+        )
+    }
+}
+
+class Condition extends React.Component {
+    render() {
+        let conditionName
+        let hp = this.props.hp
+        let maxHp = this.props.maxHp
+        if (hp < maxHp * .5) {
+            conditionName = 'condition-danger'
+        } else if (hp < maxHp * .8) {
+            conditionName = 'condition-caution'
+        } else {
+            conditionName = 'condition-fine'
+        }
+
+        return (
+            <div id="condition" className={conditionName}></div>
         )
     }
 }
@@ -104,28 +122,53 @@ const Level = (props) => {
     )
 }
 
-const MainContainer = () =>
+const MainContainer = (props) =>
     <div className="main-container">
         <div style={{ float: 'left' }}>
             <div style={{ float: 'left' }} id="mapContainer"></div>
         </div>
         <div id="right-bar">
-            <div id="monster-container">
-                <h3>Monsters</h3>
-                <ol id="monsters">
-                </ol>
-            </div>
-            <div id="progress-container">
-                <h3>Game Progress</h3>
-                <ul id="progress">
-                    <li id="level0">Status Unknown</li>
-                    <li id="level1">Status Unknown</li>
-                    <li id="level2">Status Unknown</li>
-                    <li id="level3">Status Unknown</li>
-                    <li id="level4">Status Unknown</li>
-                </ul>
-            </div>
+            <MonsterList game={props.game} />
+            <GameProgress game={props.game} />
         </div>
+    </div>
+
+const GameProgress = (props) =>
+    <div id="progress-container">
+        <h3>Game Progress</h3>
+        <ul id="progress">
+            <GameProgressLevel id="level0" gameProgress={props.game.gameProgress.level0} />
+            <GameProgressLevel id="level1" gameProgress={props.game.gameProgress.level1} />
+            <GameProgressLevel id="level2" gameProgress={props.game.gameProgress.level2} />
+            <GameProgressLevel id="level3" gameProgress={props.game.gameProgress.level3} />
+            <GameProgressLevel id="level4" gameProgress={props.game.gameProgress.level4} />
+        </ul>
+    </div>
+
+const GameProgressLevel = (props) => {
+    let text = "Status Unknown"
+    let className = ''
+    if (props.gameProgress.bossObj && props.gameProgress.bossObj.playerSeen()) {
+        text = props.gameProgress.boss
+    }
+
+    if (props.gameProgress.bossDown) {
+        className = 'gp-boss-down'
+    }
+
+    return (
+        <li id={props.id}
+            className={className}>
+            {text}
+        </li>
+    )
+}
+
+const MonsterList = () =>
+    <div id="monster-container">
+        <h3>Monsters</h3>
+        <ol id="monsters">
+        </ol>
     </div>
 
 const Messages = () =>

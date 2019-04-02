@@ -33,28 +33,18 @@ export class GameDisplay {
         this.react = render({ game: game })
 
         this.game = game
-        this.renderEmptyImage(TARGET, Empty75x75)
-        // this.renderEmptyImage(PORTRAIT, Empty75x75)
-        this.renderEmptyImage(CONDITION, Empty70x80)
         // @ts-ignore
         window.gameDisplay = this
-
     }
 
     updateGui() {
         // cleanup all tooltips
         document.querySelectorAll('.tooltiptext').forEach(e => e.parentNode.removeChild(e))
         this.drawAbilities()
-        // this.drawPortraits()
-        this.drawProgress()
         this.drawMobs()
         this.drawMessages()
         // @ts-ignore
         this.react.forceUpdate()
-    }
-
-    getNameMap() {
-        return nameMap
     }
 
     drawBossSplash(actor: Actor) {
@@ -64,11 +54,10 @@ export class GameDisplay {
         }
 
         this.showModalJsx(BossSplash({ actor: actor }))
-        // this.showModalJsx2(bossSplash(actor))
 
         let gp = this.game.getGameProgress()
         // @ts-ignore
-        let bossName = this.getNameMap()[gp.boss]
+        let bossName = nameMap[gp.boss]
         this.renderCharacter(bossName, 'boss-splash')
     }
 
@@ -208,102 +197,6 @@ export class GameDisplay {
     }
 
 
-    drawPortraits() {
-        let game = this.game
-        let conditionName
-        let hp = game.player.hp
-        if (hp < game.player.maxHp * .5) {
-            conditionName = 'condition-danger'
-        } else if (hp < game.player.maxHp * .8) {
-            conditionName = 'condition-caution'
-        } else {
-            conditionName = 'condition-fine'
-        }
-
-        this.renderCharacter(conditionName, CONDITION)
-
-
-
-        /*
-        // @ts-ignore
-        let charName = nameMap[game.player.name] + '-dead'
-        // console.log('char', charName)
-        this.renderCharacter(charName, PORTRAIT)
-        let elem = document.getElementById(PORTRAIT)
-        this.addTooltip(elem, this.getTooltip(game.player))
-
-        // @ts-ignore
-        let bossName = nameMap[game.getGameProgress().boss]
-        let boss = this.game.director.boss
-        if (boss && boss.playerSeen()) {
-
-        } else {
-            bossName = 'unknown'
-        }
-
-        // console.log('bossName', bossName)
-        if (game.levelBossPassed()) {
-            bossName += '-eliminated'
-            // @ts-ignore
-            this.renderTarget(bossName)
-        } else {
-            this.renderTarget(bossName, boss)
-        }
-        */
-    }
-
-    drawProgress2() {
-        let game = this.game
-        let gameProgress = game.getGameProgress()
-        let text = "Status Unknown"
-        let boss = this.game.director.boss
-        if (boss && boss.playerSeen()) {
-            text = gameProgress.text
-        }
-
-        let key = "level" + game.currentLevel
-        let elem = document.getElementById(key)
-        elem.innerHTML = text
-        // @ts-ignore
-        elem.style = gameProgress.style
-
-    }
-
-    drawProgress() {
-        let game = this.game
-        let currentLevelGp = game.getGameProgress()
-        Object.keys(game.gameProgress).forEach(key => {
-            let isCurrentLevel = currentLevelGp.level === game.gameProgress[key].level
-
-            if (isCurrentLevel) {
-                // console.log(`key ${key} iteration level ${game.gameProgress[key].level} player on level ${currentLevelGp.level} ${currentLevelGp.toString()}`)
-            }
-
-            if (currentLevelGp.level > game.gameProgress[key].level && game.gameProgress[key].text == 'Status Unknown') {
-                game.gameProgress[key].style = "color: red; text-decoration: line-through"
-            }
-
-            let boss = this.game.director.boss
-            if (boss && isCurrentLevel) {
-                // game.gameProgress[key].text = boss.name
-                if (boss.playerSeen()) {
-                    game.gameProgress[key].text = boss.name
-                } else {
-                    game.gameProgress[key].text = "Status Unknown"
-                }
-            }
-
-            let id = "level" + game.gameProgress[key].level
-            let elem = document.getElementById(id)
-            elem.innerHTML = game.gameProgress[key].text
-            // @ts-ignore
-            elem.style = game.gameProgress[key].style
-
-            // console.log(game.gameProgress[key])
-
-        })
-        // console.log(`gp ${game.getGameProgress().toString()} boss ${bossName} key ${key}`)
-    }
 
     drawMobs(onlyInfectable?: boolean) {
         let game = this.game

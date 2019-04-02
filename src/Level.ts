@@ -8,6 +8,8 @@ import ReTiles16MansionF2 from '../assets/img/re-tiles-16-mansion-f2.png';
 import ReTiles16Mansion from '../assets/img/re-tiles-16-mansion.png';
 import ReTiles16OutsideF2 from '../assets/img/re-tiles-16-outside-f2.png';
 import ReTiles16Outside from '../assets/img/re-tiles-16-outside.png';
+import { Monster } from './monster';
+import { Actor } from './actor';
 
 export class Level {
     level: number;
@@ -24,6 +26,7 @@ export class Level {
     };
     tiles: ImageData;
     tilesf2: ImageData;
+    bossObj?: Actor;
 }
 
 export const levels = [

@@ -423,3 +423,8 @@ a:active {
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+.gp-boss-down {
+    color: red;
+    text-decoration: line-through
+}

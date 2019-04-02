@@ -104,6 +104,7 @@ export class Director {
             this.boss = monster
 
             this.game.getGameProgress().text = this.boss.name
+            this.game.getGameProgress().bossObj = monster
         }
 
         this.countdown--
