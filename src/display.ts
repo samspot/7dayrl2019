@@ -1,5 +1,7 @@
 import Empty75x75 from '../assets/img/empty.png'
 import Empty70x80 from '../assets/img/empty70x80.png'
+// import DeathImage from '../assets/img/nemesis-death-v2.gif'
+import DeathImage from '../assets/img/nemesis-death-v2.png'
 
 import * as ReactDOM from "react-dom"
 import '../assets/css/main.css'
@@ -298,6 +300,12 @@ export class GameDisplay {
         } else {
             document.getElementById('modal-text').innerHTML = text
         }
+        if (text.match(/You Died/)) {
+            let deathimage = new Image()
+            deathimage.src = ''
+            deathimage.src = DeathImage + "?x=" + Math.random()
+            document.getElementById('modal-text').appendChild(deathimage)
+        }
         // document.getElementById('myBtn').onclick()
         var modal = document.getElementById('myModal')
         modal.style.display = 'block'
@@ -319,6 +327,10 @@ export class GameDisplay {
     hideModal() {
         // console.log('HIDE MODAL')
         var modal = document.getElementById('myModal')
+        document.getElementById('modal-text').innerHTML = ''
+        let deathimage = new Image()
+        deathimage.src = Empty75x75
+        document.getElementById('modal-text').appendChild(deathimage)
         modal.style.display = 'none'
         this.game.player.splash = false
     }

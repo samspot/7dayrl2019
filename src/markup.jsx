@@ -231,7 +231,7 @@ const PlayerSkill = (props) => {
                 <div className='center0'>{props.cooldown}</div>
                 <PlayerSkillTooltip name="foo" damage="1" range="1" cooldown="1" description="hurr durr" />
             </div>
-            <span class="ability-name">{props.name}</span>
+            <span className="ability-name">{props.name}</span>
         </div>
     )
 }
