@@ -77,7 +77,6 @@ function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, re
     if (resetScore) {
         game.resetScore()
     }
-    // game.gameDisplay.updateGui()
     window.removeEventListener("keydown", this);
     window.removeEventListener("keypress", this);
 
@@ -93,7 +92,6 @@ function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, re
 
 }
 
-// TODO use a modal for this later to make it more salient
 export class InfectAction extends Action {
     constructor(actor: Actor, game: Game) {
         super(actor)
@@ -101,7 +99,6 @@ export class InfectAction extends Action {
     }
 
     handleEvent(e: InputEvent) {
-        // console.log('e', e)
         // @ts-ignore
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
@@ -140,14 +137,10 @@ export class InfectAction extends Action {
         let mob
         let player = game.player
 
-        // if (parseInt(idx, 10)) {
         mob = game.getInfectableMobs()[idx - 1]
-        // }
 
         if (!mob) { return }
 
-        // close modal. TODO less hacky solution
-        // undie()
         game.gameDisplay.hideModal()
         if (mob.isRevive) {
             player.revive()
@@ -168,8 +161,6 @@ export class InfectAction extends Action {
         window.addEventListener("keypress", this);
 
         // open modal. TODO less hacky solution
-        // die()
-        // this.game.gameDisplay.showModal('foo')
         let modalText = 'You Died and your score was reset to 0.' +
             ' Press a number key to select a character to infect. Umbrella shall never die!'
         this.game.gameDisplay.showModal(modalText)
@@ -216,12 +207,6 @@ export class DamageAction extends Action {
         if (this.source) {
             let targetName = this.actor.name
 
-            // if (!this.actorSource) {
-            // console.log('dmg', this.dmg, 'source', this.source, 'actorsource', this.actorSource)
-            // console.log("ERRRORRRRR FIXIN'")
-            // this.actorSource = { name: 'Grue', isPlayer: () => false }
-            // }
-
             let sourceName = this.actorSource.name
             if (this.actor.isPlayer()) {
                 targetName = 'Player'
@@ -234,7 +219,6 @@ export class DamageAction extends Action {
         }
 
         if (game.player.hp <= 0) {
-            // console.log("returning new infect action")
             return new InfectAction(game.player, game)
         }
 
@@ -286,7 +270,6 @@ export class MoveAction extends Action {
             if (!(newKey in game.map)) { return }
         }
 
-        // collision here
         let character = game.getCharacterAt(actor, newX, newY)
         // console.log(`spawn-${actor.spawnId} ${actor.x},${actor.y} moving to ${this.newX},${this.newY} blocked by ${character}`)
         if (character) {
@@ -308,7 +291,6 @@ export class PickupAction extends Action {
     execute(game: Game) {
         // console.log("execute pickup action")
         this.executeParent(game)
-        // this.actor.checkBox()
     }
 }
 
@@ -394,37 +376,9 @@ export class YouWinAction extends Action {
 
     execute(game: Game) {
         game.gameOver = true
-        // game.redraw()
         game.gameDisplay.updateGui()
 
         let highScores = addScore(game.player.name, game.score)
-        // highScores.push({ name: game.player.name, score: game.score })
-
-        /*
-let highScores = []
-try {
-if (typeof localStorage !== 'undefined') {
-    localStorage.setItem('feature_test', 'yes');
-    if (localStorage.getItem('feature_test') === 'yes') {
-        localStorage.removeItem('feature_test');
-        // localStorage is enabled
-        let highScores = JSON.parse(localStorage.getItem("highscores"))
-        // console.dir(highScores)
-        if (!_.isArray(highScores)) { highScores = [] }
-        highScores.push({ name: game.player.name, score: game.score })
-        localStorage.setItem("highscores", JSON.stringify(highScores))
-    } else {
-        // localStorage is disabled
-    }
-} else {
-    // localStorage is not available
-}
-} catch (e) {
-// localStorage is disabled
-console.log("localstorage disabled")
-}
-*/
-
 
         let highScoreHtml = '<h2>High Scores</h2><ol>';
         highScores.sort((a, b) => b.score - a.score).forEach(s => {
@@ -433,11 +387,9 @@ console.log("localstorage disabled")
         highScoreHtml += '</ol>'
 
 
-        // document.getElementById('modal-text').innerHTML = "<h1>You defeated the S.T.A.R.S!  Final Score " 
         let modalText = "<h1>You defeated the S.T.A.R.S!  Final Score "
             + game.score + "</h1>"
             + `<p>Try keeping the tyrant alive to improve your score!  Using your infect ability to possess enemies doesn't cost you points.</p>`
-            // + `<p>Reload the page to try again!<p>`
             + `<p>${highScoreHtml}</p>`
 
         game.gameDisplay.showModal(modalText)

@@ -15,7 +15,6 @@ export const render = (props) => {
 }
 
 
-// export const GameComponent = (props: any) =>
 class GameComponent extends React.Component {
     constructor(props) {
         super(props)

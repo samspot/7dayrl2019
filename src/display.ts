@@ -1,15 +1,11 @@
 import Empty75x75 from '../assets/img/empty.png'
-// import DeathImage from '../assets/img/nemesis-death-v2.gif'
-import DeathImage from '../assets/img/nemesis-death-v2.png'
+import DeathImage from '../assets/img/nemesis-death-v2.gif'
 
 import * as ReactDOM from "react-dom"
 import '../assets/css/main.css'
 import '../assets/css/sprites.css'
 import '../assets/css/abilities.css'
-import Config from './config';
-import { Monster } from './monster';
 
-import * as ROT from 'rot-js'
 import { Game } from './game';
 import { Actor } from './actor';
 
@@ -93,7 +89,6 @@ export class GameDisplay {
     }
 
     hideModal() {
-        // console.log('HIDE MODAL')
         var modal = document.getElementById('myModal')
         document.getElementById('modal-text').innerHTML = ''
         let deathimage = new Image()

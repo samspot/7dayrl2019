@@ -77,7 +77,6 @@ export class Director {
     }
 
     getLevelSpec() {
-        // return Maps[this.getLevelName()]
         return this.game.maps.mapMap()[this.getLevelName()]
     }
 
@@ -113,7 +112,6 @@ export class Director {
             // console.log(`spawnrate ${spawnrate}`)
 
             if (window.directorsCut) {
-                // console.log("directors cut spawn rate 2")
                 spawnrate = 2
             }
 
@@ -184,12 +182,9 @@ export class Director {
     _generateMob() {
         // @ts-ignore
         let mob = ROT.RNG.getItem(this.mobSpec.getMobsByLevel()[levels[this.game.currentLevel]])
-        // console.log(mob)
-        // this.mobs.push(mob)
         return mob
     }
 
-    // debug the scheduler
     _debugScheduler() {
         var turns = [];
         for (var i = 0; i < 20; i++) {

@@ -21,7 +21,6 @@ export class Ability {
         this._use = this._use.bind(this)
     }
 
-    // TODO tick for mobs, use for mobs
     tick() {
         this.cooldown--
         if (this.cooldown < 0) { this.cooldown = 0 }
@@ -35,7 +34,6 @@ export class Ability {
     getRandomAbility() {
         //@ts-ignore
         let a: Ability = ROT.RNG.getItem(abilities)
-        // console.log(a)
         return a
     }
 
@@ -179,6 +177,7 @@ export class GrenadeLauncher extends Ability {
     sideEffects(action: Action, game: Game) {
         let sets = getCoordsAround(action.x, action.y)
         sets.forEach(s => {
+            // TODO make splash damage visible again
             game.display.draw(s[0], s[1], "*", "red")
 
 
@@ -188,8 +187,7 @@ export class GrenadeLauncher extends Ability {
 
             let actor = game.getCharacterAt(null, s[0], s[1])
             if (actor) {
-                // TODO this might not be working
-                console.log("launcher splash damaging actor", actor, this.dmg / 2)
+                // console.log("launcher splash damaging actor", actor, this.dmg / 2)
 
                 game.scheduler.add({
                     act: () => {

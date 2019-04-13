@@ -5,8 +5,6 @@ import { Director } from './director';
 import { Game } from './game';
 import { renderScores } from './score';
 
-
-
 declare global {
     interface Window {
         directorsCut: any;
@@ -38,8 +36,6 @@ async function mainLoop() {
     let director = new Director(game, scheduler)
     game.director = director;
 
-    // $('.title').hide()
-    // $('.game').show()
     (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = 'none';
     (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = 'block';
 

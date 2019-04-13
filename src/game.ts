@@ -89,9 +89,7 @@ export class Game {
 
     allBossesDown() {
         let bosses: Boolean[] = []
-        // let bosses = []
         Object.keys(this.gameProgress).forEach(key => {
-            // let typedKey: (keyof this.gameProgress) = <string>key
             bosses.push(this.gameProgress[key].bossDown)
         })
 
@@ -121,7 +119,6 @@ export class Game {
             if (idx % 2 === 1) {
                 options.tileSet.src = this.getGameProgress().tilesf2
             }
-            // this.redraw()
             this._drawFov()
         }
     }
@@ -175,7 +172,6 @@ export class Game {
     }
 
     resetLevel() {
-        // console.log("game resetLevel()")
         this.map = {}
         this.display.clear()
         this.mobs = []
@@ -280,7 +276,6 @@ export class Game {
         // console.log("Player", this.player && this.player.hp)
     }
 
-    // createBeing(what: Object, freeCells: Array<string>, mobspec?: MobSpec) {
     createBeingMonster(what: new (x: number, y: number, game: Game, mobspec: MobSpec) => Actor, freeCells: Array<string>, mobspec?: MobSpec) {
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
         var key = freeCells.splice(index, 1)[0]
@@ -308,7 +303,6 @@ export class Game {
     possesBoss() {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Infected]"
-        // TODO: replace 'next level' with the name of the level
         this.message(`You infected the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true)
         this.getGameProgress().bossDown = true
     }

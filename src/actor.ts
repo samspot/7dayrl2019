@@ -36,27 +36,24 @@ export class Actor {
         this.symbol = symbol
         this.color = color
         this.game = game
-        // this.draw()
         this.boss = false
         this.finalBoss = false
         this.abilities = []
         this.score = 0
         this.isRevive = false
         this.shouldDrawOtherCharacters = false
-
-        // console.log("Tyrant", Tyrant.hp, "Zombie", Zombie.hp, "Jill", Jill.hp)
     }
 
     _drawOtherCharacters() {
         return this.shouldDrawOtherCharacters
     }
+
     setSeen() {
         if (this.boss && !this.seen) {
             this.game.gameDisplay.drawBossSplash(this)
         }
         this.seen = true
     }
-
 
     playerSeen() {
         return this.seen
@@ -77,16 +74,13 @@ export class Actor {
         if (this.isPlayer() && Config.debug && Config.playerInvulnerable) {
             return
         }
-        // if(this.boss){
-        // console.log(`${dmg} vs ${this.name} ${this.hp} seen ${this.playerSeen()}`)
-        // }
+
         if (this.boss && !this.playerSeen()) {
             return
         }
         this.hp -= dmg
         if (this.hp <= 0 && !this.isPlayer()) {
             let key = this.x + "," + this.y
-            // this.game.map[key] = 'b'
             if (!this.game.decorations[key]) {
                 this.game.decorations[key] = []
             }
