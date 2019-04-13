@@ -32,7 +32,6 @@ export class GameDisplay {
     }
 
     updateGui() {
-        this.drawMobs()
         this.drawMessages()
         // @ts-ignore
         this.react.forceUpdate()
@@ -61,53 +60,6 @@ export class GameDisplay {
         } else {
             console.log('couldnt find elem', className)
         }
-    }
-
-    drawMobs(onlyInfectable?: boolean) {
-        let game = this.game
-        let moblist = document.getElementById('monsters')
-        if (moblist) {
-            moblist.innerHTML = ''
-
-            let mobs = []
-            if (onlyInfectable) {
-                // console.log('all infectable')
-                mobs = game.getInfectableMobs()
-            } else {
-                // console.log('all visible')
-                mobs = game.getVisibleMobs()
-                // mobs = game.getInfectableMobs()
-            }
-
-            mobs.forEach(x => {
-                // if(onlyInfectable){
-                // console.log('render mob list', x )
-                // }
-                let elem = document.createElement('li')
-
-                let name = x.name
-                if (x.isInjured()) {
-                    name += " (injured)"
-                }
-
-                if (x.hp <= game.player.getInfectStr()) {
-                    name = x.name + " (infectable)"
-                }
-
-                let debugText = ''
-                if (Config.debug) {
-                    debugText = ' ' + x.hp + ':' + x.maxHp
-                }
-                elem.innerHTML = name + debugText
-                // @ts-ignore
-                elem.style = "color: " + x.color
-
-
-
-                moblist.appendChild(elem)
-            })
-        }
-
     }
 
     // TODO

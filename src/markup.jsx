@@ -7,6 +7,7 @@ import { Actor } from './actor';
 import { nameMap } from './namemap'
 import { GameProgress } from './Level';
 import { Monster } from './monster';
+import Config from './config';
 
 export const render = (props) => {
     return ReactDOM.render(
@@ -108,7 +109,6 @@ class Portrait extends React.Component {
         super(props)
     }
 
-
     render() {
         let seen = (this.props.actor && this.props.actor.isPlayer()) || (this.props.actor && this.props.actor.boss && this.props.actor.seen)
         let { name, hp, maxHp, str } = { name: '?', hp: '?', maxHp: '?', str: '?' }
@@ -183,14 +183,36 @@ const GameProgressLevel = (props) => {
     )
 }
 
-const MonsterList = () =>
-    <div id="monster-container">
-        <h3>Monsters</h3>
-        <ol id="monsters">
-        </ol>
-    </div>
+const MonsterList = (props) => {
+    let items = props.game.getDisplayMobs().map((m, idx) =>
+        <Monster
+            name={m.name}
+            color={m.color}
+            infectable={m.hp <= props.game.player.getInfectStr()}
+            debug={Config.debug ? ' ' + m.hp + ':' + m.maxHp : ''}
+            key={idx}
+        />
+    )
+    return (
+        <div id="monster-container">
+            <h3>Monsters</h3>
+            <ol id="monsters">
+                {items}
+            </ol>
+        </div>
+    )
+}
 
-const Messages = () =>
+const Monster = (props) =>
+    <li style={{ color: props.color }}>
+        {props.name}
+        {props.infectable ? ' (infectable)' : ''}
+        {props.debug}
+    </li>
+
+
+
+const Messages = (props) =>
     <div style={{ clear: 'both' }}>
         <p id="msg"></p>
     </div>

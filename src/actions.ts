@@ -88,6 +88,7 @@ function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, re
         game.message("You infected " + player.name)
     }
 
+    game.showInfectable = false
     game.reschedule()
 
 }
@@ -182,7 +183,6 @@ export class InfectAction extends Action {
     }
 
     execute(game: Game) {
-        //  let game = this.game
         game.message("You were killed.", true)
         if (game.getInfectableMobs().length === 0) {
             game.player.revive()
@@ -192,8 +192,8 @@ export class InfectAction extends Action {
 
         game.message("Choose a new body (enter number)", true)
         game.redraw()
-        game.gameDisplay.drawMobs(true)
-        // game.gameDisplay.drawStatusBar()
+        game.showInfectable = true
+        game.gameDisplay.updateGui()
         game.scheduler.clear()
         game.scheduler.add(new InfectAction(game.player, game), false)
     }

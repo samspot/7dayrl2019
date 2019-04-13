@@ -60,6 +60,7 @@ export class Game {
     gameDisplay: GameDisplay
     messages: Array<IMessage>
     gameProgress: GameProgress
+    showInfectable: boolean
 
     dirty: boolean
     director: Director
@@ -79,6 +80,7 @@ export class Game {
         this.dirty = false
         this.director = undefined
         this.gameDisplay = new GameDisplay(this)
+        this.showInfectable = false
     }
 
     getBosses() {
@@ -421,6 +423,13 @@ export class Game {
 
     _getVisibleSquares() {
         return this.visibleSquares
+    }
+
+    getDisplayMobs() {
+        if (this.showInfectable) {
+            return this.getInfectableMobs()
+        }
+        return this.getVisibleMobs()
     }
 
     getVisibleMobs() {
