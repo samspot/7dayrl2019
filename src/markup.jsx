@@ -73,7 +73,7 @@ class StatusBar extends React.Component {
                 <Condition hp={hp} maxHp={maxHp} />
                 <Portrait name={bossName} id="target" />
                 {/* <div id="ability-icons"></div> */}
-                <PlayerSkillList />
+                <PlayerSkillList player={this.props.player} />
                 <span id="name"> {name} </span>
                 <span id="hp">{hp}</span>
                 <span id="score">{this.props.game.score}</span>
@@ -213,11 +213,25 @@ const BossTraits = (props) =>
     </div>
 
 const PlayerSkillList = (props) => {
+    let abilities = []
+    if (props.player) {
+        abilities = props.player.getAbilities()
+        abilities.map(a => {
+            a.name = a.constructor.name
+        })
+    }
+
     return (
-        <div className='ability-icons'>
-            <PlayerSkill hotkey='Q' cooldown='1' name="uno" />
-            <PlayerSkill hotkey='W' cooldown='2' name="dos" />
-            <PlayerSkill hotkey='E' cooldown='3' name="tres" />
+        <div id='ability-icons'>
+            {abilities[0] &&
+                <PlayerSkill hotkey='Q' cooldown={abilities[0].cooldown} name={abilities[0].name} ability={abilities[0]} />
+            }
+            {abilities[1] &&
+                <PlayerSkill hotkey='E' cooldown={abilities[1].cooldown} name={abilities[1].name} ability={abilities[1]} />
+            }
+            {abilities[2] &&
+                <PlayerSkill hotkey='R' cooldown={abilities[2].cooldown} name={abilities[2].name} ability={abilities[2]} />
+            }
         </div>
     )
 }
@@ -227,9 +241,10 @@ const PlayerSkill = (props) => {
         <div className='ability-super-container'>
             <div className='container0 tooltip'>
                 <div className='bottom-left0'>{props.hotkey}</div>
-                <img src={Empty75x75} className='impale-ready ability-icon' />
-                <div className='center0'>{props.cooldown}</div>
-                <PlayerSkillTooltip name="foo" damage="1" range="1" cooldown="1" description="hurr durr" />
+                <img src={Empty75x75} className={props.name.toLowerCase() + (props.cooldown > 0 ? '-cooldown' : '-ready') + ' ability-icon'} />
+                <div className='center0'>{props.cooldown > 0 ? props.cooldown : ''}</div>
+                <PlayerSkillTooltip name={props.name} damage={props.ability.damage} range={props.ability.range}
+                    cooldown={props.ability.maxCooldown} description={props.ability.description} />
             </div>
             <span className="ability-name">{props.name}</span>
         </div>

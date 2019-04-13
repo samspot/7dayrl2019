@@ -1,5 +1,4 @@
 import Empty75x75 from '../assets/img/empty.png'
-import Empty70x80 from '../assets/img/empty70x80.png'
 // import DeathImage from '../assets/img/nemesis-death-v2.gif'
 import DeathImage from '../assets/img/nemesis-death-v2.png'
 
@@ -13,18 +12,11 @@ import { Monster } from './monster';
 import * as ROT from 'rot-js'
 import { Game } from './game';
 import { Actor } from './actor';
-import { Ability } from './abilities';
 
 import { BossSplash, render } from './markup.jsx';
 import { ModalContainer } from './modal'
 
 import { nameMap } from './namemap'
-
-const TARGET = 'target'
-const PORTRAIT = 'portrait2'
-const CONDITION = 'condition'
-
-
 
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
@@ -40,9 +32,6 @@ export class GameDisplay {
     }
 
     updateGui() {
-        // cleanup all tooltips
-        document.querySelectorAll('.tooltiptext').forEach(e => e.parentNode.removeChild(e))
-        // this.drawAbilities()
         this.drawMobs()
         this.drawMessages()
         // @ts-ignore
@@ -63,43 +52,6 @@ export class GameDisplay {
         this.renderCharacter(bossName, 'boss-splash')
     }
 
-    drawAbilities() {
-        let game = this.game
-
-        let abilities: Array<Ability> = []
-        game.player.getAbilities().forEach(ability => {
-            let { constructor, maxCooldown, cooldown, dmg, range } = ability
-
-            // let tooltip = `<b>${constructor.name}</b> cooldown is ${cooldown} (Max ${maxCooldown}) Does ${dmg} damage and has a range of ${range}.`
-            let tooltip = `<p><b>${ability.constructor.name}</b></p> Damage ${ability.dmg} <br>Range ${ability.range} Cooldown ${ability.maxCooldown}`
-            if (ability.description) {
-                tooltip += `<p>${ability.description}</p>`
-            }
-            let text = ''
-            // @ts-ignore
-            abilities.push({ name: constructor.name, text: text, obj: ability, tooltip: tooltip })
-        })
-
-        let parent = document.getElementById('ability-icons')
-        parent.innerHTML = ''
-        let idx = 0
-        abilities.forEach(a => {
-            this.renderAbilityImage(parent, ['Q', 'E', 'R'][idx], a, idx)
-            idx++
-        })
-    }
-
-    renderEmptyImage(id: string, img: ImageData) {
-        let elem = document.getElementById(id)
-        elem.innerHTML = ''
-
-        let empty = new Image()
-        // @ts-ignore
-        empty.src = img
-        elem.appendChild(empty)
-    }
-
-    // this.renderCharacter(bossName, 'boss-splash')
     renderCharacter(className: string, id: string) {
         let elem = document.getElementById(id)
         if (elem) {
@@ -108,79 +60,6 @@ export class GameDisplay {
             elem.classList.add(className)
         } else {
             console.log('couldnt find elem', className)
-        }
-    }
-
-    renderAbilityImage(parent: Element, hotkey: string, ability: Ability, idx: number) {
-        // @ts-ignore
-        let name = ability.name.toLowerCase()
-        // @ts-ignore
-        if (ability.obj.cooldown === 0) {
-            name += '-ready'
-        } else {
-            name += '-cooldown'
-        }
-
-        let container = document.createElement('div')
-        container.classList.add('container' + idx)
-
-        let bottomLeft = document.createElement('div')
-        bottomLeft.classList.add('bottom-left' + idx)
-        bottomLeft.innerHTML = hotkey
-
-        let center = document.createElement('div')
-        center.classList.add('center' + idx)
-        // @ts-ignore
-        center.innerHTML = ability.obj.cooldown
-
-        let abilityImage = new Image()
-        abilityImage.src = Empty75x75
-        // class name for determining icon
-        abilityImage.classList.add(name)
-        abilityImage.classList.add('ability-icon')
-        // abilityImage.onclick = function(){ alert('hai')}
-        // @ts-ignore
-        abilityImage.onclick = ability.obj.use
-
-        container.appendChild(bottomLeft)
-        container.appendChild(abilityImage)
-        container.appendChild(center)
-
-        // @ts-ignore
-        this.addTooltip(container, ability.tooltip)
-
-        // @ts-ignore
-        if (ability.obj.cooldown === 0) {
-            // @ts-ignore
-            center.style = "display:none"
-        }
-
-        let superContainer = document.createElement('div')
-        superContainer.classList.add('ability-super-container')
-        superContainer.appendChild(container)
-
-        // hardcode fix for launcher
-        // @ts-ignore
-        if (ability.name === "GrenadeLauncher") {
-            // @ts-ignore
-            ability.displayName = "Launcher"
-        }
-
-        let span = document.createElement('span')
-        span.classList.add('ability-name')
-        // @ts-ignore
-        span.innerHTML = ability.displayName || ability.name
-        superContainer.appendChild(span)
-
-        parent.appendChild(superContainer)
-    }
-
-    renderTarget(name: string, boss: Actor) {
-        this.renderCharacter(name, TARGET)
-        let elem = document.getElementById(TARGET)
-
-        if (boss && boss.playerSeen()) {
-            this.addTooltip(elem, this.getTooltip(boss))
         }
     }
 
@@ -197,8 +76,6 @@ export class GameDisplay {
     getTooltip(actor: Actor) {
         return `<b>${actor.name}</b><br><br> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage: ${actor.str}`
     }
-
-
 
     drawMobs(onlyInfectable?: boolean) {
         let game = this.game
@@ -247,6 +124,7 @@ export class GameDisplay {
 
     }
 
+    // TODO
     drawMessages() {
         let messages = this.game.messages
 
