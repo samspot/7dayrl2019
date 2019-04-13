@@ -18,8 +18,7 @@ import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 // FIXED grenade launcher text overwrites next ability (change to launcher or grenade)
 // FIXED bosses still spawn in player start room
 // FIXED ability tooltips missing damage value
-
-// HIGH starting new game didn't clear score, target (wesker dead image), mob list
+// FIXED starting new game didn't clear score, target (wesker dead image), mob list
 
 // MEDIUM use diff symbol for unknown tile (currently crosshair)
 
@@ -148,6 +147,9 @@ export class Game {
             fontStyle: "bold"
         }
 
+        console.log('game init', this)
+        this.gameDisplay.restartGui()
+        // this.gameDisplay.updateGui()
 
         let tileSet = new Image()
         if (Config.tileWidth === 8) {
@@ -446,7 +448,7 @@ export class Game {
         let fov = new ROT.FOV.PreciseShadowcasting(lightPasses)
 
         let squares: any = []
-        fov.compute(this.player.x, this.player.y, this.player.sightRadius + 3, (x, y, r, visibility) => {
+        fov.compute(this.player.x, this.player.y, this.player.sightRadius, (x, y, r, visibility) => {
             squares.push(x + ',' + y)
         })
 

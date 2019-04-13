@@ -8,6 +8,7 @@ import Config from './config';
 import { StatusBar } from './statusbar'
 
 export const render = (props) => {
+    ReactDOM.unmountComponentAtNode(document.getElementById('gamediv'))
     return ReactDOM.render(
         <GameComponent game={props.game} />,
         document.getElementById("gamediv")

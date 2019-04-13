@@ -27,6 +27,11 @@ export class GameDisplay {
         window.gameDisplay = this
     }
 
+    restartGui() {
+        // @ts-ignore
+        this.react = render({ game: this.game })
+    }
+
     updateGui() {
         // @ts-ignore
         this.react.forceUpdate()

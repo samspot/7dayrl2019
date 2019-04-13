@@ -30,7 +30,7 @@ const Config: IConfig = {
     // seed: 12362,
     // turnsToSim: 35,
     // turnsToSim: 26,
-    // turnsToSim: 20,
+    // turnsToSim: 40,
     // seed: 12368,
     // seed: 12372,
     drawWholeMap: false,
@@ -39,7 +39,7 @@ const Config: IConfig = {
     skipTitle: true,
     tiles: true,
     // playerInvulnerable: true,
-    startLevel: 0,
+    // startLevel: 4,
 }
 
 /*
