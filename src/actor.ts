@@ -57,6 +57,7 @@ export class Actor {
         this.seen = true
     }
 
+
     playerSeen() {
         return this.seen
     }

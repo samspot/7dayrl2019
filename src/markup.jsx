@@ -56,8 +56,10 @@ class StatusBar extends React.Component {
 
         let bossName = gp && nameMap[gp.boss]
         let boss = director && director.boss
+        let bossSeen = false
 
         if (boss && boss.playerSeen()) {
+            bossSeen = true
             if (this.props.game.levelBossPassed()) {
                 bossName += '-eliminated'
             }
@@ -69,9 +71,9 @@ class StatusBar extends React.Component {
 
         return (
             <div id="status-bar">
-                <Portrait name={name + '-dead'} id="portrait2" />
+                <Portrait name={name + '-dead'} id="portrait2" actor={this.props.player} />
                 <Condition hp={hp} maxHp={maxHp} />
-                <Portrait name={bossName} id="target" />
+                <Portrait name={bossName} id="target" actor={this.props.game.getBosses()[0]} bossSeen={bossSeen} />
                 {/* <div id="ability-icons"></div> */}
                 <PlayerSkillList player={this.props.player} />
                 <span id="name"> {name} </span>
@@ -106,10 +108,26 @@ class Portrait extends React.Component {
         super(props)
     }
 
+
     render() {
+        let seen = (this.props.actor && this.props.actor.isPlayer()) || (this.props.actor && this.props.actor.boss && this.props.actor.seen)
+        let { name, hp, maxHp, str } = { name: '?', hp: '?', maxHp: '?', str: '?' }
+        if (seen) {
+            name = this.props.actor.name
+            hp = this.props.actor.hp
+            maxHp = this.props.actor.maxHp
+            str = this.props.actor.str
+        }
         return (
-            <div id={this.props.id} className={this.props.name}>
+            <div id={this.props.id} className={this.props.name + ' tooltip'}>
                 <img src={Empty75x75} />
+                <span className="tooltiptext">
+                    <b>{name}</b>
+                    <br /> <br />
+                    HP {hp + '/' + maxHp}
+                    <br />
+                    Melee Damage: {str}
+                </span>
             </div>
         )
     }
@@ -259,7 +277,7 @@ const PlayerSkillTooltip = (props) => {
             </p>
             Damage {props.damage} <br />
             Range {props.range} <br />
-            Cooldown {props.maxCooldown}
+            Cooldown {props.cooldown}
             <p>
                 {props.description}
             </p>

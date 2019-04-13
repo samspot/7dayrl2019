@@ -63,20 +63,6 @@ export class GameDisplay {
         }
     }
 
-    addTooltip(elem: Element, text: string) {
-        if (!elem) { return }
-        elem.classList.add('tooltip')
-
-        let tooltip = document.createElement('span')
-        tooltip.classList.add('tooltiptext')
-        tooltip.innerHTML = text
-        elem.appendChild(tooltip)
-    }
-
-    getTooltip(actor: Actor) {
-        return `<b>${actor.name}</b><br><br> HP ${actor.hp}/${actor.maxHp}<br> Melee Damage: ${actor.str}`
-    }
-
     drawMobs(onlyInfectable?: boolean) {
         let game = this.game
         let moblist = document.getElementById('monsters')

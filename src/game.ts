@@ -81,6 +81,10 @@ export class Game {
         this.gameDisplay = new GameDisplay(this)
     }
 
+    getBosses() {
+        return this.mobs.filter(m => m.boss)
+    }
+
     allBossesDown() {
         let bosses: Boolean[] = []
         // let bosses = []
