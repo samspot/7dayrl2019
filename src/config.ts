@@ -28,18 +28,18 @@ const Config: IConfig = {
     fontSize: 16,
     messageListSize: 15,
     // seed: 12362,
-    // turnsToSim: 15,
+    // turnsToSim: 35,
     // turnsToSim: 26,
-    // turnsToSim: 0,
+    // turnsToSim: 20,
     // seed: 12368,
-    // seed: 12370,
+    // seed: 12372,
     drawWholeMap: false,
     drawAllMobs: false,
     debug: true,
     skipTitle: true,
     tiles: true,
     // playerInvulnerable: true,
-    // startLevel: 0,
+    startLevel: 0,
 }
 
 /*

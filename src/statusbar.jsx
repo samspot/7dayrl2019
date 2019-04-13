@@ -119,16 +119,20 @@ const PlayerSkillList = (props) => {
 }
 
 const PlayerSkill = (props) => {
+    let name = props.name
+    if (name.toLowerCase() === "grenadelauncher") {
+        name = "Launcher"
+    }
     return (
         <div className='ability-super-container'>
             <div className='container0 tooltip'>
                 <div className='bottom-left0'>{props.hotkey}</div>
                 <img src={Empty75x75} className={props.name.toLowerCase() + (props.cooldown > 0 ? '-cooldown' : '-ready') + ' ability-icon'} />
                 <div className='center0'>{props.cooldown > 0 ? props.cooldown : ''}</div>
-                <PlayerSkillTooltip name={props.name} damage={props.ability.damage} range={props.ability.range}
+                <PlayerSkillTooltip name={props.name} dmg={props.ability.dmg} range={props.ability.range}
                     cooldown={props.ability.maxCooldown} description={props.ability.description} />
             </div>
-            <span className="ability-name">{props.name}</span>
+            <span className="ability-name">{name}</span>
         </div>
     )
 }
@@ -139,7 +143,7 @@ const PlayerSkillTooltip = (props) => {
             <p>
                 <b>{props.name}</b>
             </p>
-            Damage {props.damage} <br />
+            Damage {props.dmg} <br />
             Range {props.range} <br />
             Cooldown {props.cooldown}
             <p>

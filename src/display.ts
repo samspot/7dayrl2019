@@ -89,6 +89,7 @@ export class GameDisplay {
     }
 
     hideModal() {
+        ReactDOM.unmountComponentAtNode(document.getElementById('modal-text'))
         var modal = document.getElementById('myModal')
         document.getElementById('modal-text').innerHTML = ''
         let deathimage = new Image()

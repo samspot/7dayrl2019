@@ -150,11 +150,13 @@ export class Director {
         this.game.mobs = this.mobs
     }
 
-    // TODO make sure bosses cant spawn in vision
     _createSchedule(mobspec: MobSpec) {
         let freeCells = this.game.getFreeCells()
-        let cellsRemoved = []
-        this.game.visibleSquares.forEach(x => {
+        let cellsRemoved: any = []
+
+        // console.log('visible', this.game._getVisibleSquares().sort().join('|'))
+        // console.log('player at', this.game.player.getX(), this.game.player.getY())
+        this.game._getVisibleSquares().forEach((x: any) => {
             _.remove(freeCells, c => {
                 if (c === x) {
                     cellsRemoved.push(c)
@@ -163,6 +165,8 @@ export class Director {
                 return false
             })
         })
+
+        // console.log("cells removed", cellsRemoved)
         // console.log('cellsRemoved', cellsRemoved)
         // console.log('freeCells', freeCells)
         // console.log('player', this.game.player.x, this.game.player.y)

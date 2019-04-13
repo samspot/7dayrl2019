@@ -164,7 +164,7 @@ export const BossSplash = (props) => {
 }
 // const AbilityList = (props: { [key: string]: Array<Ability> }) => {
 const AbilityList = (props) => {
-    const listItems = props.abilities.map(a => <AbilityComponent value={a} key={a.constructor.name} />)
+    const listItems = props.abilities.map((a, idx) => <AbilityComponent value={a} key={idx} />)
     return (
         <div style={{ clear: 'both' }}>
             <h3>Skills</h3>

@@ -14,6 +14,23 @@ import { Monster } from './monster';
 import { Player } from './player';
 import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 
+// Bugs
+// FIXED grenade launcher text overwrites next ability (change to launcher or grenade)
+// FIXED bosses still spawn in player start room
+// FIXED ability tooltips missing damage value
+
+// HIGH starting new game didn't clear score, target (wesker dead image), mob list
+
+// MEDIUM use diff symbol for unknown tile (currently crosshair)
+
+// LOW bosses don't show up in mob list immediately
+// LOW player sprite doesn't change when infecting
+// LOW unseen bosses still taking damage (wesker)
+
+// FIXED? cooldown graphic(s) missing
+// FIXED clearing boss splash w/o react: react-dom.development.js:500 Warning: render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container. // ReactDOM.unmountComponentAtNode 
+// DESCOPE similar to above, didn't get a splash on death (may be unrelated)
+
 // TODO Map stuff to maps or levels js
 // TODO create player/mob stuff to director js
 
@@ -42,7 +59,6 @@ Descoped
 export class Game {
     maps: Maps
     currentLevel: number
-    visibleSquares: Array<string>
     cursor: Cursor
     scheduler: ROT.Scheduler
     display: ROT.Display
@@ -277,11 +293,15 @@ export class Game {
     }
 
     createBeingMonster(what: new (x: number, y: number, game: Game, mobspec: MobSpec) => Actor, freeCells: Array<string>, mobspec?: MobSpec) {
+        // console.log('freeCells', freeCells.sort().join('|'))
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
         var key = freeCells.splice(index, 1)[0]
         var parts = key.split(",")
         var x = parseInt(parts[0])
         var y = parseInt(parts[1])
+        if (this.player) {
+            // console.log('creating mob ', mobspec.name, ' at ', x, y, 'player at', this.player.getX(), this.player.getY())
+        }
         return new what(x, y, this, mobspec)
     }
 
@@ -368,12 +388,12 @@ export class Game {
 
         let fov = new ROT.FOV.PreciseShadowcasting(lightPasses)
 
-        this.visibleSquares = []
+
+
         fov.compute(this.player.x, this.player.y, this.player.sightRadius, (x, y, r, visibility) => {
             let ch = r ? "" : "@"
             // let color = map[x + "," + y] ? "#aa0" : "#660"
             let color = map[x + "," + y] ? fovFloorColor : fovWallColor
-            this.visibleSquares.push(x + ',' + y)
             if (Config.tiles) {
                 let isFloor = map[x + ',' + y]
                 if (ch === "@") { // actor
@@ -391,6 +411,7 @@ export class Game {
                     } else {
                         // this.display.draw(x, y, this.map[key]);
                         this.display.draw(x, y, ".")
+                        // this.visibleSquares.push(x + ',' + y)
                     }
                 } else { // wall
                     ch = this.maps.getWallIndicator(x, y)
@@ -414,7 +435,22 @@ export class Game {
 
 
     _getVisibleSquares() {
-        return this.visibleSquares
+
+        let map = this.map
+        function lightPasses(x: number, y: number) {
+            let key = x + ',' + y
+            if (key in map) { return (map[key] === '.') }
+            return false
+        }
+
+        let fov = new ROT.FOV.PreciseShadowcasting(lightPasses)
+
+        let squares: any = []
+        fov.compute(this.player.x, this.player.y, this.player.sightRadius + 3, (x, y, r, visibility) => {
+            squares.push(x + ',' + y)
+        })
+
+        return squares
     }
 
     getDisplayMobs() {
