@@ -35,7 +35,7 @@ const Config: IConfig = {
     // seed: 12372,
     drawWholeMap: false,
     drawAllMobs: false,
-    debug: true,
+    // debug: true,
     skipTitle: true,
     tiles: true,
     // playerInvulnerable: true,
