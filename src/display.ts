@@ -32,7 +32,6 @@ export class GameDisplay {
     }
 
     updateGui() {
-        this.drawMessages()
         // @ts-ignore
         this.react.forceUpdate()
     }
@@ -60,53 +59,6 @@ export class GameDisplay {
         } else {
             console.log('couldnt find elem', className)
         }
-    }
-
-    // TODO
-    drawMessages() {
-        let messages = this.game.messages
-
-        let elem = document.getElementById('msg')
-        elem.innerHTML = ''
-
-        if (messages[0]) {
-            let recentTurn = this.game.turns
-            for (let i = 0; i < Config.messageListSize; i++) {
-                let message = messages[i]
-                if (message) {
-                    let span = document.createElement('span')
-
-                    let source = message.source
-                    let target = message.target
-
-
-                    let text = message.msg
-                    if (source || target) {
-                        text = `${target} receives ${message.msg} [Source: ${source}]`
-                    }
-
-                    span.innerHTML = text + '<br>'
-                    if (message.turn !== recentTurn) {
-                        span.classList.add('old-message')
-                    }
-                    if (message.important) {
-                        // TODO switch to old mesage after its passed, probably by changing to else-if
-                        span.classList.add('important-message')
-                    }
-
-
-                    let actorSource = message.actorSource
-                    // console.log('message debug source', source, 'instance of monster', source instanceof Monster, message)
-                    if (actorSource instanceof Monster && !actorSource.playerSeen()) {
-                        // console.log("suppressing message", span.innerHTML)
-                        continue;
-                    }
-
-                    elem.appendChild(span)
-                }
-            }
-        }
-
     }
 
     showModal(text: string, elem?: Element) {

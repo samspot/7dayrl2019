@@ -320,7 +320,6 @@ export class Game {
             important: important
         }
         this.messages.unshift(message)
-        this.gameDisplay.drawMessages()
     }
 
     dmgMessage(msg: string, important: boolean, source: string, target: string, actorSource: Actor) {
@@ -335,7 +334,6 @@ export class Game {
         }
         // console.log('printing msg', message.msg)
         this.messages.unshift(message)
-        this.gameDisplay.drawMessages()
     }
 
 

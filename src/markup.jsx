@@ -36,7 +36,7 @@ class GameComponent extends React.Component {
                 />
                 <Level game={this.state.game} />
                 <MainContainer game={this.state.game} />
-                <Messages />
+                <Messages game={this.state.game} />
             </div>
         )
     }
@@ -184,7 +184,7 @@ const GameProgressLevel = (props) => {
 }
 
 const MonsterList = (props) => {
-    let items = props.game.getDisplayMobs().map((m, idx) =>
+    let items = props.game && props.game.getDisplayMobs().map((m, idx) =>
         <Monster
             name={m.name}
             color={m.color}
@@ -210,13 +210,39 @@ const Monster = (props) =>
         {props.debug}
     </li>
 
+const Messages = (props) => {
+    let list = props.game && props.game.messages.map((m, idx) => {
+        m.idx = idx
 
+        let message = _.clone(m)
+        message.idx = idx
 
-const Messages = (props) =>
-    <div style={{ clear: 'both' }}>
-        <p id="msg"></p>
-    </div>
+        let source = message.source
+        let target = message.target
 
+        let text = message.msg
+        if (source || target) {
+            text = `${target} receives ${message.msg} [Source: ${source}]`
+        }
+        message.msg = text
+        message.recent = message.turn >= props.game.turns
+
+        return message
+    }).map(m => <Message text={m.msg} key={m.idx} recent={m.recent} important={m.important} />)
+
+    return (
+        <div style={{ clear: 'both' }}>
+            <p id="msg">
+                {list}
+            </p>
+        </div>
+    )
+}
+
+const Message = (props) =>
+    <span className={(props.recent ? '' : 'old-message') + ' ' + (props.important ? 'important-message' : '')}>
+        {props.text} <br />
+    </span>
 
 export const BossSplash = (props) => {
     return (
