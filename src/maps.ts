@@ -66,7 +66,7 @@ let tileMap = {
     '7': [1 * tileWidth, 2 * tileWidth],
     '8': [2 * tileWidth, 2 * tileWidth],
     // '9': [1 * tileWidth, 1 * tileWidth], // placeholder
-    'placeholder': [0 * tileWidth, 11 * tileWidth], // placeholder
+    'placeholder': [1 * tileWidth, 11 * tileWidth], // placeholder
     'tall': [1 * tileWidth, 9 * tileWidth],
     'wide': [2 * tileWidth, 9 * tileWidth],
     'corner0': [1 * tileWidth, 7 * tileWidth],

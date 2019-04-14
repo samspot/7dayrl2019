@@ -15,14 +15,8 @@ import { Player } from './player';
 import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 
 // Bugs
-// FIXED grenade launcher text overwrites next ability (change to launcher or grenade)
-// FIXED bosses still spawn in player start room
-// FIXED ability tooltips missing damage value
-// FIXED starting new game didn't clear score, target (wesker dead image), mob list
-
 // MEDIUM use diff symbol for unknown tile (currently crosshair)
 
-// LOW bosses don't show up in mob list immediately
 // LOW player sprite doesn't change when infecting
 // LOW unseen bosses still taking damage (wesker)
 
@@ -32,6 +26,13 @@ import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 
 // TODO Map stuff to maps or levels js
 // TODO create player/mob stuff to director js
+
+// FIXED grenade launcher text overwrites next ability (change to launcher or grenade)
+// FIXED bosses still spawn in player start room
+// FIXED ability tooltips missing damage value
+// FIXED starting new game didn't clear score, target (wesker dead image), mob list
+// FIXED bosses don't show up in mob list immediately
+
 
 /* feedback
 
