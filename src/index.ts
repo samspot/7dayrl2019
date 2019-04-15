@@ -40,9 +40,11 @@ async function mainLoop() {
     (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = 'block';
 
     let i = 0
-    setInterval(() => {
-        game.swapTiles(i++)
-    }, 400)
+    if (Config.animate) {
+        setInterval(() => {
+            game.swapTiles(i++)
+        }, 400)
+    }
     while (1) {
         let actor = scheduler.next()
         if (!actor) { break }

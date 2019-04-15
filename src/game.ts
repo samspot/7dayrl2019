@@ -19,6 +19,7 @@ import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 
 // LOW player sprite doesn't change when infecting
 // LOW unseen bosses still taking damage (wesker)
+// LOW prevent default on boss splash
 
 // FIXED? cooldown graphic(s) missing
 // FIXED clearing boss splash w/o react: react-dom.development.js:500 Warning: render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container. // ReactDOM.unmountComponentAtNode 
