@@ -104,10 +104,10 @@ export class Charge extends Ability {
 
             // console.log(`diff ${xdiff} ${ydiff}`)
 
-            if (xdiff > 0) { target.x-- }
-            if (xdiff < 0) { target.x++ }
-            if (ydiff > 0) { target.y-- }
-            if (ydiff < 0) { target.y++ }
+          if (xdiff > 0) { target.x-- }
+          if (xdiff < 0) { target.x++ }
+          if (ydiff > 0) { target.y-- }
+          if (ydiff < 0) { target.y++ }
         }
 
         source.x = action.x

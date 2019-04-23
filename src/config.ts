@@ -17,6 +17,8 @@ interface IConfig {
     playerInvulnerable?: boolean
     startLevel?: number
     animate?: boolean
+    enableCharge?: boolean
+    logMissingTiles?: boolean
 }
 
 const Config: IConfig = {
@@ -31,7 +33,7 @@ const Config: IConfig = {
     // seed: 12362,
     // turnsToSim: 35,
     // turnsToSim: 26,
-    // turnsToSim: 40,
+    turnsToSim: 39,
     // seed: 12368,
     seed: 12454,
     drawWholeMap: false,
@@ -39,9 +41,11 @@ const Config: IConfig = {
     debug: true,
     skipTitle: true,
     tiles: true,
+    enableCharge: true,
     // playerInvulnerable: true,
-    startLevel: 1,
-    animate: true
+  //startLevel: 1,
+  animate: true,
+  logMissingTiles: false
 }
 
 /*

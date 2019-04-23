@@ -53,6 +53,7 @@ async function mainLoop() {
         if (actor.isPlayer()) {
             game.updateGui()
             game.redraw()
+            game.fixActorOverlap()
         }
 
 

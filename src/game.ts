@@ -15,6 +15,7 @@ import { Player } from './player';
 import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 
 // Bugs
+// MEDIUM mobs can be on top of the player
 // MEDIUM use diff symbol for unknown tile (currently crosshair)
 
 // LOW player sprite doesn't change when infecting
@@ -207,6 +208,45 @@ export class Game {
         })
         return freeCells
     }
+
+    fixActorOverlap(){
+        let player = this.player
+        let mob = this.getCharacterAt(player, player.x, player.y)
+        if(mob){
+            console.log('fixActorOverlap mob', mob)
+
+            let freespots = this.getCoordsAround(player.x, player.y).map(c => {
+                //console.log(c)
+                return {
+                    occupied: this.getCharacterAt(mob, c[0], c[1]),
+                    x: c[0],
+                    y: c[1]
+                }
+            }).filter(c => !c.occupied)
+
+            console.log('freespots', freespots)
+            // @ts-ignore
+            let spot = ROT.RNG.getItem(freespots)
+            mob.x = spot.x
+            mob.y = spot.y
+
+        }
+    }
+
+    // TODO: copied from abilities.ts (or something)
+    getCoordsAround(x: number, y: number) {
+        return [
+            [x - 1, y - 1], // NW
+            [x, y - 1],     // N
+            [x + 1, y - 1], // NE
+            [x + 1, y],     // E
+            [x + 1, y + 1], // SE
+            [x, y + 1],     // S
+            [x - 1, y + 1], // SW
+            [x - 1, y],     // W
+        ]
+    }
+
 
     getCharacterAt(mover: Actor, x: number, y: number) {
         let actor: Actor

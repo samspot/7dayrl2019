@@ -5,6 +5,7 @@ import { AbilityAction, MoveAction } from './actions';
 import { Actor } from './actor';
 import { Game } from './game';
 import { MobSpec } from "./MobSpec";
+import Config from './config';
 
 export class Monster extends Actor {
     bio: string
@@ -40,7 +41,7 @@ export class Monster extends Actor {
 
         // TODO fix charge
         // if(!Config.enableCharge){
-        if (!window.directorsCut) {
+        if (!window.directorsCut && !Config.enableCharge) {
             _.remove(usable, x => x instanceof Charge)
             // console.log('charge disabled')
         } else {

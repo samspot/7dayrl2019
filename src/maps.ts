@@ -231,7 +231,7 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
 
     let finalAnswer: any = translate[result]
 
-    if (typeof finalAnswer === 'undefined') {
+    if (typeof finalAnswer === 'undefined' && Config.logMissingTiles) {
         console.log(`coords[0] ${coords[0]} map ${map[coords[0]]} calc ${x},${y} result ${result.toString(2)} result decimal ${result}`)
         console.log(`NW ${isNwWall} NE ${isNeWall} SW ${isSwWall} SE ${isSeWall}`)
         console.log([coords[0], coords[1], coords[2]].map(c => map[c]).map(x => typeof x === 'undefined' ? '#' : x))
