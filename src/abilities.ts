@@ -90,6 +90,8 @@ function isTrapped(map: IGameMap, x: number, y: number) {
     return _.every(trapped)
 }
 
+
+
 export class Grab extends Ability {
     constructor(actor: Actor) {
         let range = 3
@@ -106,21 +108,13 @@ export class Grab extends Ability {
         let source = this.actor
         let target = actor
 
-        // determine square between target and you
-        let xdiff = source.x - target.x
-        let ydiff = source.y - target.y
-
-        // console.log(`diff ${xdiff} ${ydiff}`)
-        let xloc = source.x
-        let yloc = source.y
-
-        if (xdiff > 0) { xloc = source.x-1 }
-        if (xdiff < 0) { xloc = source.x+1 }
-        if (ydiff > 0) { yloc = source.y-1 }
-        if (ydiff < 0) { yloc = source.y+1 }
-
         // push original occupant to targets original loc
+        let pos = getPositions(source, target)
+        let xloc = pos.sourceFront.x
+        let yloc = pos.sourceFront.y
+        console.log('x', xloc, 'y', yloc)
 
+        // TODO: combine getcharacterat, fixactoroverlap, and map carving below
         let occupant = game.getCharacterAt(null, xloc, yloc)
         if(occupant){
             console.log('occupant is', occupant, 'fixing overlap')
@@ -142,28 +136,77 @@ export class Grab extends Ability {
     }
 }
 
+// TODO sourceRear, targetFront.  see targethelp.aseprite
+function getPositions(source: Actor, target: Actor){
+    let xdiff = source.x - target.x
+    let ydiff = source.y - target.y
+
+    let closeX = source.x
+    let closeY = source.y
+
+    let sourceFront = { x: source.x, y: source.y }
+    let sourceRear = { x: source.x, y: source.y }
+    let targetFront = { x: target.x, y: target.y }
+    let targetRear = { x: target.x, y: target.y }
+
+    let farX = source.x
+    let farY = source.y
+
+    if(xdiff > 0){ // target is west of source
+        //console.log('target west x is', target.x)
+        sourceFront.x = source.x-1
+        targetRear.x = target.x-1
+    }
+
+    if(xdiff < 0){ // target is east of source
+        //console.log('target east x is', target.x)
+        sourceFront.x = source.x+1
+        targetRear.x = target.x+1
+    }
+
+    if(ydiff > 0){ // target north of source
+        //console.log('target north y is', target.y)
+        sourceFront.y = source.y-1
+        targetRear.y = target.y-1
+    }
+
+    if(ydiff < 0){ // target south of source
+        //console.log('target south y is', target.y)
+        sourceFront.y = source.y++
+        targetRear.y = target.y++
+    }
+
+    let pos = {
+        sourceFront,
+        //sourceRear,
+        //targetFront,
+        targetRear
+    }
+
+    console.log(`getPositions result ${pos} sourceFront`, sourceFront, 'sourceRear', sourceRear, 'targetFront', targetFront, 'targetRear', targetRear)
+    return pos
+}
+
 export class Charge extends Ability {
     constructor(actor: Actor) {
         super(actor, 10, 10, 20)
     }
 
     sideEffects(action: Action, game: Game, actor: Actor) {
+        console.log('Charge.sideEffects called with', action, actor, this.actor)
 
         let source = this.actor
         let target = actor
-        if (actor) {
 
-            // console.log(`source (${source.x}, ${source.y}) target (${target.x}, ${target.y})`)
+        if(actor){
+            //constructor(x: number, y: number, symbol: string, color: string, game: Game) {
+            //let foo = new Actor(action.x, action.y, '@', 'red', game)
 
-            let xdiff = source.x - target.x
-            let ydiff = source.y - target.y
-
-            // console.log(`diff ${xdiff} ${ydiff}`)
-
-          if (xdiff > 0) { target.x-- }
-          if (xdiff < 0) { target.x++ }
-          if (ydiff > 0) { target.y-- }
-          if (ydiff < 0) { target.y++ }
+            let pos = getPositions(source, target)
+            target.x = pos.targetRear.x
+            target.y = pos.targetRear.y
+            game.map[target.x + ',' + target.y] = '.'
+            //console.log('x', xloc, pos.close.x, 'y', yloc, pos.close.y)
         }
 
         source.x = action.x

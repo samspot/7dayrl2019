@@ -228,7 +228,7 @@ export class Game {
                 .filter(c => !c.occupied)
                 .filter(c => this.map[c.x+','+c.y] === '.')
 
-            console.log('freespots', freespots)
+            //console.log('freespots', freespots)
             // @ts-ignore
             let spot = ROT.RNG.getItem(freespots)
             mob.x = spot.x
