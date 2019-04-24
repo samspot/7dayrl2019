@@ -44,6 +44,10 @@ export class Ability {
     canTargetEmpty() {
         return false
     }
+
+    mobsGetSideEffects(){
+        return false
+    }
 }
 
 export class EmptySlot extends Ability {
@@ -84,6 +88,58 @@ function isTrapped(map: IGameMap, x: number, y: number) {
         return map[coordlist[0] + ',' + coordlist[1]] !== '.'
     })
     return _.every(trapped)
+}
+
+export class Grab extends Ability {
+    constructor(actor: Actor) {
+        let range = 3
+        super(actor, 2, range, 10)
+        this.description = `Grab a target ${range} squares away and pull them to you. ` 
+            + `Brushes aside anyone in between.`
+    }
+
+    sideEffects(action: Action, game: Game, actor: Actor) {
+        if(!this.actor.isPlayer() && !this.mobsGetSideEffects()){
+            return
+        }
+
+        let source = this.actor
+        let target = actor
+
+        // determine square between target and you
+        let xdiff = source.x - target.x
+        let ydiff = source.y - target.y
+
+        // console.log(`diff ${xdiff} ${ydiff}`)
+        let xloc = source.x
+        let yloc = source.y
+
+        if (xdiff > 0) { xloc = source.x-1 }
+        if (xdiff < 0) { xloc = source.x+1 }
+        if (ydiff > 0) { yloc = source.y-1 }
+        if (ydiff < 0) { yloc = source.y+1 }
+
+        // push original occupant to targets original loc
+
+        let occupant = game.getCharacterAt(null, xloc, yloc)
+        if(occupant){
+            console.log('occupant is', occupant, 'fixing overlap')
+            game.fixActorOverlap(target)
+        }
+
+        // move target to that square
+        target.x = xloc
+        target.y = yloc
+        game.map[xloc+','+yloc] = '.'
+
+        console.log(`side effects put target in (${xloc}, ${yloc}) for source at (${source.x}, ${source.y})`, this, target)
+        console.log(`map[${xloc},${yloc}] is ${game.map[xloc+','+yloc]}`)
+
+    }
+
+    canTargetEmpty(){
+        return false
+    }
 }
 
 export class Charge extends Ability {
@@ -222,11 +278,7 @@ export class Impale extends Ability {
     }
 }
 
-export class Grab extends Ability {
-    constructor(actor: Actor) {
-        super(actor, 2, 1, 10)
-    }
-}
+
 
 export class Bite extends Ability {
     constructor(actor: Actor) {

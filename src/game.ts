@@ -209,20 +209,24 @@ export class Game {
         return freeCells
     }
 
-    fixActorOverlap(){
-        let player = this.player
-        let mob = this.getCharacterAt(player, player.x, player.y)
+    fixActorOverlap(actor?: Actor){
+        if(!actor){
+            actor = this.player
+        }
+        let mob = this.getCharacterAt(actor, actor.x, actor.y)
         if(mob){
             console.log('fixActorOverlap mob', mob)
 
-            let freespots = this.getCoordsAround(player.x, player.y).map(c => {
+            let freespots = this.getCoordsAround(actor.x, actor.y).map(c => {
                 //console.log(c)
                 return {
                     occupied: this.getCharacterAt(mob, c[0], c[1]),
                     x: c[0],
                     y: c[1]
                 }
-            }).filter(c => !c.occupied)
+            })
+                .filter(c => !c.occupied)
+                .filter(c => this.map[c.x+','+c.y] === '.')
 
             console.log('freespots', freespots)
             // @ts-ignore
