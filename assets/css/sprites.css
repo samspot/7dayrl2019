@@ -10,6 +10,19 @@
     background: url(../../assets/img/mob-sprite-sheet.png) 0 -300px;
 }
 
+.leon {
+    background: url(../../assets/img/mob-sprite-sheet.png) 0 -375px;
+}
+
+.leon-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) 0 -450px;
+}
+
+.leon-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) 0 -525px;
+}
+
+
 .chris {
     background: url(../../assets/img/mob-sprite-sheet.png) -75px -150px;
 }
