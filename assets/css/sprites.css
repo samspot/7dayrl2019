@@ -95,13 +95,13 @@
 }
 
 .condition-fine {
-    background: url(../../assets/img/mob-sprite-sheet.png) -375px 225px;
+    background: url(../../assets/img/mob-sprite-sheet.png) -375px -150px;
 }
 
 .condition-caution {
-    background: url(../../assets/img/mob-sprite-sheet.png) -450px 225px;
+    background: url(../../assets/img/mob-sprite-sheet.png) -450px -150px;
 }
 
 .condition-danger {
-    background: url(../../assets/img/mob-sprite-sheet.png) -525px 225px;
+    background: url(../../assets/img/mob-sprite-sheet.png) -525px -150px;
 }
