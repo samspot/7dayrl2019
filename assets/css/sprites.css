@@ -22,6 +22,18 @@
     background: url(../../assets/img/mob-sprite-sheet.png) 0 -525px;
 }
 
+.claire {
+    background: url(../../assets/img/mob-sprite-sheet.png) -75px -375px;
+}
+
+.claire-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -75px -450px;
+}
+
+.claire-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -75px -525px;
+}
+
 
 .chris {
     background: url(../../assets/img/mob-sprite-sheet.png) -75px -150px;

@@ -48,6 +48,12 @@ function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
 
+// TODO: randomize bosses
+// TODO: points based on level when boss killed, not boss itself
+// TODO: unique abilities for Leon, Claire
+// TODO: stats, bios, quotes for Leon, Claire
+// TODO: tiles for Leon, Claire
+
 export class GameProgress {
     level0: Level
     level1: Level
@@ -59,7 +65,8 @@ export class GameProgress {
         this.level0 = {
             level: 0,
             name: "The Laboratory",
-            boss: "Jill Valentine",
+            //boss: "Jill Valentine",
+            boss: "Leon Kennedy",
             floorColor: '#999999',
             wallColor: '#ffffff',
             spawnRate: 3,
@@ -73,7 +80,8 @@ export class GameProgress {
         this.level1 = {
             level: 1,
             name: "Catacombs",
-            boss: "Chris Redfield",
+            //boss: "Chris Redfield",
+            boss: "Claire Redfield",
             floorColor: '#cc9966',
             wallColor: '#660033',
             spawnRate: 7,

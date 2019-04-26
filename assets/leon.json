@@ -1,0 +1,12 @@
+
+{
+    "symbol": "K",
+    "color": "#330099",
+    "name": "Leon Kennedy",
+    "hp": 70,
+    "score": 8000,
+    "str": 25, 
+    "sightRadius": 6,
+    "bio": "TODO",
+    "quote": "Quotation Forthcoming"
+}

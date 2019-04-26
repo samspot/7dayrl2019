@@ -1,5 +1,7 @@
 export const nameMap = {
     'Tyrant': 'tyrant',
+    'Claire Redfield': 'claire',
+    'Leon Kennedy': 'leon',
     'Jill Valentine': 'jill',
     'Chris Redfield': 'chris',
     'Barry Burton': 'barry',

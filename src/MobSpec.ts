@@ -12,6 +12,8 @@ import Shark from 'assets/shark.json';
 import Spider from 'assets/spider.json';
 import Wesker from 'assets/wesker.json';
 import Zombie from 'assets/zombie.json';
+import Leon from 'assets/leon.json'
+import Claire from 'assets/claire.json'
 
 export class MobSpec {
     symbol: string;
@@ -43,6 +45,8 @@ const abilities: { [key: string]: Array<Object> } = {
     'Barry Burton': [Magnum, EmptySlot],
     'Brad Vickers': [Shotgun, EmptySlot],
     'Albert Wesker': [Magnum, EmptySlot],
+    'Leon Kennedy': [Shotgun, EmptySlot],
+    'Claire Redfield': [EmptySlot, EmptySlot],
     'Tyrant': [Charge, Impale],
     'Zombie': [Grab],
     'Chimera': [Grab, Charge],
@@ -66,8 +70,10 @@ const mobs = {
 }
 
 const bosses = {
-    'lab': Jill,
-    'catacombs': Chris,
+    //'lab': Jill,
+    'lab': Leon,
+    //'catacombs': Chris,
+    'catacombs': Claire,
     'outside': Barry,
     'guardhouse': Brad,
     'mansion': Wesker

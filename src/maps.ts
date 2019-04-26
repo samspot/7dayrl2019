@@ -40,6 +40,9 @@ let wallMap = {
 let tileWidth = Config.tileWidth
 
 let tileMap = {
+    "K": [0 * tileWidth, 3 * tileWidth],
+    "R": [0 * tileWidth, 3 * tileWidth],
+
     "@": [0 * tileWidth, 3 * tileWidth],
     "J": [1 * tileWidth, 3 * tileWidth],
     "C": [2 * tileWidth, 3 * tileWidth],
