@@ -1,11 +1,10 @@
-
 {
     "symbol": "R",
     "color": "#330099",
     "name": "Claire Redfield",
     "hp": 70,
-    "score": 8000,
-    "str": 25, 
+    "score": 500,
+    "str": 25,
     "sightRadius": 6,
     "bio": "TODO",
     "quote": "Quotation Forthcoming"

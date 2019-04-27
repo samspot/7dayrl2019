@@ -50,7 +50,7 @@ function gpToString() {
 }
 
 // DONE: randomize bosses
-// TODO: points based on level when boss killed, not boss itself
+// DONE: points based on level when boss killed, not boss itself
 // TODO: unique abilities for Leon, Claire
 // TODO: stats, bios, quotes for Leon, Claire
 // TODO: tiles for Leon, Claire

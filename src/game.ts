@@ -209,12 +209,12 @@ export class Game {
         return freeCells
     }
 
-    fixActorOverlap(actor?: Actor){
-        if(!actor){
+    fixActorOverlap(actor?: Actor) {
+        if (!actor) {
             actor = this.player
         }
         let mob = this.getCharacterAt(actor, actor.x, actor.y)
-        if(mob){
+        if (mob) {
             console.log('fixActorOverlap mob', mob)
 
             let freespots = this.getCoordsAround(actor.x, actor.y).map(c => {
@@ -226,7 +226,7 @@ export class Game {
                 }
             })
                 .filter(c => !c.occupied)
-                .filter(c => this.map[c.x+','+c.y] === '.')
+                .filter(c => this.map[c.x + ',' + c.y] === '.')
 
             //console.log('freespots', freespots)
             // @ts-ignore
@@ -366,6 +366,7 @@ export class Game {
         this.getGameProgress().style = "text-decoration: line-through; color: red"
         this.message(`You killed the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true)
         this.getGameProgress().bossDown = true
+        this.score += this.getGameProgress().score
     }
 
     possesBoss() {
@@ -373,6 +374,7 @@ export class Game {
         this.getGameProgress().text += " [Infected]"
         this.message(`You infected the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true)
         this.getGameProgress().bossDown = true
+        this.score += this.getGameProgress().score
     }
 
     message(msg: string, important?: boolean) {
