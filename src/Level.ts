@@ -52,6 +52,7 @@ function gpToString() {
 // TODO: unique abilities for Leon, Claire, Ada, Rebecca, Birkin, Hunk, Krauser, Billy
 // TODO: stats, bios, quotes for Leon, Claire, Ada, Rebecca, Birkin, Hunk, Krauser, Billy
 // TODO: tiles for Leon, Claire, Ada, Rebecca, Birkin, Hunk, Krauser, Billy
+// TODO: fix missing target on possess
 
 export class GameProgress {
     level0: Level
