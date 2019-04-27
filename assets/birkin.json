@@ -2,10 +2,10 @@
     "symbol": "m",
     "color": "#330099",
     "name": "William Birkin",
-    "hp": 70,
-    "score": 500,
-    "str": 25,
+    "hp": 200,
+    "score": 1500,
+    "str": 15,
     "sightRadius": 6,
-    "bio": "",
-    "quote": ""
+    "bio": "Dr. William Birkin was a virologist who worked for Umbrella Pharmaceuticals in the 1970s-1990s. The head of the Golgotha Virus research project, he turned against the Umbrella Corporation after failing to achieve a promotion to its executive. The company's attempts to prevent an unauthorized deal with the U.S. military served as a catalyst for the events of the Raccoon City Destruction Incident.",
+    "quote": "You think I didn't know you were coming? This is my life's work! I'm not handing over anything!"
 }

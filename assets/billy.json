@@ -2,10 +2,10 @@
     "symbol": "y",
     "color": "#330099",
     "name": "Billy Coen",
-    "hp": 70,
+    "hp": 90,
     "score": 500,
     "str": 25,
-    "sightRadius": 6,
-    "bio": "",
-    "quote": ""
+    "sightRadius": 7,
+    "bio": "Billy Coen was a U.S. Marine Corps Second Lieutenant-turned death-row inmate that escaped into the Arklay Mountains after the military transport vehicle escorting him was forced off the road by a pack of Cerberus. He took refuge in the nearby Ecliptic Express where he would later meet Rebecca Chambers, who had arrived with S.T.A.R.S. to investigate reports of murders in the vicinity.",
+    "quote": "So, you seem to know me. Been fantasizing about me, have you?"
 }

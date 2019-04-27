@@ -2,10 +2,10 @@
     "symbol": "A",
     "color": "#330099",
     "name": "Ada Wong",
-    "hp": 70,
+    "hp": 80,
     "score": 500,
-    "str": 25,
-    "sightRadius": 6,
+    "str": 30,
+    "sightRadius": 9,
     "bio": "Leon stumbles upon this mysterious woman who is quite secretive, yet, at the same time, a professional and skilled investigator.  She can also come across as condescending, and has a tendency to talk down to those she deems inferior to herself.",
-    "quote": ""
+    "quote": "Leon... Long time no see."
 }

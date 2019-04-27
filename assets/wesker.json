@@ -3,9 +3,9 @@
     "color": "#993300",
     "name": "Albert Wesker",
     "hp": 120,
-    "score": 500,
+    "score": 2000,
     "str": 20,
-    "sightRadius": 6,
+    "sightRadius": 7,
     "bio": "Leader of the S.T.A.R.S. unit and Alpha Team. Viewed by many as a 'cool guy' for his snappy haircut and perpetual shades, Wesker was recruited by a headhunter for his sharp insight. He founded the S.T.A.R.S. unit in Raccoon City",
     "quote": "Don't open that doooooor!"
 }

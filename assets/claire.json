@@ -2,10 +2,10 @@
     "symbol": "R",
     "color": "#330099",
     "name": "Claire Redfield",
-    "hp": 70,
+    "hp": 90,
     "score": 500,
-    "str": 25,
-    "sightRadius": 6,
+    "str": 20,
+    "sightRadius": 8,
     "bio": "Claire is a light-hearted, articulate, modern woman.  While she can be a bit of a tomboy at times, she is somewhat whild.  Self-confident and extroverted, Claire is typically the first person to try something others would not.",
-    "quote": "Quotation Forthcoming"
+    "quote": "Look, you've got two choices here: kill or be killed, your call!"
 }
