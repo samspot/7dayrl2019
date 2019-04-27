@@ -59,15 +59,15 @@
     background: url(../../assets/img/mob-sprite-sheet.png) -225px -525px;
 }
 
-.birkin {
+.billy {
     background: url(../../assets/img/mob-sprite-sheet.png) -300px -375px;
 }
 
-.birkin-dead {
+.billy-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) -300px -450px;
 }
 
-.birkin-eliminated {
+.billy-eliminated {
     background: url(../../assets/img/mob-sprite-sheet.png) -300px -525px;
 }
 
@@ -95,15 +95,15 @@
     background: url(../../assets/img/mob-sprite-sheet.png) -450px -525px;
 }
 
-.billy {
+.birkin {
     background: url(../../assets/img/mob-sprite-sheet.png) -525px -375px;
 }
 
-.billy-dead {
+.birkin-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) -525px -450px;
 }
 
-.billy-eliminated {
+.birkin-eliminated {
     background: url(../../assets/img/mob-sprite-sheet.png) -525px -525px;
 }
 
