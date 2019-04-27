@@ -13,7 +13,7 @@ import { Actor } from './actor';
 export class Level {
     level: number;
     name: string;
-    boss: string;
+    boss?: string;
     floorColor: string;
     wallColor: string;
     spawnRate: number;
@@ -26,6 +26,7 @@ export class Level {
     tiles: ImageData;
     tilesf2: ImageData;
     bossObj?: Actor;
+    score: number
 }
 
 export const levels = [
@@ -48,7 +49,7 @@ function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
 
-// TODO: randomize bosses
+// DONE: randomize bosses
 // TODO: points based on level when boss killed, not boss itself
 // TODO: unique abilities for Leon, Claire
 // TODO: stats, bios, quotes for Leon, Claire
@@ -65,8 +66,6 @@ export class GameProgress {
         this.level0 = {
             level: 0,
             name: "The Laboratory",
-            //boss: "Jill Valentine",
-            boss: "Leon Kennedy",
             floorColor: '#999999',
             wallColor: '#ffffff',
             spawnRate: 3,
@@ -74,14 +73,13 @@ export class GameProgress {
             style: "font-style: italic",
             bossDown: false,
             tiles: ReTiles16Lab,
-            tilesf2: ReTiles16LabF2
+            tilesf2: ReTiles16LabF2,
+            score: 10000
         }
 
         this.level1 = {
             level: 1,
             name: "Catacombs",
-            //boss: "Chris Redfield",
-            boss: "Claire Redfield",
             floorColor: '#cc9966',
             wallColor: '#660033',
             spawnRate: 7,
@@ -90,12 +88,12 @@ export class GameProgress {
             bossDown: false,
             tiles: ReTiles16Catacombs,
             tilesf2: ReTiles16CatacombsF2,
+            score: 8000
         }
 
         this.level2 = {
             level: 2,
             name: "Garden",
-            boss: "Barry Burton",
             floorColor: '#cc9966',
             wallColor: '#006600',
             spawnRate: 6,
@@ -104,12 +102,12 @@ export class GameProgress {
             bossDown: false,
             tiles: ReTiles16Outside,
             tilesf2: ReTiles16OutsideF2,
+            score: 6000
         }
 
         this.level3 = {
             level: 3,
             name: "Guardhouse",
-            boss: "Brad Vickers",
             floorColor: '#cccc99',
             wallColor: '#330066',
             spawnRate: 4,
@@ -118,12 +116,12 @@ export class GameProgress {
             bossDown: false,
             tiles: ReTiles16Guardhouse,
             tilesf2: ReTiles16GuardhouseF2,
+            score: 4000
         }
 
         this.level4 = {
             level: 4,
             name: "The Mansion",
-            boss: "Albert Wesker",
             floorColor: '#6699cc',
             wallColor: '#660033',
             spawnRate: 5,
@@ -132,6 +130,7 @@ export class GameProgress {
             bossDown: false,
             tiles: ReTiles16Mansion,
             tilesf2: ReTiles16MansionF2,
+            score: 2000
         }
     }
 }

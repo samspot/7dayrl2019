@@ -47,7 +47,7 @@ export class GameDisplay {
 
         let gp = this.game.getGameProgress()
         // @ts-ignore
-        let bossName = nameMap[gp.boss]
+        let bossName = nameMap[gp.text]
         this.renderCharacter(bossName, 'boss-splash')
     }
 

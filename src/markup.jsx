@@ -75,7 +75,7 @@ const GameProgressLevel = (props) => {
     let text = "Status Unknown"
     let className = ''
     if (props.gameProgress.bossObj && props.gameProgress.bossObj.playerSeen()) {
-        text = props.gameProgress.boss
+        text = props.gameProgress.text
     }
 
     if (props.gameProgress.bossDown) {

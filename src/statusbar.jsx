@@ -14,7 +14,7 @@ export class StatusBar extends React.Component {
         let gp = this.props.game.getGameProgress()
         let director = this.props.game.director
 
-        let bossName = gp && nameMap[gp.boss]
+        let bossName = gp && nameMap[gp.text]
         let boss = director && director.boss
         let bossSeen = false
 

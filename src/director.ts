@@ -9,6 +9,21 @@ import { MobSpec } from "./MobSpec";
 import { Monster } from './monster';
 import { Player } from './player';
 import { levels, levelNames } from './Level'
+import Barry from 'assets/barry.json';
+import Brad from 'assets/brad.json';
+import Chimera from 'assets/chimera.json';
+import Chris from 'assets/chris.json';
+import Dog from 'assets/dog.json';
+import Hunter from 'assets/hunter.json';
+import Jill from 'assets/jill.json';
+import Lisa from 'assets/lisa.json';
+import Shark from 'assets/shark.json';
+import Spider from 'assets/spider.json';
+import Wesker from 'assets/wesker.json';
+import Zombie from 'assets/zombie.json';
+import Leon from 'assets/leon.json'
+import Claire from 'assets/claire.json'
+
 
 export class Director {
     player: Player
@@ -20,6 +35,7 @@ export class Director {
     spawnId: number
     levelTicks: number
     mobSpec: MobSpec
+    bossPool: Array<Actor>
     constructor(game: Game, scheduler: ROT.Scheduler) {
         this.player = game.player
         this.game = game
@@ -37,6 +53,8 @@ export class Director {
         this.spawnId = 0
         this.levelTicks = 0
         this.mobSpec = new MobSpec()
+        // @ts-ignore
+        this.bossPool = ROT.RNG.shuffle([Jill, Chris, Barry, Brad, Wesker, Leon, Claire])
     }
 
     // cleanup all things that need to be cleaned for descending
@@ -80,21 +98,32 @@ export class Director {
         return this.game.maps.mapMap()[this.getLevelName()]
     }
 
+    nextBoss(){
+
+        // @ts-ignore
+        let boss = this.bossPool.splice(0, 1)[0]
+
+        // @ts-ignore
+        console.log(boss.name, 'selected', this.bossPool.map(b => b.name), 'remaining')
+        return boss
+
+    }
+
     tick() {
         this.levelTicks++
         // load any mob changes
         this.mobs = this.game.mobs
 
         if (!this.boss && this.levelTicks > 5 && Config.spawnboss) {
-            // @ts-ignore
-            this.boss = this.mobSpec.getBossesByLevel()[levels[this.game.currentLevel]]
             // console.log('spawning boss', this.boss, abilities[this.boss.name])
+            this.boss = this.nextBoss()
 
             // @ts-ignore
             let monster = this._createSchedule(this.boss)
             monster.boss = true
 
-            if (this.boss.name === "Albert Wesker") {
+            if(this.game.currentLevel === 4){
+                console.log('last level boss spawned')
                 monster.finalBoss = true
             }
 

@@ -33,10 +33,6 @@ export class MobSpec {
     getMobsByLevel() {
         return mobs
     }
-
-    getBossesByLevel() {
-        return bosses
-    }
 }
 
 const abilities: { [key: string]: Array<Object> } = {
@@ -67,15 +63,5 @@ const mobs = {
     'outside': [Zombie, Dog, Dog, Spider],
     'guardhouse': [Zombie, Spider, Spider, Shark], // Plant, Plant42
     'mansion': [Zombie, Zombie, Hunter, Hunter], //Snake
-}
-
-const bosses = {
-    //'lab': Jill,
-    'lab': Leon,
-    //'catacombs': Chris,
-    'catacombs': Claire,
-    'outside': Barry,
-    'guardhouse': Brad,
-    'mansion': Wesker
 }
 
