@@ -11,18 +11,17 @@ import { Player } from './player';
 import { levels, levelNames } from './Level'
 import Barry from 'assets/barry.json';
 import Brad from 'assets/brad.json';
-import Chimera from 'assets/chimera.json';
 import Chris from 'assets/chris.json';
-import Dog from 'assets/dog.json';
-import Hunter from 'assets/hunter.json';
 import Jill from 'assets/jill.json';
-import Lisa from 'assets/lisa.json';
-import Shark from 'assets/shark.json';
-import Spider from 'assets/spider.json';
 import Wesker from 'assets/wesker.json';
-import Zombie from 'assets/zombie.json';
 import Leon from 'assets/leon.json'
 import Claire from 'assets/claire.json'
+import Ada from 'assets/ada.json'
+import Rebecca from 'assets/rebecca.json'
+import Birkin from 'assets/birkin.json'
+import Hunk from 'assets/hunk.json'
+import Krauser from 'assets/krauser.json'
+import Billy from 'assets/billy.json'
 
 
 export class Director {
@@ -54,7 +53,14 @@ export class Director {
         this.levelTicks = 0
         this.mobSpec = new MobSpec()
         // @ts-ignore
-        this.bossPool = ROT.RNG.shuffle([Jill, Chris, Barry, Brad, Wesker, Leon, Claire])
+        this.bossPool = ROT.RNG.shuffle([Jill, Chris, Barry, Brad, Wesker, Leon, Claire,
+            Ada, Rebecca, Birkin, Hunk, Krauser, Billy])
+        // this.bossPool.unshift(Ada)
+        // this.bossPool.unshift(Rebecca)
+        // this.bossPool.unshift(Birkin)
+        // this.bossPool.unshift(Hunk)
+        // this.bossPool.unshift(Krauser)
+        // this.bossPool.unshift(Billy)
     }
 
     // cleanup all things that need to be cleaned for descending
@@ -98,7 +104,7 @@ export class Director {
         return this.game.maps.mapMap()[this.getLevelName()]
     }
 
-    nextBoss(){
+    nextBoss() {
 
         // @ts-ignore
         let boss = this.bossPool.splice(0, 1)[0]
@@ -122,7 +128,7 @@ export class Director {
             let monster = this._createSchedule(this.boss)
             monster.boss = true
 
-            if(this.game.currentLevel === 4){
+            if (this.game.currentLevel === 4) {
                 console.log('last level boss spawned')
                 monster.finalBoss = true
             }

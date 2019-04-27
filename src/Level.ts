@@ -49,11 +49,9 @@ function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
 
-// DONE: randomize bosses
-// DONE: points based on level when boss killed, not boss itself
-// TODO: unique abilities for Leon, Claire
-// TODO: stats, bios, quotes for Leon, Claire
-// TODO: tiles for Leon, Claire
+// TODO: unique abilities for Leon, Claire, Ada, Rebecca, Birkin, Hunk, Krauser, Billy
+// TODO: stats, bios, quotes for Leon, Claire, Ada, Rebecca, Birkin, Hunk, Krauser, Billy
+// TODO: tiles for Leon, Claire, Ada, Rebecca, Birkin, Hunk, Krauser, Billy
 
 export class GameProgress {
     level0: Level

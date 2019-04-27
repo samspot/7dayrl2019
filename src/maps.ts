@@ -40,8 +40,14 @@ let wallMap = {
 let tileWidth = Config.tileWidth
 
 let tileMap = {
-    "K": [0 * tileWidth, 3 * tileWidth],
-    "R": [0 * tileWidth, 3 * tileWidth],
+    "K": [0 * tileWidth, 3 * tileWidth], // Leon Kennedy
+    "R": [0 * tileWidth, 3 * tileWidth], // Claire Redfield
+    "A": [0 * tileWidth, 3 * tileWidth], // Ada Wong
+    "x": [0 * tileWidth, 3 * tileWidth], // Rebecca Chambers
+    "m": [0 * tileWidth, 3 * tileWidth], // William Birkin
+    "H": [0 * tileWidth, 3 * tileWidth], // Hunk
+    "k": [0 * tileWidth, 3 * tileWidth], // Krauser
+    "y": [0 * tileWidth, 3 * tileWidth], // Billy Coen
 
     "@": [0 * tileWidth, 3 * tileWidth],
     "J": [1 * tileWidth, 3 * tileWidth],

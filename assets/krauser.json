@@ -1,0 +1,11 @@
+{
+    "symbol": "k",
+    "color": "#330099",
+    "name": "Krauser",
+    "hp": 70,
+    "score": 500,
+    "str": 25,
+    "sightRadius": 6,
+    "bio": "",
+    "quote": ""
+}

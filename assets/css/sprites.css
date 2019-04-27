@@ -34,6 +34,79 @@
     background: url(../../assets/img/mob-sprite-sheet.png) -75px -525px;
 }
 
+.ada {
+    background: url(../../assets/img/mob-sprite-sheet.png) -150px -375px;
+}
+
+.ada-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -150px -450px;
+}
+
+.ada-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -150px -525px;
+}
+
+
+.rebecca {
+    background: url(../../assets/img/mob-sprite-sheet.png) -225px -375px;
+}
+
+.rebecca-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -225px -450px;
+}
+
+.rebecca-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -225px -525px;
+}
+
+.birkin {
+    background: url(../../assets/img/mob-sprite-sheet.png) -300px -375px;
+}
+
+.birkin-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -300px -450px;
+}
+
+.birkin-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -300px -525px;
+}
+
+.hunk {
+    background: url(../../assets/img/mob-sprite-sheet.png) -375px -375px;
+}
+
+.hunk-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -375px -450px;
+}
+
+.hunk-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -375px -525px;
+}
+
+.krauser {
+    background: url(../../assets/img/mob-sprite-sheet.png) -450px -375px;
+}
+
+.krauser-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -450px -450px;
+}
+
+.krauser-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -450px -525px;
+}
+
+.billy {
+    background: url(../../assets/img/mob-sprite-sheet.png) -525px -375px;
+}
+
+.billy-dead {
+    background: url(../../assets/img/mob-sprite-sheet.png) -525px -450px;
+}
+
+.billy-eliminated {
+    background: url(../../assets/img/mob-sprite-sheet.png) -525px -525px;
+}
+
 
 .chris {
     background: url(../../assets/img/mob-sprite-sheet.png) -75px -150px;
@@ -83,39 +156,49 @@
     background: url(../../assets/img/mob-sprite-sheet.png) -300px -300px;
 }
 
-.zombie, .zombie-dead {
+.zombie,
+.zombie-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) 0 0;
 }
 
-.chimera, .chimera-dead {
+.chimera,
+.chimera-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) -75px 0;
 }
 
-.dog, .dog-dead {
+.dog,
+.dog-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) -150px 0;
 }
 
-.hunter, .hunter-dead {
+.hunter,
+.hunter-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) -225px 0;
 }
 
-.tyrant, .tyrant-dead {
+.tyrant,
+.tyrant-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) -450px 0;
 }
 
-.lisa, .lisa-dead {
+.lisa,
+.lisa-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) 0 -75px;
 }
 
-.shark, .shark-dead {
+.shark,
+.shark-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) -75px -75px;
 }
 
-.spider, .spider-dead {
+.spider,
+.spider-dead {
     background: url(../../assets/img/mob-sprite-sheet.png) -150px -75px;
 }
 
-.unknown, .unknown-dead, .unknown-eliminated {
+.unknown,
+.unknown-dead,
+.unknown-eliminated {
     background: url(../../assets/img/mob-sprite-sheet.png) -450px -75px;
 }
 
