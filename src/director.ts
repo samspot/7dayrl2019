@@ -22,6 +22,7 @@ import Birkin from 'assets/birkin.json'
 import Hunk from 'assets/hunk.json'
 import Krauser from 'assets/krauser.json'
 import Billy from 'assets/billy.json'
+import Lisa from 'assets/lisa.json'
 
 
 export class Director {
@@ -57,7 +58,7 @@ export class Director {
         this.bossPool = ROT.RNG.shuffle([Jill, Chris, Barry, Brad, Wesker, Leon, Claire, Rebecca])
 
         // @ts-ignore
-        this.specialMobs = ROT.RNG.shuffle([Ada, Birkin, Hunk, Krauser, Billy])
+        this.specialMobs = ROT.RNG.shuffle([Ada, Birkin, Hunk, Krauser, Billy, Lisa])
         // this.bossPool.unshift(Ada)
         // this.bossPool.unshift(Rebecca)
         // this.bossPool.unshift(Birkin)

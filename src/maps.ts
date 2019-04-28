@@ -119,8 +119,8 @@ let tileMap = {
     'point1': [2, 5], // N
     'point2': [0, 6], // S 
     // TODO these need fixoring
-    'point3': [2, 4],
-    'point0': [2, 3],
+    'point3': [2, 3],
+    'point0': [2, 4],
 }
 
 // Add the tile widths

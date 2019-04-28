@@ -65,7 +65,7 @@ const abilities: { [key: string]: Array<Object> } = {
 
 const mobs = {
     'lab': [Zombie, Zombie, Chimera],
-    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Zombie, Hunter, Spider, Lisa], // SpiderBoss
+    'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Zombie, Hunter, Spider], // SpiderBoss
     'outside': [Zombie, Dog, Dog, Spider],
     'guardhouse': [Zombie, Spider, Spider, Shark], // Plant, Plant42
     'mansion': [Zombie, Zombie, Hunter, Hunter], //Snake
