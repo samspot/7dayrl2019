@@ -8,6 +8,7 @@ import { Actor } from './actor';
 export class Level {
     level: number;
     name: string;
+    nickname: string
     bossNickName: string
     boss?: string;
     floorColor: string;
@@ -23,6 +24,22 @@ export class Level {
     tilesNew?: ImageData;
     bossObj?: Actor;
     score: number
+
+    constructor(idx: number, name: string, nickname: string, floorcolor: string, wallcolor: string, spawnrate: number, tiles: any) {
+        this.level = idx
+        this.name = name
+        this.nickname = nickname
+        this.floorColor = floorcolor
+        this.wallColor = wallcolor
+        this.spawnRate = spawnrate
+        this.tilesNew = tiles
+
+        this.text = "Status Unknown"
+        this.bossNickName = ""
+        this.style = "font-style: italic"
+        this.bossDown = false
+        this.score = 10000 - idx * 2000
+    }
 }
 
 export const levels = [
@@ -33,6 +50,7 @@ export const levels = [
     'mansion'
 ]
 
+// TODO: can i get rid of this?
 export const levelNames = {
     'lab': 'Laboratory',
     'catacombs': 'Catacombs',
@@ -45,10 +63,6 @@ function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
 
-// TODO: unique abilities for Leon, Claire, Ada, Rebecca, Birkin, Hunk, Krauser, Billy
-// TODO: tiles for Leon, Claire, Ada, Rebecca, Birkin, Hunk, Krauser, Billy
-// TODO: fix missing target on possess
-
 export class GameProgress {
     level0: Level
     level1: Level
@@ -57,74 +71,10 @@ export class GameProgress {
     level4: Level
     [key: string]: Level
     constructor() {
-        this.level0 = {
-            level: 0,
-            name: "The Laboratory",
-            floorColor: '#999999',
-            wallColor: '#ffffff',
-            spawnRate: 3,
-            text: "Status Unknown",
-            bossNickName: "",
-            style: "font-style: italic",
-            bossDown: false,
-            tilesNew: ReTiles16LabNew,
-            score: 10000
-        }
-
-        this.level1 = {
-            level: 1,
-            name: "Catacombs",
-            floorColor: '#cc9966',
-            wallColor: '#660033',
-            spawnRate: 7,
-            text: "Status Unknown",
-            bossNickName: "",
-            style: "font-style: italic",
-            bossDown: false,
-            tilesNew: ReTiles16CatacombsNew,
-            score: 8000
-        }
-
-        this.level2 = {
-            level: 2,
-            name: "Garden",
-            floorColor: '#cc9966',
-            wallColor: '#006600',
-            spawnRate: 6,
-            text: "Status Unknown",
-            bossNickName: "",
-            style: "font-style: italic",
-            bossDown: false,
-            tilesNew: ReTiles16OutsideNew,
-            score: 6000
-        }
-
-        this.level3 = {
-            level: 3,
-            name: "Guardhouse",
-            floorColor: '#cccc99',
-            wallColor: '#330066',
-            spawnRate: 4,
-            text: "Status Unknown",
-            bossNickName: "",
-            style: "font-style: italic",
-            bossDown: false,
-            tilesNew: ReTiles16GuardhouseNew,
-            score: 4000
-        }
-
-        this.level4 = {
-            level: 4,
-            name: "The Mansion",
-            floorColor: '#6699cc',
-            wallColor: '#660033',
-            spawnRate: 5,
-            text: "Status Unknown",
-            bossNickName: "",
-            style: "font-style: italic",
-            bossDown: false,
-            tilesNew: ReTiles16MansionNew,
-            score: 2000
-        }
+        this.level0 = new Level(0, 'The Laboratory', 'lab', '#999999', '#ffffff', 3, ReTiles16LabNew)
+        this.level1 = new Level(1, 'Catacombs', 'catacombs', '#cc9966', '#660033', 7, ReTiles16CatacombsNew)
+        this.level2 = new Level(2, 'Garden', 'outside', '#cc9966', '#006600', 6, ReTiles16OutsideNew)
+        this.level3 = new Level(3, 'Guardhouse', 'guardhouse', '#cccc99', '#330066', 4, ReTiles16GuardhouseNew)
+        this.level4 = new Level(4, 'The Mansion', 'mansion', '#6699cc', '#660033', 5, ReTiles16MansionNew)
     }
 }

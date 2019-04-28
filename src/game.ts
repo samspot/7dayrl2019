@@ -17,6 +17,7 @@ import { Player } from './player';
 // HIGH high scores not working sometimes still
 // FIXED target UI not working quite right post-death
 
+// LOW score counting double on level 1
 // LOW player sprite doesn't change when infecting
 // LOW unseen bosses still taking damage (wesker)
 // LOW prevent default on boss splash

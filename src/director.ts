@@ -226,7 +226,7 @@ export class Director {
     _generateMob() {
         let mob
         let randomChance = 0.95 // 0.9
-        let scoreThreshold = 0 // 15000
+        let scoreThreshold = 15000 // 15000
         let rand = ROT.RNG.getUniform()
         if (this.game.score >= scoreThreshold && rand >= randomChance && this.specialMobs.length > 0) {
             mob = this.specialMobs.splice(0, 1)[0]
