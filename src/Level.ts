@@ -1,14 +1,4 @@
-import ReTiles16CatacombsF2 from '../assets/img/re-tiles-16-catacombs-f2.png';
-import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
-import ReTiles16GuardhouseF2 from '../assets/img/re-tiles-16-guardhouse-f2.png';
-import ReTiles16Guardhouse from '../assets/img/re-tiles-16-guardhouse.png';
-import ReTiles16LabF2 from '../assets/img/re-tiles-16-lab-f2.png';
-import ReTiles16Lab from '../assets/img/re-tiles-16-lab.png';
 import ReTiles16LabNew from '../assets/img/re-tiles-16-lab-new.png';
-import ReTiles16MansionF2 from '../assets/img/re-tiles-16-mansion-f2.png';
-import ReTiles16Mansion from '../assets/img/re-tiles-16-mansion.png';
-import ReTiles16OutsideF2 from '../assets/img/re-tiles-16-outside-f2.png';
-import ReTiles16Outside from '../assets/img/re-tiles-16-outside.png';
 import { Actor } from './actor';
 
 export class Level {
@@ -24,8 +14,6 @@ export class Level {
     toString: Function = function () {
         return gpToString();
     };
-    tiles: ImageData;
-    tilesf2: ImageData;
     // TODO remove question mark, old tiles
     tilesNew?: ImageData;
     bossObj?: Actor;
@@ -73,8 +61,6 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tiles: ReTiles16Lab,
-            tilesf2: ReTiles16LabF2,
             tilesNew: ReTiles16LabNew,
             score: 10000
         }
@@ -88,8 +74,7 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tiles: ReTiles16Catacombs,
-            tilesf2: ReTiles16CatacombsF2,
+            tilesNew: ReTiles16LabNew,
             score: 8000
         }
 
@@ -102,8 +87,7 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tiles: ReTiles16Outside,
-            tilesf2: ReTiles16OutsideF2,
+            tilesNew: ReTiles16LabNew,
             score: 6000
         }
 
@@ -116,8 +100,7 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tiles: ReTiles16Guardhouse,
-            tilesf2: ReTiles16GuardhouseF2,
+            tilesNew: ReTiles16LabNew,
             score: 4000
         }
 
@@ -130,8 +113,7 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tiles: ReTiles16Mansion,
-            tilesf2: ReTiles16MansionF2,
+            tilesNew: ReTiles16LabNew,
             score: 2000
         }
     }

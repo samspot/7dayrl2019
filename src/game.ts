@@ -12,7 +12,6 @@ import { IMapSpec, Maps } from './maps';
 import { MobSpec } from './MobSpec';
 import { Monster } from './monster';
 import { Player } from './player';
-import ReTiles16Catacombs from '../assets/img/re-tiles-16-catacombs.png';
 
 // Bugs
 // MEDIUM mobs can be on top of the player
@@ -173,7 +172,7 @@ export class Game {
         } else if (Config.tileWidth === 16) {
             // tileSet.src = ReTiles2
             // tileSet.src = ReTiles16
-            tileSet.src = ReTiles16Catacombs
+            //tileSet.src = ReTiles16Catacombs
         } else if (Config.tileWidth === 32) {
             // tileSet.src = ReTiles4
         }
