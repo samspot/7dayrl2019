@@ -108,20 +108,19 @@ let tileMap = {
     '7': [1, 2],
     '8': [2, 2],
 
-    // TODO these need fixoring
-    'tall': [0, 1],
-    'wide': [1, 0],
-    'corner0': [0, 4],
-    'corner1': [0, 4],
-    'corner2': [0, 4],
-    'corner3': [0, 4],
-
-    'point1': [2, 5],
-
-    'point3': [0, 4],
-    'point0': [0, 4],
-    'point2': [0, 4],
+    'tall': [0, 5],
+    'wide': [1, 5],
     'pillar': [0, 7],
+    'corner0': [0, 3], // NW Point
+    'corner2': [0, 4], // SW Point
+    'corner1': [1, 3], // NE Point
+    'corner3': [1, 4], // SE Point
+
+    'point1': [2, 5], // N
+    'point2': [0, 6], // S 
+    // TODO these need fixoring
+    'point3': [2, 4],
+    'point0': [2, 3],
 }
 
 // Add the tile widths
