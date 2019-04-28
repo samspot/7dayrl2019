@@ -1,11 +1,10 @@
-
 {
+    "nickname": "spiderboss",
     "symbol": "S",
     "color": "#330000",
     "name": "Black Tiger",
     "hp": 200,
     "score": 300,
-    "str": 50, 
-    "sightRadius": 6 
-
+    "str": 50,
+    "sightRadius": 6
 }

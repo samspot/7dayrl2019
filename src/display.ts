@@ -12,8 +12,6 @@ import { Actor } from './actor';
 import { BossSplash, render } from './markup.jsx';
 import { ModalContainer } from './modal'
 
-import { nameMap } from './namemap'
-
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
     game: Game
@@ -47,8 +45,8 @@ export class GameDisplay {
 
         let gp = this.game.getGameProgress()
         // @ts-ignore
-        let bossName = nameMap[gp.text]
-        this.renderCharacter(bossName, 'boss-splash')
+        // let bossName = nameMap[gp.text]
+        this.renderCharacter(gp.bossNickName, 'boss-splash')
     }
 
     renderCharacter(className: string, id: string) {

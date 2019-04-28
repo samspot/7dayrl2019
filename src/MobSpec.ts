@@ -19,6 +19,7 @@ export class MobSpec {
     symbol: string;
     color: string;
     name: string;
+    nickname: string;
     hp: number;
     score: number;
     str: number;

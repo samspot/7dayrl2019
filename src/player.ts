@@ -20,6 +20,7 @@ export class Player extends Actor {
     constructor(x: number, y: number, game: Game) {
         super(x, y, "@", "#ff0", game)
 
+        this.nickname = Tyrant.nickname
         this.name = Tyrant.name
         // this.name= "Giant Spider"
         this.hp = Tyrant.hp
@@ -43,6 +44,7 @@ export class Player extends Actor {
 
     revive() {
         this.name = Tyrant.name
+        this.nickname = Tyrant.nickname
         this.hp = Tyrant.hp
         this.maxHp = this.hp
         this.color = Tyrant.color
@@ -57,6 +59,7 @@ export class Player extends Actor {
 
     infectMob(mob: Actor) {
         this.name = mob.name
+        this.nickname = mob.nickname
         this.hp = mob.maxHp * 1.5
         if (this.hp < 150) { this.hp = 150 }
         this.maxHp = this.hp

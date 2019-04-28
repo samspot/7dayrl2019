@@ -142,6 +142,7 @@ export class Director {
             this.boss = monster
 
             this.game.getGameProgress().text = this.boss.name
+            this.game.getGameProgress().bossNickName = this.boss.nickname
             this.game.getGameProgress().bossObj = monster
         }
 

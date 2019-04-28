@@ -1,10 +1,10 @@
 {
+    "nickname": "snake",
     "symbol": "S",
     "color": "#000066",
     "name": "Snake Boss",
     "hp": 160,
     "score": 200,
-    "str": 15 , 
-    "sightRadius": 6 
-
+    "str": 15,
+    "sightRadius": 6
 }

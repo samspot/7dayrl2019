@@ -14,6 +14,7 @@ export class Monster extends Actor {
         super(x, y, mobspec.symbol, mobspec.color, game)
 
         this.name = mobspec.name
+        this.nickname = mobspec.nickname
         this.maxHp = mobspec.hp
         this.hp = mobspec.hp
         this.str = mobspec.str

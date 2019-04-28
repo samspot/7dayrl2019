@@ -1,11 +1,10 @@
-
 {
+    "nickname": "shark",
     "symbol": "s",
     "color": "white",
     "name": "Shark",
     "hp": 20,
     "score": 5,
-    "str": 15, 
-    "sightRadius": 8 
-
+    "str": 15,
+    "sightRadius": 8
 }

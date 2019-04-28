@@ -1,11 +1,10 @@
-
 {
+    "nickname": "hunter",
     "symbol": "h",
     "color": "#ffff00",
     "name": "Hunter",
     "hp": 30,
     "score": 5,
-    "str": 20, 
-    "sightRadius": 10 
-
+    "str": 20,
+    "sightRadius": 10
 }

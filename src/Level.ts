@@ -8,6 +8,7 @@ import { Actor } from './actor';
 export class Level {
     level: number;
     name: string;
+    bossNickName: string
     boss?: string;
     floorColor: string;
     wallColor: string;
@@ -63,6 +64,7 @@ export class GameProgress {
             wallColor: '#ffffff',
             spawnRate: 3,
             text: "Status Unknown",
+            bossNickName: "",
             style: "font-style: italic",
             bossDown: false,
             tilesNew: ReTiles16LabNew,
@@ -76,6 +78,7 @@ export class GameProgress {
             wallColor: '#660033',
             spawnRate: 7,
             text: "Status Unknown",
+            bossNickName: "",
             style: "font-style: italic",
             bossDown: false,
             tilesNew: ReTiles16CatacombsNew,
@@ -89,6 +92,7 @@ export class GameProgress {
             wallColor: '#006600',
             spawnRate: 6,
             text: "Status Unknown",
+            bossNickName: "",
             style: "font-style: italic",
             bossDown: false,
             tilesNew: ReTiles16OutsideNew,
@@ -102,6 +106,7 @@ export class GameProgress {
             wallColor: '#330066',
             spawnRate: 4,
             text: "Status Unknown",
+            bossNickName: "",
             style: "font-style: italic",
             bossDown: false,
             tilesNew: ReTiles16GuardhouseNew,
@@ -115,6 +120,7 @@ export class GameProgress {
             wallColor: '#660033',
             spawnRate: 5,
             text: "Status Unknown",
+            bossNickName: "",
             style: "font-style: italic",
             bossDown: false,
             tilesNew: ReTiles16MansionNew,

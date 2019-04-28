@@ -15,7 +15,7 @@ import { Player } from './player';
 
 // Bugs
 // HIGH high scores not working sometimes still
-// MEDIUM target UI not working quite right post-death
+// FIXED target UI not working quite right post-death
 
 // LOW player sprite doesn't change when infecting
 // LOW unseen bosses still taking damage (wesker)
@@ -104,7 +104,8 @@ export class Game {
     }
 
     getBosses() {
-        return this.mobs.filter(m => m.boss)
+        // return this.mobs.filter(m => m.boss)
+        return this.getGameProgress() && this.getGameProgress().bossObj
     }
 
     allBossesDown() {

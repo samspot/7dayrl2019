@@ -1,10 +1,10 @@
 {
+    "nickname": "chimera",
     "symbol": "c",
     "color": "#330099",
     "name": "Chimera",
     "hp": 50,
     "score": 50,
-    "str": 20, 
-    "sightRadius": 4 
-
+    "str": 20,
+    "sightRadius": 4
 }

@@ -1,11 +1,10 @@
-
 {
+    "nickname": "spider",
     "symbol": "p",
     "color": "#ffff00",
     "name": "Giant Spider",
     "hp": 10,
     "score": 1,
-    "str": 10, 
-    "sightRadius": 5 
-
+    "str": 10,
+    "sightRadius": 5
 }

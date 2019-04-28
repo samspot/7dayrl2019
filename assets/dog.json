@@ -1,11 +1,10 @@
-
 {
+    "nickname": "dog",
     "symbol": "d",
     "color": "#330000",
     "name": "Dog",
     "hp": 20,
     "score": 2,
-    "str": 10, 
-    "sightRadius": 15 
-
+    "str": 10,
+    "sightRadius": 15
 }

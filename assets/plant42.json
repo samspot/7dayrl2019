@@ -1,11 +1,10 @@
-
 {
+    "nickname": "plant42",
     "symbol": "P",
     "color": "#ff0099",
     "name": "Plant 42",
     "hp": 100,
     "score": 100,
-    "str": 20 , 
-    "sightRadius": 2 
-
+    "str": 20,
+    "sightRadius": 2
 }

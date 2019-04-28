@@ -1,11 +1,10 @@
-
 {
+    "nickname": "plant",
     "symbol": "p",
     "color": "#330000",
     "name": "Plant",
     "hp": 1,
     "score": 1,
-    "str": 15, 
-    "sightRadius": 2 
-
+    "str": 15,
+    "sightRadius": 2
 }
