@@ -14,20 +14,22 @@ import { Monster } from './monster';
 import { Player } from './player';
 
 // Bugs
-// MEDIUM mobs can be on top of the player
-// MEDIUM use diff symbol for unknown tile (currently crosshair)
+// HIGH high scores not working sometimes still
+// MEDIUM target UI not working quite right post-death
 
 // LOW player sprite doesn't change when infecting
 // LOW unseen bosses still taking damage (wesker)
 // LOW prevent default on boss splash
 
-// FIXED? cooldown graphic(s) missing
-// FIXED clearing boss splash w/o react: react-dom.development.js:500 Warning: render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container. // ReactDOM.unmountComponentAtNode 
 // DESCOPE similar to above, didn't get a splash on death (may be unrelated)
 
 // TODO Map stuff to maps or levels js
 // TODO create player/mob stuff to director js
 
+// FIXED? cooldown graphic(s) missing
+// FIXED clearing boss splash w/o react: react-dom.development.js:500 Warning: render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container. // ReactDOM.unmountComponentAtNode 
+// FIXED mobs can be on top of the player
+// FIXED use diff symbol for unknown tile (currently crosshair)
 // FIXED grenade launcher text overwrites next ability (change to launcher or grenade)
 // FIXED bosses still spawn in player start room
 // FIXED ability tooltips missing damage value
