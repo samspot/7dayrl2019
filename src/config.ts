@@ -30,7 +30,7 @@ const Config: IConfig = {
     gamePortHeight: 27,
     fontSize: 16,
     messageListSize: 15,
-    // seed: 12362,
+    seed: 12362,
     // turnsToSim: 35,
     // turnsToSim: 26,
     //turnsToSim: 39,
@@ -43,9 +43,9 @@ const Config: IConfig = {
     tiles: true,
     enableCharge: false,
     // playerInvulnerable: true,
-  //startLevel: 1,
-  animate: true,
-  logMissingTiles: false
+    //startLevel: 1,
+    animate: true,
+    logMissingTiles: false
 }
 
 /*

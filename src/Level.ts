@@ -4,6 +4,7 @@ import ReTiles16GuardhouseF2 from '../assets/img/re-tiles-16-guardhouse-f2.png';
 import ReTiles16Guardhouse from '../assets/img/re-tiles-16-guardhouse.png';
 import ReTiles16LabF2 from '../assets/img/re-tiles-16-lab-f2.png';
 import ReTiles16Lab from '../assets/img/re-tiles-16-lab.png';
+import ReTiles16LabNew from '../assets/img/re-tiles-16-lab-new.png';
 import ReTiles16MansionF2 from '../assets/img/re-tiles-16-mansion-f2.png';
 import ReTiles16Mansion from '../assets/img/re-tiles-16-mansion.png';
 import ReTiles16OutsideF2 from '../assets/img/re-tiles-16-outside-f2.png';
@@ -25,6 +26,8 @@ export class Level {
     };
     tiles: ImageData;
     tilesf2: ImageData;
+    // TODO remove question mark, old tiles
+    tilesNew?: ImageData;
     bossObj?: Actor;
     score: number
 }
@@ -72,6 +75,7 @@ export class GameProgress {
             bossDown: false,
             tiles: ReTiles16Lab,
             tilesf2: ReTiles16LabF2,
+            tilesNew: ReTiles16LabNew,
             score: 10000
         }
 

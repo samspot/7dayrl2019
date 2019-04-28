@@ -130,12 +130,25 @@ export class Game {
     swapTiles(idx: number) {
         if (Config.tiles) {
             let options = this.display.getOptions()
+            let frame2Set = this.maps.getFrame2()
             if (idx % 2 === 0) {
-                options.tileSet.src = this.getGameProgress().tiles
+                // options.tileSet.src = this.getGameProgress().tiles
+                frame2Set.forEach((k: any) => {
+                    let obj = options.tileMap[k]
+                    if (obj) {
+                        options.tileMap[k] = [obj[0] + 16, obj[1]]
+                    }
+                })
             }
 
             if (idx % 2 === 1) {
-                options.tileSet.src = this.getGameProgress().tilesf2
+                //    options.tileSet.src = this.getGameProgress().tilesf2
+                frame2Set.forEach((k: any) => {
+                    let obj = options.tileMap[k]
+                    if (obj) {
+                        options.tileMap[k] = [obj[0] - 16, obj[1]]
+                    }
+                })
             }
             this._drawFov()
         }
@@ -414,7 +427,7 @@ export class Game {
     }
 
     redraw() {
-        let imageSrc = this.getGameProgress().tiles
+        let imageSrc = this.getGameProgress().tilesNew
         this._setTiles(imageSrc)
         this.display.clear()
         if (Config.debug && Config.drawWholeMap) {

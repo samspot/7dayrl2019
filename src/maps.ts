@@ -39,58 +39,100 @@ let wallMap = {
 
 let tileWidth = Config.tileWidth
 
+
+let hasFrame2 = [
+    "d",
+    "c",
+    "L",
+    "z",
+    "h",
+    "p",
+    "#",
+    "b",
+    "s",
+    "K",
+    "R",
+    "A",
+    "x",
+    "m",
+    "H",
+    "k",
+    "y",
+    "@",
+    "J",
+    "C",
+    "B",
+    "V",
+    "W"
+]
+
+
 let tileMap = {
-    "K": [0 * tileWidth, 3 * tileWidth], // Leon Kennedy
-    "R": [0 * tileWidth, 3 * tileWidth], // Claire Redfield
-    "A": [0 * tileWidth, 3 * tileWidth], // Ada Wong
-    "x": [0 * tileWidth, 3 * tileWidth], // Rebecca Chambers
-    "m": [0 * tileWidth, 3 * tileWidth], // William Birkin
-    "H": [0 * tileWidth, 3 * tileWidth], // Hunk
-    "k": [0 * tileWidth, 3 * tileWidth], // Krauser
-    "y": [0 * tileWidth, 3 * tileWidth], // Billy Coen
+    'placeholder': [0, 7], // placeholder
+    "d": [0, 8],  // dog
+    "c": [0, 9],  // chimera
+    "L": [0, 10], // Lisa
+    "z": [0, 11], // zombie
+    "h": [0, 12], // hunter
+    "p": [0, 13], // spider
+    "#": [0, 14], // reticle
+    "b": [0, 15], // blood pool
+    "s": [0, 16], // shark
 
-    "@": [0 * tileWidth, 3 * tileWidth],
-    "J": [1 * tileWidth, 3 * tileWidth],
-    "C": [2 * tileWidth, 3 * tileWidth],
-    "B": [0 * tileWidth, 4 * tileWidth],
-    "V": [1 * tileWidth, 4 * tileWidth],
-    "W": [2 * tileWidth, 4 * tileWidth],
-    "s": [0 * tileWidth, 5 * tileWidth],
-    "p": [1 * tileWidth, 5 * tileWidth],
-    "L": [2 * tileWidth, 5 * tileWidth],
-    "d": [0 * tileWidth, 6 * tileWidth],
-    "c": [1 * tileWidth, 6 * tileWidth],
-    "h": [2 * tileWidth, 6 * tileWidth],
-    "z": [0 * tileWidth, 7 * tileWidth],
-    '.': [1 * tileWidth, 1 * tileWidth],
-    '_': [1 * tileWidth, 1 * tileWidth],
-    '': [1 * tileWidth, 1 * tileWidth],
-    '0': [0 * tileWidth, 0 * tileWidth],
-    '1': [1 * tileWidth, 0 * tileWidth],
-    '2': [2 * tileWidth, 0 * tileWidth],
-    '3': [0 * tileWidth, 1 * tileWidth],
-    '4': [1 * tileWidth, 1 * tileWidth],
-    '5': [2 * tileWidth, 1 * tileWidth],
-    '6': [0 * tileWidth, 2 * tileWidth],
-    '7': [1 * tileWidth, 2 * tileWidth],
-    '8': [2 * tileWidth, 2 * tileWidth],
-    // '9': [1 * tileWidth, 1 * tileWidth], // placeholder
-    'placeholder': [1 * tileWidth, 11 * tileWidth], // placeholder
-    'tall': [1 * tileWidth, 9 * tileWidth],
-    'wide': [2 * tileWidth, 9 * tileWidth],
-    'corner0': [1 * tileWidth, 7 * tileWidth],
-    'corner1': [2 * tileWidth, 7 * tileWidth],
-    'corner2': [1 * tileWidth, 8 * tileWidth],
-    'corner3': [2 * tileWidth, 8 * tileWidth],
+    "K": [0, 17], // Leon Kennedy
+    "R": [0, 17], // Claire Redfield
+    "A": [0, 17], // Ada Wong
+    "x": [0, 17], // Rebecca Chambers
+    "m": [0, 17], // William Birkin
+    "H": [0, 17], // Hunk
+    "k": [0, 17], // Krauser
+    "y": [0, 17], // Billy Coen
 
-    'point3': [0 * tileWidth, 8 * tileWidth],
-    'point0': [0 * tileWidth, 9 * tileWidth],
-    'point1': [0 * tileWidth, 10 * tileWidth],
-    'point2': [1 * tileWidth, 10 * tileWidth],
-    'pillar': [2 * tileWidth, 9 * tileWidth],
-    "#": [0 * tileWidth, 11 * tileWidth],
-    "b": [2 * tileWidth, 10 * tileWidth],
+    "@": [0, 17], // player
+    "J": [0, 18], // Jill
+    "C": [0, 19], // Chris
+    "B": [0, 20], // Barry
+    "V": [0, 21], // Brad
+    "W": [0, 22], // Wesker
+
+    '.': [1, 1],
+    '_': [1, 1],
+    '': [1, 1],
+    '0': [0, 0],
+    '1': [1, 0],
+    '2': [2, 0],
+    '3': [0, 1],
+    '4': [1, 1],
+    '5': [2, 1],
+    '6': [0, 2],
+    '7': [1, 2],
+    '8': [2, 2],
+
+    // TODO these need fixoring
+    'tall': [0, 1],
+    'wide': [1, 0],
+    'corner0': [0, 4],
+    'corner1': [0, 4],
+    'corner2': [0, 4],
+    'corner3': [0, 4],
+
+    'point1': [2, 5],
+
+    'point3': [0, 4],
+    'point0': [0, 4],
+    'point2': [0, 4],
+    'pillar': [0, 7],
 }
+
+// Add the tile widths
+Object.keys(tileMap).forEach((k: any) => {
+    // @ts-ignore
+    let x = tileMap[k][0]
+    // @ts-ignore
+    let y = tileMap[k][1]
+    // @ts-ignore
+    tileMap[k] = [x * tileWidth, y * tileWidth]
+})
 
 interface IWallPreset {
     [key: string]: Array<Array<string>>
@@ -315,6 +357,10 @@ export class Maps {
 
     getTileMap() {
         return tileMap
+    }
+
+    getFrame2() {
+        return hasFrame2
     }
 }
 
