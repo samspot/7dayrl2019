@@ -79,21 +79,22 @@ let tileMap = {
     "b": [0, 15], // blood pool
     "s": [0, 16], // shark
 
-    "K": [0, 17], // Leon Kennedy
-    "R": [0, 17], // Claire Redfield
-    "A": [0, 17], // Ada Wong
-    "x": [0, 17], // Rebecca Chambers
-    "m": [0, 17], // William Birkin
-    "H": [0, 17], // Hunk
-    "k": [0, 17], // Krauser
-    "y": [0, 17], // Billy Coen
-
     "@": [0, 17], // player
     "J": [0, 18], // Jill
     "C": [0, 19], // Chris
     "B": [0, 20], // Barry
     "V": [0, 21], // Brad
     "W": [0, 22], // Wesker
+
+    "x": [0, 23], // Rebecca Chambers
+    "y": [0, 24], // Billy Coen
+    "H": [0, 25], // Hunk
+    "K": [0, 26], // Leon Kennedy
+    "R": [0, 27], // Claire Redfield
+    "A": [0, 28], // Ada Wong
+    "k": [0, 29], // Krauser
+    "m": [0, 30], // William Birkin
+
 
     '.': [1, 1],
     '_': [1, 1],
