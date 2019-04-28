@@ -1,4 +1,8 @@
 import ReTiles16LabNew from '../assets/img/re-tiles-16-lab-new.png';
+import ReTiles16CatacombsNew from '../assets/img/re-tiles-16-catacombs-new.png';
+import ReTiles16OutsideNew from '../assets/img/re-tiles-16-outside-new.png';
+import ReTiles16MansionNew from '../assets/img/re-tiles-16-mansion-new.png';
+import ReTiles16GuardhouseNew from '../assets/img/re-tiles-16-guardhouse-new.png';
 import { Actor } from './actor';
 
 export class Level {
@@ -74,7 +78,7 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tilesNew: ReTiles16LabNew,
+            tilesNew: ReTiles16CatacombsNew,
             score: 8000
         }
 
@@ -87,7 +91,7 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tilesNew: ReTiles16LabNew,
+            tilesNew: ReTiles16OutsideNew,
             score: 6000
         }
 
@@ -100,7 +104,7 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tilesNew: ReTiles16LabNew,
+            tilesNew: ReTiles16GuardhouseNew,
             score: 4000
         }
 
@@ -113,7 +117,7 @@ export class GameProgress {
             text: "Status Unknown",
             style: "font-style: italic",
             bossDown: false,
-            tilesNew: ReTiles16LabNew,
+            tilesNew: ReTiles16MansionNew,
             score: 2000
         }
     }
