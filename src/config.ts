@@ -42,7 +42,7 @@ const Config: IConfig = {
     skipTitle: true,
     tiles: true,
     enableCharge: false,
-    // playerInvulnerable: true,
+    playerInvulnerable: true,
     //startLevel: 1,
     animate: true,
     logMissingTiles: false

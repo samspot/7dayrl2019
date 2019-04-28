@@ -78,7 +78,7 @@ export class Game {
     messages: Array<IMessage>
     gameProgress: GameProgress
     showInfectable: boolean
-
+    deaths: number
     dirty: boolean
     director: Director
     constructor(scheduler: ROT.Scheduler) {
@@ -98,6 +98,7 @@ export class Game {
         this.director = undefined
         this.gameDisplay = new GameDisplay(this)
         this.showInfectable = false
+        this.deaths = 0
     }
 
     getBosses() {

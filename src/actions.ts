@@ -219,6 +219,7 @@ export class DamageAction extends Action {
         }
 
         if (game.player.hp <= 0) {
+            game.deaths++
             return new InfectAction(game.player, game)
         }
 

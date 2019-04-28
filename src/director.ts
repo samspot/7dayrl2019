@@ -35,6 +35,7 @@ export class Director {
     levelTicks: number
     mobSpec: MobSpec
     bossPool: Array<Actor>
+    specialMobs: Array<Actor>
     constructor(game: Game, scheduler: ROT.Scheduler) {
         this.player = game.player
         this.game = game
@@ -53,8 +54,10 @@ export class Director {
         this.levelTicks = 0
         this.mobSpec = new MobSpec()
         // @ts-ignore
-        this.bossPool = ROT.RNG.shuffle([Jill, Chris, Barry, Brad, Wesker, Leon, Claire,
-            Ada, Rebecca, Birkin, Hunk, Krauser, Billy])
+        this.bossPool = ROT.RNG.shuffle([Jill, Chris, Barry, Brad, Wesker, Leon, Claire, Rebecca])
+
+        // @ts-ignore
+        this.specialMobs = ROT.RNG.shuffle([Ada, Birkin, Hunk, Krauser, Billy])
         // this.bossPool.unshift(Ada)
         // this.bossPool.unshift(Rebecca)
         // this.bossPool.unshift(Birkin)
@@ -219,8 +222,17 @@ export class Director {
     }
 
     _generateMob() {
-        // @ts-ignore
-        let mob = ROT.RNG.getItem(this.mobSpec.getMobsByLevel()[levels[this.game.currentLevel]])
+        let mob
+        let randomChance = 0.95 // 0.9
+        let scoreThreshold = 15000 // 15000
+        let rand = ROT.RNG.getUniform()
+        if (this.game.score >= scoreThreshold && rand >= randomChance && this.specialMobs.length > 0) {
+            mob = this.specialMobs.splice(0, 1)[0]
+        } else {
+            // @ts-ignore
+            mob = ROT.RNG.getItem(this.mobSpec.getMobsByLevel()[levels[this.game.currentLevel]])
+        }
+        // console.log('rand', rand, 'score', this.game.score, 'deaths', this.game.deaths, 'spawning', mob)
         return mob
     }
 
