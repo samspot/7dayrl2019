@@ -41,9 +41,25 @@ async function mainLoop() {
 
     let i = 0
     if (Config.animate) {
-        setInterval(() => {
-            game.swapTiles(i++)
-        }, 400)
+        let start: any = null
+        let fps = 2
+        let changeEvery = 1000 / fps
+        let elapsed = changeEvery
+        let loop = (timestamp: any) => {
+            if (!start) start = timestamp
+            let dt = timestamp - start
+            start = timestamp
+
+            elapsed += dt
+            if (elapsed > changeEvery) {
+                elapsed = 0
+                game.swapTiles(i++)
+            }
+
+            requestAnimationFrame(loop)
+        }
+
+        requestAnimationFrame(loop)
     }
     while (1) {
         let actor = scheduler.next()
