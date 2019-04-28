@@ -178,7 +178,8 @@
 
 .tyrant,
 .tyrant-dead {
-    background: url(../../assets/img/mob-sprite-sheet.png) -450px 0;
+    /*background: url(../../assets/img/mob-sprite-sheet.png) -450px 0;*/
+    background: url(../../assets/img/mob-sprite-sheet.png) -375px -300px;
 }
 
 .lisa,
