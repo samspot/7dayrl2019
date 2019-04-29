@@ -8,7 +8,7 @@ import { Game } from './game';
 import { MobSpec } from "./MobSpec";
 import { Monster } from './monster';
 import { Player } from './player';
-import { levels, levelNames } from './Level'
+// import { levels, levelNames } from './Level'
 import Barry from 'assets/barry.json';
 import Brad from 'assets/brad.json';
 import Chris from 'assets/chris.json';
@@ -96,7 +96,7 @@ export class Director {
     }
 
     getLevelName() {
-        return levels[this.game.currentLevel]
+        return this.game.getGameProgress().nickname
     }
 
     getNextLevelDescription() {
@@ -105,7 +105,9 @@ export class Director {
     }
 
     getLevelSpec() {
-        return this.game.maps.mapMap()[this.getLevelName()]
+        let x = this.game.maps.mapMap()[this.getLevelName()]
+        // console.log('director.getlevelspec', x, this.getLevelName())
+        return x
     }
 
     nextBoss() {
@@ -232,7 +234,7 @@ export class Director {
             mob = this.specialMobs.splice(0, 1)[0]
         } else {
             // @ts-ignore
-            mob = ROT.RNG.getItem(this.mobSpec.getMobsByLevel()[levels[this.game.currentLevel]])
+            mob = ROT.RNG.getItem(this.mobSpec.getMobsByLevel()[this.getLevelName()])
         }
         // console.log('rand', rand, 'score', this.game.score, 'deaths', this.game.deaths, 'spawning', mob)
         return mob

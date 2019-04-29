@@ -42,23 +42,6 @@ export class Level {
     }
 }
 
-export const levels = [
-    'lab',
-    'catacombs',
-    'outside',
-    'guardhouse',
-    'mansion'
-]
-
-// TODO: can i get rid of this?
-export const levelNames = {
-    'lab': 'Laboratory',
-    'catacombs': 'Catacombs',
-    'outside': 'Garden',
-    'guardhouse': 'Guardhouse',
-    'mansion': 'Mansion'
-}
-
 function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
 }
@@ -69,12 +52,21 @@ export class GameProgress {
     level2: Level
     level3: Level
     level4: Level
-    [key: string]: Level
     constructor() {
         this.level0 = new Level(0, 'The Laboratory', 'lab', '#999999', '#ffffff', 3, ReTiles16LabNew)
         this.level1 = new Level(1, 'Catacombs', 'catacombs', '#cc9966', '#660033', 7, ReTiles16CatacombsNew)
         this.level2 = new Level(2, 'Garden', 'outside', '#cc9966', '#006600', 6, ReTiles16OutsideNew)
         this.level3 = new Level(3, 'Guardhouse', 'guardhouse', '#cccc99', '#330066', 4, ReTiles16GuardhouseNew)
         this.level4 = new Level(4, 'The Mansion', 'mansion', '#6699cc', '#660033', 5, ReTiles16MansionNew)
+    }
+
+    getCurrentLevel(idx: number) {
+        return [
+            this.level0,
+            this.level1,
+            this.level2,
+            this.level3,
+            this.level4
+        ][idx]
     }
 }

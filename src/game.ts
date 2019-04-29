@@ -112,6 +112,7 @@ export class Game {
     allBossesDown() {
         let bosses: Boolean[] = []
         Object.keys(this.gameProgress).forEach(key => {
+            // @ts-ignore
             bosses.push(this.gameProgress[key].bossDown)
         })
 
@@ -287,7 +288,6 @@ export class Game {
     }
 
     generateMap(mapspec: IMapSpec) {
-        // TODO change interfaces etc to type defs from ROT
         //@ts-ignore
         let generator = new mapspec._obj(Config.gamePortWidth, Config.gamePortHeight, mapspec)
 
@@ -376,6 +376,7 @@ export class Game {
 
     getGameProgress() {
         let key = "level" + this.currentLevel
+        // @ts-ignore
         return this.gameProgress[key]
     }
 
