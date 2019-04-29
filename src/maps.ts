@@ -67,7 +67,11 @@ let hasFrame2 = [
 ]
 
 
-let tileMap = {
+interface TileMap {
+    [key: string]: Array<number>
+}
+
+let tileMap: TileMap = {
     'placeholder': [0, 7], // placeholder
     "d": [0, 8],  // dog
     "c": [0, 9],  // chimera
@@ -95,7 +99,6 @@ let tileMap = {
     "k": [0, 29], // Krauser
     "m": [0, 30], // William Birkin
 
-
     '.': [1, 1],
     '_': [1, 1],
     '': [1, 1],
@@ -119,24 +122,16 @@ let tileMap = {
 
     'point1': [2, 5], // N
     'point2': [0, 6], // S 
-    // TODO these need fixoring
     'point3': [2, 3],
     'point0': [2, 4],
 }
 
 // Add the tile widths
 Object.keys(tileMap).forEach((k: any) => {
-    // @ts-ignore
     let x = tileMap[k][0]
-    // @ts-ignore
     let y = tileMap[k][1]
-    // @ts-ignore
     tileMap[k] = [x * tileWidth, y * tileWidth]
 })
-
-interface IWallPreset {
-    [key: string]: Array<Array<string>>
-}
 
 interface IWM {
     [key: string]: {
@@ -177,27 +172,6 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     let isNeWall = isWall(getSquare('NE', coords, map))
     let isSwWall = isWall(getSquare('SW', coords, map))
     let isSeWall = isWall(getSquare('SE', coords, map))
-
-    if (isNwWall) {
-        if (isNWall || isWWall) {
-            // keys.push('NW')
-        }
-    }
-    if (isNeWall) {
-        if (isNWall || isEWall) {
-            // keys.push('NE')
-        }
-    }
-    if (isSwWall) {
-        if (isWWall || isSwWall) {
-            // keys.push('SW')
-        }
-    }
-    if (isSeWall) {
-        if (isSWall || isEWall) {
-            // keys.push('SE')
-        }
-    }
 
     let nwHasFriends = isNwWall && isNWall && isWWall
     if (nwHasFriends) {
@@ -277,9 +251,6 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     translate[254] = wallMap.SE
     translate[127] = wallMap.NE
 
-    // translate[999] = wallMap['placeholder']
-
-
     let finalAnswer: any = translate[result]
 
     if (typeof finalAnswer === 'undefined' && Config.logMissingTiles) {
@@ -321,7 +292,7 @@ export class Maps {
         return finalAnswer + ''
     }
 
-    // TODO copied from abilities.js
+    // not the same as the one from levels.ts
     getCoordsAround(x: number, y: number) {
         return [
             [x - 1, y - 1], // NW

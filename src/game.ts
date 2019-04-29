@@ -12,6 +12,7 @@ import { IMapSpec, Maps } from './maps';
 import { MobSpec } from './MobSpec';
 import { Monster } from './monster';
 import { Player } from './player';
+import { getCoordsAround } from './Level';
 
 // Bugs
 // HIGH high scores not working sometimes still
@@ -235,7 +236,7 @@ export class Game {
         if (mob) {
             console.log('fixActorOverlap mob', mob)
 
-            let freespots = this.getCoordsAround(actor.x, actor.y).map(c => {
+            let freespots = getCoordsAround(actor.x, actor.y).map(c => {
                 //console.log(c)
                 return {
                     occupied: this.getCharacterAt(mob, c[0], c[1]),
@@ -254,21 +255,6 @@ export class Game {
 
         }
     }
-
-    // TODO: copied from abilities.ts (or something)
-    getCoordsAround(x: number, y: number) {
-        return [
-            [x - 1, y - 1], // NW
-            [x, y - 1],     // N
-            [x + 1, y - 1], // NE
-            [x + 1, y],     // E
-            [x + 1, y + 1], // SE
-            [x, y + 1],     // S
-            [x - 1, y + 1], // SW
-            [x - 1, y],     // W
-        ]
-    }
-
 
     getCharacterAt(mover: Actor, x: number, y: number) {
         let actor: Actor

@@ -4,6 +4,7 @@ import { Action, DamageAction, InfectAbilityAction } from './actions';
 import { Actor } from './actor';
 import { Game } from './game';
 import { IGameMap } from './maps';
+import { getCoordsAround } from './Level';
 
 export class Ability {
     actor: Actor
@@ -45,7 +46,7 @@ export class Ability {
         return false
     }
 
-    mobsGetSideEffects(){
+    mobsGetSideEffects() {
         return false
     }
 }
@@ -54,19 +55,6 @@ export class EmptySlot extends Ability {
     constructor(actor: Actor) {
         super(actor, 0, 1, 0)
     }
-}
-
-function getCoordsAround(x: number, y: number) {
-    return [
-        [x - 1, y - 1], // NW
-        [x, y - 1],     // N
-        [x + 1, y - 1], // NE
-        [x + 1, y],     // E
-        [x + 1, y + 1], // SE
-        [x, y + 1],     // S
-        [x - 1, y + 1], // SW
-        [x - 1, y],     // W
-    ]
 }
 
 interface ICardinalCoords {
@@ -96,12 +84,12 @@ export class Grab extends Ability {
     constructor(actor: Actor) {
         let range = 3
         super(actor, 2, range, 10)
-        this.description = `Grab a target ${range} squares away and pull them to you. ` 
+        this.description = `Grab a target ${range} squares away and pull them to you. `
             + `Brushes aside anyone in between.`
     }
 
     sideEffects(action: Action, game: Game, actor: Actor) {
-        if(!this.actor.isPlayer() && !this.mobsGetSideEffects()){
+        if (!this.actor.isPlayer() && !this.mobsGetSideEffects()) {
             return
         }
 
@@ -116,7 +104,7 @@ export class Grab extends Ability {
 
         // TODO: combine getcharacterat, fixactoroverlap, and map carving below
         let occupant = game.getCharacterAt(null, xloc, yloc)
-        if(occupant){
+        if (occupant) {
             console.log('occupant is', occupant, 'fixing overlap')
             game.fixActorOverlap(target)
         }
@@ -124,20 +112,20 @@ export class Grab extends Ability {
         // move target to that square
         target.x = xloc
         target.y = yloc
-        game.map[xloc+','+yloc] = '.'
+        game.map[xloc + ',' + yloc] = '.'
 
         console.log(`side effects put target in (${xloc}, ${yloc}) for source at (${source.x}, ${source.y})`, this, target)
-        console.log(`map[${xloc},${yloc}] is ${game.map[xloc+','+yloc]}`)
+        console.log(`map[${xloc},${yloc}] is ${game.map[xloc + ',' + yloc]}`)
 
     }
 
-    canTargetEmpty(){
+    canTargetEmpty() {
         return false
     }
 }
 
 // TODO sourceRear, targetFront.  see targethelp.aseprite
-function getPositions(source: Actor, target: Actor){
+function getPositions(source: Actor, target: Actor) {
     let xdiff = source.x - target.x
     let ydiff = source.y - target.y
 
@@ -152,25 +140,25 @@ function getPositions(source: Actor, target: Actor){
     let farX = source.x
     let farY = source.y
 
-    if(xdiff > 0){ // target is west of source
+    if (xdiff > 0) { // target is west of source
         //console.log('target west x is', target.x)
-        sourceFront.x = source.x-1
-        targetRear.x = target.x-1
+        sourceFront.x = source.x - 1
+        targetRear.x = target.x - 1
     }
 
-    if(xdiff < 0){ // target is east of source
+    if (xdiff < 0) { // target is east of source
         //console.log('target east x is', target.x)
-        sourceFront.x = source.x+1
-        targetRear.x = target.x+1
+        sourceFront.x = source.x + 1
+        targetRear.x = target.x + 1
     }
 
-    if(ydiff > 0){ // target north of source
+    if (ydiff > 0) { // target north of source
         //console.log('target north y is', target.y)
-        sourceFront.y = source.y-1
-        targetRear.y = target.y-1
+        sourceFront.y = source.y - 1
+        targetRear.y = target.y - 1
     }
 
-    if(ydiff < 0){ // target south of source
+    if (ydiff < 0) { // target south of source
         //console.log('target south y is', target.y)
         sourceFront.y = source.y++
         targetRear.y = target.y++
@@ -198,7 +186,7 @@ export class Charge extends Ability {
         let source = this.actor
         let target = actor
 
-        if(actor){
+        if (actor) {
             //constructor(x: number, y: number, symbol: string, color: string, game: Game) {
             //let foo = new Actor(action.x, action.y, '@', 'red', game)
 

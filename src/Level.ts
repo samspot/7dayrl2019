@@ -20,8 +20,7 @@ export class Level {
     toString: Function = function () {
         return gpToString();
     };
-    // TODO remove question mark, old tiles
-    tilesNew?: ImageData;
+    tilesNew: ImageData;
     bossObj?: Actor;
     score: number
 
@@ -44,6 +43,19 @@ export class Level {
 
 function gpToString() {
     return `${this.name} ${this.boss} bossDown? ${this.bossDown} level:${this.level}`
+}
+
+export function getCoordsAround(x: number, y: number) {
+    return [
+        [x - 1, y - 1], // NW
+        [x, y - 1],     // N
+        [x + 1, y - 1], // NE
+        [x + 1, y],     // E
+        [x + 1, y + 1], // SE
+        [x, y + 1],     // S
+        [x - 1, y + 1], // SW
+        [x - 1, y],     // W
+    ]
 }
 
 export class GameProgress {
