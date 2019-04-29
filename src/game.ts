@@ -16,18 +16,16 @@ import { getCoordsAround } from './Level';
 
 // Bugs
 // HIGH high scores not working sometimes still
-// FIXED target UI not working quite right post-death
 
 // LOW score counting double on level 1
 // LOW player sprite doesn't change when infecting
 // LOW unseen bosses still taking damage (wesker)
 // LOW prevent default on boss splash
 
-// DESCOPE similar to above, didn't get a splash on death (may be unrelated)
-
 // TODO Map stuff to maps or levels js
 // TODO create player/mob stuff to director js
 
+// FIXED target UI not working quite right post-death
 // FIXED? cooldown graphic(s) missing
 // FIXED clearing boss splash w/o react: react-dom.development.js:500 Warning: render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container. // ReactDOM.unmountComponentAtNode 
 // FIXED mobs can be on top of the player
@@ -37,7 +35,6 @@ import { getCoordsAround } from './Level';
 // FIXED ability tooltips missing damage value
 // FIXED starting new game didn't clear score, target (wesker dead image), mob list
 // FIXED bosses don't show up in mob list immediately
-
 
 /* feedback
 
@@ -106,7 +103,6 @@ export class Game {
     }
 
     getBosses() {
-        // return this.mobs.filter(m => m.boss)
         return this.getGameProgress() && this.getGameProgress().bossObj
     }
 
@@ -161,20 +157,10 @@ export class Game {
             fontStyle: "bold"
         }
 
-        console.log('game init', this)
+        // console.log('game init', this)
         this.gameDisplay.restartGui()
-        // this.gameDisplay.updateGui()
 
         let tileSet = new Image()
-        if (Config.tileWidth === 8) {
-            // tileSet.src = ReTiles1
-        } else if (Config.tileWidth === 16) {
-            // tileSet.src = ReTiles2
-            // tileSet.src = ReTiles16
-            //tileSet.src = ReTiles16Catacombs
-        } else if (Config.tileWidth === 32) {
-            // tileSet.src = ReTiles4
-        }
 
         let tileWidth = Config.tileWidth
         let optionsTiles = {
@@ -360,7 +346,7 @@ export class Game {
 
     killBoss() {
         this.getGameProgress().style = "text-decoration: line-through; color: red"
-        this.message(`You killed the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true)
+        this.message(`You killed the level boss.  Press > to proceed.`, true)
         this.getGameProgress().bossDown = true
         this.score += this.getGameProgress().score
     }
@@ -368,7 +354,7 @@ export class Game {
     possesBoss() {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Infected]"
-        this.message(`You infected the level boss.  Press > to go to The ${this.director.getNextLevelDescription()}.`, true)
+        this.message(`You infected the level boss.  Press > to go to proceed.`, true)
         this.getGameProgress().bossDown = true
         this.score += this.getGameProgress().score
     }

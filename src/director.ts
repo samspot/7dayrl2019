@@ -1,14 +1,13 @@
 
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
-import { Ability, Bite, Charge, EmptySlot, Grab, GrenadeLauncher, Haymaker, Impale, Magnum, Poison, Shotgun } from './abilities';
+import { Ability, EmptySlot, } from './abilities';
 import { Actor } from './actor';
 import Config from './config';
 import { Game } from './game';
 import { MobSpec } from "./MobSpec";
 import { Monster } from './monster';
 import { Player } from './player';
-// import { levels, levelNames } from './Level'
 import Barry from 'assets/barry.json';
 import Brad from 'assets/brad.json';
 import Chris from 'assets/chris.json';
@@ -74,6 +73,7 @@ export class Director {
         this.mobs = []
         this.scheduler.clear()
         this.scheduler.add(this.player, true)
+        this.levelTicks = 0
     }
 
     generateAbilities(monster: Actor) {
@@ -99,11 +99,6 @@ export class Director {
         return this.game.getGameProgress().nickname
     }
 
-    getNextLevelDescription() {
-        // @ts-ignore
-        return levelNames[levels[this.game.currentLevel + 1]]
-    }
-
     getLevelSpec() {
         let x = this.game.maps.mapMap()[this.getLevelName()]
         // console.log('director.getlevelspec', x, this.getLevelName())
@@ -111,14 +106,10 @@ export class Director {
     }
 
     nextBoss() {
-
-        // @ts-ignore
         let boss = this.bossPool.splice(0, 1)[0]
 
-        // @ts-ignore
         console.log(boss.name, 'selected', this.bossPool.map(b => b.name), 'remaining')
         return boss
-
     }
 
     tick() {
