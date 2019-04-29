@@ -306,7 +306,6 @@ export class DescendAction extends Action {
 
             if (game.currentLevel >= 5) {
                 game.currentLevel--
-                game.addScore(10000)
                 return new YouWinAction(this.actor)
             }
 

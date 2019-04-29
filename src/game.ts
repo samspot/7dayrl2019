@@ -17,14 +17,12 @@ import { getCoordsAround } from './Level';
 // Bugs
 // HIGH high scores not working sometimes still
 
-// LOW score counting double on level 1
-// LOW player sprite doesn't change when infecting
+// LOW player sprite doesn't change when infecting - can we add a halo?
 // LOW unseen bosses still taking damage (wesker)
 // LOW prevent default on boss splash
 
-// TODO Map stuff to maps or levels js
-// TODO create player/mob stuff to director js
 
+// FIXED score counting double on level 1
 // FIXED target UI not working quite right post-death
 // FIXED? cooldown graphic(s) missing
 // FIXED clearing boss splash w/o react: react-dom.development.js:500 Warning: render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container. // ReactDOM.unmountComponentAtNode 
@@ -56,6 +54,9 @@ Descoped
 1. status effects like 'grabbed'
 2. add "and DIED!" to damage messages that kill
 3. mouse controls to ui
+
+// DESCOPE Map stuff to maps or levels js
+// DESCOPE create player/mob stuff to director js
 */
 
 export class Game {
@@ -348,15 +349,14 @@ export class Game {
         this.getGameProgress().style = "text-decoration: line-through; color: red"
         this.message(`You killed the level boss.  Press > to proceed.`, true)
         this.getGameProgress().bossDown = true
+        console.log('killboss adding score', this.getGameProgress().score)
         this.score += this.getGameProgress().score
     }
 
     possesBoss() {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Infected]"
-        this.message(`You infected the level boss.  Press > to go to proceed.`, true)
         this.getGameProgress().bossDown = true
-        this.score += this.getGameProgress().score
     }
 
     message(msg: string, important?: boolean) {
