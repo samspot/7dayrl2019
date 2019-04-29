@@ -1,19 +1,11 @@
 
 import { Ability, Bite, Charge, EmptySlot, Grab, GrenadeLauncher, Haymaker, Impale, Magnum, Poison, Shotgun } from './abilities';
-import Barry from 'assets/barry.json';
-import Brad from 'assets/brad.json';
 import Chimera from 'assets/chimera.json';
-import Chris from 'assets/chris.json';
 import Dog from 'assets/dog.json';
 import Hunter from 'assets/hunter.json';
-import Jill from 'assets/jill.json';
-import Lisa from 'assets/lisa.json';
 import Shark from 'assets/shark.json';
 import Spider from 'assets/spider.json';
-import Wesker from 'assets/wesker.json';
 import Zombie from 'assets/zombie.json';
-import Leon from 'assets/leon.json'
-import Claire from 'assets/claire.json'
 
 export class MobSpec {
     symbol: string;

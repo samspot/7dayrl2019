@@ -8,7 +8,7 @@ import { Director } from './director';
 import { GameDisplay } from './display';
 import { IMessage } from './IMessage';
 import { GameProgress } from './Level';
-import { IMapSpec, Maps } from './maps';
+import { IMapSpec, Maps, TileMapKey } from './maps';
 import { MobSpec } from './MobSpec';
 import { Monster } from './monster';
 import { Player } from './player';
@@ -136,24 +136,16 @@ export class Game {
     swapTiles(idx: number) {
         if (Config.tiles) {
             let options = this.display.getOptions()
-            let frame2Set = this.maps.getFrame2()
+            let frameset = this.maps.getFrameSet(options.tileMap)
             if (idx % 2 === 0) {
-                // options.tileSet.src = this.getGameProgress().tiles
-                frame2Set.forEach((k: any) => {
-                    let obj = options.tileMap[k]
-                    if (obj) {
-                        options.tileMap[k] = [obj[0] + 16, obj[1]]
-                    }
+                frameset.forEach((t: TileMapKey) => {
+                    options.tileMap[t.key] = [t.x + Config.tileWidth, t.y]
                 })
             }
 
             if (idx % 2 === 1) {
-                //    options.tileSet.src = this.getGameProgress().tilesf2
-                frame2Set.forEach((k: any) => {
-                    let obj = options.tileMap[k]
-                    if (obj) {
-                        options.tileMap[k] = [obj[0] - 16, obj[1]]
-                    }
+                frameset.forEach((t: TileMapKey) => {
+                    options.tileMap[t.key] = [t.x - Config.tileWidth, t.y]
                 })
             }
             this._drawFov()

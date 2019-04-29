@@ -39,6 +39,11 @@ let wallMap = {
 
 let tileWidth = Config.tileWidth
 
+export interface TileMapKey {
+    key: string
+    x: number
+    y: number
+}
 
 let hasFrame2 = [
     "d",
@@ -330,8 +335,15 @@ export class Maps {
         return tileMap
     }
 
-    getFrame2() {
-        return hasFrame2
+    getFrameSet(tileMap: any) {
+        return hasFrame2.map((k: string) => {
+
+            return {
+                key: k,
+                x: tileMap[k][0],
+                y: tileMap[k][1]
+            }
+        })
     }
 }
 

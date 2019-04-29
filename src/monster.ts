@@ -40,7 +40,6 @@ export class Monster extends Actor {
             return player.inRange(a, player, this.x, this.y)
         })
 
-        // TODO fix charge
         // if(!Config.enableCharge){
         if (!window.directorsCut && !Config.enableCharge) {
             _.remove(usable, x => x instanceof Charge)
@@ -61,7 +60,6 @@ export class Monster extends Actor {
         if (abilities && abilities.length > 0) {
             //@ts-ignore
             let a = ROT.RNG.getItem(abilities)
-            // TODO add this log to debug flag
             // console.log("monster.act()", this.name, "using ", a.constructor.name, a)
             return new Promise(resolve => {
                 resolve(new AbilityAction(this, a, x, y))
