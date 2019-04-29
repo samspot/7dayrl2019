@@ -60,6 +60,7 @@ export class Player extends Actor {
     infectMob(mob: Actor) {
         this.name = mob.name
         this.nickname = mob.nickname
+        this.symbol = mob.symbol
         this.hp = mob.maxHp * 1.5
         if (this.hp < 150) { this.hp = 150 }
         this.maxHp = this.hp

@@ -429,7 +429,8 @@ export class Game {
             if (Config.tiles) {
                 let isFloor = map[x + ',' + y]
                 if (ch === "@") { // actor
-                    this.display.draw(x, y, ['.', "@"])
+                    // TODO Maybe highlight the player here
+                    this.display.draw(x, y, ['.', this.player.symbol])
                 } else if (isFloor) { // floor
                     // this.display.draw(x, y, ".")
 
