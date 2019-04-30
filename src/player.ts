@@ -1,7 +1,7 @@
 import Tyrant from 'assets/tyrant.json';
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
-import { Ability, Charge, Impale, Infect, Grab } from './abilities';
+import { Ability, Charge, Impale, Infect, Grab, Shotgun } from './abilities';
 import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './actions';
 import { Actor } from './actor';
 import Config from './config';
@@ -31,6 +31,7 @@ export class Player extends Actor {
 
         this.addAbility(new Impale(this))
         //this.addAbility(new Grab(this))
+        // this.addAbility(new Shotgun(this))
         this.addAbility(new Charge(this))
         this.addAbility(new Infect(this))
 

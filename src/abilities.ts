@@ -175,6 +175,14 @@ function getPositions(source: Actor, target: Actor) {
     return pos
 }
 
+function knockBack(source: Actor, target: Actor, game: Game) {
+
+    let pos = getPositions(source, target)
+    target.x = pos.targetRear.x
+    target.y = pos.targetRear.y
+    game.map[target.x + ',' + target.y] = '.'
+}
+
 export class Charge extends Ability {
     constructor(actor: Actor) {
         super(actor, 10, 10, 20)
@@ -190,10 +198,7 @@ export class Charge extends Ability {
             //constructor(x: number, y: number, symbol: string, color: string, game: Game) {
             //let foo = new Actor(action.x, action.y, '@', 'red', game)
 
-            let pos = getPositions(source, target)
-            target.x = pos.targetRear.x
-            target.y = pos.targetRear.y
-            game.map[target.x + ',' + target.y] = '.'
+            knockBack(source, target, game)
             //console.log('x', xloc, pos.close.x, 'y', yloc, pos.close.y)
         }
 
@@ -228,6 +233,10 @@ export class Charge extends Ability {
     }
 
     canTargetEmpty() {
+        return true
+    }
+
+    mobsGetSideEffects() {
         return true
     }
 }
@@ -294,6 +303,17 @@ export class GrenadeLauncher extends Ability {
 export class Shotgun extends Ability {
     constructor(actor: Actor) {
         super(actor, 2, 5, 20)
+    }
+
+    sideEffects(action: Action, game: Game, target: Actor) {
+        // knock them back 2 squares
+        // TODO: There might be a problem with doing this 2x in a row
+        knockBack(this.actor, target, game)
+        knockBack(this.actor, target, game)
+    }
+
+    mobsGetSideEffects() {
+        return true
     }
 }
 
