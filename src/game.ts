@@ -17,11 +17,10 @@ import { getCoordsAround } from './Level';
 // Bugs
 // HIGH high scores not working sometimes still
 
-// LOW player sprite doesn't change when infecting - can we add a halo?
 // LOW unseen bosses still taking damage (wesker)
-// LOW prevent default on boss splash
 
-
+// FIXED prevent default on boss splash
+// FIXED player sprite doesn't change when infecting - can we add a halo?
 // FIXED score counting double on level 1
 // FIXED target UI not working quite right post-death
 // FIXED? cooldown graphic(s) missing

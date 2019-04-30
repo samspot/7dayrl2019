@@ -198,6 +198,7 @@ export class Player extends Actor {
 
     // TODO: Tank controls?
     handleEvent(e: Event) {
+        e.preventDefault()
         if (this.state === TARGETTING) {
             // this.game.display.drawText(0, 0, TARGET_HELP);
             return this.handleTarget(e)
