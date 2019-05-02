@@ -215,7 +215,11 @@ export class DamageAction extends Action {
             if (this.actorSource.isPlayer()) {
                 sourceName = 'Player'
             }
-            game.dmgMessage(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName, this.actorSource)
+
+            if (this.actor.boss && !this.actor.playerSeen()) {
+            } else {
+                game.dmgMessage(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName, this.actorSource)
+            }
         }
 
         if (game.player.hp <= 0) {

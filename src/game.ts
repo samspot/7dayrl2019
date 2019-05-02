@@ -17,8 +17,7 @@ import { getCoordsAround } from './Level';
 // Bugs
 // HIGH high scores not working sometimes still
 
-// LOW unseen bosses still taking damage (wesker)
-
+// FIXED unseen bosses still taking damage (wesker)
 // FIXED prevent default on boss splash
 // FIXED player sprite doesn't change when infecting - can we add a halo?
 // FIXED score counting double on level 1

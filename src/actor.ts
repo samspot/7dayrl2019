@@ -77,6 +77,8 @@ export class Actor {
         }
 
         if (this.boss && !this.playerSeen()) {
+            console.log('boss trying to take', dmg, ' but not yet seen by player', this.hp, '/', this.maxHp)
+
             return
         }
         this.hp -= dmg

@@ -22,7 +22,7 @@ interface IConfig {
 }
 
 const Config: IConfig = {
-    // spawnrate: 1,
+    spawnrate: 1,
     spawnboss: true,
     tileWidth: 16,
     spawnLimit: 20,
@@ -33,11 +33,11 @@ const Config: IConfig = {
     // seed: 12362,
     // turnsToSim: 35,
     // turnsToSim: 26,
-    //turnsToSim: 39,
+    turnsToSim: 25,
     // seed: 12368,
-    // seed: 12454,
-    drawWholeMap: false,
-    drawAllMobs: false,
+    seed: 12458,
+    drawWholeMap: true,
+    drawAllMobs: true,
     debug: true,
     skipTitle: true,
     tiles: true,
