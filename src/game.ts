@@ -309,7 +309,7 @@ export class Game {
             if (this.decorations[key]) {
                 let decorations = _.clone(this.decorations[key])
                 decorations.unshift(this.map[key])
-                console.log('drawing decorations', decorations)
+                // console.log('drawing decorations', decorations)
                 this.display.draw(x, y, decorations)
             } else {
 
@@ -349,12 +349,14 @@ export class Game {
         this.getGameProgress().bossDown = true
         console.log('killboss adding score', this.getGameProgress().score)
         this.score += this.getGameProgress().score
+        this.director.spawnStairs()
     }
 
     possesBoss() {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Infected]"
         this.getGameProgress().bossDown = true
+        this.director.spawnStairs()
     }
 
     message(msg: string, important?: boolean) {
@@ -488,7 +490,7 @@ export class Game {
         if (this.showInfectable) {
             return this.getInfectableMobs()
         }
-        return this.getVisibleMobs()
+        return this.getVisibleMobs().filter(m => m.name !== 'stairs')
     }
 
     getVisibleMobs() {

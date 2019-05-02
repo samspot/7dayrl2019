@@ -77,6 +77,7 @@ interface TileMap {
 }
 
 let tileMap: TileMap = {
+    ">": [0, 31],  // stairs
     'placeholder': [0, 7], // placeholder
     "d": [0, 8],  // dog
     "c": [0, 9],  // chimera

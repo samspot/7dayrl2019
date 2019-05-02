@@ -277,6 +277,11 @@ export class MoveAction extends Action {
 
         let character = game.getCharacterAt(actor, newX, newY)
         // console.log(`spawn-${actor.spawnId} ${actor.x},${actor.y} moving to ${this.newX},${this.newY} blocked by ${character}`)
+
+        if (actor.isPlayer() && character && character.name === 'stairs') {
+            return new DescendAction(character)
+        }
+
         if (character) {
             return new AttackAction(actor, character)
         }

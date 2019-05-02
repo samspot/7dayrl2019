@@ -183,6 +183,46 @@ export class Director {
         this.game.mobs = this.mobs
     }
 
+    spawnStairs() {
+        // find unoccupied space next to boss
+        // create an actor on that spot that doesn't move
+        // if player ever occupies (or moves into that space), do DescendAction.execute(game)
+        // maintain ability to leave from anywhere by pressing >
+
+        let freeCells = this.game.getFreeCells()
+        let cellsRemoved: any = []
+
+        // console.log('visible', this.game._getVisibleSquares().sort().join('|'))
+        // console.log('player at', this.game.player.getX(), this.game.player.getY())
+        this.game._getVisibleSquares().forEach((x: any) => {
+            _.remove(freeCells, c => {
+                if (c === x) {
+                    cellsRemoved.push(c)
+                    return true
+                }
+                return false
+            })
+        })
+
+        let stairspec = new MobSpec()
+        stairspec.symbol = '>'
+        stairspec.color = '#fff'
+        stairspec.name = 'stairs'
+        stairspec.nickname = 'stairs'
+        stairspec.hp = 1000
+        stairspec.score = 0
+        stairspec.str = 0
+        stairspec.sightRadius = 0
+        stairspec.bio = ''
+        stairspec.quote = ''
+        let stairs = this.game.createBeingMonster(Monster, cellsRemoved, stairspec)
+        // not scheduling the stairs prevents it from moving
+        console.log('spawned stairs', stairs)
+        this.mobs.push(stairs)
+        return stairs
+
+    }
+
     _createSchedule(mobspec: MobSpec) {
         let freeCells = this.game.getFreeCells()
         let cellsRemoved: any = []
