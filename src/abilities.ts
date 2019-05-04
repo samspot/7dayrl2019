@@ -47,7 +47,7 @@ export class Ability {
     }
 
     mobsGetSideEffects() {
-        return false
+        return true
     }
 }
 
@@ -78,6 +78,60 @@ function isTrapped(map: IGameMap, x: number, y: number) {
     return _.every(trapped)
 }
 
+class ScheduledDamage {
+    target: Actor
+    dmg: number
+    text: string
+    constructor(target: Actor, dmg: number, text: string) {
+        this.target = target
+        this.dmg = dmg
+        this.text = text
+    }
+
+    act() {
+        return new DamageAction(this.target, this.dmg, this.text, this.target)
+    }
+
+    isPlayer() {
+        return false
+    }
+
+    getSpeed() {
+        return 100
+    }
+}
+
+export class Suplex extends Ability {
+    constructor(actor: Actor) {
+        // super(actor, 8, 1, 40)//40)
+        super(actor, 6, 1, 20)//40)
+        this.description = `Pick up the target and slam them behind you, doing ${this.dmg} damage to the target and ${this.dmg / 2} to any creature in the impact zone.`
+    }
+
+    sideEffects(action: Action, game: Game, target: Actor) {
+        let source = this.actor
+        let pos = getPositions(source, target)
+
+        let newX = pos.sourceRear.x
+        let newY = pos.sourceRear.y
+
+        let occupant = game.getCharacterAt(null, newX, newY)
+
+        target.x = newX
+        target.y = newY
+        game.map[newX + ',' + newY] = '.'
+
+        if (occupant) {
+            console.log('suplex damaging occupant', occupant)
+            game.scheduler.add(new ScheduledDamage(occupant, this.dmg / 2, `crushed by ${this.actor.name} Suplex`), false)
+            game.fixActorOverlap(target)
+        }
+
+
+        // console.log(`side effects put target in (${newX}, ${newY}) for source at (${source.x}, ${source.y})`, this, target)
+        // console.log(`map[${newX},${newY}] is ${game.map[newX + ',' + newY]}`)
+    }
+}
 
 
 export class Grab extends Ability {
@@ -89,9 +143,6 @@ export class Grab extends Ability {
     }
 
     sideEffects(action: Action, game: Game, actor: Actor) {
-        if (!this.actor.isPlayer() && !this.mobsGetSideEffects()) {
-            return
-        }
 
         let source = this.actor
         let target = actor
@@ -105,7 +156,7 @@ export class Grab extends Ability {
         // TODO: combine getcharacterat, fixactoroverlap, and map carving below
         let occupant = game.getCharacterAt(null, xloc, yloc)
         if (occupant) {
-            console.log('occupant is', occupant, 'fixing overlap')
+            // console.log('occupant is', occupant, 'fixing overlap')
             game.fixActorOverlap(target)
         }
 
@@ -114,12 +165,16 @@ export class Grab extends Ability {
         target.y = yloc
         game.map[xloc + ',' + yloc] = '.'
 
-        console.log(`side effects put target in (${xloc}, ${yloc}) for source at (${source.x}, ${source.y})`, this, target)
-        console.log(`map[${xloc},${yloc}] is ${game.map[xloc + ',' + yloc]}`)
+        // console.log(`side effects put target in (${xloc}, ${yloc}) for source at (${source.x}, ${source.y})`, this, target)
+        // console.log(`map[${xloc},${yloc}] is ${game.map[xloc + ',' + yloc]}`)
 
     }
 
     canTargetEmpty() {
+        return false
+    }
+
+    mobsGetSideEffects() {
         return false
     }
 }
@@ -143,35 +198,43 @@ function getPositions(source: Actor, target: Actor) {
     if (xdiff > 0) { // target is west of source
         //console.log('target west x is', target.x)
         sourceFront.x = source.x - 1
+        sourceRear.x = source.x + 1
         targetRear.x = target.x - 1
+        targetFront.x = target.x + 1
     }
 
     if (xdiff < 0) { // target is east of source
         //console.log('target east x is', target.x)
         sourceFront.x = source.x + 1
+        sourceRear.x = source.x - 1
         targetRear.x = target.x + 1
+        targetFront.x = target.x - 1
     }
 
     if (ydiff > 0) { // target north of source
         //console.log('target north y is', target.y)
         sourceFront.y = source.y - 1
+        sourceRear.y = source.y + 1
         targetRear.y = target.y - 1
+        targetFront.y = target.y + 1
     }
 
     if (ydiff < 0) { // target south of source
         //console.log('target south y is', target.y)
-        sourceFront.y = source.y++
-        targetRear.y = target.y++
+        sourceFront.y = source.y + 1
+        sourceRear.y = source.y - 1
+        targetRear.y = target.y + 1
+        targetFront.y = target.y - 1
     }
 
     let pos = {
         sourceFront,
-        //sourceRear,
-        //targetFront,
+        sourceRear,
+        targetFront,
         targetRear
     }
 
-    console.log(`getPositions result ${pos} sourceFront`, sourceFront, 'sourceRear', sourceRear, 'targetFront', targetFront, 'targetRear', targetRear)
+    // console.log(`getPositions result ${pos} sourceFront`, sourceFront, 'sourceRear', sourceRear, 'targetFront', targetFront, 'targetRear', targetRear)
     return pos
 }
 
@@ -237,6 +300,7 @@ export class Charge extends Ability {
     }
 
     mobsGetSideEffects() {
+        // TODO: put charge logic here - maybe.  what happens if mobs charge but don't get to knockbak the player? do they just get moved next to them?
         return true
     }
 }
@@ -286,12 +350,7 @@ export class GrenadeLauncher extends Ability {
             if (actor) {
                 // console.log("launcher splash damaging actor", actor, this.dmg / 2)
 
-                game.scheduler.add({
-                    act: () => {
-                        return new DamageAction(actor, this.dmg / 2, "Grenade Launcher Splash Damage", actor)
-                    },
-                    isPlayer: () => false
-                }, false)
+                game.scheduler.add(new ScheduledDamage(actor, this.dmg / 2, `${this.actor.name} Grenade Splash Damage`), false)
             }
         })
     }
@@ -303,7 +362,7 @@ export class GrenadeLauncher extends Ability {
 
 export class Shotgun extends Ability {
     constructor(actor: Actor) {
-        super(actor, 2, 5, 20)
+        super(actor, 4, 5, 20)
     }
 
     sideEffects(action: Action, game: Game, target: Actor) {
@@ -311,10 +370,6 @@ export class Shotgun extends Ability {
         // TODO: There might be a problem with doing this 2x in a row
         knockBack(this.actor, target, game)
         knockBack(this.actor, target, game)
-    }
-
-    mobsGetSideEffects() {
-        return true
     }
 }
 
@@ -329,8 +384,6 @@ export class Impale extends Ability {
         super(actor, 5, 1, 40)
     }
 }
-
-
 
 export class Bite extends Ability {
     constructor(actor: Actor) {
@@ -359,6 +412,7 @@ const abilities = [
     Grab,
     Bite,
     Haymaker,
-    Poison
+    Poison,
+    Suplex
 ]
 

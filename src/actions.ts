@@ -344,7 +344,12 @@ export class AbilityAction extends Action {
         this.ability.cooldown = this.ability.maxCooldown
         let actor = game.getCharacterAt(null, this.x, this.y)
 
-        this.ability.sideEffects(this, game, actor)
+        // if (actor.isPlayer() || this.ability.mobsGetSideEffects()) {
+        if (this.ability.mobsGetSideEffects()) {
+            this.ability.sideEffects(this, game, actor)
+        } else {
+            // console.log('skipping side effects for ability', this.ability, 'actor', actor)
+        }
 
         // console.log("executing ability action",
         //     this.ability, this.x, this.y, actor)

@@ -1,7 +1,7 @@
 import Tyrant from 'assets/tyrant.json';
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
-import { Ability, Charge, Impale, Infect, Grab, Shotgun } from './abilities';
+import { Ability, Charge, Impale, Infect, Grab, Shotgun, Suplex, GrenadeLauncher } from './abilities';
 import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './actions';
 import { Actor } from './actor';
 import Config from './config';
@@ -30,11 +30,13 @@ export class Player extends Actor {
         this.sightRadius = Tyrant.sightRadius
 
         this.speed = Tyrant.speed || 100
-        this.addAbility(new Impale(this))
+        // this.addAbility(new Impale(this))
         //this.addAbility(new Grab(this))
         // this.addAbility(new Shotgun(this))
+        this.addAbility(new Suplex(this))
         this.addAbility(new Charge(this))
-        this.addAbility(new Infect(this))
+        // this.addAbility(new Infect(this))
+        this.addAbility(new GrenadeLauncher(this))
 
         this.state = PLAYER_TURN
         // make the game advance a few turns on startup

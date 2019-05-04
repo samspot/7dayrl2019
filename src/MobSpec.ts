@@ -1,5 +1,5 @@
 
-import { Ability, Bite, Charge, EmptySlot, Grab, GrenadeLauncher, Haymaker, Impale, Magnum, Poison, Shotgun } from './abilities';
+import { Ability, Bite, Charge, EmptySlot, Grab, GrenadeLauncher, Haymaker, Impale, Magnum, Poison, Shotgun, Suplex } from './abilities';
 import Chimera from 'assets/chimera.json';
 import Dog from 'assets/dog.json';
 import Hunter from 'assets/hunter.json';
@@ -35,13 +35,13 @@ const abilities: { [key: string]: Array<Object> } = {
     'Barry Burton': [Magnum, EmptySlot],
     'Brad Vickers': [Shotgun, EmptySlot],
     'Albert Wesker': [Magnum, EmptySlot],
-    'Leon Kennedy': [Shotgun, EmptySlot],
+    'Leon Kennedy': [Shotgun, Suplex],
     'Claire Redfield': [Bite, EmptySlot],
     'Ada Wong': [Bite, EmptySlot],
     'Rebecca Chambers': [GrenadeLauncher, EmptySlot],
     'William Birkin': [Impale, EmptySlot],
     'Hunk': [Shotgun, GrenadeLauncher],
-    'Krauser': [Impale, EmptySlot],
+    'Krauser': [Impale, Suplex],
     'Billy Coen': [Shotgun, EmptySlot],
     'Tyrant': [Charge, Impale],
     'Zombie': [Grab],

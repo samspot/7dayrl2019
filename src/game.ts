@@ -16,6 +16,7 @@ import { getCoordsAround } from './Level';
 
 // Bugs
 // HIGH high scores not working sometimes still
+// MED two stairs moving after fighting leon on level 1
 
 // FIXED unseen bosses still taking damage (wesker)
 // FIXED prevent default on boss splash
