@@ -5,6 +5,7 @@ import { Actor } from './actor';
 import { Game } from './game';
 import { IGameMap } from './maps';
 import { getCoordsAround } from './Level';
+import { Stunned } from './status';
 
 export class Ability {
     actor: Actor
@@ -348,7 +349,6 @@ export class GrenadeLauncher extends Ability {
 
             let actor = game.getCharacterAt(null, s[0], s[1])
             if (actor) {
-                // console.log("launcher splash damaging actor", actor, this.dmg / 2)
 
                 game.scheduler.add(new ScheduledDamage(actor, this.dmg / 2,
                     `${this.actor.name} Grenade Splash Damage`), false)
@@ -364,11 +364,11 @@ export class GrenadeLauncher extends Ability {
 export class Shotgun extends Ability {
     constructor(actor: Actor) {
         super(actor, 4, 5, 20)
+        this.description = "Knocks back the target"
     }
 
     sideEffects(action: Action, game: Game, target: Actor) {
         // knock them back 2 squares
-        // TODO: There might be a problem with doing this 2x in a row
         knockBack(this.actor, target, game)
         knockBack(this.actor, target, game)
     }
@@ -389,12 +389,17 @@ export class Poison extends Ability {
 export class Crossbow extends Ability {
     constructor(actor: Actor) {
         super(actor, 9, 10, 30)
+        this.description = `Stuns the target for 1 turn`
+    }
+
+    sideEffects(action: Action, game: Game, target: Actor) {
+        target.addStatus(new Stunned())
     }
 }
 
 export class Magnum extends Ability {
     constructor(actor: Actor) {
-        super(actor, 4, 10, 50)
+        super(actor, 6, 10, 50)
     }
 }
 
@@ -406,13 +411,19 @@ export class Impale extends Ability {
 
 export class Bite extends Ability {
     constructor(actor: Actor) {
-        super(actor, 5, 2, 10)
+        super(actor, 5, 1, 20)
     }
 }
 
 export class Haymaker extends Ability {
     constructor(actor: Actor) {
-        super(actor, 3, 1, 30)
+        super(actor, 8, 1, 30)
+        this.description = `Stuns the target for 1 turn and knocks them back`
+    }
+
+    sideEffects(action: Action, game: Game, target: Actor) {
+        target.addStatus(new Stunned())
+        knockBack(this.actor, target, game)
     }
 }
 

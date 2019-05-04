@@ -3,6 +3,7 @@ import { Ability } from './abilities';
 import { YouWinAction } from './actions';
 import Config from './config';
 import { Game } from './game';
+import { Status } from './status';
 
 const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
@@ -32,6 +33,7 @@ export class Actor {
     quote: string
     nickname: string
     speed: number
+    statuses: Array<Status>
     constructor(x: number, y: number, symbol: string, color: string, game: Game) {
         this.x = x
         this.y = y
@@ -45,6 +47,11 @@ export class Actor {
         this.isRevive = false
         this.shouldDrawOtherCharacters = false
         this.speed = 100
+        this.statuses = []
+    }
+
+    addStatus(status: Status) {
+        this.statuses.push(status)
     }
 
     getSpeed() {

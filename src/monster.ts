@@ -6,6 +6,7 @@ import { Actor } from './actor';
 import { Game } from './game';
 import { MobSpec } from "./MobSpec";
 import Config from './config';
+import { Stunned } from './status';
 
 export class Monster extends Actor {
     bio: string
@@ -53,7 +54,16 @@ export class Monster extends Actor {
     }
 
     act() {
+        // TODO skip turn if stunned, remove stunned from statuese
         this.tickAbilities()
+
+        // if (this.statuses.includes(new Stunned())) {
+        if (this.statuses.filter(s => s instanceof Stunned).length > 0) {
+            _.remove(this.statuses, s => s instanceof Stunned)
+            console.log('found stunned, skipping turn', this)
+            this.game.message(this.name + ' missed turn due to being Stunned')
+            return
+        }
         var x = this.game.player.getX()
         var y = this.game.player.getY()
 
