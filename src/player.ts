@@ -41,6 +41,7 @@ export class Player extends Actor {
         // this.addAbility(new GrenadeLauncher(this))
         // this.addAbility(new Poison(this))
         // this.addAbility(new Crossbow(this))
+        // this.addAbility(new Haymaker(this))
 
         this.state = PLAYER_TURN
         // make the game advance a few turns on startup

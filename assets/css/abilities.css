@@ -1,4 +1,3 @@
-
 .impale-ready {
     background: url(../../assets/img/ability-sprite-sheet-color.png) 0 0;
 }
@@ -77,4 +76,20 @@
 
 .poison-cooldown {
     background: url(../../assets/img/ability-sprite-sheet-gray.png) -225px 75px;
+}
+
+.crossbow-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -300px 75px;
+}
+
+.crossbow-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -300px 75px;
+}
+
+.suplex-ready {
+    background: url(../../assets/img/ability-sprite-sheet-color.png) -375px 75px;
+}
+
+.suplex-cooldown {
+    background: url(../../assets/img/ability-sprite-sheet-gray.png) -375px 75px;
 }
