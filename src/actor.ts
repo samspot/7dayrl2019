@@ -34,6 +34,7 @@ export class Actor {
     nickname: string
     speed: number
     statuses: Array<Status>
+    descending?: boolean
     constructor(x: number, y: number, symbol: string, color: string, game: Game) {
         this.x = x
         this.y = y

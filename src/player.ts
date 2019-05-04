@@ -220,7 +220,7 @@ export class Player extends Actor {
 
     // TODO: Tank controls?
     handleEvent(e: Event) {
-        e.preventDefault()
+        // console.log('player handle event', e)
         if (this.state === TARGETTING) {
             // this.game.display.drawText(0, 0, TARGET_HELP);
             return this.handleTarget(e)
@@ -233,7 +233,10 @@ export class Player extends Actor {
         if (charStr == '>') {
             console.log("descend key pressed")
             this.tickAbilities()
+            this.descending = true
             this.resolve(new DescendAction(this))
+            // this.resolve = null
+            return
         }
 
         // escape key or enter key
@@ -243,6 +246,7 @@ export class Player extends Actor {
         }
 
         if (this.splash) {
+            e.preventDefault()
             return
         }
         // var code = e.keyCode;
@@ -274,8 +278,12 @@ export class Player extends Actor {
         }
 
         if (code == 190) {
-            this.tickAbilities()
-            this.resolve(new DefaultAction())
+            if (!this.descending) {
+                this.tickAbilities()
+                console.log('190 default action')
+
+                this.resolve(new DefaultAction())
+            }
         }
 
         if (!(code in keyMap)) { return }

@@ -312,11 +312,13 @@ export class PickupAction extends Action {
 
 export class DescendAction extends Action {
     constructor(actor: Actor) {
+        console.log('creating descend action')
         super(actor)
     }
 
     execute(game: Game) {
         if (game.levelBossPassed() || Config.debug) {
+            console.log('descending?')
             game.currentLevel++
 
             if (game.currentLevel >= 5) {
@@ -327,6 +329,10 @@ export class DescendAction extends Action {
             game.director.resetLevel()
             game.generateMap(game.director.getLevelSpec())
 
+            this.actor.descending = false
+
+        } else {
+            console.log('level boss not passed')
         }
     }
 }
