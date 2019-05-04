@@ -369,7 +369,7 @@ export class Shotgun extends Ability {
 
     sideEffects(action: Action, game: Game, target: Actor) {
         // knock them back 2 squares
-        knockBack(this.actor, target, game)
+        // knockBack(this.actor, target, game)
         knockBack(this.actor, target, game)
     }
 }

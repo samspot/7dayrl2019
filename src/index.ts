@@ -62,44 +62,66 @@ async function mainLoop() {
 
         requestAnimationFrame(loop)
     }
-    while (1) {
-        let actor = scheduler.next()
-        if (!actor) { break }
-        // console.log("scheduled actor", actor)
+    // while (1) {
 
-        if (actor.isPlayer()) {
-            game.updateGui()
-            game.redraw()
-            game.fixActorOverlap()
+    let start2: any = null
+    let fps2 = 120
+    let changeEvery2 = 1000 / fps2
+    let elapsed2 = changeEvery2
+
+    // let loop2 = (timestamp: any) => {
+    async function loop2(timestamp: any) {
+        if (!start2) start2 = timestamp
+        let dt = timestamp - start2
+        start2 = timestamp
+
+        elapsed2 += dt
+
+        if (elapsed2 > changeEvery2) {
+            elapsed2 = 0
+
+
+            let actor = scheduler.next()
+            if (!actor) { return }
+            // console.log("scheduled actor", actor)
+
+            if (actor.isPlayer()) {
+                game.updateGui()
+                game.redraw()
+                game.fixActorOverlap()
+            }
+
+
+            let action = await actor.act()
+            while (action) {
+                // console.log("got action", action)
+                action = action.execute(game)
+            }
+
+            if (actor.isPlayer()) {
+                director.tick()
+                game.turns++
+            }
+
+            if (game.gameOver) {
+                renderScores();
+                (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
+                (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";
+
+                document.querySelectorAll('.firstRun').forEach((e: HTMLElement) => e.style.display = "block")
+
+                return
+            }
+
+            if (game.dirty) {
+                game.redraw()
+                game.dirty = false
+            }
         }
-
-
-        let action = await actor.act()
-        while (action) {
-            // console.log("got action", action)
-            action = action.execute(game)
-        }
-
-        if (actor.isPlayer()) {
-            director.tick()
-            game.turns++
-        }
-
-        if (game.gameOver) {
-            renderScores();
-            (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
-            (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";
-
-            document.querySelectorAll('.firstRun').forEach((e: HTMLElement) => e.style.display = "block")
-
-            return
-        }
-
-        if (game.dirty) {
-            game.redraw()
-            game.dirty = false
-        }
+        requestAnimationFrame(loop2)
     }
+
+    requestAnimationFrame(loop2)
 }
 
 if (Config.debug && Config.skipTitle) {
