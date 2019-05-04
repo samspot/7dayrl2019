@@ -40,12 +40,12 @@
     "typescript": "^3.4.1",
     "webpack": "^4.29.4",
     "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
     "@types/react": "^16.8.10",
     "@types/react-dom": "^16.8.3",
-    "jquery": "^3.3.1",
+    "jquery": ">=3.4.0",
     "lodash": "^4.17.11",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
