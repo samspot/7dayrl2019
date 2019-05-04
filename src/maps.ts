@@ -79,6 +79,7 @@ interface TileMap {
 let tileMap: TileMap = {
     ">": [0, 31],  // stairs
     'placeholder': [0, 7], // placeholder
+    '*': [0, 7], // placeholder
     "d": [0, 8],  // dog
     "c": [0, 9],  // chimera
     "L": [0, 10], // Lisa
@@ -90,6 +91,7 @@ let tileMap: TileMap = {
     "s": [0, 16], // shark
 
     "@": [0, 17], // player
+    "T": [0, 17], // player
     "J": [0, 18], // Jill
     "C": [0, 19], // Chris
     "B": [0, 20], // Barry

@@ -77,9 +77,9 @@ async function mainLoop() {
 
         elapsed2 += dt
 
+
         if (elapsed2 > changeEvery2) {
             elapsed2 = 0
-
 
             let actor = scheduler.next()
             if (!actor) { return }
@@ -91,8 +91,9 @@ async function mainLoop() {
                 game.fixActorOverlap()
             }
 
-
             let action = await actor.act()
+
+
             while (action) {
                 // console.log("got action", action)
                 action = action.execute(game)

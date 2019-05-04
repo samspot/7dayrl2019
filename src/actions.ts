@@ -292,10 +292,10 @@ export class MoveAction extends Action {
             return new AttackAction(actor, character)
         }
 
-        game.display.draw(actor.x, actor.y, game.map[actor.x + "," + actor.y])
+        // game.display.draw(actor.x, actor.y, game.map[actor.x + "," + actor.y])
         actor.x = newX;
         actor.y = newY;
-        actor.draw();
+        // actor.draw();
     }
 }
 

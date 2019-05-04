@@ -357,7 +357,6 @@ export class Game {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Infected]"
         this.getGameProgress().bossDown = true
-        this.director.spawnStairs()
     }
 
     message(msg: string, important?: boolean) {

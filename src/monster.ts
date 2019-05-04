@@ -56,6 +56,8 @@ export class Monster extends Actor {
     act() {
         this.tickAbilities()
 
+        if (this.name === 'stairs') { return }
+
         // if (this.statuses.includes(new Stunned())) {
         if (this.statuses.filter(s => s instanceof Stunned).length > 0) {
             _.remove(this.statuses, s => s instanceof Stunned)
