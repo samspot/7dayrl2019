@@ -350,7 +350,8 @@ export class GrenadeLauncher extends Ability {
             if (actor) {
                 // console.log("launcher splash damaging actor", actor, this.dmg / 2)
 
-                game.scheduler.add(new ScheduledDamage(actor, this.dmg / 2, `${this.actor.name} Grenade Splash Damage`), false)
+                game.scheduler.add(new ScheduledDamage(actor, this.dmg / 2,
+                    `${this.actor.name} Grenade Splash Damage`), false)
             }
         })
     }
@@ -370,6 +371,24 @@ export class Shotgun extends Ability {
         // TODO: There might be a problem with doing this 2x in a row
         knockBack(this.actor, target, game)
         knockBack(this.actor, target, game)
+    }
+}
+
+export class Poison extends Ability {
+    constructor(actor: Actor) {
+        super(actor, 6, 1, 1)
+        this.description = `Cut target hp in half, then do ${this.dmg} damage`
+    }
+
+    sideEffects(action: Action, game: Game, target: Actor) {
+        // let poisonDamage = (target.hp - this.dmg) / 2
+        let poisonDamage = target.hp / 2
+        game.scheduler.add(new ScheduledDamage(target, poisonDamage, `${this.actor.name} Poison Damage`), false)
+    }
+}
+export class Crossbow extends Ability {
+    constructor(actor: Actor) {
+        super(actor, 9, 10, 30)
     }
 }
 
@@ -397,11 +416,6 @@ export class Haymaker extends Ability {
     }
 }
 
-export class Poison extends Ability {
-    constructor(actor: Actor) {
-        super(actor, 4, 2, 20)
-    }
-}
 
 const abilities = [
     GrenadeLauncher,
@@ -413,6 +427,7 @@ const abilities = [
     Bite,
     Haymaker,
     Poison,
-    Suplex
+    Suplex,
+    Crossbow
 ]
 
