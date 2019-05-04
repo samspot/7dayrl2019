@@ -1,5 +1,5 @@
 
-import { Ability, Bite, Charge, EmptySlot, Grab, GrenadeLauncher, Haymaker, Impale, Magnum, Poison, Shotgun, Suplex } from './abilities';
+import { Ability, Bite, Charge, EmptySlot, Grab, GrenadeLauncher, Haymaker, Impale, Magnum, Poison, Shotgun, Suplex, Crossbow } from './abilities';
 import Chimera from 'assets/chimera.json';
 import Dog from 'assets/dog.json';
 import Hunter from 'assets/hunter.json';
@@ -32,12 +32,12 @@ export class MobSpec {
 const abilities: { [key: string]: Array<Object> } = {
     'Jill Valentine': [GrenadeLauncher, EmptySlot],
     'Chris Redfield': [Shotgun, EmptySlot],
-    'Barry Burton': [Magnum, EmptySlot],
+    'Barry Burton': [Magnum, Haymaker],
     'Brad Vickers': [Shotgun, EmptySlot],
     'Albert Wesker': [Magnum, EmptySlot],
     'Leon Kennedy': [Shotgun, Suplex],
-    'Claire Redfield': [Bite, EmptySlot],
-    'Ada Wong': [Bite, EmptySlot],
+    'Claire Redfield': [Crossbow, EmptySlot],
+    'Ada Wong': [Crossbow, EmptySlot],
     'Rebecca Chambers': [GrenadeLauncher, EmptySlot],
     'William Birkin': [Impale, EmptySlot],
     'Hunk': [Shotgun, GrenadeLauncher],

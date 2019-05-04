@@ -54,7 +54,6 @@ export class Monster extends Actor {
     }
 
     act() {
-        // TODO skip turn if stunned, remove stunned from statuese
         this.tickAbilities()
 
         // if (this.statuses.includes(new Stunned())) {
