@@ -29,7 +29,8 @@ async function mainLoop() {
         ROT.RNG.setSeed(Config.seed)
     }
 
-    let scheduler = new ROT.Scheduler.Simple()
+    // let scheduler = new ROT.Scheduler.Simple()
+    let scheduler = new ROT.Scheduler.Speed()
     let game = new Game(scheduler)
     game.init()
 

@@ -23,6 +23,7 @@ export class Monster extends Actor {
         this.seen = false
         this.bio = mobspec.bio || ''
         this.quote = mobspec.quote || ''
+        this.speed = mobspec.speed || 100
     }
 
     // return a list of abilities that are off cooldown and can reach the player

@@ -18,6 +18,7 @@ export class MobSpec {
     sightRadius: number;
     bio: string;
     quote: string;
+    speed: number
 
     getMobAbilities() {
         return abilities

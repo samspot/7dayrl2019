@@ -29,6 +29,7 @@ export class Player extends Actor {
         this.color = Tyrant.color
         this.sightRadius = Tyrant.sightRadius
 
+        this.speed = Tyrant.speed || 100
         this.addAbility(new Impale(this))
         //this.addAbility(new Grab(this))
         // this.addAbility(new Shotgun(this))
@@ -46,10 +47,12 @@ export class Player extends Actor {
     revive() {
         this.name = Tyrant.name
         this.nickname = Tyrant.nickname
+        this.symbol = Tyrant.symbol
         this.hp = Tyrant.hp
         this.maxHp = this.hp
         this.color = Tyrant.color
         this.str = Tyrant.str
+        this.speed = Tyrant.speed
         this.sightRadius = Tyrant.sightRadius
         this.boss = false
         this.abilities = []
@@ -71,6 +74,7 @@ export class Player extends Actor {
         this.y = mob.y
         this.sightRadius = mob.sightRadius
         this.boss = false
+        this.speed = mob.speed
 
         this.abilities = []
 

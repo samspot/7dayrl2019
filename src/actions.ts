@@ -18,10 +18,16 @@ export class Action {
     action: Action
     resolve: Function
     game: Game
+    speed: number
     constructor(actor?: Actor) {
         this.actor = actor
         this.x = 0
         this.y = 0
+        this.speed = 100
+    }
+
+    getSpeed() {
+        return this.speed
     }
 
     executeParent(game: Game) {

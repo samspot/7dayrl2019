@@ -6,5 +6,6 @@
     "hp": 10,
     "score": 1,
     "str": 5,
-    "sightRadius": 3
+    "sightRadius": 3,
+    "speed": 85
 }

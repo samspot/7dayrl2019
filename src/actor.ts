@@ -31,6 +31,7 @@ export class Actor {
     bio: string
     quote: string
     nickname: string
+    speed: number
     constructor(x: number, y: number, symbol: string, color: string, game: Game) {
         this.x = x
         this.y = y
@@ -43,6 +44,11 @@ export class Actor {
         this.score = 0
         this.isRevive = false
         this.shouldDrawOtherCharacters = false
+        this.speed = 100
+    }
+
+    getSpeed() {
+        return this.speed
     }
 
     _drawOtherCharacters() {

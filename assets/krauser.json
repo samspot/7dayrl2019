@@ -8,5 +8,6 @@
     "str": 35,
     "sightRadius": 8,
     "bio": "Jack Krauser was an agent for the 3rd Organization during the War on Terror, and a supporter of Dr. Albert Wesker. Previously a soldier within USSOCOM known as 'Silverdax,' he was forced into retirement after a 2002 mission to South America with USSTRATCOM agent Leon S. Kennedy. During his employment within the 3rd Organization, Krauser took part in the infiltration of Los Iluminados to obtain a Plaga parasite. Krauser was killed in late 2004 by Ada Wong, who was on orders by her agency to steal the parasite.",
-    "quote": "There's nothing left to say. For you and I, Leon, we're merely different sides of the same coin..."
+    "quote": "There's nothing left to say. For you and I, Leon, we're merely different sides of the same coin...",
+    "speed": 110
 }

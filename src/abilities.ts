@@ -260,7 +260,8 @@ export class Infect extends Ability {
                 // @ts-ignore
                 return new InfectAbilityAction(action.actor, actor, action)
             },
-            isPlayer: () => false
+            isPlayer: () => false,
+            getSpeed: () => 100
         }, false)
     }
 }
