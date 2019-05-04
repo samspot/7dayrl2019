@@ -79,11 +79,28 @@ function isTrapped(map: IGameMap, x: number, y: number) {
     return _.every(trapped)
 }
 
-class ScheduledDamage {
+interface ISchedule {
+    act: () => any
+    isPlayer: () => boolean
+    getSpeed: () => number
+}
+
+class FakeActor {
+    isPlayer() {
+        return false
+    }
+
+    getSpeed() {
+        return 100
+    }
+}
+
+class ScheduledDamage extends FakeActor implements ISchedule {
     target: Actor
     dmg: number
     text: string
     constructor(target: Actor, dmg: number, text: string) {
+        super()
         this.target = target
         this.dmg = dmg
         this.text = text
@@ -93,12 +110,43 @@ class ScheduledDamage {
         return new DamageAction(this.target, this.dmg, this.text, this.target)
     }
 
-    isPlayer() {
-        return false
+}
+
+
+class AnimationAction extends FakeActor implements ISchedule {
+    symbol: string
+    frames: number
+    coords: Array<Array<number>>
+    game: Game
+    constructor(frames: number, coords: Array<Array<number>>, symbol: string, game: Game) {
+        super()
+        this.symbol = symbol
+        this.frames = frames
+        this.coords = coords
+        this.game = game
+
+
+        this.frames = 3
     }
 
-    getSpeed() {
-        return 100
+    act() {
+        if (this.frames > 0) {
+            this.frames--
+            console.log('drawing', this.frames)
+
+            this.coords.forEach(s => {
+                this.game.display.draw(s[0], s[1], ['.', this.symbol])
+                // console.log('drawing', this.frames, s[0], s[1])
+            })
+
+            this.game.scheduler.add(this, false)
+            // return this
+
+        }
+    }
+
+    execute() {
+        return this.act()
     }
 }
 
@@ -340,7 +388,8 @@ export class GrenadeLauncher extends Ability {
         let sets = getCoordsAround(action.x, action.y)
         sets.forEach(s => {
             // TODO make splash damage visible again
-            game.display.draw(s[0], s[1], "*", "red")
+            //game.display.draw(s[0], s[1], "*", "red")
+
 
 
             setTimeout(() => {
@@ -354,6 +403,8 @@ export class GrenadeLauncher extends Ability {
                     `${this.actor.name} Grenade Splash Damage`), false)
             }
         })
+        // TODO: Abandon this for now, its not quite working
+        // game.scheduler.add(new AnimationAction(20, sets, '*', game), false)
     }
 
     canTargetEmpty() {

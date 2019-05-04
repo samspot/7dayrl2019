@@ -31,6 +31,16 @@ export class Player extends Actor {
         this.sightRadius = Tyrant.sightRadius
 
         this.speed = Tyrant.speed || 100
+        this.setStartingAbilities()
+        this.state = PLAYER_TURN
+        // make the game advance a few turns on startup
+        this.debugCount = 0
+        if (Config.debug) {
+            this.debugCount = Config.turnsToSim
+        }
+    }
+
+    setStartingAbilities() {
         this.addAbility(new Impale(this))
         this.addAbility(new Charge(this))
         this.addAbility(new Infect(this))
@@ -42,13 +52,6 @@ export class Player extends Actor {
         // this.addAbility(new Poison(this))
         // this.addAbility(new Crossbow(this))
         // this.addAbility(new Haymaker(this))
-
-        this.state = PLAYER_TURN
-        // make the game advance a few turns on startup
-        this.debugCount = 0
-        if (Config.debug) {
-            this.debugCount = Config.turnsToSim
-        }
     }
 
     revive() {
@@ -63,9 +66,8 @@ export class Player extends Actor {
         this.sightRadius = Tyrant.sightRadius
         this.boss = false
         this.abilities = []
-        this.addAbility(new Impale(this))
-        this.addAbility(new Charge(this))
-        this.addAbility(new Infect(this))
+
+        this.setStartingAbilities()
     }
 
     infectMob(mob: Actor) {
@@ -229,6 +231,7 @@ export class Player extends Actor {
         let charStr = String.fromCharCode(charCode)
 
         if (charStr == '>') {
+            console.log("descend key pressed")
             this.tickAbilities()
             this.resolve(new DescendAction(this))
         }

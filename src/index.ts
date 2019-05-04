@@ -66,6 +66,7 @@ async function mainLoop() {
 
     let start2: any = null
     let fps2 = 120
+    // let fps2 = 1
     let changeEvery2 = 1000 / fps2
     let elapsed2 = changeEvery2
 
@@ -82,6 +83,7 @@ async function mainLoop() {
             elapsed2 = 0
 
             let actor = scheduler.next()
+            // console.log('SCHEDULE: next actor', actor)
             if (!actor) { return }
             // console.log("scheduled actor", actor)
 
