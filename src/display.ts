@@ -42,6 +42,7 @@ export class GameDisplay {
         }
 
         this.showModalJsx(BossSplash({ actor: actor }))
+        // this.showModal(BossSplash({ actor: actor }))
 
         let gp = this.game.getGameProgress()
         this.renderCharacter(gp.bossNickName, 'boss-splash')

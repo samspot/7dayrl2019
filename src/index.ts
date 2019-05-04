@@ -65,7 +65,7 @@ async function mainLoop() {
     // while (1) {
 
     let start2: any = null
-    let fps2 = 120
+    let fps2 = 200
     // let fps2 = 1
     let changeEvery2 = 1000 / fps2
     let elapsed2 = changeEvery2
