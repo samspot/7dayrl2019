@@ -79,10 +79,11 @@ function isTrapped(map: IGameMap, x: number, y: number) {
     return _.every(trapped)
 }
 
-interface ISchedule {
+export interface ISchedule {
     act: () => any
     isPlayer: () => boolean
     getSpeed: () => number
+    framesLeft: () => number
 }
 
 class FakeActor {
@@ -92,6 +93,10 @@ class FakeActor {
 
     getSpeed() {
         return 100
+    }
+
+    framesLeft() {
+        return 0
     }
 }
 
@@ -126,22 +131,21 @@ class AnimationAction extends FakeActor implements ISchedule {
         this.game = game
 
 
-        this.frames = 3
+    }
+
+    framesLeft() {
+        return this.frames
     }
 
     act() {
         if (this.frames > 0) {
             this.frames--
-            console.log('drawing', this.frames)
+            // console.log('drawing', this.frames)
 
             this.coords.forEach(s => {
                 this.game.display.draw(s[0], s[1], ['.', this.symbol])
                 // console.log('drawing', this.frames, s[0], s[1])
             })
-
-            this.game.scheduler.add(this, false)
-            // return this
-
         }
     }
 
@@ -405,6 +409,7 @@ export class GrenadeLauncher extends Ability {
         })
         // TODO: Abandon this for now, its not quite working
         // game.scheduler.add(new AnimationAction(20, sets, '*', game), false)
+        game.gameDisplay.addAnimation(new AnimationAction(3, sets, '*', game))
     }
 
     canTargetEmpty() {

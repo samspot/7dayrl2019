@@ -55,6 +55,7 @@ async function mainLoop() {
             if (elapsed > changeEvery) {
                 elapsed = 0
                 game.swapTiles(i++)
+                game.gameDisplay.processAnimations()
             }
 
             requestAnimationFrame(loop)

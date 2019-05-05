@@ -11,11 +11,13 @@ import { Actor } from './actor';
 
 import { BossSplash, render } from './markup.jsx';
 import { ModalContainer } from './modal'
+import { ISchedule } from './abilities';
 
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
     game: Game
     react: ReactDOM.Renderer
+    animstack: Array<ISchedule>
     constructor(game: Game) {
         // @ts-ignore
         this.react = render({ game: game })
@@ -23,6 +25,23 @@ export class GameDisplay {
         this.game = game
         // @ts-ignore
         window.gameDisplay = this
+        this.animstack = []
+    }
+
+    addAnimation(a: ISchedule) {
+        this.animstack.push(a)
+    }
+
+    processAnimations() {
+        let remove = []
+        this.animstack.forEach(a => {
+            if (a.framesLeft() > 0) {
+                a.act()
+            }
+        })
+
+        // TODO remove spent animations
+        // _.remove(this.animstack, x => x)
     }
 
     restartGui() {
