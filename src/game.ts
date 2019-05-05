@@ -14,50 +14,6 @@ import { Monster } from './monster';
 import { Player } from './player';
 import { getCoordsAround } from './Level';
 
-// Bugs
-// HIGH high scores not working sometimes still
-// MED two stairs moving after fighting leon on level 1
-
-// FIXED unseen bosses still taking damage (wesker)
-// FIXED prevent default on boss splash
-// FIXED player sprite doesn't change when infecting - can we add a halo?
-// FIXED score counting double on level 1
-// FIXED target UI not working quite right post-death
-// FIXED? cooldown graphic(s) missing
-// FIXED clearing boss splash w/o react: react-dom.development.js:500 Warning: render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container. // ReactDOM.unmountComponentAtNode 
-// FIXED mobs can be on top of the player
-// FIXED use diff symbol for unknown tile (currently crosshair)
-// FIXED grenade launcher text overwrites next ability (change to launcher or grenade)
-// FIXED bosses still spawn in player start room
-// FIXED ability tooltips missing damage value
-// FIXED starting new game didn't clear score, target (wesker dead image), mob list
-// FIXED bosses don't show up in mob list immediately
-
-/* feedback
-
-* special abilities like bite can target diagonal, but you cant bump attack that direction, correct?
-    - i first noticed when a zombie grabbed me around a corner, I thought I was safe
-    - it would be less of a BS moment at first, would increase player power
-    - maybe remove some death learning dark souls style?
-    - you are supposed to die a lot in these games to learn the mechanics right? lol
-    - so if you leave it like it is, it offers a bit more depth
-* on the map I saw the letter for a monster, but it did not appear on the monster list until the next turnthe same will happen for updating the target portrait
-
-FB: hard to see who is the boss
-TODO: charge can take you out of bounds, but this might be fun?
-TODO: enemies in the dark can use abilities - decide on this
-TODO: Look into showing explored tiles
-
-Descoped
-
-1. status effects like 'grabbed'
-2. add "and DIED!" to damage messages that kill
-3. mouse controls to ui
-
-// DESCOPE Map stuff to maps or levels js
-// DESCOPE create player/mob stuff to director js
-*/
-
 export class Game {
     maps: Maps
     currentLevel: number
