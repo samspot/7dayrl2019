@@ -38,7 +38,7 @@ const Config: IConfig = {
     // seed: 12458,
     drawWholeMap: false,
     drawAllMobs: false,
-    debug: true,
+    debug: false,
     skipTitle: true,
     tiles: true,
     enableCharge: false,
