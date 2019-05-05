@@ -298,6 +298,8 @@ function getPositions(source: Actor, target: Actor) {
 }
 
 function knockBack(source: Actor, target: Actor, game: Game) {
+    let x = target.x
+    let y = target.y
 
     let pos = getPositions(source, target)
     target.x = pos.targetRear.x
@@ -306,26 +308,24 @@ function knockBack(source: Actor, target: Actor, game: Game) {
 
     console.log('pos', pos.direction[0], pos)
 
-    let x = target.x
-    let y = target.y
     let sets = []
     switch (pos.direction[0]) {
         case 'N':
         case 'S':
-            sets.push([x, y])
-            sets.push([x - 1, y])
-            sets.push([x + 1, y])
-            sets.push([x, y + 1])
+            // sets.push([x, y])
+            // sets.push([x - 1, y])
+            // sets.push([x + 1, y])
+            // sets.push([x, y + 1])
             break;
         case 'W':
         case 'E':
-            sets.push([x, y - 1])
-            sets.push([x, y + 1])
-            sets.push([x, y])
-            sets.push([x + 1, y])
+            // sets.push([x, y - 1])
+            // sets.push([x, y + 1])
+            // sets.push([x + 1, y])
             break;
     }
 
+    sets.push([x, y])
     // let sets: any = [][]
     game.gameDisplay.addAnimation(new AnimationAction(2, sets, '*', game))
 }

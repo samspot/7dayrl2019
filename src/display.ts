@@ -1,6 +1,7 @@
 import Empty75x75 from '../assets/img/empty.png'
 import DeathImage from '../assets/img/nemesis-death-v2.gif'
 
+import * as _ from 'lodash';
 import * as ReactDOM from "react-dom"
 import '../assets/css/main.css'
 import '../assets/css/sprites.css'
@@ -33,15 +34,28 @@ export class GameDisplay {
     }
 
     processAnimations() {
-        let remove = []
+        let remove: Array<ISchedule> = []
         this.animstack.forEach(a => {
             if (a.framesLeft() > 0) {
                 a.act()
+            } else {
+                remove.push(a)
             }
         })
 
-        // TODO remove spent animations
-        // _.remove(this.animstack, x => x)
+        // remove spent animations
+        remove.forEach(a => {
+            let index = this.animstack.indexOf(a)
+            if (index > -1) {
+                let r = this.animstack.splice(index, 1)
+                console.log('removed', r)
+            }
+        })
+
+
+        if (this.animstack.length > 0) {
+            console.log('animations', this.animstack)
+        }
     }
 
     restartGui() {
