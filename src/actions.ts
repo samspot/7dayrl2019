@@ -91,6 +91,10 @@ function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, re
         game.message("You revived in your original form")
     } else {
         game.message("You infected " + player.name)
+        console.log('actions revive', player, mob)
+        if (mob.boss) {
+            game.onBossDown()
+        }
     }
 
     game.showInfectable = false

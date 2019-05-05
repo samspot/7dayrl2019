@@ -347,16 +347,19 @@ export class Game {
     killBoss() {
         this.getGameProgress().style = "text-decoration: line-through; color: red"
         this.message(`You killed the level boss.  Press > to proceed.`, true)
-        this.getGameProgress().bossDown = true
-        console.log('killboss adding score', this.getGameProgress().score)
-        this.score += this.getGameProgress().score
-        this.director.spawnStairs()
+        this.onBossDown()
     }
 
     possesBoss() {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Infected]"
+    }
+
+    onBossDown() {
         this.getGameProgress().bossDown = true
+        console.log('onBossDown adding score', this.getGameProgress().score)
+        this.score += this.getGameProgress().score
+        this.director.spawnStairs()
     }
 
     message(msg: string, important?: boolean) {
