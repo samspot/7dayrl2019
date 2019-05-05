@@ -43,7 +43,7 @@ async function mainLoop() {
     let i = 0
     if (Config.animate) {
         let start: any = null
-        let fps = 2
+        let fps = 4
         let changeEvery = 1000 / fps
         let elapsed = changeEvery
         let loop = (timestamp: any) => {
@@ -62,70 +62,70 @@ async function mainLoop() {
 
         requestAnimationFrame(loop)
     }
-    // while (1) {
+    while (1) {
 
-    let start2: any = null
-    let fps2 = 200
-    // let fps2 = 1
-    let changeEvery2 = 1000 / fps2
-    let elapsed2 = changeEvery2
+        // let start2: any = null
+        // let fps2 = 200
+        // let changeEvery2 = 1000 / fps2
+        // let elapsed2 = changeEvery2
 
-    // let loop2 = (timestamp: any) => {
-    async function loop2(timestamp: any) {
-        if (!start2) start2 = timestamp
-        let dt = timestamp - start2
-        start2 = timestamp
+        // let loop2 = (timestamp: any) => {
+        // async function loop2(timestamp: any) {
+        // if (!start2) start2 = timestamp
+        // let dt = timestamp - start2
+        // start2 = timestamp
 
-        elapsed2 += dt
-
-
-        if (elapsed2 > changeEvery2) {
-            elapsed2 = 0
-
-            let actor = scheduler.next()
-            // console.log('SCHEDULE: next actor', actor)
-            if (!actor) { return }
-            // console.log("scheduled actor", actor)
-
-            if (actor.isPlayer()) {
-                game.updateGui()
-                game.redraw()
-                game.fixActorOverlap()
-            }
-
-            let action = await actor.act()
+        // elapsed2 += dt
 
 
-            while (action) {
-                // console.log("got action", action)
-                action = action.execute(game)
-            }
+        // if (elapsed2 > changeEvery2) {
+        // elapsed2 = 0
 
-            if (actor.isPlayer()) {
-                director.tick()
-                game.turns++
-            }
+        let actor = scheduler.next()
+        // console.log('SCHEDULE: next actor', actor)
+        if (!actor) { return }
+        // console.log("scheduled actor", actor)
 
-            if (game.gameOver) {
-                renderScores();
-                (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
-                (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";
-
-                document.querySelectorAll('.firstRun').forEach((e: HTMLElement) => e.style.display = "block")
-
-                return
-            }
-
-            if (game.dirty) {
-                game.redraw()
-                game.dirty = false
-            }
+        if (actor.isPlayer()) {
+            game.updateGui()
+            game.redraw()
+            game.fixActorOverlap()
         }
-        requestAnimationFrame(loop2)
-    }
 
-    requestAnimationFrame(loop2)
+        let action = await actor.act()
+
+
+        while (action) {
+            // console.log("got action", action)
+            action = action.execute(game)
+        }
+
+        if (actor.isPlayer()) {
+            director.tick()
+            game.turns++
+        }
+
+        if (game.gameOver) {
+            renderScores();
+            (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
+            (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";
+
+            document.querySelectorAll('.firstRun').forEach((e: HTMLElement) => e.style.display = "block")
+
+            return
+        }
+
+        if (game.dirty) {
+            game.redraw()
+            game.dirty = false
+        }
+    }
+    // requestAnimationFrame(loop2)
 }
+
+// requestAnimationFrame(loop2)
+// }
+// }
 
 if (Config.debug && Config.skipTitle) {
     mainLoop()

@@ -133,13 +133,13 @@ export class Game {
         if (Config.tiles) {
             let options = this.display.getOptions()
             let frameset = this.maps.getFrameSet(options.tileMap)
-            if (idx % 2 === 0) {
+            if (idx % 4 === 0) {
                 frameset.forEach((t: TileMapKey) => {
                     options.tileMap[t.key] = [t.x + Config.tileWidth, t.y]
                 })
             }
 
-            if (idx % 2 === 1) {
+            if (idx % 4 === 2) {
                 frameset.forEach((t: TileMapKey) => {
                     options.tileMap[t.key] = [t.x - Config.tileWidth, t.y]
                 })
