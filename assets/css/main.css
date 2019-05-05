@@ -13,9 +13,10 @@ body {
     float: right;
     /* width: 630px; */
     /* height: 500px; */
-    width: 400px;
-    height: 318px;
-    background: url(../../assets/img/logo-small-no-bg.png) 0 0;
+    width: 371px;
+    height: 291px;
+    /* background: url(../../assets/img/logo-small-no-bg.png) 0 0; */
+    background: url(../../assets/img/animated-logo.gif) 0 0;
 }
 
 a:link,
