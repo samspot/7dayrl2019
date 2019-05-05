@@ -72,14 +72,13 @@ let hasFrame2 = [
 ]
 
 
+
 interface TileMap {
     [key: string]: Array<number>
 }
 
 let tileMap: TileMap = {
-    ">": [0, 31],  // stairs
     'placeholder': [0, 7], // placeholder
-    '*': [0, 7], // placeholder
     "d": [0, 8],  // dog
     "c": [0, 9],  // chimera
     "L": [0, 10], // Lisa
@@ -106,6 +105,8 @@ let tileMap: TileMap = {
     "A": [0, 28], // Ada Wong
     "k": [0, 29], // Krauser
     "m": [0, 30], // William Birkin
+    ">": [0, 31],  // stairs
+    '*': [0, 32], // boom
 
     '.': [1, 1],
     '_': [1, 1],

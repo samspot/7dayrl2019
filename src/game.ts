@@ -144,6 +144,17 @@ export class Game {
                     options.tileMap[t.key] = [t.x - Config.tileWidth, t.y]
                 })
             }
+
+            if (idx % 2 === 0) {
+                let [x, y] = options.tileMap['*']
+                options.tileMap['*'] = [x + Config.tileWidth, y]
+            }
+
+            if (idx % 2 === 1) {
+                let [x, y] = options.tileMap['*']
+                options.tileMap['*'] = [x - Config.tileWidth, y]
+            }
+
             this._drawFov()
         }
     }

@@ -391,11 +391,6 @@ export class GrenadeLauncher extends Ability {
     sideEffects(action: Action, game: Game) {
         let sets = getCoordsAround(action.x, action.y)
         sets.forEach(s => {
-            // TODO make splash damage visible again
-            //game.display.draw(s[0], s[1], "*", "red")
-
-
-
             setTimeout(() => {
                 game.dirty = true
             }, 0)
@@ -407,9 +402,7 @@ export class GrenadeLauncher extends Ability {
                     `${this.actor.name} Grenade Splash Damage`), false)
             }
         })
-        // TODO: Abandon this for now, its not quite working
-        // game.scheduler.add(new AnimationAction(20, sets, '*', game), false)
-        game.gameDisplay.addAnimation(new AnimationAction(3, sets, '*', game))
+        game.gameDisplay.addAnimation(new AnimationAction(5, sets, '*', game))
     }
 
     canTargetEmpty() {
