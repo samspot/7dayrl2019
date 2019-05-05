@@ -68,7 +68,8 @@ let hasFrame2 = [
     "C",
     "B",
     "V",
-    "W"
+    "W",
+    "T"
 ]
 
 
