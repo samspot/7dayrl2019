@@ -231,7 +231,7 @@ export class Player extends Actor {
         let charStr = String.fromCharCode(charCode)
 
         if (charStr == '>') {
-            console.log("descend key pressed")
+            // console.log("descend key pressed")
             this.tickAbilities()
             this.descending = true
             this.resolve(new DescendAction(this))
@@ -280,7 +280,7 @@ export class Player extends Actor {
         if (code == 190) {
             if (!this.descending) {
                 this.tickAbilities()
-                console.log('190 default action')
+                // console.log('190 default action')
 
                 this.resolve(new DefaultAction())
             }

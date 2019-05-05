@@ -92,7 +92,7 @@ function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, re
     } else {
         game.message("You infected " + player.name)
         console.log('actions revive', player, mob)
-        if (mob.boss) {
+        if (mob.boss && mob.hp > 0) {
             game.onBossDown()
         }
     }
@@ -316,13 +316,13 @@ export class PickupAction extends Action {
 
 export class DescendAction extends Action {
     constructor(actor: Actor) {
-        console.log('creating descend action')
+        // console.log('creating descend action')
         super(actor)
     }
 
     execute(game: Game) {
         if (game.levelBossPassed() || Config.debug) {
-            console.log('descending?')
+            // console.log('descending?')
             game.currentLevel++
 
             if (game.currentLevel >= 5) {
@@ -336,7 +336,7 @@ export class DescendAction extends Action {
             this.actor.descending = false
 
         } else {
-            console.log('level boss not passed')
+            // console.log('level boss not passed')
         }
     }
 }
