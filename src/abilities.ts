@@ -232,7 +232,6 @@ export class Grab extends Ability {
     }
 }
 
-// TODO sourceRear, targetFront.  see targethelp.aseprite
 function getPositions(source: Actor, target: Actor) {
     let xdiff = source.x - target.x
     let ydiff = source.y - target.y
@@ -248,21 +247,7 @@ function getPositions(source: Actor, target: Actor) {
     let farX = source.x
     let farY = source.y
 
-    if (xdiff > 0) { // target is west of source
-        //console.log('target west x is', target.x)
-        sourceFront.x = source.x - 1
-        sourceRear.x = source.x + 1
-        targetRear.x = target.x - 1
-        targetFront.x = target.x + 1
-    }
-
-    if (xdiff < 0) { // target is east of source
-        //console.log('target east x is', target.x)
-        sourceFront.x = source.x + 1
-        sourceRear.x = source.x - 1
-        targetRear.x = target.x + 1
-        targetFront.x = target.x - 1
-    }
+    let direction = ''
 
     if (ydiff > 0) { // target north of source
         //console.log('target north y is', target.y)
@@ -270,6 +255,7 @@ function getPositions(source: Actor, target: Actor) {
         sourceRear.y = source.y + 1
         targetRear.y = target.y - 1
         targetFront.y = target.y + 1
+        direction += 'N'
     }
 
     if (ydiff < 0) { // target south of source
@@ -278,13 +264,33 @@ function getPositions(source: Actor, target: Actor) {
         sourceRear.y = source.y - 1
         targetRear.y = target.y + 1
         targetFront.y = target.y - 1
+        direction += 'S'
+    }
+
+    if (xdiff > 0) { // target is west of source
+        //console.log('target west x is', target.x)
+        sourceFront.x = source.x - 1
+        sourceRear.x = source.x + 1
+        targetRear.x = target.x - 1
+        targetFront.x = target.x + 1
+        direction += 'W'
+    }
+
+    if (xdiff < 0) { // target is east of source
+        //console.log('target east x is', target.x)
+        sourceFront.x = source.x + 1
+        sourceRear.x = source.x - 1
+        targetRear.x = target.x + 1
+        targetFront.x = target.x - 1
+        direction += 'E'
     }
 
     let pos = {
         sourceFront,
         sourceRear,
         targetFront,
-        targetRear
+        targetRear,
+        direction
     }
 
     // console.log(`getPositions result ${pos} sourceFront`, sourceFront, 'sourceRear', sourceRear, 'targetFront', targetFront, 'targetRear', targetRear)
@@ -297,6 +303,31 @@ function knockBack(source: Actor, target: Actor, game: Game) {
     target.x = pos.targetRear.x
     target.y = pos.targetRear.y
     game.map[target.x + ',' + target.y] = '.'
+
+    console.log('pos', pos.direction[0], pos)
+
+    let x = target.x
+    let y = target.y
+    let sets = []
+    switch (pos.direction[0]) {
+        case 'N':
+        case 'S':
+            sets.push([x, y])
+            sets.push([x - 1, y])
+            sets.push([x + 1, y])
+            sets.push([x, y + 1])
+            break;
+        case 'W':
+        case 'E':
+            sets.push([x, y - 1])
+            sets.push([x, y + 1])
+            sets.push([x, y])
+            sets.push([x + 1, y])
+            break;
+    }
+
+    // let sets: any = [][]
+    game.gameDisplay.addAnimation(new AnimationAction(2, sets, '*', game))
 }
 
 export class Charge extends Ability {
