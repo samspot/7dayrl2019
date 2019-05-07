@@ -112,9 +112,9 @@ export class Actor {
             if (this.isBoss()) {
                 this.game.killBoss()
 
-                if (this.game.allBossesDown()) {
-                    return new YouWinAction(this.game.player)
-                }
+                // if (this.game.allBossesDown()) {
+                // return new YouWinAction(this.game.player)
+                // }
             }
         }
     }

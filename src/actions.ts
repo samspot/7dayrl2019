@@ -8,8 +8,9 @@ import { keyMap } from './keymap';
 import { Monster } from './monster';
 import { Player } from './player';
 import { addScore } from './score';
+import { FakeActor } from './fakeactor';
 
-export class Action {
+export class Action extends FakeActor {
     actor: Actor
     x: number
     y: number
@@ -20,6 +21,7 @@ export class Action {
     game: Game
     speed: number
     constructor(actor?: Actor) {
+        super()
         this.actor = actor
         this.x = 0
         this.y = 0
@@ -44,7 +46,8 @@ export class InfectAbilityAction extends Action {
     }
 
     execute(game: Game) {
-        if (this.monster.hp <= 0) {
+        console.log('execute InfectAbilityAction on monster with hp', this.monster.hp)
+        if (this.monster.hp <= this.player.str) {
             // console.log('executing InfectAbilityAction', this.monster.hp, this.monster)
             doInfect(this.player, this.monster, game, this, false)
             // console.log("infect ability action post infect")
@@ -53,8 +56,11 @@ export class InfectAbilityAction extends Action {
     }
 }
 
-function doInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: Boolean) {
-
+// 1. game.possesboss - updates some ui
+// 2. remove the mob from the scheduler
+// 3. if all bosses dead, win
+function doInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: boolean) {
+    console.log('doInfect', player, mob, action, resetScore)
     if (mob.isBoss()) {
         game.possesBoss()
     }
@@ -62,22 +68,31 @@ function doInfect(player: Player, mob: Actor, game: Game, action: Action, resetS
     _.remove(game.mobs, mob)
     game.scheduler.remove(mob)
 
-    if (game.allBossesDown()) {
-        if (resetScore) {
-            game.resetScore()
-        }
+    // if (game.allBossesDown()) {
+    // game.win(action, resetScore)
+    // if (resetScore) {
+    //     game.resetScore()
+    // }
 
-        // @ts-ignore
-        window.removeEventListener("keydown", action);
-        // @ts-ignore
-        window.removeEventListener("keypress", action);
-        action.resolve(new YouWinAction(player))
-    }
+    // // @ts-ignore
+    // window.removeEventListener("keydown", action);
+    // // @ts-ignore
+    // window.removeEventListener("keypress", action);
+    // console.log('all bosses down, you win action')
+    // action.resolve(new YouWinAction(player))
+    // }
 
     player.infectMob(mob)
 }
 
-function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: Boolean) {
+
+// 1. reset score if true
+// 2. remove event listeners from 'this', the action
+// 3. mob.isRevive triggers a 'you revived in your original form message'
+// 4. else call game.onBossDown() if mob is a boss with no hp
+// 5. reschedule the mobs
+function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: boolean) {
+    console.log('doPostInfect', player, mob, action, resetScore)
 
     game.dirty = true
     if (resetScore) {
@@ -100,6 +115,9 @@ function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, re
     game.showInfectable = false
     game.reschedule()
 
+    // if (game.allBossesDown()) {
+    // game.win(action, resetScore)
+    // }
 }
 
 export class InfectAction extends Action {
@@ -325,10 +343,16 @@ export class DescendAction extends Action {
             // console.log('descending?')
             game.currentLevel++
 
+            /*
             if (game.currentLevel >= 5) {
                 game.currentLevel--
                 return new YouWinAction(this.actor)
             }
+            */
+
+            // if (game.didWin()) {
+            // game.win()
+            // }
 
             game.director.resetLevel()
             game.generateMap(game.director.getLevelSpec())
