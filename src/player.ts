@@ -2,7 +2,7 @@ import Tyrant from 'assets/tyrant.json';
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
 import { Ability, Charge, Impale, Infect, Grab, Shotgun, Suplex, GrenadeLauncher, Poison, Haymaker, Crossbow } from './abilities';
-import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './actions';
+import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './allactions';
 import { Actor } from './actor';
 import Config from './config';
 import { Game } from './game';

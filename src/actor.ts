@@ -1,6 +1,6 @@
 
 import { Ability } from './abilities';
-import { YouWinAction } from './actions';
+import { YouWinAction } from './allactions';
 import Config from './config';
 import { Game } from './game';
 import { Status } from './status';

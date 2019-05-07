@@ -13,7 +13,8 @@ import { MobSpec } from './MobSpec';
 import { Monster } from './monster';
 import { Player } from './player';
 import { getCoordsAround } from './Level';
-import { Action, YouWinAction } from './actions';
+import { YouWinAction } from './allactions';
+import { Action } from './action';
 
 export class Game {
     maps: Maps

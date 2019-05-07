@@ -112,7 +112,7 @@ async function mainLoop() {
             }
         }
 
-        if (game.gameOver) {
+        if (game.gameOver /*&& action.done*/) {
             renderScores();
             (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
             (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";

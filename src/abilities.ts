@@ -1,12 +1,13 @@
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
-import { Action, DamageAction, InfectAbilityAction } from './actions';
+import { DamageAction } from './allactions';
 import { Actor } from './actor';
 import { Game } from './game';
 import { IGameMap } from './maps';
 import { getCoordsAround } from './Level';
 import { Stunned } from './status';
 import { FakeActor } from './fakeactor';
+import { Action } from './action';
 
 
 
