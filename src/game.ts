@@ -13,6 +13,7 @@ import { MobSpec } from './MobSpec';
 import { Monster } from './monster';
 import { Player } from './player';
 import { getCoordsAround } from './Level';
+import { Action, YouWinAction } from './actions';
 
 export class Game {
     maps: Maps
@@ -56,6 +57,30 @@ export class Game {
         this.gameDisplay = new GameDisplay(this)
         this.showInfectable = false
         this.deaths = 0
+    }
+
+    didWin() {
+        return this.allBossesDown() || this.currentLevel >= 5
+    }
+
+    win(action?: Action, shouldResetScore?: boolean) {
+        if (shouldResetScore) {
+            this.resetScore()
+        }
+
+        // @ts-ignore
+        window.removeEventListener("keydown", action);
+        // @ts-ignore
+        window.removeEventListener("keypress", action);
+        console.log('all bosses down, you win action')
+        let winAction = new YouWinAction(this.player)
+        if (action) {
+            // action.resolve(winAction)
+            action.resolve()
+        } else {
+            // this.scheduler.add(winAction, false)
+        }
+        winAction.execute(this)
     }
 
     getBosses() {

@@ -6,6 +6,9 @@ import { Game } from './game';
 import { IGameMap } from './maps';
 import { getCoordsAround } from './Level';
 import { Stunned } from './status';
+import { FakeActor } from './fakeactor';
+
+
 
 export class Ability {
     actor: Actor
@@ -84,20 +87,6 @@ export interface ISchedule {
     isPlayer: () => boolean
     getSpeed: () => number
     framesLeft: () => number
-}
-
-class FakeActor {
-    isPlayer() {
-        return false
-    }
-
-    getSpeed() {
-        return 100
-    }
-
-    framesLeft() {
-        return 0
-    }
 }
 
 class ScheduledDamage extends FakeActor implements ISchedule {
@@ -403,14 +392,19 @@ export class Infect extends Ability {
     // most actions just run their execute(game) method
     sideEffects(action: Action, game: Game, actor: Actor) {
         console.log("infect", action, game, actor)
-        game.scheduler.add({
-            act: () => {
-                // @ts-ignore
-                return new InfectAbilityAction(action.actor, actor, action)
-            },
-            isPlayer: () => false,
-            getSpeed: () => 100
-        }, false)
+        // @ts-ignore
+        let infectAction = new InfectAbilityAction(action.actor, actor, action)
+        infectAction.execute(game)
+        /*
+game.scheduler.add({
+    act: () => {
+        // @ts-ignore
+        return new InfectAbilityAction(action.actor, actor, action)
+    },
+    isPlayer: () => false,
+    getSpeed: () => 100
+}, false)
+*/
     }
 }
 
