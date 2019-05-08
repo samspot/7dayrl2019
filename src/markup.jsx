@@ -95,7 +95,7 @@ const MonsterList = (props) => {
         <Monster
             name={m.name}
             color={m.color}
-            infectable={m.hp <= props.game.player.getInfectStr()}
+            infectable={m.isInfectable()}
             debug={Config.debug ? ' ' + m.hp + ':' + m.maxHp : ''}
             key={idx}
         />

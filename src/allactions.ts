@@ -11,48 +11,9 @@ import { addScore } from './score';
 import { FakeActor } from './fakeactor';
 import { Action } from './action';
 import { InfectAction } from './infectaction';
+import { DamageAction } from './damageaction';
 
 
-export class DamageAction extends Action {
-    dmg: number
-    source: string
-    actorSource: Actor
-    constructor(actor: Actor, dmg: number, source: string, actorSource: Actor) {
-        super(actor)
-        this.dmg = dmg
-        this.source = source
-        this.actorSource = actorSource
-    }
-
-    execute(game: Game) {
-        let action = this.actor.damage(this.dmg)
-
-        if (this.source) {
-            let targetName = this.actor.name
-
-            let sourceName = this.actorSource.name
-            if (this.actor.isPlayer()) {
-                targetName = 'Player'
-            }
-            // console.log('this.actorSource', this.actorSource)
-            if (this.actorSource.isPlayer()) {
-                sourceName = 'Player'
-            }
-
-            if (this.actor.boss && !this.actor.playerSeen()) {
-            } else {
-                game.dmgMessage(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName, this.actorSource)
-            }
-        }
-
-        if (game.player.hp <= 0) {
-            game.deaths++
-            return new InfectAction(game.player, game)
-        }
-
-        return action
-    }
-}
 
 export class AttackAction extends Action {
     target: Actor
@@ -204,17 +165,6 @@ export class DefaultAction extends Action {
 
     execute(game: Game) {
         return
-    }
-}
-
-export class GameOverAction extends Action {
-    constructor(actor: Actor) {
-        super(actor)
-    }
-
-    execute(game: Game) {
-        game.gameOver = true
-        alert("You were killed! No characters weak enough to infect! Game Over!")
     }
 }
 

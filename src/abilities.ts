@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
-import { DamageAction } from './allactions';
 import { Actor } from './actor';
 import { Game } from './game';
 import { IGameMap } from './maps';
@@ -8,6 +7,8 @@ import { getCoordsAround } from './Level';
 import { Stunned } from './status';
 import { FakeActor } from './fakeactor';
 import { Action } from './action';
+import { DamageAction } from './damageaction';
+import { InfectAbilityAction } from './infectaction'
 
 
 
@@ -381,10 +382,7 @@ export class Charge extends Ability {
 
 export class Infect extends Ability {
     constructor(actor: Actor) {
-        // same damage as melee for this character - use this.str
-        let infectStr = actor.str
-        if (infectStr < 20) { infectStr = 20 }
-        super(actor, 1, 3, infectStr)
+        super(actor, 1, 3, actor.getInfectStr())
         this.description = 'Infect does your melee damage to the target, and if the target dies on this turn then you will take control of them.'
     }
 
@@ -392,20 +390,10 @@ export class Infect extends Ability {
     // actor - monster
     // most actions just run their execute(game) method
     sideEffects(action: Action, game: Game, actor: Actor) {
-        console.log("infect", action, game, actor)
+        // console.log("infect ability side effects called", action, game, actor)
         // @ts-ignore
         let infectAction = new InfectAbilityAction(action.actor, actor, action)
         infectAction.execute(game)
-        /*
-game.scheduler.add({
-    act: () => {
-        // @ts-ignore
-        return new InfectAbilityAction(action.actor, actor, action)
-    },
-    isPlayer: () => false,
-    getSpeed: () => 100
-}, false)
-*/
     }
 }
 

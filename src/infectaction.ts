@@ -14,30 +14,15 @@ import { Action } from './action';
 // 1. game.possesboss - updates some ui
 // 2. remove the mob from the scheduler
 // 3. if all bosses dead, win
-function doInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: boolean) {
-    console.log('doInfect', player, mob, action, resetScore)
+function possessRescheduleInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: boolean) {
+    console.log('possessRescheduleInfect', player, mob, action, resetScore)
     if (mob.isBoss()) {
-        game.possesBoss()
+        game.updateGameProgressPossess()
     }
 
-    _.remove(game.mobs, mob)
-    game.scheduler.remove(mob)
+    game.destroyMob(mob)
 
-    // if (game.allBossesDown()) {
-    // game.win(action, resetScore)
-    // if (resetScore) {
-    //     game.resetScore()
-    // }
-
-    // // @ts-ignore
-    // window.removeEventListener("keydown", action);
-    // // @ts-ignore
-    // window.removeEventListener("keypress", action);
-    // console.log('all bosses down, you win action')
-    // action.resolve(new YouWinAction(player))
-    // }
-
-    player.infectMob(mob)
+    player.becomeMob(mob)
 }
 
 
@@ -46,8 +31,8 @@ function doInfect(player: Player, mob: Actor, game: Game, action: Action, resetS
 // 3. mob.isRevive triggers a 'you revived in your original form message'
 // 4. else call game.onBossDown() if mob is a boss with no hp
 // 5. reschedule the mobs
-function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: boolean) {
-    console.log('doPostInfect', player, mob, action, resetScore)
+function postInfectEventsMessages(player: Player, mob: Actor, game: Game, action: Action, resetScore: boolean) {
+    console.log('postInfectEventsMessages', player, mob, action, resetScore)
 
     game.dirty = true
     if (resetScore) {
@@ -62,19 +47,14 @@ function doPostInfect(player: Player, mob: Actor, game: Game, action: Action, re
     } else {
         game.message("You infected " + player.name)
         console.log('actions revive', player, mob)
-        if (mob.boss && mob.hp > 0) {
-            game.onBossDown()
-        }
     }
 
     game.showInfectable = false
     game.reschedule()
 
-    // if (game.allBossesDown()) {
-    // game.win(action, resetScore)
-    // }
 }
 
+// action for infecting a target while still alive
 export class InfectAbilityAction extends Action {
     constructor(player: Player, monster: Monster, action: Action) {
         super(player)
@@ -85,16 +65,13 @@ export class InfectAbilityAction extends Action {
 
     execute(game: Game) {
         console.log('execute InfectAbilityAction on monster with hp', this.monster.hp)
-        if (this.monster.hp <= this.player.str) {
-            // console.log('executing InfectAbilityAction', this.monster.hp, this.monster)
-            doInfect(this.player, this.monster, game, this, false)
-            // console.log("infect ability action post infect")
-            doPostInfect(this.player, this.monster, game, this, false)
-        }
+        possessRescheduleInfect(this.player, this.monster, game, this, false)
+        postInfectEventsMessages(this.player, this.monster, game, this, false)
     }
 }
 
 
+// action for handling input relevant to infecting a specific target.  Used on player death
 export class InfectAction extends Action {
     constructor(actor: Actor, game: Game) {
         super(actor)
@@ -145,18 +122,19 @@ export class InfectAction extends Action {
         if (!mob) { return }
 
         game.gameDisplay.hideModal()
+        // mob.isRevive means self rez the player
         if (mob.isRevive) {
             console.log('calling player.revive() mob.isrevive true', mob)
             player.revive()
         } else {
             console.log('calling doInfect mob.isrevive false', mob)
-            doInfect(player, mob, game, this, true)
+            possessRescheduleInfect(player, mob, game, this, true)
         }
 
         window.removeEventListener("keydown", this)
         window.removeEventListener("keypress", this)
         // console.log("InfectAction PostInfect")
-        doPostInfect(player, mob, game, this, true)
+        postInfectEventsMessages(player, mob, game, this, true)
         this.resolve()
     }
 

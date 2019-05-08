@@ -70,7 +70,7 @@ export class Player extends Actor {
         this.setStartingAbilities()
     }
 
-    infectMob(mob: Actor) {
+    becomeMob(mob: Actor) {
         this.name = mob.name
         this.nickname = mob.nickname
         this.symbol = mob.symbol
@@ -138,13 +138,6 @@ export class Player extends Actor {
         })
     }
 
-    getInfectStr() {
-        let infect = 20
-        if (this.str > 20) {
-            infect = this.str
-        }
-        return infect
-    }
 
     handleTarget(e: Event) {
         // console.log("targetting")

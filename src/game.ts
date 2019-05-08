@@ -61,7 +61,8 @@ export class Game {
     }
 
     didWin() {
-        return this.allBossesDown() || this.currentLevel >= 5
+        // return this.allBossesDown() || this.currentLevel >= 5
+        return this.currentLevel >= 5
     }
 
     win(action?: Action, shouldResetScore?: boolean) {
@@ -337,13 +338,12 @@ export class Game {
         return this.gameProgress[key]
     }
 
-    killBoss() {
+    updateGameProgressKill() {
         this.getGameProgress().style = "text-decoration: line-through; color: red"
         this.message(`You killed the level boss.  Press > to proceed.`, true)
-        this.onBossDown()
     }
 
-    possesBoss() {
+    updateGameProgressPossess() {
         this.getGameProgress().style = "color: purple"
         this.getGameProgress().text += " [Infected]"
     }

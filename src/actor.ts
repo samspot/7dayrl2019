@@ -74,17 +74,24 @@ export class Actor {
         return this.seen
     }
 
-    isInjured() {
-        // console.log(`is ${this.name} ${this.hp}/${this.maxHp} less than ${this.maxHp * .45}`)
-        return this.hp < this.maxHp * .45
-    }
 
     isInfectable() {
-        if (this.finalBoss) { return false }
-        return this.isInjured() || this.hp < 15
+        if (this.finalBoss) {
+            return false
+        }
+
+        let player = this.game.player
+        return (player && player.getInfectStr()) >= this.hp
     }
 
-    // @ts-ignore
+    getInfectStr() {
+        let infect = 20
+        if (this.str > 20) {
+            infect = this.str
+        }
+        return infect
+    }
+
     damage(dmg: number) {
         if (this.isPlayer() && Config.debug && Config.playerInvulnerable) {
             return
@@ -101,7 +108,6 @@ export class Actor {
             if (!this.game.decorations[key]) {
                 this.game.decorations[key] = []
             }
-            // console.log('adding decoration')
             this.game.decorations[key].push('b')
 
             // TODO below if is repeated, but we need to add player logic here from actions.js
@@ -110,12 +116,10 @@ export class Actor {
             }
 
             if (this.isBoss()) {
-                this.game.killBoss()
-
-                // if (this.game.allBossesDown()) {
-                // return new YouWinAction(this.game.player)
-                // }
+                this.game.updateGameProgressKill()
+                this.game.onBossDown()
             }
+
         }
     }
 
