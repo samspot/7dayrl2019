@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
 import { Charge } from './abilities';
-import { AbilityAction, MoveAction } from './actions';
+import { AbilityAction, MoveAction } from './allactions';
 import { Actor } from './actor';
 import { Game } from './game';
 import { MobSpec } from "./MobSpec";

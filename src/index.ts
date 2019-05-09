@@ -104,9 +104,15 @@ async function mainLoop() {
         if (actor.isPlayer()) {
             director.tick()
             game.turns++
+
+            // TODO: infect action still not getting high scores.  kill and descend end the game correctly
+            if (game.didWin()) {
+                console.log('checking WIN condition', scheduler.next(), scheduler.next(), scheduler.next())
+                game.win()
+            }
         }
 
-        if (game.gameOver) {
+        if (game.gameOver /*&& action.done*/) {
             renderScores();
             (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
             (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";

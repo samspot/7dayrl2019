@@ -1,0 +1,18 @@
+1) Kill boss <YES>. Damage, killBoss, onBossDown
+
+onBossDown
+killBoss
+damage
+execute
+
+2) Infect ability <YES>.  Damage, killBoss, onBossDown, doInfect, doPostInfect
+
+onBossDown
+killBoss
+damage
+execute
+
+3) Infect during revive <YES>
+onBossDown
+doPostInvect
+handleEvent

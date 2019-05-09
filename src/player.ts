@@ -2,7 +2,7 @@ import Tyrant from 'assets/tyrant.json';
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
 import { Ability, Charge, Impale, Infect, Grab, Shotgun, Suplex, GrenadeLauncher, Poison, Haymaker, Crossbow } from './abilities';
-import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './actions';
+import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './allactions';
 import { Actor } from './actor';
 import Config from './config';
 import { Game } from './game';
@@ -70,7 +70,7 @@ export class Player extends Actor {
         this.setStartingAbilities()
     }
 
-    infectMob(mob: Actor) {
+    becomeMob(mob: Actor) {
         this.name = mob.name
         this.nickname = mob.nickname
         this.symbol = mob.symbol
@@ -138,13 +138,6 @@ export class Player extends Actor {
         })
     }
 
-    getInfectStr() {
-        let infect = 20
-        if (this.str > 20) {
-            infect = this.str
-        }
-        return infect
-    }
 
     handleTarget(e: Event) {
         // console.log("targetting")
