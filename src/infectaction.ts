@@ -10,6 +10,7 @@ import { Player } from './player';
 import { addScore } from './score';
 import { FakeActor } from './fakeactor';
 import { Action } from './action';
+import { MobSpec } from './MobSpec';
 
 // 1. game.possesboss - updates some ui
 // 2. remove the mob from the scheduler
@@ -47,6 +48,10 @@ function postInfectEventsMessages(player: Player, mob: Actor, game: Game, action
     } else {
         game.message("You infected " + player.name)
         console.log('actions revive', player, mob)
+        // it's a boss and the score is reset -- meaning player died.  so respawn as boss should kill boss
+        if (mob.boss && resetScore) {
+            game.onBossDown()
+        }
     }
 
     game.showInfectable = false
