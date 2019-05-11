@@ -85,6 +85,10 @@ async function mainLoop() {
             continue
         }
 
+        if (actor.isPlayer()) {
+            game.messager.update()
+        }
+
         while (action) {
             action = action(game)
         }

@@ -71,7 +71,8 @@ let hasFrame2 = [
     "B",
     "V",
     "W",
-    "T"
+    "T",
+    "!"
 ]
 
 
@@ -110,6 +111,7 @@ let tileMap: TileMap = {
     "m": [0, 30], // William Birkin
     ">": [0, 31],  // stairs
     '*': [0, 32], // boom
+    '!': [0, 33], // stun
 
     '.': [1, 1],
     '_': [1, 1],

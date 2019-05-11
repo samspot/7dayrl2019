@@ -118,24 +118,11 @@ const Monster = (props) =>
     </li>
 
 const Messages = (props) => {
-    let list = props.game && props.game.messages.map((m, idx) => {
-        m.idx = idx
+    let messager = props.game && props.game.getMessager()
+    if (!messager) { return }
+    let list = messager.getUiList()
 
-        let message = _.clone(m)
-        message.idx = idx
-
-        let source = message.source
-        let target = message.target
-
-        let text = message.msg
-        if (source || target) {
-            text = `${target} receives ${message.msg} [Source: ${source}]`
-        }
-        message.msg = text
-        message.recent = message.turn >= props.game.turns
-
-        return message
-    }).map(m => <Message text={m.msg} key={m.idx} recent={m.recent} important={m.important} />)
+    list = list.map((m, idx) => <Message text={m.msg} key={idx} recent={m.recent} important={m.important} />)
 
     return (
         <div style={{ clear: 'both' }}>

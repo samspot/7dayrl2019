@@ -368,7 +368,7 @@ export class GrenadeLauncher extends Ability {
                     `${this.actor.name} Grenade Splash Damage`, game), false)
             }
         })
-        game.gameDisplay.addAnimation(animation(5, sets, '*', game))
+        game.gameDisplay.addAnimation(animation(2, sets, '*', game))
     }
 
     canTargetEmpty() {
@@ -407,8 +407,10 @@ export class Crossbow extends Ability {
         this.description = `Stuns the target for 1 turn`
     }
 
-    sideEffects(game: Game, target: Actor) {
+    sideEffects(game: Game, target: Actor, x: number, y: number) {
         target.addStatus(new Stunned())
+        let sets = [[x, y]]
+        game.gameDisplay.addAnimation(animation(5, sets, '!', game))
     }
 }
 
@@ -436,9 +438,11 @@ export class Haymaker extends Ability {
         this.description = `Stuns the target for 1 turn and knocks them back`
     }
 
-    sideEffects(game: Game, target: Actor) {
+    sideEffects(game: Game, target: Actor, x: number, y: number) {
         target.addStatus(new Stunned())
         knockBack(this.actor, target, game)
+        let sets = [[x, y]]
+        game.gameDisplay.addAnimation(animation(5, sets, '!', game))
     }
 }
 

@@ -5,7 +5,7 @@ import { Actor, Cursor } from './actor';
 import Config from './config';
 import { Director } from './director';
 import { GameDisplay } from './display';
-import { IMessage } from './IMessage';
+import { IMessage, Messager } from './IMessage';
 import { GameProgress } from './Level';
 import { IMapSpec, Maps, TileMapKey } from './maps';
 import { MobSpec } from './MobSpec';
@@ -33,12 +33,13 @@ export class Game {
     score: number
     turns: number
     gameDisplay: GameDisplay
-    messages: Array<IMessage>
     gameProgress: GameProgress
     showInfectable: boolean
     deaths: number
     director: Director
+    messager: Messager
     constructor(scheduler: Scheduler) {
+        this.messager = new Messager()
         this.maps = new Maps(this)
         this.scheduler = scheduler
         this.display = null
@@ -49,7 +50,6 @@ export class Game {
         this.gameOver = false
         this.score = 0
         this.turns = 0
-        this.messages = []
         this.gameProgress = new GameProgress()
         this.director = undefined
         this.gameDisplay = new GameDisplay(this)
@@ -330,27 +330,17 @@ export class Game {
         this.director.spawnStairs()
     }
 
-    message(msg: string, important?: boolean) {
-        let message = {
-            msg: msg,
-            turn: this.turns,
-            important: important
-        }
-        this.messages.unshift(message)
+    getMessager() {
+        // return this.messager && this.messager.getMessages()
+        return this.messager
     }
 
-    dmgMessage(msg: string, important: boolean, source: string, target: string, actorSource: Actor) {
-        // console.log('msg', msg)
-        let message = {
-            msg: msg,
-            turn: this.turns,
-            important: important,
-            source: source,
-            target: target,
-            actorSource: actorSource
-        }
-        // console.log('printing msg', message.msg)
-        this.messages.unshift(message)
+    message(msg: string, important?: boolean) {
+        this.messager.message(msg, important)
+    }
+
+    dmgMessage(msg: string, damage: number, important: boolean, source: string, target: string, actorSource: Actor, hpBefore: number, hpAfter: number) {
+        this.messager.dmgMessage(msg, damage, important, source, target, actorSource, hpBefore, hpAfter)
     }
 
     addScore(x: number) {

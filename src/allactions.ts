@@ -64,7 +64,7 @@ export function descendAction(actor: Actor) {
     }
 }
 
-export function abilityAction(actor: Actor, ability: Ability, x: number, y: number) {
+export function abilityAction(sourceActor: Actor, ability: Ability, x: number, y: number) {
     return function (game: Game) {
         ability.cooldown = ability.maxCooldown
         let actor = game.getCharacterAt(null, x, y)
@@ -88,7 +88,7 @@ export function abilityAction(actor: Actor, ability: Ability, x: number, y: numb
         if (actor) {
             let source = ability.constructor.name
 
-            return damageAction(actor, ability.dmg, source, actor)
+            return damageAction(actor, ability.dmg, source, sourceActor)
         }
     }
 }

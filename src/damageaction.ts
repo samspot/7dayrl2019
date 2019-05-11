@@ -3,25 +3,27 @@ import { Actor } from './actor';
 import { Game } from './game';
 import { DeadInfector } from './infectaction';
 
-export function damageAction(actor: Actor, dmg: number, source: string, actorSource: Actor) {
+export function damageAction(target: Actor, dmg: number, attackName: string, dmgDealer: Actor) {
     return function (game: Game) {
-        let action = actor.damage(dmg)
+        let hpBefore = target.hp
+        let action = target.damage(dmg)
+        let hpAfter = target.hp
 
-        if (source) {
-            let targetName = actor.name
+        if (attackName) {
+            let targetName = target.name
 
-            let sourceName = actorSource.name
-            if (actor.isPlayer()) {
+            let dmgDealerName = dmgDealer.name
+            if (target.isPlayer()) {
                 targetName = 'Player'
             }
             // console.log('this.actorSource', this.actorSource)
-            if (actorSource.isPlayer()) {
-                sourceName = 'Player'
+            if (dmgDealer.isPlayer()) {
+                dmgDealerName = 'Player'
             }
 
-            if (actor.boss && !actor.playerSeen()) {
+            if (target.boss && !target.playerSeen()) {
             } else {
-                game.dmgMessage(`${dmg} damage from ${source}`, false, sourceName, targetName, actorSource)
+                game.dmgMessage(attackName, dmg, false, dmgDealerName, targetName, dmgDealer, hpBefore, hpAfter)
             }
         }
 
