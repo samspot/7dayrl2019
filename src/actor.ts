@@ -1,11 +1,9 @@
 
 import { Ability } from './abilities';
-import { YouWinAction } from './allactions';
 import Config from './config';
 import { Game } from './game';
 import { Status } from './status';
 
-const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
 const TARGETTING = "state_targetting"
 export class Actor {
@@ -144,11 +142,8 @@ export class Actor {
     }
 
     useAbility(ability: Ability) {
-        // console.log("player.useAbility()", ability)
 
         if (ability && ability.cooldown === 0) {
-            // this.game.display.drawText(0, 0, TARGET_HELP);
-            // console.log("abilty available", ability.cooldown, ability.maxCooldown)
             this.state = TARGETTING
             this.usingAbility = ability
             this.game.cursor = new Cursor(this.x, this.y, this.game)
@@ -198,9 +193,15 @@ export class Actor {
 
 }
 
-// TODO: WHY?
-class Cursor extends Actor {
+export class Cursor extends Actor {
     constructor(x: number, y: number, game: Game) {
         super(x, y, '#', 'white', game)
+        this.shouldDrawOtherCharacters = true
+    }
+}
+
+export class SimpleActor extends Actor {
+    constructor(game: Game) {
+        super(0, 0, '@', 'red', game)
     }
 }

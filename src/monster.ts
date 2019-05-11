@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
 import { Charge } from './abilities';
-import { AbilityAction, MoveAction } from './allactions';
+import { abilityAction, moveAction } from './allactions';
 import { Actor } from './actor';
 import { Game } from './game';
 import { MobSpec } from "./MobSpec";
@@ -42,7 +42,6 @@ export class Monster extends Actor {
             return player.inRange(a, player, this.x, this.y)
         })
 
-        // if(!Config.enableCharge){
         if (!window.directorsCut && !Config.enableCharge) {
             _.remove(usable, x => x instanceof Charge)
             // console.log('charge disabled')
@@ -58,7 +57,6 @@ export class Monster extends Actor {
 
         if (this.name === 'stairs') { return }
 
-        // if (this.statuses.includes(new Stunned())) {
         if (this.statuses.filter(s => s instanceof Stunned).length > 0) {
             _.remove(this.statuses, s => s instanceof Stunned)
             console.log('found stunned, skipping turn', this)
@@ -74,7 +72,7 @@ export class Monster extends Actor {
             let a = ROT.RNG.getItem(abilities)
             // console.log("monster.act()", this.name, "using ", a.constructor.name, a)
             return new Promise(resolve => {
-                resolve(new AbilityAction(this, a, x, y))
+                resolve(abilityAction(this, a, x, y))
             })
         }
 
@@ -101,29 +99,16 @@ export class Monster extends Actor {
         return new Promise((resolve, reject) => {
 
             if (!path) {
-                // console.log('returning default action')
-                // resolve(new DefaultAction(this))
-                // console.log('kill level boss, were in a bad stae', path[0], path[1], this.name, this.x, this.y)
-                // this.game.destroyMob(this)
-                // delete this.game.director.boss
-                // this.game.killBoss()
-                // this.game.message(this.name + " got lost so we killed him.  You may proceed to the next level ('>' key)", true)
                 this.game.message(this.name + ' is stuck!')
 
-                // this.game.message(`A horde of ${this.name}'s arise from the pieces`, true)
-                // this.game.message('The boss is cloning itself, get out NOW!', true)
-                // resolve(new DefaultAction())
                 resolve()
                 return
             }
 
-            // if (this.isBoss()) {
-            // console.log('acting', path[0], path[1], this.name, this.x, this.y)
-            // }
             x = path[0]
             y = path[1]
 
-            resolve(new MoveAction(this, undefined, x, y))
+            resolve(moveAction(this, undefined, x, y))
         })
     }
 }

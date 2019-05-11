@@ -65,6 +65,7 @@ export class Director {
         // this.bossPool.unshift(Krauser)
         // this.bossPool.unshift(Billy)
         // this.bossPool.unshift(Leon)
+        this.bossPool.unshift(Jill)
     }
 
     // cleanup all things that need to be cleaned for descending
@@ -205,6 +206,7 @@ export class Director {
             })
         })
 
+        // TODO move to json file
         let stairspec = new MobSpec()
         stairspec.symbol = '>'
         stairspec.color = '#fff'

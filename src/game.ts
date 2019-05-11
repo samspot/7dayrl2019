@@ -1,9 +1,8 @@
 import Tyrant from 'assets/tyrant.json';
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
-import { Actor } from './actor';
+import { Actor, Cursor } from './actor';
 import Config from './config';
-import { Cursor } from './cursor';
 import { Director } from './director';
 import { GameDisplay } from './display';
 import { IMessage } from './IMessage';
@@ -13,8 +12,7 @@ import { MobSpec } from './MobSpec';
 import { Monster } from './monster';
 import { Player } from './player';
 import { getCoordsAround } from './Level';
-import { YouWinAction } from './allactions';
-import { Action } from './action';
+import { youWinAction } from './allactions';
 
 export class Game {
     maps: Maps
@@ -38,7 +36,6 @@ export class Game {
     gameProgress: GameProgress
     showInfectable: boolean
     deaths: number
-    dirty: boolean
     director: Director
     constructor(scheduler: ROT.Scheduler) {
         this.maps = new Maps(this)
@@ -53,7 +50,6 @@ export class Game {
         this.turns = 0
         this.messages = []
         this.gameProgress = new GameProgress()
-        this.dirty = false
         this.director = undefined
         this.gameDisplay = new GameDisplay(this)
         this.showInfectable = false
@@ -61,28 +57,16 @@ export class Game {
     }
 
     didWin() {
-        // return this.allBossesDown() || this.currentLevel >= 5
         return this.currentLevel >= 5
     }
 
-    win(action?: Action, shouldResetScore?: boolean) {
+    win(shouldResetScore?: boolean) {
         if (shouldResetScore) {
             this.resetScore()
         }
-
-        // @ts-ignore
-        window.removeEventListener("keydown", action);
-        // @ts-ignore
-        window.removeEventListener("keypress", action);
+        ;
         console.log('all bosses down, you win action')
-        let winAction = new YouWinAction(this.player)
-        if (action) {
-            // action.resolve(winAction)
-            action.resolve()
-        } else {
-            // this.scheduler.add(winAction, false)
-        }
-        winAction.execute(this)
+        youWinAction()(this)
     }
 
     getBosses() {
@@ -159,7 +143,6 @@ export class Game {
         let tileWidth = Config.tileWidth
         let optionsTiles = {
             layout: 'tile',
-            // bg: 'transparent',
             tileWidth: tileWidth,
             tileHeight: tileWidth,
             tileSet: tileSet,
@@ -378,11 +361,6 @@ export class Game {
         this.messages.unshift(message)
     }
 
-
-    updateGui() {
-        this.gameDisplay.updateGui()
-    }
-
     addScore(x: number) {
         this.score += x
     }
@@ -391,17 +369,17 @@ export class Game {
         this.score = 0
     }
 
-    redraw() {
+    setupDraw() {
         let imageSrc = this.getGameProgress().tilesNew
         this._setTiles(imageSrc)
+        this.display.clear()
+    }
+
+    _drawFov() {
         this.display.clear()
         if (Config.debug && Config.drawWholeMap) {
             this._drawWholeMap()
         }
-        this._drawFov()
-    }
-
-    _drawFov() {
         // TODO liked trent reznor 'on we march' for background music
         let fovFloorColor = this.getGameProgress().floorColor
         let fovWallColor = this.getGameProgress().wallColor

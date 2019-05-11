@@ -2,12 +2,9 @@ import * as  React from "react"
 import * as ReactDOM from "react-dom"
 import Empty75x75 from '../assets/img/empty.png'
 
-// import { nameMap } from './namemap'
 export class StatusBar extends React.Component {
     render() {
 
-        // let name = this.props.player && this.props.player.name
-        // name = nameMap[name]
         let name = this.props.player && this.props.player.nickname
 
         let hp = this.props.player && this.props.player.hp
@@ -18,7 +15,6 @@ export class StatusBar extends React.Component {
         let boss = director && director.boss
         let bossSeen = false
 
-        // let bossObj = gp && gp.bossObj //gp.bossNickname //nameMap[gp.text]
         let bossObj = this.props.game.getBosses()
         let bossName = bossObj && bossObj.nickname
         if (bossObj && bossObj.playerSeen()) {
@@ -37,7 +33,6 @@ export class StatusBar extends React.Component {
                 <Portrait name={name + '-dead'} id="portrait2" actor={this.props.player} />
                 <Condition hp={hp} maxHp={maxHp} />
                 <Portrait name={bossName} id="target" actor={this.props.game.getBosses()} bossSeen={bossSeen} />
-                {/* <div id="ability-icons"></div> */}
                 <PlayerSkillList player={this.props.player} />
                 <span id="name"> {name} </span>
                 <span id="hp">{hp}</span>
@@ -77,13 +72,9 @@ class Portrait extends React.Component {
         let seen = (this.props.actor && this.props.actor.isPlayer()) || (this.props.actor && this.props.actor.boss && this.props.actor.seen)
         let { name, hp, maxHp, str, nick } = { name: 'unknown', hp: '?', maxHp: '?', str: '?', nick: 'unknown' }
         if (seen) {
-            // name = this.props.actor.name
-            // name = this.props.name
             hp = this.props.actor.hp
             maxHp = this.props.actor.maxHp
             str = this.props.actor.str
-            // TODO black magic on the name property, need to put the logic here instead
-            // nick = this.props.actor.nickname
         }
         return (
             <div id={this.props.id} className={this.props.name + ' tooltip'}>

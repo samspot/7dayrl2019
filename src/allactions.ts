@@ -5,52 +5,27 @@ import { Actor } from './actor';
 import Config from './config';
 import { Game } from './game';
 import { keyMap } from './keymap';
-import { Monster } from './monster';
-import { Player } from './player';
 import { addScore } from './score';
-import { FakeActor } from './fakeactor';
-import { Action } from './action';
-import { InfectAction } from './infectaction';
-import { DamageAction } from './damageaction';
+import { damageAction } from './damageaction';
 
 
 
-export class AttackAction extends Action {
-    target: Actor
-    constructor(actor: Actor, target: Actor) {
-        super(actor)
-        this.target = target
-    }
-
-    execute(game: Game) {
-        return new DamageAction(this.target, this.actor.str, `melee attack`, this.actor)
+export function attackAction(actor: Actor, target: Actor) {
+    return function (game: Game) {
+        return damageAction(target, actor.str, `melee attack`, actor)
     }
 }
 
-export class MoveAction extends Action {
-    direction: string
-    newX: number
-    newY: number
-    constructor(actor: Actor, direction: string, newX: number, newY: number) {
-        super(actor)
-        this.direction = direction
-        this.newX = newX
-        this.newY = newY
-    }
-
-    execute(game: Game) {
-        this.executeParent(game)
-        let actor = this.actor
-
+export function moveAction(actor: Actor, direction: string, moveToX?: number, moveToY?: number) {
+    return function (game: Game) {
         let newX, newY
-        if (this.newX >= 0 && this.newY >= 0) {
-            newX = this.newX
-            newY = this.newY
+        if (moveToX >= 0 && moveToY >= 0) {
+            newX = moveToX
+            newY = moveToY
         }
 
         if (actor.isPlayer()) {
-            // @ts-ignore
-            var diff = ROT.DIRS[8][keyMap[this.direction]];
+            var diff = ROT.DIRS[8][keyMap[direction]];
             newX = actor.x + diff[0];
             newY = actor.y + diff[1];
 
@@ -63,80 +38,40 @@ export class MoveAction extends Action {
         // console.log(`spawn-${actor.spawnId} ${actor.x},${actor.y} moving to ${this.newX},${this.newY} blocked by ${character}`)
 
         if (actor.isPlayer() && character && character.name === 'stairs') {
-            return new DescendAction(character)
+            return descendAction(character)
         }
 
         if (character) {
-            return new AttackAction(actor, character)
+            return attackAction(actor, character)
         }
 
-        // game.display.draw(actor.x, actor.y, game.map[actor.x + "," + actor.y])
         actor.x = newX;
         actor.y = newY;
-        // actor.draw();
     }
 }
 
-export class PickupAction extends Action {
-    constructor(actor: Actor) {
-        super(actor)
-    }
-
-    execute(game: Game) {
-        // console.log("execute pickup action")
-        this.executeParent(game)
-    }
-}
-
-export class DescendAction extends Action {
-    constructor(actor: Actor) {
-        // console.log('creating descend action')
-        super(actor)
-    }
-
-    execute(game: Game) {
+export function descendAction(actor: Actor) {
+    return function (game: Game) {
         if (game.levelBossPassed() || Config.debug) {
-            // console.log('descending?')
             game.currentLevel++
-
-            /*
-            if (game.currentLevel >= 5) {
-                game.currentLevel--
-                return new YouWinAction(this.actor)
-            }
-            */
-
-            // if (game.didWin()) {
-            // game.win()
-            // }
 
             game.director.resetLevel()
             game.generateMap(game.director.getLevelSpec())
 
-            this.actor.descending = false
-
-        } else {
-            // console.log('level boss not passed')
+            game.setupDraw()
+            actor.descending = false
         }
     }
 }
 
-export class AbilityAction extends Action {
-    ability: Ability
-    constructor(actor: Actor, ability: Ability, x: number, y: number) {
-        super(actor)
-        this.ability = ability
-        this.x = x
-        this.y = y
-    }
-
-    execute(game: Game) {
-        this.ability.cooldown = this.ability.maxCooldown
-        let actor = game.getCharacterAt(null, this.x, this.y)
+export function abilityAction(actor: Actor, ability: Ability, x: number, y: number) {
+    return function (game: Game) {
+        ability.cooldown = ability.maxCooldown
+        let actor = game.getCharacterAt(null, x, y)
 
         // if (actor.isPlayer() || this.ability.mobsGetSideEffects()) {
-        if (this.ability.mobsGetSideEffects()) {
-            this.ability.sideEffects(this, game, actor)
+        if (ability.mobsGetSideEffects()) {
+            ability.sideEffects(game, actor, x, y)
         } else {
             // console.log('skipping side effects for ability', this.ability, 'actor', actor)
         }
@@ -145,39 +80,26 @@ export class AbilityAction extends Action {
         //     this.ability, this.x, this.y, actor)
 
         // TODO: WTH is going on?  AbilityAction creator passing junk data?
-        if (this.actor instanceof Game) {
-            this.actor = game.player
+        if (actor instanceof Game) {
+            actor = game.player
         }
 
         // console.log("AbilityAction this.actor", this.actor)
         if (actor) {
-            let source = this.ability.constructor.name
+            let source = ability.constructor.name
 
-            return new DamageAction(actor, this.ability.dmg, source, this.actor)
+            return damageAction(actor, ability.dmg, source, actor)
         }
     }
 }
 
-export class DefaultAction extends Action {
-    constructor() {
-        super()
-    }
-
-    execute(game: Game) {
-        return
-    }
+export function defaultAction() {
+    return function (game: Game) { }
 }
 
-export class YouWinAction extends Action {
-    done: boolean
-    constructor(actor: Actor) {
-        super(actor)
-        this.done = false
-    }
-
-    execute(game: Game) {
+export function youWinAction() {
+    return function (game: Game) {
         game.gameOver = true
-        game.gameDisplay.updateGui()
 
         let highScores = addScore(game.player.name, game.score)
 
@@ -194,7 +116,5 @@ export class YouWinAction extends Action {
             + `<p>${highScoreHtml}</p>`
 
         game.gameDisplay.showModal(modalText)
-
-        this.done = true
     }
 }

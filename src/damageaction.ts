@@ -1,55 +1,50 @@
 import * as _ from 'lodash';
-import * as ROT from 'rot-js';
-import { Ability } from './abilities';
 import { Actor } from './actor';
-import Config from './config';
 import { Game } from './game';
-import { keyMap } from './keymap';
-import { Monster } from './monster';
-import { Player } from './player';
-import { addScore } from './score';
-import { FakeActor } from './fakeactor';
-import { Action } from './action';
-import { InfectAction } from './infectaction';
+import { DeadInfector } from './infectaction';
 
-export class DamageAction extends Action {
-    dmg: number
-    source: string
-    actorSource: Actor
-    constructor(actor: Actor, dmg: number, source: string, actorSource: Actor) {
-        super(actor)
-        this.dmg = dmg
-        this.source = source
-        this.actorSource = actorSource
-    }
+export function damageAction(actor: Actor, dmg: number, source: string, actorSource: Actor) {
+    return function (game: Game) {
+        let action = actor.damage(dmg)
 
-    execute(game: Game) {
-        let action = this.actor.damage(this.dmg)
+        if (source) {
+            let targetName = actor.name
 
-        if (this.source) {
-            let targetName = this.actor.name
-
-            let sourceName = this.actorSource.name
-            if (this.actor.isPlayer()) {
+            let sourceName = actorSource.name
+            if (actor.isPlayer()) {
                 targetName = 'Player'
             }
             // console.log('this.actorSource', this.actorSource)
-            if (this.actorSource.isPlayer()) {
+            if (actorSource.isPlayer()) {
                 sourceName = 'Player'
             }
 
-            if (this.actor.boss && !this.actor.playerSeen()) {
+            if (actor.boss && !actor.playerSeen()) {
             } else {
-                game.dmgMessage(`${this.dmg} damage from ${this.source}`, false, sourceName, targetName, this.actorSource)
+                game.dmgMessage(`${dmg} damage from ${source}`, false, sourceName, targetName, actorSource)
             }
         }
 
         if (game.player.hp <= 0) {
             game.deaths++
-            // ????
-            return new InfectAction(game.player, game)
+            onPlayerDeath(game)
         }
 
         return action
     }
+}
+
+function onPlayerDeath(game: Game) {
+    game.message("You were killed.", true)
+    if (game.getInfectableMobs().length === 0) {
+        game.player.revive()
+        game.message("You revived in your original form (no infectable monsters')", true)
+        return
+    }
+
+    game.message("Choose a new body (enter number)", true)
+    game.showInfectable = true
+    game.scheduler.clear()
+    let actor = new DeadInfector(game)
+    game.scheduler.add(actor, true)
 }

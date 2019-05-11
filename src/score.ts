@@ -46,16 +46,12 @@ export function renderScores() {
 
     let ol = document.createElement('ol')
 
-    // let highScoreHtml = '<h2>High Scores</h2><ol>'
 
     highScores.sort((a, b) => b.score - a.score).forEach(s => {
         let li = document.createElement('li')
         li.innerHTML = `${s.name}: ${s.score}`
         ol.appendChild(li)
-        // highScoreHtml += `<li>${s.name}: ${s.score}</li>`
     })
-    // highScoreHtml += '</ol>'
-    // alert(highScoreHtml)
 
     let elem = document.getElementById('highScoresSplash')
     elem.innerHTML = ''

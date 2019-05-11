@@ -12,13 +12,12 @@ import { Actor } from './actor';
 
 import { BossSplash, render } from './markup.jsx';
 import { ModalContainer } from './modal'
-import { ISchedule } from './abilities';
 
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
     game: Game
     react: ReactDOM.Renderer
-    animstack: Array<ISchedule>
+    animstack: Array<Function>
     constructor(game: Game) {
         // @ts-ignore
         this.react = render({ game: game })
@@ -29,35 +28,28 @@ export class GameDisplay {
         this.animstack = []
     }
 
-    addAnimation(a: ISchedule) {
+    hasAnimations() {
+        return this.animstack.length > 0
+    }
+
+    addAnimation(a: Function) {
         this.animstack.push(a)
     }
 
     processAnimations() {
-        let remove: Array<ISchedule> = []
+        let nextstack: Array<Function> = []
+
         this.animstack.forEach(a => {
-            if (a.framesLeft() > 0) {
-                a.act()
-            } else {
-                remove.push(a)
+            let result = a()
+            if (result) {
+                nextstack.push(result)
             }
         })
 
-        // remove spent animations
-        remove.forEach(a => {
-            let index = this.animstack.indexOf(a)
-            if (index > -1) {
-                let r = this.animstack.splice(index, 1)
-                console.log('removed', r)
-            }
-        })
-
-
-        if (this.animstack.length > 0) {
-            console.log('animations', this.animstack)
-        }
+        this.animstack = nextstack
     }
 
+    // called when starting a new game
     restartGui() {
         // @ts-ignore
         this.react = render({ game: this.game })

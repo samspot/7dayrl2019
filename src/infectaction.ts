@@ -1,28 +1,19 @@
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
-import { Ability } from './abilities';
-import { Actor } from './actor';
-import Config from './config';
+import { Actor, SimpleActor } from './actor';
 import { Game } from './game';
-import { keyMap } from './keymap';
 import { Monster } from './monster';
 import { Player } from './player';
-import { addScore } from './score';
-import { FakeActor } from './fakeactor';
-import { Action } from './action';
-import { MobSpec } from './MobSpec';
 
 // 1. game.possesboss - updates some ui
 // 2. remove the mob from the scheduler
 // 3. if all bosses dead, win
-function possessRescheduleInfect(player: Player, mob: Actor, game: Game, action: Action, resetScore: boolean) {
-    console.log('possessRescheduleInfect', player, mob, action, resetScore)
+function possessRescheduleInfect(player: Player, mob: Actor, game: Game, resetScore: boolean) {
     if (mob.isBoss()) {
         game.updateGameProgressPossess()
     }
 
     game.destroyMob(mob)
-
     player.becomeMob(mob)
 }
 
@@ -32,13 +23,11 @@ function possessRescheduleInfect(player: Player, mob: Actor, game: Game, action:
 // 3. mob.isRevive triggers a 'you revived in your original form message'
 // 4. else call game.onBossDown() if mob is a boss with no hp
 // 5. reschedule the mobs
-function postInfectEventsMessages(player: Player, mob: Actor, game: Game, action: Action, resetScore: boolean) {
-    console.log('postInfectEventsMessages', player, mob, action, resetScore)
-
-    game.dirty = true
+function postInfectEventsMessages(player: Player, mob: Actor, game: Game, resetScore: boolean) {
     if (resetScore) {
         game.resetScore()
     }
+
     window.removeEventListener("keydown", this);
     window.removeEventListener("keypress", this);
 
@@ -56,32 +45,21 @@ function postInfectEventsMessages(player: Player, mob: Actor, game: Game, action
 
     game.showInfectable = false
     game.reschedule()
-
 }
 
 // action for infecting a target while still alive
-export class InfectAbilityAction extends Action {
-    constructor(player: Player, monster: Monster, action: Action) {
-        super(player)
-        this.player = player
-        this.monster = monster
-        this.action = action
-    }
-
-    execute(game: Game) {
-        console.log('execute InfectAbilityAction on monster with hp', this.monster.hp)
-        possessRescheduleInfect(this.player, this.monster, game, this, false)
-        postInfectEventsMessages(this.player, this.monster, game, this, false)
+export function infectAbilityAction(player: Player, monster: Monster) {
+    return function (game: Game) {
+        console.log('execute InfectAbilityAction on monster with hp', monster.hp)
+        possessRescheduleInfect(player, monster, game, false)
+        postInfectEventsMessages(player, monster, game, false)
     }
 }
 
 
 // action for handling input relevant to infecting a specific target.  Used on player death
-export class InfectAction extends Action {
-    constructor(actor: Actor, game: Game) {
-        super(actor)
-        this.game = game
-    }
+export class DeadInfector extends SimpleActor {
+    resolve: Function
 
     handleEvent(e: InputEvent) {
         // @ts-ignore
@@ -133,13 +111,13 @@ export class InfectAction extends Action {
             player.revive()
         } else {
             console.log('calling doInfect mob.isrevive false', mob)
-            possessRescheduleInfect(player, mob, game, this, true)
+            possessRescheduleInfect(player, mob, game, true)
         }
 
         window.removeEventListener("keydown", this)
         window.removeEventListener("keypress", this)
         // console.log("InfectAction PostInfect")
-        postInfectEventsMessages(player, mob, game, this, true)
+        postInfectEventsMessages(player, mob, game, true)
         this.resolve()
     }
 
@@ -155,25 +133,5 @@ export class InfectAction extends Action {
         return new Promise(resolve => {
             this.resolve = resolve
         })
-    }
-
-    isPlayer() {
-        return false
-    }
-
-    execute(game: Game) {
-        game.message("You were killed.", true)
-        if (game.getInfectableMobs().length === 0) {
-            game.player.revive()
-            game.message('You revive in your original form (no infectable monsters)', true)
-            return
-        }
-
-        game.message("Choose a new body (enter number)", true)
-        game.redraw()
-        game.showInfectable = true
-        game.gameDisplay.updateGui()
-        game.scheduler.clear()
-        game.scheduler.add(new InfectAction(game.player, game), false)
     }
 }

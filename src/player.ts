@@ -2,7 +2,7 @@ import Tyrant from 'assets/tyrant.json';
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
 import { Ability, Charge, Impale, Infect, Grab, Shotgun, Suplex, GrenadeLauncher, Poison, Haymaker, Crossbow } from './abilities';
-import { AbilityAction, DefaultAction, DescendAction, MoveAction } from './allactions';
+import { abilityAction, defaultAction, descendAction, moveAction } from './allactions';
 import { Actor } from './actor';
 import Config from './config';
 import { Game } from './game';
@@ -11,7 +11,6 @@ import { Stunned } from './status';
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
-const TARGET_HELP = "Move your targetting cursor (#) with the directional keys.  ESC to cancel, ENTER to confirm target"
 
 export class Player extends Actor {
     debugCount: number
@@ -23,7 +22,6 @@ export class Player extends Actor {
 
         this.nickname = Tyrant.nickname
         this.name = Tyrant.name
-        // this.name= "Giant Spider"
         this.hp = Tyrant.hp
         this.maxHp = this.hp
         this.str = Tyrant.str
@@ -87,16 +85,12 @@ export class Player extends Actor {
 
         this.abilities = []
 
-        let hasImpale = false
         _.clone(mob.abilities).forEach(a => {
             // console.log('adding ability', a)
             a.actor = this
             this.addAbility(_.clone(a))
-            if (a.constructor.name === 'Impale') { hasImpale = true }
         })
-        if (!hasImpale) {
-            // this.addAbility(new Impale(this))
-        }
+
         this.addAbility(new Infect(this))
     }
 
@@ -119,13 +113,10 @@ export class Player extends Actor {
         if (this.debugCount > 0) {
             this.debugCount--
 
-            if (Config.debug) {
-                // ecg 70w x 80h
-                // this.game.message("this is a very long messaged designed to break the web layout.  resident evil is so fun. don't open that door!  I ahve THIS!   I hope this is not Chris's blood! You were almost a jill sandwich!")
-            }
+
             return new Promise(resolve => {
                 this.resolve = resolve
-                this.resolve(new DefaultAction())
+                this.resolve(defaultAction())
             })
         }
         // console.log('Player act')
@@ -151,8 +142,6 @@ export class Player extends Actor {
         if (charCode === 27 || charCode === ROT.KEYS.VK_Q || charCode === ROT.KEYS.VK_E || charCode === ROT.KEYS.VK_R) {
             this.game.gameDisplay.hideModal()
             this.state = PLAYER_TURN
-            this.game.redraw()
-            // this.game.dirty = true
             return
         }
         if (this.splash) {
@@ -163,20 +152,17 @@ export class Player extends Actor {
         if (charCode === 13) {
             this.game.gameDisplay.hideModal()
             // console.log("enter key, do ability", this)
-            // ability.cooldown = ability.maxCooldown
 
             if (!this.usingAbility.canTargetEmpty() && !this.game.getCharacterAt(null, this.game.cursor.x, this.game.cursor.y)) {
                 console.log('no character at target loc, cancelling target')
-                this.game.redraw()
                 this.state = PLAYER_TURN
                 return
             }
 
-            this.resolve(new AbilityAction(this.game.player, this.usingAbility,
+            this.resolve(abilityAction(this.game.player, this.usingAbility,
                 this.game.cursor.x, this.game.cursor.y))
             this.usingAbility = null
             this.state = PLAYER_TURN
-            this.game.dirty = true
             return
         }
 
@@ -191,14 +177,11 @@ export class Player extends Actor {
             let newX = cursor.x + diff[0];
             let newY = cursor.y + diff[1];
 
-            // this.game.display.drawText(0, 0, TARGET_HELP);
             // TODO: also make sure path is clear, don't shoot through walls
             if (this.inRange(this.usingAbility, this, newX, newY)) {
                 this.game.cursor.x = newX
                 this.game.cursor.y = newY
 
-                this.game.redraw()
-                // this.game.display.drawText(0, 0, TARGET_HELP);
                 cursor.drawMe()
             }
         }
@@ -211,11 +194,9 @@ export class Player extends Actor {
         return distance <= ability.range
     }
 
-    // TODO: Tank controls?
     handleEvent(e: Event) {
         // console.log('player handle event', e)
         if (this.state === TARGETTING) {
-            // this.game.display.drawText(0, 0, TARGET_HELP);
             return this.handleTarget(e)
         }
         // console.log('handle event', e)
@@ -227,8 +208,7 @@ export class Player extends Actor {
             // console.log("descend key pressed")
             this.tickAbilities()
             this.descending = true
-            this.resolve(new DescendAction(this))
-            // this.resolve = null
+            this.resolve(descendAction(this))
             return
         }
 
@@ -246,10 +226,7 @@ export class Player extends Actor {
         var code = charCode
         // enter or space
         if (code == 13 || code == 32) {
-            // console.log("key hit for pickup action")
             // let action = new PickupAction(this)
-            // this.tickAbilities()
-            // this.resolve(action)
             return
         }
 
@@ -266,7 +243,6 @@ export class Player extends Actor {
             // console.log('pressed ability key', result)
 
             this.useAbility(this.abilities[result])
-            this.game.redraw()
             return
         }
 
@@ -275,7 +251,7 @@ export class Player extends Actor {
                 this.tickAbilities()
                 // console.log('190 default action')
 
-                this.resolve(new DefaultAction())
+                this.resolve(defaultAction())
             }
         }
 
@@ -285,7 +261,6 @@ export class Player extends Actor {
         window.removeEventListener("keydown", this);
         window.removeEventListener("keypress", this);
         this.tickAbilities()
-        // @ts-ignore
-        this.resolve(new MoveAction(this, code))
+        this.resolve(moveAction(this, code))
     }
 }

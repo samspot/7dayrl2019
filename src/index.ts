@@ -4,21 +4,19 @@ import Config from './config';
 import { Director } from './director';
 import { Game } from './game';
 import { renderScores } from './score';
+import { GameDisplay } from './display'
 
 declare global {
     interface Window {
-        directorsCut: any;
-        mainLoop: any;
+        directorsCut: boolean;
+        mainLoop: Function;
+        gameDisplay: GameDisplay
     }
 }
 
 var dc = <HTMLInputElement>document.getElementById('dcut')
 dc.onclick = () => {
-    if (dc.checked) {
-        window.directorsCut = true
-    } else {
-        window.directorsCut = false
-    }
+    window.directorsCut = dc.checked
     console.log("directorsCut enabled", window.directorsCut)
 }
 
@@ -63,56 +61,46 @@ async function mainLoop() {
 
         requestAnimationFrame(loop)
     }
+
+    game.setupDraw()
     while (1) {
-
-        // let start2: any = null
-        // let fps2 = 200
-        // let changeEvery2 = 1000 / fps2
-        // let elapsed2 = changeEvery2
-
-        // let loop2 = (timestamp: any) => {
-        // async function loop2(timestamp: any) {
-        // if (!start2) start2 = timestamp
-        // let dt = timestamp - start2
-        // start2 = timestamp
-
-        // elapsed2 += dt
-
-
-        // if (elapsed2 > changeEvery2) {
-        // elapsed2 = 0
 
         let actor = scheduler.next()
         // console.log('SCHEDULE: next actor', actor)
-        if (!actor) { return }
-        // console.log("scheduled actor", actor)
+        if (!actor) {
+            console.log('THIS SHOULD NEVER HAPPEN, BREAKING OUT OF GAME LOOP')
+            return
+        }
 
+        // Update the GUI right before requesting player input
         if (actor.isPlayer()) {
-            game.updateGui()
-            game.redraw()
+            game.gameDisplay.updateGui()
             game.fixActorOverlap()
         }
 
         let action = await actor.act()
 
+        if (actor.isPlayer() && game.gameDisplay.hasAnimations()) {
+            console.log('skip player turn here')
+            scheduler.add(actor, false)
+            continue
+        }
 
         while (action) {
-            // console.log("got action", action)
-            action = action.execute(game)
+            action = action(game)
         }
 
         if (actor.isPlayer()) {
             director.tick()
             game.turns++
 
-            // TODO: infect action still not getting high scores.  kill and descend end the game correctly
             if (game.didWin()) {
                 console.log('checking WIN condition', scheduler.next(), scheduler.next(), scheduler.next())
                 game.win()
             }
         }
 
-        if (game.gameOver /*&& action.done*/) {
+        if (game.gameOver) {
             renderScores();
             (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
             (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";
@@ -122,17 +110,9 @@ async function mainLoop() {
             return
         }
 
-        if (game.dirty) {
-            game.redraw()
-            game.dirty = false
-        }
+        game._drawFov()
     }
-    // requestAnimationFrame(loop2)
 }
-
-// requestAnimationFrame(loop2)
-// }
-// }
 
 if (Config.debug && Config.skipTitle) {
     mainLoop()

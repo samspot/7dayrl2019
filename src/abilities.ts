@@ -1,14 +1,12 @@
 import * as _ from 'lodash';
 import * as ROT from 'rot-js';
-import { Actor } from './actor';
+import { Actor, SimpleActor } from './actor'
 import { Game } from './game';
 import { IGameMap } from './maps';
 import { getCoordsAround } from './Level';
 import { Stunned } from './status';
-import { FakeActor } from './fakeactor';
-import { Action } from './action';
-import { DamageAction } from './damageaction';
-import { InfectAbilityAction } from './infectaction'
+import { damageAction } from './damageaction';
+import { infectAbilityAction } from './infectaction'
 
 
 
@@ -44,7 +42,7 @@ export class Ability {
         return a
     }
 
-    sideEffects(action: Action, game: Game, actor: Actor) {
+    sideEffects(game: Game, actor: Actor, x: number, y: number) {
         // console.log('no side effects')
     }
 
@@ -84,75 +82,39 @@ function isTrapped(map: IGameMap, x: number, y: number) {
     return _.every(trapped)
 }
 
-export interface ISchedule {
-    act: () => any
-    isPlayer: () => boolean
-    getSpeed: () => number
-    framesLeft: () => number
-}
-
-class ScheduledDamage extends FakeActor implements ISchedule {
+class ScheduledDamage extends SimpleActor {
     target: Actor
     dmg: number
     text: string
-    constructor(target: Actor, dmg: number, text: string) {
-        super()
+    constructor(target: Actor, dmg: number, text: string, game: Game) {
+        super(game)
         this.target = target
         this.dmg = dmg
         this.text = text
     }
 
     act() {
-        return new DamageAction(this.target, this.dmg, this.text, this.target)
+        return damageAction(this.target, this.dmg, this.text, this.target)
     }
 
 }
 
-
-class AnimationAction extends FakeActor implements ISchedule {
-    symbol: string
-    frames: number
-    coords: Array<Array<number>>
-    game: Game
-    constructor(frames: number, coords: Array<Array<number>>, symbol: string, game: Game) {
-        super()
-        this.symbol = symbol
-        this.frames = frames
-        this.coords = coords
-        this.game = game
-
-
-    }
-
-    framesLeft() {
-        return this.frames
-    }
-
-    act() {
-        if (this.frames > 0) {
-            this.frames--
-            // console.log('drawing', this.frames)
-
-            this.coords.forEach(s => {
-                this.game.display.draw(s[0], s[1], ['.', this.symbol])
-                // console.log('drawing', this.frames, s[0], s[1])
-            })
+function animation(frames: number, coords: Array<Array<number>>, symbol: string, game: Game) {
+    return function () {
+        if (frames >= 0) {
+            coords.forEach(s => game.display.draw(s[0], s[1], ['.', symbol]))
+            return animation(frames - 1, coords, symbol, game)
         }
-    }
-
-    execute() {
-        return this.act()
     }
 }
 
 export class Suplex extends Ability {
     constructor(actor: Actor) {
-        // super(actor, 8, 1, 40)//40)
-        super(actor, 6, 1, 20)//40)
+        super(actor, 6, 1, 20)
         this.description = `Pick up the target and slam them behind you, doing ${this.dmg} damage to the target and ${this.dmg / 2} to any creature in the impact zone.`
     }
 
-    sideEffects(action: Action, game: Game, target: Actor) {
+    sideEffects(game: Game, target: Actor) {
         let source = this.actor
         let pos = getPositions(source, target)
 
@@ -166,8 +128,8 @@ export class Suplex extends Ability {
         game.map[newX + ',' + newY] = '.'
 
         if (occupant) {
-            console.log('suplex damaging occupant', occupant)
-            game.scheduler.add(new ScheduledDamage(occupant, this.dmg / 2, `crushed by ${this.actor.name} Suplex`), false)
+            // console.log('suplex damaging occupant', occupant)
+            game.scheduler.add(new ScheduledDamage(occupant, this.dmg / 2, `crushed by ${this.actor.name} Suplex`, game), false)
             game.fixActorOverlap(target)
         }
 
@@ -186,7 +148,7 @@ export class Grab extends Ability {
             + `Brushes aside anyone in between.`
     }
 
-    sideEffects(action: Action, game: Game, actor: Actor) {
+    sideEffects(game: Game, actor: Actor) {
 
         let source = this.actor
         let target = actor
@@ -297,7 +259,6 @@ function knockBack(source: Actor, target: Actor, game: Game) {
     target.y = pos.targetRear.y
     game.map[target.x + ',' + target.y] = '.'
 
-    console.log('pos', pos.direction[0], pos)
 
     let sets = []
     switch (pos.direction[0]) {
@@ -317,8 +278,7 @@ function knockBack(source: Actor, target: Actor, game: Game) {
     }
 
     sets.push([x, y])
-    // let sets: any = [][]
-    game.gameDisplay.addAnimation(new AnimationAction(2, sets, '*', game))
+    game.gameDisplay.addAnimation(animation(2, sets, '*', game))
 }
 
 export class Charge extends Ability {
@@ -326,33 +286,30 @@ export class Charge extends Ability {
         super(actor, 10, 10, 20)
     }
 
-    sideEffects(action: Action, game: Game, actor: Actor) {
-        console.log('Charge.sideEffects called with', action, actor, this.actor)
+    sideEffects(game: Game, actor: Actor, x: number, y: number) {
+        console.log('Charge.sideEffects called with', actor, this.actor)
 
         let source = this.actor
         let target = actor
 
         if (actor) {
-            //constructor(x: number, y: number, symbol: string, color: string, game: Game) {
-            //let foo = new Actor(action.x, action.y, '@', 'red', game)
-
             knockBack(source, target, game)
             //console.log('x', xloc, pos.close.x, 'y', yloc, pos.close.y)
         }
 
-        source.x = action.x
-        source.y = action.y
+        source.x = x
+        source.y = y
 
         // player using, so drill holes where they targetted
         if (source === game.player) {
 
             // console.log('creating map hole', action.x, ',', action.y)
-            game.map[action.x + ',' + action.y] = '.'
+            game.map[x + ',' + y] = '.'
 
             // TODO drill around if player is trapped
-            if (isTrapped(game.map, action.x, action.y)) {
+            if (isTrapped(game.map, x, y)) {
                 // console.log('player trapped')
-                let cardinals = getCardinalCoords(action.x, action.y)
+                let cardinals = getCardinalCoords(x, y)
                 Object.keys(cardinals).forEach(k => {
                     let x = cardinals[k][0]
                     let y = cardinals[k][1]
@@ -367,7 +324,6 @@ export class Charge extends Ability {
             // console.log('creating map hole', target.x, ',', target.y)
             game.map[target.x + ',' + target.y] = '.'
         }
-        game.dirty = true
     }
 
     canTargetEmpty() {
@@ -389,11 +345,9 @@ export class Infect extends Ability {
     // action.actor - player
     // actor - monster
     // most actions just run their execute(game) method
-    sideEffects(action: Action, game: Game, actor: Actor) {
-        // console.log("infect ability side effects called", action, game, actor)
+    sideEffects(game: Game, target: Actor) {
         // @ts-ignore
-        let infectAction = new InfectAbilityAction(action.actor, actor, action)
-        infectAction.execute(game)
+        infectAbilityAction(this.actor, target)(game)
     }
 }
 
@@ -402,21 +356,17 @@ export class GrenadeLauncher extends Ability {
         super(actor, 10, 20, 30)
     }
 
-    sideEffects(action: Action, game: Game) {
-        let sets = getCoordsAround(action.x, action.y)
+    sideEffects(game: Game, actor: Actor, x: number, y: number) {
+        let sets = getCoordsAround(x, y)
         sets.forEach(s => {
-            setTimeout(() => {
-                game.dirty = true
-            }, 0)
-
             let actor = game.getCharacterAt(null, s[0], s[1])
             if (actor) {
 
                 game.scheduler.add(new ScheduledDamage(actor, this.dmg / 2,
-                    `${this.actor.name} Grenade Splash Damage`), false)
+                    `${this.actor.name} Grenade Splash Damage`, game), false)
             }
         })
-        game.gameDisplay.addAnimation(new AnimationAction(5, sets, '*', game))
+        game.gameDisplay.addAnimation(animation(5, sets, '*', game))
     }
 
     canTargetEmpty() {
@@ -430,7 +380,7 @@ export class Shotgun extends Ability {
         this.description = "Knocks back the target"
     }
 
-    sideEffects(action: Action, game: Game, target: Actor) {
+    sideEffects(game: Game, target: Actor) {
         // knock them back 2 squares
         // knockBack(this.actor, target, game)
         knockBack(this.actor, target, game)
@@ -443,10 +393,10 @@ export class Poison extends Ability {
         this.description = `Cut target hp in half, then do ${this.dmg} damage`
     }
 
-    sideEffects(action: Action, game: Game, target: Actor) {
+    sideEffects(game: Game, target: Actor) {
         // let poisonDamage = (target.hp - this.dmg) / 2
         let poisonDamage = target.hp / 2
-        game.scheduler.add(new ScheduledDamage(target, poisonDamage, `${this.actor.name} Poison Damage`), false)
+        game.scheduler.add(new ScheduledDamage(target, poisonDamage, `${this.actor.name} Poison Damage`, game), false)
     }
 }
 export class Crossbow extends Ability {
@@ -455,7 +405,7 @@ export class Crossbow extends Ability {
         this.description = `Stuns the target for 1 turn`
     }
 
-    sideEffects(action: Action, game: Game, target: Actor) {
+    sideEffects(game: Game, target: Actor) {
         target.addStatus(new Stunned())
     }
 }
@@ -484,7 +434,7 @@ export class Haymaker extends Ability {
         this.description = `Stuns the target for 1 turn and knocks them back`
     }
 
-    sideEffects(action: Action, game: Game, target: Actor) {
+    sideEffects(game: Game, target: Actor) {
         target.addStatus(new Stunned())
         knockBack(this.actor, target, game)
     }
