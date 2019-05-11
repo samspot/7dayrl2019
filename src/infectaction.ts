@@ -1,9 +1,8 @@
 import * as _ from 'lodash';
-import * as ROT from 'rot-js';
 import { Actor, SimpleActor } from './actor';
 import { Game } from './game';
-import { Monster } from './monster';
 import { Player } from './player';
+import { numberKeys } from './keymap';
 
 // 1. game.possesboss - updates some ui
 // 2. remove the mob from the scheduler
@@ -48,7 +47,7 @@ function postInfectEventsMessages(player: Player, mob: Actor, game: Game, resetS
 }
 
 // action for infecting a target while still alive
-export function infectAbilityAction(player: Player, monster: Monster) {
+export function infectAbilityAction(player: Player, monster: Actor) {
     return function (game: Game) {
         console.log('execute InfectAbilityAction on monster with hp', monster.hp)
         possessRescheduleInfect(player, monster, game, false)
@@ -61,33 +60,8 @@ export function infectAbilityAction(player: Player, monster: Monster) {
 export class DeadInfector extends SimpleActor {
     resolve: Function
 
-    handleEvent(e: InputEvent) {
-        // @ts-ignore
+    handleEvent(e: KeyboardEvent) {
         let charCode = e.which || e.keyCode
-        let charStr = String.fromCharCode(charCode)
-
-        let numberKeys = [
-            //@ts-ignore
-            ROT.KEYS.VK_0,
-            //@ts-ignore
-            ROT.KEYS.VK_1,
-            //@ts-ignore
-            ROT.KEYS.VK_2,
-            //@ts-ignore
-            ROT.KEYS.VK_3,
-            //@ts-ignore
-            ROT.KEYS.VK_4,
-            //@ts-ignore
-            ROT.KEYS.VK_5,
-            //@ts-ignore
-            ROT.KEYS.VK_6,
-            //@ts-ignore
-            ROT.KEYS.VK_7,
-            //@ts-ignore
-            ROT.KEYS.VK_8,
-            //@ts-ignore
-            ROT.KEYS.VK_9
-        ]
 
         let idx = _.findIndex(numberKeys, x => x === charCode)
         if (idx < 0) {

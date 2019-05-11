@@ -1,4 +1,4 @@
-import * as ROT from 'rot-js';
+import { RNG, Scheduler } from 'rot-js';
 import SelfPortrait from '../assets/img/self-portrait.png';
 import Config from './config';
 import { Director } from './director';
@@ -24,11 +24,10 @@ dc.onclick = () => {
 async function mainLoop() {
 
     if (Config.seed) {
-        ROT.RNG.setSeed(Config.seed)
+        RNG.setSeed(Config.seed)
     }
 
-    // let scheduler = new ROT.Scheduler.Simple()
-    let scheduler = new ROT.Scheduler.Speed()
+    let scheduler = new Scheduler.Speed()
     let game = new Game(scheduler)
     game.init()
 

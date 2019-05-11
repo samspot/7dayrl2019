@@ -23,6 +23,7 @@ export class Level {
     tilesNew: ImageData;
     bossObj?: Actor;
     score: number
+    mobs: number
 
     constructor(idx: number, name: string, nickname: string, floorcolor: string, wallcolor: string, spawnrate: number, tiles: any) {
         this.level = idx
@@ -65,6 +66,8 @@ export class GameProgress {
     level3: Level
     level4: Level
     level5: Level
+    // [key: string]: Level
+    // [key: number]: Level
     constructor() {
         this.level0 = new Level(0, 'The Laboratory', 'lab', '#999999', '#ffffff', 3, ReTiles16LabNew)
         this.level1 = new Level(1, 'Catacombs', 'catacombs', '#cc9966', '#660033', 7, ReTiles16CatacombsNew)
@@ -73,8 +76,7 @@ export class GameProgress {
         this.level4 = new Level(4, 'The Mansion', 'mansion', '#6699cc', '#660033', 5, ReTiles16MansionNew)
         this.level5 = new Level(5, 'The Afterlife', 'mansion', '#999', '#fff', 5, ReTiles16MansionNew)
     }
-
-    getCurrentLevel(idx: number) {
+    getLevels() {
         return [
             this.level0,
             this.level1,
@@ -82,6 +84,14 @@ export class GameProgress {
             this.level3,
             this.level4,
             this.level5
-        ][idx]
+        ]
+    }
+
+    getCurrentLevel(idx: number) {
+        return this.getLevels()[idx]
+    }
+
+    getBossStatus() {
+        return this.getLevels().map(l => l.bossDown)
     }
 }

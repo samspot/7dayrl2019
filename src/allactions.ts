@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as ROT from 'rot-js';
+import { DIRS } from 'rot-js';
 import { Ability } from './abilities';
 import { Actor } from './actor';
 import Config from './config';
@@ -25,7 +25,7 @@ export function moveAction(actor: Actor, direction: string, moveToX?: number, mo
         }
 
         if (actor.isPlayer()) {
-            var diff = ROT.DIRS[8][keyMap[direction]];
+            var diff = DIRS[8][keyMap[direction]];
             newX = actor.x + diff[0];
             newY = actor.y + diff[1];
 

@@ -57,7 +57,7 @@ const abilities: { [key: string]: Array<Object> } = {
     'Black Tiger': [Bite, Poison, Charge]
 }
 
-const mobs = {
+const mobs: { [key: string]: Array<MobSpec> } = {
     'lab': [Zombie, Zombie, Chimera],
     'catacombs': [Zombie, Hunter, Spider, Spider, Zombie, Zombie, Hunter, Spider], // SpiderBoss
     'outside': [Zombie, Dog, Dog, Spider],

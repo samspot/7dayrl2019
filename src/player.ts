@@ -1,12 +1,12 @@
 import Tyrant from 'assets/tyrant.json';
 import * as _ from 'lodash';
-import * as ROT from 'rot-js';
+import { DIRS } from 'rot-js';
 import { Ability, Charge, Impale, Infect, Grab, Shotgun, Suplex, GrenadeLauncher, Poison, Haymaker, Crossbow } from './abilities';
 import { abilityAction, defaultAction, descendAction, moveAction } from './allactions';
 import { Actor } from './actor';
 import Config from './config';
 import { Game } from './game';
-import { keyMap } from './keymap';
+import { keyMap, isEscKey, abilitykeys } from './keymap';
 import { Stunned } from './status';
 
 const TARGETTING = "state_targetting"
@@ -130,16 +130,11 @@ export class Player extends Actor {
     }
 
 
-    handleTarget(e: Event) {
-        // console.log("targetting")
-
-        //@ts-ignore
+    handleTarget(e: KeyboardEvent) {
         let charCode = e.which || e.keyCode
-        let charStr = String.fromCharCode(charCode)
 
         // escape key
-        //@ts-ignore
-        if (charCode === 27 || charCode === ROT.KEYS.VK_Q || charCode === ROT.KEYS.VK_E || charCode === ROT.KEYS.VK_R) {
+        if (isEscKey(charCode)) {
             this.game.gameDisplay.hideModal()
             this.state = PLAYER_TURN
             return
@@ -172,8 +167,7 @@ export class Player extends Actor {
         let cursor = this.game.cursor
         if (cursor) {
 
-            //@ts-ignore
-            var diff = ROT.DIRS[8][keyMap[charCode]];
+            var diff = DIRS[8][keyMap[charCode]];
             let newX = cursor.x + diff[0];
             let newY = cursor.y + diff[1];
 
@@ -194,13 +188,11 @@ export class Player extends Actor {
         return distance <= ability.range
     }
 
-    handleEvent(e: Event) {
+    handleEvent(e: KeyboardEvent) {
         // console.log('player handle event', e)
         if (this.state === TARGETTING) {
             return this.handleTarget(e)
         }
-        // console.log('handle event', e)
-        // @ts-ignore
         let charCode = e.which || e.keyCode
         let charStr = String.fromCharCode(charCode)
 
@@ -222,7 +214,6 @@ export class Player extends Actor {
             e.preventDefault()
             return
         }
-        // var code = e.keyCode;
         var code = charCode
         // enter or space
         if (code == 13 || code == 32) {
@@ -230,18 +221,8 @@ export class Player extends Actor {
             return
         }
 
-        let abilitykeys = [
-            //@ts-ignore
-            ROT.KEYS.VK_Q,
-            //@ts-ignore
-            ROT.KEYS.VK_E,
-            //@ts-ignore
-            ROT.KEYS.VK_R
-        ]
         let result = _.findIndex(abilitykeys, x => x === code)
         if (result >= 0) {
-            // console.log('pressed ability key', result)
-
             this.useAbility(this.abilities[result])
             return
         }
@@ -249,8 +230,6 @@ export class Player extends Actor {
         if (code == 190) {
             if (!this.descending) {
                 this.tickAbilities()
-                // console.log('190 default action')
-
                 this.resolve(defaultAction())
             }
         }
@@ -261,6 +240,6 @@ export class Player extends Actor {
         window.removeEventListener("keydown", this);
         window.removeEventListener("keypress", this);
         this.tickAbilities()
-        this.resolve(moveAction(this, code))
+        this.resolve(moveAction(this, code + ''))
     }
 }

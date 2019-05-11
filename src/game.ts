@@ -1,6 +1,6 @@
 import Tyrant from 'assets/tyrant.json';
 import * as _ from 'lodash';
-import * as ROT from 'rot-js';
+import { Scheduler, Display, RNG, FOV } from 'rot-js';
 import { Actor, Cursor } from './actor';
 import Config from './config';
 import { Director } from './director';
@@ -13,13 +13,14 @@ import { Monster } from './monster';
 import { Player } from './player';
 import { getCoordsAround } from './Level';
 import { youWinAction } from './allactions';
+import { getRandItem } from './random';
 
 export class Game {
     maps: Maps
     currentLevel: number
     cursor: Cursor
-    scheduler: ROT.Scheduler
-    display: ROT.Display
+    scheduler: Scheduler
+    display: Display
     map: {
         [key: string]: string
     }
@@ -37,7 +38,7 @@ export class Game {
     showInfectable: boolean
     deaths: number
     director: Director
-    constructor(scheduler: ROT.Scheduler) {
+    constructor(scheduler: Scheduler) {
         this.maps = new Maps(this)
         this.scheduler = scheduler
         this.display = null
@@ -64,7 +65,7 @@ export class Game {
         if (shouldResetScore) {
             this.resetScore()
         }
-        ;
+
         console.log('all bosses down, you win action')
         youWinAction()(this)
     }
@@ -74,12 +75,7 @@ export class Game {
     }
 
     allBossesDown() {
-        let bosses: Boolean[] = []
-        Object.keys(this.gameProgress).forEach(key => {
-            // @ts-ignore
-            bosses.push(this.gameProgress[key].bossDown)
-        })
-
+        let bosses = this.gameProgress.getBossStatus()
         return _.every(bosses) || this.gameProgress.level4.bossDown
     }
 
@@ -152,9 +148,9 @@ export class Game {
         }
 
         if (Config.tiles) {
-            this.display = new ROT.Display(optionsTiles);
+            this.display = new Display(optionsTiles);
         } else {
-            this.display = new ROT.Display(optionsAscii);
+            this.display = new Display(optionsAscii);
         }
 
         let mapElem = document.getElementById("mapContainer")
@@ -202,9 +198,7 @@ export class Game {
                 .filter(c => !c.occupied)
                 .filter(c => this.map[c.x + ',' + c.y] === '.')
 
-            //console.log('freespots', freespots)
-            // @ts-ignore
-            let spot = ROT.RNG.getItem(freespots)
+            let spot = getRandItem(freespots)
             mob.x = spot.x
             mob.y = spot.y
 
@@ -229,7 +223,7 @@ export class Game {
     }
 
     generateMap(mapspec: IMapSpec) {
-        //@ts-ignore
+        // @ts-ignore
         let generator = new mapspec._obj(Config.gamePortWidth, Config.gamePortHeight, mapspec)
 
         var freeCells: Array<string> = [];
@@ -269,7 +263,7 @@ export class Game {
 
     _getRandomMapLocation() {
         let freeCells = this.getFreeCells()
-        let index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
+        let index = Math.floor(RNG.getUniform() * freeCells.length)
         let key = freeCells.splice(index, 1)[0]
         let parts = key.split(",")
         return {
@@ -300,7 +294,7 @@ export class Game {
 
     createBeingMonster(what: new (x: number, y: number, game: Game, mobspec: MobSpec) => Actor, freeCells: Array<string>, mobspec?: MobSpec) {
         // console.log('freeCells', freeCells.sort().join('|'))
-        var index = Math.floor(ROT.RNG.getUniform() * freeCells.length)
+        var index = Math.floor(RNG.getUniform() * freeCells.length)
         var key = freeCells.splice(index, 1)[0]
         var parts = key.split(",")
         var x = parseInt(parts[0])
@@ -316,9 +310,7 @@ export class Game {
     }
 
     getGameProgress() {
-        let key = "level" + this.currentLevel
-        // @ts-ignore
-        return this.gameProgress[key]
+        return this.gameProgress.getCurrentLevel(this.currentLevel)
     }
 
     updateGameProgressKill() {
@@ -392,7 +384,7 @@ export class Game {
             return false
         }
 
-        let fov = new ROT.FOV.PreciseShadowcasting(lightPasses)
+        let fov = new FOV.PreciseShadowcasting(lightPasses)
 
 
 
@@ -450,7 +442,7 @@ export class Game {
             return false
         }
 
-        let fov = new ROT.FOV.PreciseShadowcasting(lightPasses)
+        let fov = new FOV.PreciseShadowcasting(lightPasses)
 
         let squares: any = []
         fov.compute(this.player.x, this.player.y, this.player.sightRadius, (x, y, r, visibility) => {

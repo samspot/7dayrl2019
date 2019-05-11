@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import * as ROT from 'rot-js';
 import { Actor, SimpleActor } from './actor'
 import { Game } from './game';
 import { IGameMap } from './maps';
@@ -7,8 +6,12 @@ import { getCoordsAround } from './Level';
 import { Stunned } from './status';
 import { damageAction } from './damageaction';
 import { infectAbilityAction } from './infectaction'
+import { Player } from './player';
+import { getRandItem } from './random';
 
-
+export function createAbility(actor: Actor, ability: Ability) {
+    return new Ability(actor, ability.cooldown, ability.range, ability.dmg)
+}
 
 export class Ability {
     actor: Actor
@@ -36,10 +39,8 @@ export class Ability {
         this.actor.useAbility(this)
     }
 
-    getRandomAbility() {
-        //@ts-ignore
-        let a: Ability = ROT.RNG.getItem(abilities)
-        return a
+    getRandomAbility(): Ability {
+        return getRandItem(abilities)
     }
 
     sideEffects(game: Game, actor: Actor, x: number, y: number) {
@@ -337,17 +338,18 @@ export class Charge extends Ability {
 }
 
 export class Infect extends Ability {
-    constructor(actor: Actor) {
+    player: Player
+    constructor(actor: Player) {
         super(actor, 1, 3, actor.getInfectStr())
         this.description = 'Infect does your melee damage to the target, and if the target dies on this turn then you will take control of them.'
+        this.player = actor
     }
 
     // action.actor - player
     // actor - monster
     // most actions just run their execute(game) method
     sideEffects(game: Game, target: Actor) {
-        // @ts-ignore
-        infectAbilityAction(this.actor, target)(game)
+        infectAbilityAction(this.player, target)(game)
     }
 }
 

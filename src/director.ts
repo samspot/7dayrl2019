@@ -1,6 +1,6 @@
 
 import * as _ from 'lodash';
-import * as ROT from 'rot-js';
+import { Scheduler, RNG } from 'rot-js';
 import { Ability, EmptySlot, } from './abilities';
 import { Actor } from './actor';
 import Config from './config';
@@ -22,13 +22,14 @@ import Hunk from 'assets/hunk.json'
 import Krauser from 'assets/krauser.json'
 import Billy from 'assets/billy.json'
 import Lisa from 'assets/lisa.json'
+import { shuffle, getRandItem } from './random';
 
 
 export class Director {
     player: Player
     game: Game
     countdown: number
-    scheduler: ROT.Scheduler
+    scheduler: Scheduler
     boss: Actor
     mobs: Array<Actor>
     spawnId: number
@@ -36,7 +37,7 @@ export class Director {
     mobSpec: MobSpec
     bossPool: Array<Actor>
     specialMobs: Array<Actor>
-    constructor(game: Game, scheduler: ROT.Scheduler) {
+    constructor(game: Game, scheduler: Scheduler) {
         this.player = game.player
         this.game = game
         this.countdown = 5
@@ -53,11 +54,8 @@ export class Director {
         this.spawnId = 0
         this.levelTicks = 0
         this.mobSpec = new MobSpec()
-        // @ts-ignore
-        this.bossPool = ROT.RNG.shuffle([Jill, Chris, Barry, Brad, Wesker, Leon, Claire, Rebecca])
-
-        // @ts-ignore
-        this.specialMobs = ROT.RNG.shuffle([Ada, Birkin, Hunk, Krauser, Billy, Lisa])
+        this.specialMobs = shuffle([Ada, Birkin, Hunk, Krauser, Billy, Lisa])
+        this.bossPool = shuffle([Jill, Chris, Barry, Brad, Wesker, Leon, Claire, Rebecca])
         // this.bossPool.unshift(Ada)
         // this.bossPool.unshift(Rebecca)
         // this.bossPool.unshift(Birkin)
@@ -85,10 +83,9 @@ export class Director {
             // @ts-ignore
             let ability = new a(monster)
             if (ability instanceof EmptySlot) {
+                let a2 = ability.getRandomAbility()
                 // @ts-ignore
-                a = ability.getRandomAbility()
-                // @ts-ignore
-                ability = new a(monster)
+                ability = new a2(monster)
             }
 
             monster.addAbility(ability)
@@ -156,27 +153,24 @@ export class Director {
 
             let minimum = Config.spawnrate / 2
 
-            let num = Math.abs(Math.floor(ROT.RNG.getNormal(0, spawnrate)))
+            let num = Math.abs(Math.floor(RNG.getNormal(0, spawnrate)))
             if (num < minimum) {
                 num = minimum
             }
 
             this.countdown = num
 
-            // @ts-ignore
             if (!this.getLevelSpec().mobs) { this.getLevelSpec().mobs = 0 }
             if (window.directorsCut) {
                 // console.log("directors cut set spawn limit 100")
                 Config.spawnLimit = 100
             }
-            // @ts-ignore
             if (this.getLevelSpec().mobs < Config.spawnLimit) {
                 // console.log('spawn', this.getLevelSpec())
                 let mobspec = this._generateMob()
 
                 let monster = this._createSchedule(mobspec)
                 this.mobs.push(monster)
-                // @ts-ignore
                 this.getLevelSpec().mobs++
             }
         }
@@ -263,12 +257,11 @@ export class Director {
         let mob
         let randomChance = 0.95 // 0.9
         let scoreThreshold = 15000 // 15000
-        let rand = ROT.RNG.getUniform()
+        let rand = RNG.getUniform()
         if (this.game.score >= scoreThreshold && rand >= randomChance && this.specialMobs.length > 0) {
             mob = this.specialMobs.splice(0, 1)[0]
         } else {
-            // @ts-ignore
-            mob = ROT.RNG.getItem(this.mobSpec.getMobsByLevel()[this.getLevelName()])
+            mob = getRandItem(this.mobSpec.getMobsByLevel()[this.getLevelName()])
         }
         // console.log('rand', rand, 'score', this.game.score, 'deaths', this.game.deaths, 'spawning', mob)
         return mob

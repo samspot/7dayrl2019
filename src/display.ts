@@ -16,14 +16,13 @@ import { ModalContainer } from './modal'
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
     game: Game
-    react: ReactDOM.Renderer
+    // react: ReactDOM.Renderer
+    react: void
     animstack: Array<Function>
     constructor(game: Game) {
-        // @ts-ignore
         this.react = render({ game: game })
 
         this.game = game
-        // @ts-ignore
         window.gameDisplay = this
         this.animstack = []
     }
@@ -51,13 +50,13 @@ export class GameDisplay {
 
     // called when starting a new game
     restartGui() {
-        // @ts-ignore
         this.react = render({ game: this.game })
     }
 
     updateGui() {
-        // @ts-ignore
-        this.react.forceUpdate()
+        let renderer = <any>this.react
+        renderer = <ReactDOM.Renderer>renderer
+        renderer.forceUpdate()
     }
 
     drawBossSplash(actor: Actor) {
@@ -76,8 +75,9 @@ export class GameDisplay {
     renderCharacter(className: string, id: string) {
         let elem = document.getElementById(id)
         if (elem) {
-            // @ts-ignore
-            elem.classList = []
+
+            elem.classList.forEach(c => elem.classList.remove(c))
+            // elem.classList = []
             elem.classList.add(className)
         } else {
             console.log('couldnt find elem', className)

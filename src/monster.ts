@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as ROT from 'rot-js';
+import { Path } from 'rot-js';
 import { Charge } from './abilities';
 import { abilityAction, moveAction } from './allactions';
 import { Actor } from './actor';
@@ -7,6 +7,7 @@ import { Game } from './game';
 import { MobSpec } from "./MobSpec";
 import Config from './config';
 import { Stunned } from './status';
+import { getRandItem } from './random';
 
 export class Monster extends Actor {
     bio: string
@@ -68,8 +69,7 @@ export class Monster extends Actor {
 
         let abilities = this._getAvailableAbilities()
         if (abilities && abilities.length > 0) {
-            //@ts-ignore
-            let a = ROT.RNG.getItem(abilities)
+            let a = getRandItem(abilities)
             // console.log("monster.act()", this.name, "using ", a.constructor.name, a)
             return new Promise(resolve => {
                 resolve(abilityAction(this, a, x, y))
@@ -77,7 +77,7 @@ export class Monster extends Actor {
         }
 
         let passableCallback = (x: number, y: number) => x + ',' + y in this.game.map
-        var astar = new ROT.Path.AStar(x, y, passableCallback, { topology: 4 })
+        var astar = new Path.AStar(x, y, passableCallback, { topology: 4 })
 
         var pathList: Array<Array<number>> = []
         var pathCallback = function (x: number, y: number) {

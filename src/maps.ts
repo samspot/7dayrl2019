@@ -1,11 +1,13 @@
-import * as ROT from 'rot-js'
+import { Map } from 'rot-js'
 import { Game } from './game'
 import Config from './config';
 
 export interface IMapSpec {
+    // new: (width: number, height: number, options: any): any
     _obj: Object,
     _randomize?: number
     _iterations?: number
+    mobs?: number
 }
 
 export interface IGameMap {
@@ -369,49 +371,49 @@ interface ICellularMapSpec extends IMapSpec {
 }
 
 let outside1: IDiggerMapSpec = {
-    _obj: ROT.Map.Digger,
+    _obj: Map.Digger,
     dugPercentage: .9,
     corridorLength: [10, 13],
     roomHeight: [4, 6],
     roomWidth: [4, 6],
 }
 let outside2Winner: IDiggerMapSpec = {
-    _obj: ROT.Map.Digger,
+    _obj: Map.Digger,
     dugPercentage: .5,
     corridorLength: [2, 5],
     roomHeight: [4, 6],
     roomWidth: [4, 6],
 }
 let lab1: IDiggerMapSpec = {
-    _obj: ROT.Map.Digger,
+    _obj: Map.Digger,
     dugPercentage: .8,
     corridorLength: [4, 8],
     roomHeight: [5, 12],
     roomWidth: [5, 12],
 }
 let mansion1: IDiggerMapSpec = {
-    _obj: ROT.Map.Digger,
+    _obj: Map.Digger,
     dugPercentage: .3,
     corridorLength: [10, 13],
     roomHeight: [4, 6],
     roomWidth: [4, 6],
 }
 let mansion2Winner: IUniformMapSpec = {
-    _obj: ROT.Map.Uniform,
+    _obj: Map.Uniform,
     roomDugPercentage: .2,
     roomHeight: [4, 6],
     roomWidth: [4, 6],
     // timeLimit: undefined
 }
 let lab2Winner: IUniformMapSpec = {
-    _obj: ROT.Map.Uniform,
+    _obj: Map.Uniform,
     roomDugPercentage: .5,
     roomHeight: [6, 9],
     roomWidth: [6, 9],
     // timeLimit: undefined
 }
 let catacombs1Winner: ICellularMapSpec = {
-    _obj: ROT.Map.Cellular,
+    _obj: Map.Cellular,
     _iterations: 5,
     _randomize: 0.5,
     // born: undefined,
@@ -419,7 +421,7 @@ let catacombs1Winner: ICellularMapSpec = {
     // topology: undefined
 }
 let catacombs2: ICellularMapSpec = {
-    _obj: ROT.Map.Cellular,
+    _obj: Map.Cellular,
     _iterations: 3,
     _randomize: 0.5,
     // born: [4, 5, 6, 7, 8],
@@ -428,7 +430,7 @@ let catacombs2: ICellularMapSpec = {
 }
 
 let field1: ICellularMapSpec = {
-    _obj: ROT.Map.Cellular,
+    _obj: Map.Cellular,
     _iterations: 15,
     _randomize: 0.4,
     // born: [4, 5, 6, 7, 8],
@@ -437,7 +439,7 @@ let field1: ICellularMapSpec = {
 }
 
 let guardhouse1: IUniformMapSpec = {
-    _obj: ROT.Map.Uniform,
+    _obj: Map.Uniform,
     roomDugPercentage: .1,
     roomHeight: [2, 4],
     roomWidth: [2, 4],
@@ -445,7 +447,7 @@ let guardhouse1: IUniformMapSpec = {
 }
 
 let guardhouse2Winner: IDiggerMapSpec = {
-    _obj: ROT.Map.Digger,
+    _obj: Map.Digger,
     dugPercentage: .1,
     corridorLength: [3, 6],
     roomHeight: [3, 6],
