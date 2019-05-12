@@ -81,6 +81,11 @@ a:active {
     margin-bottom: -4px;
 }
 
+.player-hit-message {
+    color: #d95763;
+    font-weight: bold;
+}
+
 .important-message {
     color: yellow;
     font-weight: bold
@@ -142,6 +147,7 @@ a:active {
     /* background-color: #336699; */
     /* background-color: #6699cc; */
     background-color: #88a6c4;
+    overflow: hidden;
 }
 
 #status2 {

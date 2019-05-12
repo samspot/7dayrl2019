@@ -122,7 +122,7 @@ const Messages = (props) => {
     if (!messager) { return }
     let list = messager.getUiList()
 
-    list = list.map((m, idx) => <Message text={m.msg} key={idx} recent={m.recent} important={m.important} />)
+    list = list.map((m, idx) => <MessageGroup text={m} key={idx} recent={m.recent} important={m.important} />)
 
     return (
         <div style={{ clear: 'both' }}>
@@ -133,9 +133,21 @@ const Messages = (props) => {
     )
 }
 
+const MessageGroup = (props) => {
+
+    let list = props.text.map((m, idx) => <Message text={m.msg} key={idx} recent={m.recent} important={m.important} playerhit={m.playerhit} />)
+    list.unshift(<Message text={props.text[0].turns + ') '} recent={props.text[0].recent} />)
+    console.log('MessageGroup', list)
+    return (
+        <span>
+            {list} <br />
+        </span>
+    )
+}
+
 const Message = (props) =>
-    <span className={(props.recent ? '' : 'old-message') + ' ' + (props.important ? 'important-message' : '')}>
-        {props.text} <br />
+    <span className={(props.recent ? '' : 'old-message') + ' ' + (props.important ? 'important-message' : '') + ' ' + (props.playerhit ? 'player-hit-message' : '')}>
+        {props.text}&nbsp;
     </span>
 
 export const BossSplash = (props) => {

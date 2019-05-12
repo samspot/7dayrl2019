@@ -1,5 +1,6 @@
 import { Actor } from './actor'
 import * as _ from 'lodash'
+import Config from './config';
 
 export interface IMessage {
     attackName: string
@@ -42,7 +43,7 @@ export class Messager {
         let list: any = allmessages.map((msg, turn) => {
             // let test = m.map(x => x.msg).join("|")
             // console.log(test)
-            return msg.map((m, idx) => {
+            let messages = msg.map((m, idx) => {
                 // m.idx = idx
 
                 let message = <any>_.clone(m)
@@ -54,18 +55,42 @@ export class Messager {
                 let text = message.attackName
                 if (source || target) {
                     // text = `${target} receives ${message.attackName} [Source: ${source}] HP ${message.hpBefore}=>${message.hpAfter}`
-                    text = `${text} ${message.dmg} dmg to ${target} [Source: ${source}] HP ${message.hpBefore}=>${message.hpAfter}`
+
+                    // if (Config.debug) {
+                    if (source === 'Player') {
+
+                        text = `You did ${message.dmg} damage to ${target} (${text}), `
+                    }
+                    if (source !== 'Player') {
+                        text = `You took ${message.dmg} damage from ${source}'s ${text}, `
+                    }
+                    // } else {
+                    // text = `${text} ${message.dmg} dmg to ${target} HP ${message.hpBefore}=>${message.hpAfter} [Source: ${source}] `
+                    // }
                 }
                 message.msg = text
                 message.turns = turn
                 message.recent = turn >= this.turns
+                message.playerhit = target === 'Player'
                 // console.log(message)
                 return message
             })
 
+            messages = messages.filter(m => {
+                let isDamageMessage = !m.dmgDealerName && !m.targetName
+                let isVsPlayer = m.dmgDealerName === 'Player' || m.targetName === 'Player'
+                return isDamageMessage || isVsPlayer
+            })
+
+            return messages
+
         })
 
+        list = list.filter((x: any) => x.length > 0)
+        console.log('LISTIN', list)
+
         // console.log('2list before react', messager.turns, list)
+        /*
         list = list.map((m: any) => {
             // console.log('m', m)
             let msg = m[0].turns + '] ' + m.map((x: any) => x.msg).join('|')
@@ -75,6 +100,7 @@ export class Messager {
                 important: m[0].important
             }
         })
+        */
         // console.log('list before react', messager.turns, list)
         let sorted: any = []
         list.forEach((m: any) => {
