@@ -5,7 +5,7 @@ import { Actor, Cursor } from './actor';
 import Config from './config';
 import { Director } from './director';
 import { GameDisplay } from './display';
-import { IMessage, Messager } from './IMessage';
+import { IMessage, Messager } from './message';
 import { GameProgress } from './Level';
 import { Maps, TileMapKey } from './maps';
 import { MobSpec } from './MobSpec';
