@@ -1,14 +1,7 @@
-import { Map } from 'rot-js'
+import { Map, DiggerOptions, DigCallback, UniformOptions, CellularOptions } from 'rot-js'
 import { Game } from './game'
 import Config from './config';
 
-export interface IMapSpec {
-    // new: (width: number, height: number, options: any): any
-    _obj: Object,
-    _randomize?: number
-    _iterations?: number
-    mobs?: number
-}
 
 export interface IGameMap {
     [key: string]: string
@@ -280,18 +273,18 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
 
 export class Maps {
     mapList: {
-        [key: string]: IMapSpec
+        [key: string]: Function
     }
     game: Game
 
     constructor(game: Game) {
         this.game = game
         this.mapList = {
-            lab: lab2Winner,
-            catacombs: catacombs1Winner,
-            outside: outside2Winner,
-            guardhouse: guardhouse2Winner,
-            mansion: mansion2Winner,
+            lab: lab(),
+            catacombs: catacombs(),
+            outside: outside(),
+            guardhouse: guardhouse(),
+            mansion: mansion(),
         }
     }
 
@@ -356,104 +349,73 @@ export class Maps {
     }
 }
 
-interface IDiggerMapSpec extends IMapSpec {
-    dugPercentage: number,
-    corridorLength: Array<number>,
-    roomHeight: Array<number>,
-    roomWidth: Array<number>,
-}
-interface IUniformMapSpec extends IMapSpec {
-    roomDugPercentage: number,
-    roomHeight: Array<number>,
-    roomWidth: Array<number>
-}
-interface ICellularMapSpec extends IMapSpec {
-    _iterations: number,
-    _randomize: number
+function digger(options: DiggerOptions) {
+    return function (x: number, y: number, digCallback: DigCallback) {
+        let generator = new Map.Digger(x, y, options)
+        generator.create(digCallback)
+    }
 }
 
-let outside1: IDiggerMapSpec = {
-    _obj: Map.Digger,
-    dugPercentage: .9,
-    corridorLength: [10, 13],
-    roomHeight: [4, 6],
-    roomWidth: [4, 6],
-}
-let outside2Winner: IDiggerMapSpec = {
-    _obj: Map.Digger,
-    dugPercentage: .5,
-    corridorLength: [2, 5],
-    roomHeight: [4, 6],
-    roomWidth: [4, 6],
-}
-let lab1: IDiggerMapSpec = {
-    _obj: Map.Digger,
-    dugPercentage: .8,
-    corridorLength: [4, 8],
-    roomHeight: [5, 12],
-    roomWidth: [5, 12],
-}
-let mansion1: IDiggerMapSpec = {
-    _obj: Map.Digger,
-    dugPercentage: .3,
-    corridorLength: [10, 13],
-    roomHeight: [4, 6],
-    roomWidth: [4, 6],
-}
-let mansion2Winner: IUniformMapSpec = {
-    _obj: Map.Uniform,
-    roomDugPercentage: .2,
-    roomHeight: [4, 6],
-    roomWidth: [4, 6],
-    // timeLimit: undefined
-}
-let lab2Winner: IUniformMapSpec = {
-    _obj: Map.Uniform,
-    roomDugPercentage: .5,
-    roomHeight: [6, 9],
-    roomWidth: [6, 9],
-    // timeLimit: undefined
-}
-let catacombs1Winner: ICellularMapSpec = {
-    _obj: Map.Cellular,
-    _iterations: 5,
-    _randomize: 0.5,
-    // born: undefined,
-    // survive: undefined,
-    // topology: undefined
-}
-let catacombs2: ICellularMapSpec = {
-    _obj: Map.Cellular,
-    _iterations: 3,
-    _randomize: 0.5,
-    // born: [4, 5, 6, 7, 8],
-    // survive: [2, 3, 4, 5],
-    // topology: undefined
+function uniform(options: UniformOptions) {
+    return function (x: number, y: number, digCallback: DigCallback) {
+        let generator = new Map.Uniform(x, y, options)
+        generator.create(digCallback)
+    }
 }
 
-let field1: ICellularMapSpec = {
-    _obj: Map.Cellular,
-    _iterations: 15,
-    _randomize: 0.4,
-    // born: [4, 5, 6, 7, 8],
-    // survive: [2, 3, 4, 5],
-    // topology: undefined
+function cellular(randomize: number, iterations: number, options: CellularOptions) {
+    return function (x: number, y: number, digCallback: DigCallback) {
+        let generator = new Map.Cellular(x, y, options)
+
+        generator.randomize(randomize)
+
+        for (let i = 0; i < iterations - 1; i++) {
+            generator.create()
+        }
+
+        generator.create(digCallback)
+
+        generator.connect(digCallback)
+    }
 }
 
-let guardhouse1: IUniformMapSpec = {
-    _obj: Map.Uniform,
-    roomDugPercentage: .1,
-    roomHeight: [2, 4],
-    roomWidth: [2, 4],
-    // timeLimit: undefined
+function lab() {
+    return uniform({
+        roomDugPercentage: .5,
+        roomHeight: [6, 9],
+        roomWidth: [6, 9]
+    })
 }
 
-let guardhouse2Winner: IDiggerMapSpec = {
-    _obj: Map.Digger,
-    dugPercentage: .1,
-    corridorLength: [3, 6],
-    roomHeight: [3, 6],
-    roomWidth: [3, 6],
-    // timeLimit: undefined
+function outside() {
+    return digger({
+        dugPercentage: .5,
+        corridorLength: [2, 5],
+        roomHeight: [4, 6],
+        roomWidth: [4, 6]
+    })
 }
 
+function catacombs() {
+    let randomize = 0.5
+    let iterations = 5
+
+    return cellular(randomize, iterations, {})
+}
+
+function guardhouse() {
+    return digger({
+        dugPercentage: .1,
+        corridorLength: [3, 6],
+        roomHeight: [3, 6],
+        roomWidth: [3, 6]
+    })
+}
+
+function mansion() {
+    return uniform({
+        roomDugPercentage: .2,
+        roomHeight: [4, 6],
+        roomWidth: [4, 6]
+    })
+}

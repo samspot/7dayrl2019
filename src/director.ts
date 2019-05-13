@@ -160,18 +160,18 @@ export class Director {
 
             this.countdown = num
 
-            if (!this.getLevelSpec().mobs) { this.getLevelSpec().mobs = 0 }
+            if (!this.game.getGameProgress().mobs) { this.game.getGameProgress().mobs = 0 }
             if (window.directorsCut) {
                 // console.log("directors cut set spawn limit 100")
                 Config.spawnLimit = 100
             }
-            if (this.getLevelSpec().mobs < Config.spawnLimit) {
+            if (this.game.getGameProgress().mobs < Config.spawnLimit) {
                 // console.log('spawn', this.getLevelSpec())
                 let mobspec = this._generateMob()
 
                 let monster = this._createSchedule(mobspec)
                 this.mobs.push(monster)
-                this.getLevelSpec().mobs++
+                this.game.getGameProgress().mobs++
             }
         }
 

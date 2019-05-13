@@ -7,7 +7,7 @@ import { Director } from './director';
 import { GameDisplay } from './display';
 import { IMessage, Messager } from './IMessage';
 import { GameProgress } from './Level';
-import { IMapSpec, Maps, TileMapKey } from './maps';
+import { Maps, TileMapKey } from './maps';
 import { MobSpec } from './MobSpec';
 import { Monster } from './monster';
 import { Player } from './player';
@@ -222,9 +222,7 @@ export class Game {
         return actor
     }
 
-    generateMap(mapspec: IMapSpec) {
-        // @ts-ignore
-        let generator = new mapspec._obj(Config.gamePortWidth, Config.gamePortHeight, mapspec)
+    generateMap(generator: Function) {
 
         var freeCells: Array<string> = [];
 
@@ -235,17 +233,9 @@ export class Game {
             freeCells.push(key);
         }
 
-        if (mapspec._iterations) {
-            generator.randomize(mapspec._randomize)
-            for (let i = 0; i < mapspec._iterations - 1; i++) {
-                generator.create();
-            }
-            generator.create(digCallback.bind(this));
+        digCallback = digCallback.bind(this)
 
-            generator.connect(digCallback.bind(this))
-        } else {
-            generator.create(digCallback.bind(this));
-        }
+        generator(Config.gamePortWidth, Config.gamePortHeight, digCallback)
 
         if (Config.debug && Config.drawWholeMap) {
             this._drawWholeMap();
