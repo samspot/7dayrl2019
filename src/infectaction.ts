@@ -49,9 +49,11 @@ function postInfectEventsMessages(player: Player, mob: Actor, game: Game, resetS
 // action for infecting a target while still alive
 export function infectAbilityAction(player: Player, monster: Actor) {
     return function (game: Game) {
-        console.log('execute InfectAbilityAction on monster with hp', monster.hp)
-        possessRescheduleInfect(player, monster, game, false)
-        postInfectEventsMessages(player, monster, game, false)
+        console.log('execute InfectAbilityAction on monster with hp', monster.hp - player.str)
+        if (monster.hp - player.str <= 0) {
+            possessRescheduleInfect(player, monster, game, false)
+            postInfectEventsMessages(player, monster, game, false)
+        }
     }
 }
 
