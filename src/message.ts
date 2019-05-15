@@ -87,7 +87,7 @@ export class Messager {
         })
 
         list = list.filter((x: any) => x.length > 0)
-        console.log('LISTIN', list)
+        // console.log('LISTIN', list)
 
         // console.log('2list before react', messager.turns, list)
         /*

@@ -136,8 +136,8 @@ const Messages = (props) => {
 const MessageGroup = (props) => {
 
     let list = props.text.map((m, idx) => <Message text={m.msg} key={idx} recent={m.recent} important={m.important} playerhit={m.playerhit} />)
-    list.unshift(<Message text={props.text[0].turns + ') '} recent={props.text[0].recent} />)
-    console.log('MessageGroup', list)
+    list.unshift(<Message key="-1" text={props.text[0].turns + ') '} recent={props.text[0].recent} />)
+    // console.log('MessageGroup', list)
     return (
         <span>
             {list} <br />

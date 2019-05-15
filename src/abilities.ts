@@ -396,9 +396,8 @@ export class Poison extends Ability {
     }
 
     sideEffects(game: Game, target: Actor) {
-        // let poisonDamage = (target.hp - this.dmg) / 2
         let poisonDamage = target.hp / 2
-        game.scheduler.add(new ScheduledDamage(target, poisonDamage, `${this.actor.name} Poison Damage`, game), false)
+        damageAction(target, poisonDamage, 'Poison Tick', this.actor)(game)
     }
 }
 export class Crossbow extends Ability {
