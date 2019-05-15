@@ -154,6 +154,8 @@ export class Grab extends Ability {
         let source = this.actor
         let target = actor
 
+        let originalPos = target.x + ',' + target.y
+
         // push original occupant to targets original loc
         let pos = getPositions(source, target)
         let xloc = pos.sourceFront.x
@@ -171,6 +173,10 @@ export class Grab extends Ability {
         target.x = xloc
         target.y = yloc
         game.map[xloc + ',' + yloc] = '.'
+
+        let newPos = target.x + ',' + target.y
+
+        // game.message(`Grab moved ${target.name} from ${originalPos} to ${newPos}`)
 
         // console.log(`side effects put target in (${xloc}, ${yloc}) for source at (${source.x}, ${source.y})`, this, target)
         // console.log(`map[${xloc},${yloc}] is ${game.map[xloc + ',' + yloc]}`)

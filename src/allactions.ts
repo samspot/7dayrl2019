@@ -70,7 +70,7 @@ export function abilityAction(sourceActor: Actor, ability: Ability, x: number, y
         let actor = game.getCharacterAt(null, x, y)
 
         // if (actor.isPlayer() || this.ability.mobsGetSideEffects()) {
-        if (ability.mobsGetSideEffects()) {
+        if (sourceActor.isPlayer() || ability.mobsGetSideEffects()) {
             ability.sideEffects(game, actor, x, y)
         } else {
             // console.log('skipping side effects for ability', this.ability, 'actor', actor)
