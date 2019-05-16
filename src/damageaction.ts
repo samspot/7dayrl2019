@@ -37,16 +37,10 @@ export function damageAction(target: Actor, dmg: number, attackName: string, dmg
 }
 
 function onPlayerDeath(game: Game) {
-    game.message("You were killed.", true)
-    if (game.getInfectableMobs().length === 0) {
-        game.player.revive()
-        game.message("You revived in your original form (no infectable monsters')", true)
-        return
-    }
-
-    game.message("Choose a new body (enter number)", true)
     game.showInfectable = true
     game.scheduler.clear()
     let actor = new DeadInfector(game)
     game.scheduler.add(actor, true)
+
+    game.gameDisplay.updateGui()
 }

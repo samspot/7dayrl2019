@@ -436,7 +436,9 @@ export class Game {
         if (this.showInfectable) {
             return this.getInfectableMobs()
         }
-        return this.getVisibleMobs().filter(m => m.name !== 'stairs')
+        let moblist = this.getVisibleMobs().filter(m => m.name !== 'stairs')
+        return moblist.sort((a, b) => this.player.distanceToActor(a) - this.player.distanceToActor(b))
+
     }
 
     getVisibleMobs() {
@@ -452,7 +454,7 @@ export class Game {
         let reviveMob = new Monster(0, 0, this, Tyrant)
         reviveMob.isRevive = true
         reviveMob.name = "Revive Tyrant"
-        mobs.push(reviveMob)
+        mobs.unshift(reviveMob)
         return mobs
     }
 
