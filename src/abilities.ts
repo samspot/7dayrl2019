@@ -100,6 +100,15 @@ class ScheduledDamage extends SimpleActor {
 
 }
 
+function animationActor(frames: number, actor: Actor, symbol: string, game: Game) {
+    return function () {
+        if (frames >= 0) {
+            game.display.draw(actor.x, actor.y, ['.', symbol])
+            return animationActor(frames - 1, actor, symbol, game)
+        }
+    }
+}
+
 function animation(frames: number, coords: Array<Array<number>>, symbol: string, game: Game) {
     return function () {
         if (frames >= 0) {
@@ -414,8 +423,7 @@ export class Crossbow extends Ability {
 
     sideEffects(game: Game, target: Actor, x: number, y: number) {
         target.addStatus(new Stunned())
-        let sets = [[x, y]]
-        game.gameDisplay.addAnimation(animation(5, sets, '!', game))
+        game.gameDisplay.addAnimation(animationActor(5, target, '!', game))
     }
 }
 
@@ -446,8 +454,7 @@ export class Haymaker extends Ability {
     sideEffects(game: Game, target: Actor, x: number, y: number) {
         target.addStatus(new Stunned())
         knockBack(this.actor, target, game)
-        let sets = [[x, y]]
-        game.gameDisplay.addAnimation(animation(5, sets, '!', game))
+        game.gameDisplay.addAnimation(animationActor(5, target, '!', game))
     }
 }
 
