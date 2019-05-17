@@ -36,6 +36,7 @@ export class Player extends Actor {
         if (Config.debug) {
             this.debugCount = Config.turnsToSim
         }
+
     }
 
     setStartingAbilities() {
@@ -43,7 +44,7 @@ export class Player extends Actor {
         this.addAbility(new Charge(this))
         this.addAbility(new Infect(this))
 
-        //this.addAbility(new Grab(this))
+        // this.addAbility(new Grab(this))
         // this.addAbility(new Shotgun(this))
         // this.addAbility(new Suplex(this))
         // this.addAbility(new GrenadeLauncher(this))
@@ -186,6 +187,11 @@ export class Player extends Actor {
         distance = Math.floor(distance)
         // console.log('distance', distance, 'range', ability.range)
         return distance <= ability.range
+    }
+
+    distanceToActor(actor: Actor) {
+        let distance = Math.sqrt((this.x - actor.x) ** 2 + (this.y - actor.y) ** 2)
+        return Math.floor(distance)
     }
 
     handleEvent(e: KeyboardEvent) {

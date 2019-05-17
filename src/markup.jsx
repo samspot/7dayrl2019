@@ -164,7 +164,7 @@ export const BossSplash = (props) => {
 }
 // const AbilityList = (props: { [key: string]: Array<Ability> }) => {
 const AbilityList = (props) => {
-    const listItems = props.abilities.map((a, idx) => <AbilityComponent value={a} key={idx} />)
+    const listItems = props.abilities.map((a, idx) => <AbilityComponent value={a} key={idx} description={a.description} />)
     return (
         <div style={{ clear: 'both' }}>
             <h3>Skills</h3>
@@ -177,14 +177,16 @@ const AbilityComponent = (props) => {
     const ability = props.value
 
     return (
-        <div style={{ height: '75px' }}>
+        <div style={{ 'min-height': '75px' }}>
             <img src={Empty75x75}
-                style={{ float: 'right', marginTop: '-18px' }}
+                style={{ float: 'right' }}
                 className={ability.constructor.name.toLowerCase() + '-ready'} />
             <p>
                 <b>{ability.constructor.name}</b> Damage {ability.dmg}
                 <br />
                 Range {ability.range} Cooldown {ability.maxCooldown}
+                <br /><br />
+                {ability.mobsGetSideEffects() && ability.description}
             </p>
         </div >
     )
