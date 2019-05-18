@@ -40,6 +40,7 @@ export class Player extends Actor {
     }
 
     setStartingAbilities() {
+        // this.addAbility(new GrenadeLauncher(this))
         this.addAbility(new Impale(this))
         this.addAbility(new Charge(this))
         this.addAbility(new Infect(this))
@@ -47,7 +48,6 @@ export class Player extends Actor {
         // this.addAbility(new Grab(this))
         // this.addAbility(new Shotgun(this))
         // this.addAbility(new Suplex(this))
-        // this.addAbility(new GrenadeLauncher(this))
         // this.addAbility(new Poison(this))
         // this.addAbility(new Crossbow(this))
         // this.addAbility(new Haymaker(this))
@@ -209,9 +209,10 @@ export class Player extends Actor {
         let charStr = String.fromCharCode(charCode)
 
         if (charStr == '>') {
-            // console.log("descend key pressed")
+            console.log("descend key pressed")
+            code = null
             this.tickAbilities()
-            this.descending = true
+            // this.descending = true
             this.resolve(descendAction(this))
             return
         }
@@ -240,10 +241,12 @@ export class Player extends Actor {
         }
 
         if (code == 190) {
-            if (!this.descending) {
-                this.tickAbilities()
-                this.resolve(defaultAction())
-            }
+            console.log('. pressed')
+            // if (!this.descending) {
+            // TODO: all these ticks should really be in Update() method.
+            this.tickAbilities()
+            this.resolve(defaultAction())
+            // }
         }
 
         if (!(code in keyMap)) { return }

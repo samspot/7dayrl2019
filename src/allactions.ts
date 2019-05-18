@@ -63,7 +63,7 @@ export function descendAction(actor: Actor) {
             game.generateMap(game.director.getLevelSpec())
 
             game.setupDraw()
-            actor.descending = false
+            // actor.descending = false
         }
     }
 }

@@ -19,9 +19,11 @@ interface IConfig {
     animate?: boolean
     enableCharge?: boolean
     logMissingTiles?: boolean
+    ohko?: boolean
 }
 
 const Config: IConfig = {
+    ohko: false,
     // spawnrate: 1,
     spawnboss: true,
     tileWidth: 16,
@@ -30,16 +32,16 @@ const Config: IConfig = {
     gamePortHeight: 27,
     fontSize: 16,
     messageListSize: 15,
-    seed: 12363,
-    turnsToSim: 29,
+    // seed: 12363,
+    // turnsToSim: 29,
     // turnsToSim: 26,
     // turnsToSim: 45,
     // seed: 12368,
     // seed: 12458,
     drawWholeMap: false,
     drawAllMobs: false,
-    debug: true,
-    skipTitle: true,
+    debug: false,
+    skipTitle: false,
     tiles: true,
     enableCharge: false,
     playerInvulnerable: false,

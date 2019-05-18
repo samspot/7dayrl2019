@@ -32,7 +32,7 @@ export class Actor {
     nickname: string
     speed: number
     statuses: Array<Status>
-    descending?: boolean
+    // descending?: boolean
     constructor(x: number, y: number, symbol: string, color: string, game: Game) {
         this.x = x
         this.y = y
@@ -101,6 +101,10 @@ export class Actor {
             return
         }
         this.hp -= dmg
+
+        if (Config.ohko) {
+            this.hp = -1
+        }
         if (this.hp <= 0 && !this.isPlayer()) {
             let key = this.x + "," + this.y
             if (!this.game.decorations[key]) {

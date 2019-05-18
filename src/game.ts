@@ -321,7 +321,7 @@ export class Game {
 
     updateGameProgressKill() {
         this.getGameProgress().style = "text-decoration: line-through; color: red"
-        this.message(`You killed the level boss.  Press > to proceed.`, true)
+        this.message(`You killed the level boss.  Find the stairs to the next level.`, true)
     }
 
     updateGameProgressPossess() {
