@@ -1,9 +1,26 @@
 import * as  React from "react"
 import * as ReactDOM from "react-dom"
 import Empty75x75 from '../assets/img/empty.png'
+import { Ability } from "./abilities";
+import { Player } from "./player";
+import { IPropsPlayer } from "./jsxinterface";
+import { Actor } from "./actor";
+import { Game } from "./game";
 
-// TODO - convert this to TSX
-export class StatusBar extends React.Component {
+interface IPropsPlayerSkill extends IPropsSkill {
+    hotkey: string
+    ability: Ability
+}
+
+interface IPropsSkill {
+    name: string
+    dmg?: number
+    range?: number
+    cooldown: number
+    description?: string
+}
+
+export class StatusBar extends React.Component<{ player: Player, game: Game }> {
     render() {
 
         let name = this.props.player && this.props.player.nickname
@@ -45,7 +62,7 @@ export class StatusBar extends React.Component {
 
 
 
-class Condition extends React.Component {
+class Condition extends React.Component<{ hp: number, maxHp: number }> {
     render() {
         let conditionName
         let hp = this.props.hp
@@ -64,18 +81,15 @@ class Condition extends React.Component {
     }
 }
 
-class Portrait extends React.Component {
-    constructor(props) {
-        super(props)
-    }
 
+class Portrait extends React.Component<{ actor: Actor, name: string, id: string, bossSeen?: boolean }> {
     render() {
         let seen = (this.props.actor && this.props.actor.isPlayer()) || (this.props.actor && this.props.actor.boss && this.props.actor.seen)
         let { name, hp, maxHp, str, nick } = { name: 'unknown', hp: '?', maxHp: '?', str: '?', nick: 'unknown' }
         if (seen) {
-            hp = this.props.actor.hp
-            maxHp = this.props.actor.maxHp
-            str = this.props.actor.str
+            hp = this.props.actor.hp + ''
+            maxHp = this.props.actor.maxHp + ''
+            str = this.props.actor.str + ''
             name = this.props.actor && this.props.actor.name
         }
         return (
@@ -93,13 +107,14 @@ class Portrait extends React.Component {
     }
 }
 
-const PlayerSkillList = (props) => {
-    let abilities = []
+
+const PlayerSkillList = (props: IPropsPlayer) => {
+    let abilities: Ability[] = []
     if (props.player) {
         abilities = props.player.getAbilities()
-        abilities.map(a => {
-            a.name = a.constructor.name
-        })
+        // abilities.map(a => {
+        // a.name = a.constructor.name
+        // })
     }
 
     return (
@@ -117,7 +132,7 @@ const PlayerSkillList = (props) => {
     )
 }
 
-const PlayerSkill = (props) => {
+const PlayerSkill = (props: IPropsPlayerSkill) => {
     let name = props.name
     if (name.toLowerCase() === "grenadelauncher") {
         name = "Launcher"
@@ -136,7 +151,7 @@ const PlayerSkill = (props) => {
     )
 }
 
-const PlayerSkillTooltip = (props) => {
+const PlayerSkillTooltip = (props: IPropsSkill) => {
     return (
         <span className='tooltiptext'>
             <p>

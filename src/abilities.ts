@@ -21,6 +21,7 @@ export class Ability {
     range: number
     dmg: number
     description: string
+    name: string
     constructor(actor: Actor, cooldown: number, range: number, dmg: number) {
         this.actor = actor
         this.maxCooldown = cooldown
@@ -28,6 +29,7 @@ export class Ability {
         this.range = range
         this.dmg = dmg
         this._use = this._use.bind(this)
+        this.name = this.constructor.name
     }
 
     tick() {

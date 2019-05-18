@@ -4,23 +4,12 @@ import * as ReactDOM from "react-dom"
 
 import { Level } from './Level';
 import Config from './config';
-import { StatusBar } from './statusbar'
 import { Actor } from './actor';
 import { Ability } from './abilities';
 import { Game } from './game';
 import { IUiMessageElement } from './message';
-
-interface IPropsGame {
-    game: Game
-}
-
-interface IPropsAbility {
-    ability: Ability
-}
-
-interface IPropsActor {
-    actor: Actor
-}
+import { IPropsGame, IPropsActor, IPropsAbility } from './jsxinterface';
+import { StatusBar } from './statusbar';
 
 export const render = (props: IPropsGame) => {
     ReactDOM.unmountComponentAtNode(document.getElementById('gamediv'))
