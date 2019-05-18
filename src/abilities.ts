@@ -94,18 +94,20 @@ function isTrapped(map: IGameMap, x: number, y: number) {
 }
 
 class ScheduledDamage extends SimpleActor {
+    source: Actor
     target: Actor
     dmg: number
     text: string
-    constructor(target: Actor, dmg: number, text: string, game: Game) {
+    constructor(source: Actor, target: Actor, dmg: number, text: string, game: Game) {
         super(game)
+        this.source = source
         this.target = target
         this.dmg = dmg
         this.text = text
     }
 
     act() {
-        return damageAction(this.target, this.dmg, this.text, this.target)
+        return damageAction(this.target, this.dmg, this.text, this.source)
     }
 
 }
@@ -148,7 +150,7 @@ export class Suplex extends Ability {
 
         if (occupant) {
             // console.log('suplex damaging occupant', occupant)
-            game.schedule(new ScheduledDamage(occupant, this.dmg / 2, `crushed by ${this.actor.name} Suplex`, game), false)
+            game.schedule(new ScheduledDamage(source, occupant, this.dmg / 2, `crushed by ${this.actor.name} Suplex`, game), false)
             game.fixActorOverlap(target)
         }
 
@@ -402,7 +404,7 @@ export class GrenadeLauncher extends Ability {
             let actor = game.getCharacterAt(null, s[0], s[1])
             if (actor) {
 
-                game.schedule(new ScheduledDamage(actor, this.dmg / 2,
+                game.schedule(new ScheduledDamage(this.actor, actor, this.dmg / 2,
                     `${this.actor.name} Grenade Splash Damage`, game), false)
             }
         })
