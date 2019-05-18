@@ -46,7 +46,7 @@ export class Messager {
     getUiList(): Array<Array<IUiMessageElement>> {
         let allmessages = this.getMessages()
 
-        let list: any = allmessages.map((msg, turn) => {
+        let list: Array<Array<IUiMessageElement>> = allmessages.map((msg, turn) => {
             // let test = m.map(x => x.msg).join("|")
             // console.log(test)
             let messages = msg.map((m, idx) => {
@@ -92,24 +92,10 @@ export class Messager {
 
         })
 
-        list = list.filter((x: any) => x.length > 0)
-        // console.log('LISTIN', list)
+        list = list.filter((x) => x.length > 0)
 
-        // console.log('2list before react', messager.turns, list)
-        /*
-        list = list.map((m: any) => {
-            // console.log('m', m)
-            let msg = m[0].turns + '] ' + m.map((x: any) => x.msg).join('|')
-            return {
-                msg: msg,
-                recent: m[0].recent,
-                important: m[0].important
-            }
-        })
-        */
-        // console.log('list before react', messager.turns, list)
-        let sorted: any = []
-        list.forEach((m: any) => {
+        let sorted: Array<Array<IUiMessageElement>> = []
+        list.forEach((m: Array<IUiMessageElement>) => {
             sorted.unshift(m)
         })
         return sorted
