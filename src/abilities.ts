@@ -8,6 +8,7 @@ import { damageAction } from './damageaction';
 import { infectAbilityAction } from './infectaction'
 import { Player } from './player';
 import { getRandItem } from './random';
+import Config from './config';
 
 export function createAbility(actor: Actor, ability: Ability) {
     return new Ability(actor, ability.cooldown, ability.range, ability.dmg)
@@ -76,9 +77,16 @@ function getCardinalCoords(x: number, y: number) {
     return c
 }
 
+
+// suplex needs to check this
+// call this on attempted move
+
 function isTrapped(map: IGameMap, x: number, y: number) {
     let trapped = _.map(getCardinalCoords(x, y), coordlist => {
-        return map[coordlist[0] + ',' + coordlist[1]] !== '.'
+        let [x, y] = coordlist
+        let value = map[x + ',' + y]
+        console.log('check trapped value', x, y, value)
+        return value !== '.'
     })
     return _.every(trapped)
 }
@@ -274,6 +282,22 @@ function getPositions(source: Actor, target: Actor) {
 }
 
 function repositionActor(actor: Actor, x: number, y: number, game: Game) {
+    if (x < 0) {
+        x = 0
+    }
+
+    if (x >= Config.gamePortWidth) {
+        x = Config.gamePortWidth - 1
+    }
+
+    if (y < 0) {
+        y = 0
+    }
+
+    if (y >= Config.gamePortHeight) {
+        y = Config.gamePortHeight - 1
+    }
+
     actor.x = x
     actor.y = y
     game.map[x + ',' + y] = '.'
@@ -284,10 +308,19 @@ function repositionActor(actor: Actor, x: number, y: number, game: Game) {
         Object.keys(cardinals).forEach(k => {
             let x = cardinals[k][0]
             let y = cardinals[k][1]
-            game.map[x + ',' + y] = '.'
+
+            if (inBounds(x, y, game.map)) {
+                game.map[x + ',' + y] = '.'
+
+            }
         })
     }
 }
+
+function inBounds(x: number, y: number, map: IGameMap) {
+    return x > 0 && y > 0 && x < Config.gamePortWidth && y < Config.gamePortHeight
+}
+
 
 function knockBack(source: Actor, target: Actor, game: Game) {
     let x = target.x

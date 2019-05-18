@@ -102,9 +102,9 @@ async function mainLoop() {
         // Update the GUI right before requesting player input
         if (actor.isPlayer()) {
 
-            console.log("last set of turns", scheduleDebug.toString())
-            scheduleDebug.reset()
-            game.debugSchedule()
+            // console.log("last set of turns", scheduleDebug.toString())
+            // scheduleDebug.reset()
+            // game.debugSchedule()
 
             game.gameDisplay.updateGui()
             game.fixActorOverlap()

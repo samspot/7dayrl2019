@@ -15,16 +15,19 @@ import { getCoordsAround } from './Level';
 import { youWinAction } from './allactions';
 import { getRandItem } from './random';
 
+export interface IGameMap {
+    [key: string]: string
+}
+
 export class Game {
     maps: Maps
     currentLevel: number
     cursor: Cursor
     private scheduler: Scheduler
     display: Display
-    map: {
-        [key: string]: string
-    }
+    map: IGameMap
     decorations: {
+
         [key: string]: Array<string>
     }
     player: Player
@@ -58,7 +61,7 @@ export class Game {
     }
 
     schedule(actor: Actor, repeat?: boolean) {
-        console.log("Scheduling actor", actor.name)
+        // console.log("Scheduling actor", actor.name)
         this.scheduler.add(actor, repeat)
     }
 

@@ -31,7 +31,11 @@ export function moveAction(actor: Actor, direction: string, moveToX?: number, mo
 
             // is the space in the map at all?
             var newKey = newX + "," + newY;
-            if (!(newKey in game.map)) { return }
+            // if (!(newKey in game.map)) { return }
+            if (game.map[newX + ',' + newY] !== '.') {
+                // TODO: Can we avoid skipping player turn when they bump walls etc?
+                return
+            }
         }
 
         let character = game.getCharacterAt(actor, newX, newY)
@@ -104,7 +108,7 @@ export function youWinAction() {
 
         // render high score first then save it
         let highScoreHtml = '<h2>High Scores</h2><ol>';
-        let highScores = [{ name: game.player.name, score: game.player.score }]
+        let highScores = [{ name: game.player.name, score: game.score }]
         highScores.sort((a, b) => b.score - a.score).forEach(s => {
             highScoreHtml += `<li>${s.name}: ${s.score}</li>`
         })
@@ -114,7 +118,7 @@ export function youWinAction() {
         let modalText = "<h1>You defeated the S.T.A.R.S!  Final Score "
             + game.score + "</h1>"
             + `<p>Try keeping the tyrant alive to improve your score!  Using your infect ability to possess enemies doesn't cost you points.</p>`
-            + `<p>${highScoreHtml}</p>`
+        // + `<p>${highScoreHtml}</p>`
 
         game.gameDisplay.showModal(modalText)
 
