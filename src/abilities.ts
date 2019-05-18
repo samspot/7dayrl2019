@@ -142,9 +142,7 @@ export class Suplex extends Ability {
         let occupant = game.getCharacterAt(null, newX, newY)
 
         repositionActor(target, newX, newY, game)
-        // target.x = newX
-        // target.y = newY
-        // game.map[newX + ',' + newY] = '.'
+
 
         if (occupant) {
             // console.log('suplex damaging occupant', occupant)
@@ -191,13 +189,6 @@ export class Grab extends Ability {
             // console.log('occupant is', occupant, 'fixing overlap')
             game.fixActorOverlap(target)
         }
-
-        // move target to that square
-        // target.x = xloc
-        // target.y = yloc
-        // game.map[xloc + ',' + yloc] = '.'
-
-        // let newPos = target.x + ',' + target.y
 
         repositionActor(target, xloc, yloc, game)
 
@@ -328,9 +319,7 @@ function knockBack(source: Actor, target: Actor, game: Game) {
     let y = target.y
 
     let pos = getPositions(source, target)
-    // target.x = pos.targetRear.x
-    // target.y = pos.targetRear.y
-    // game.map[target.x + ',' + target.y] = '.'
+
     repositionActor(target, pos.targetRear.x, pos.targetRear.y, game)
 
 
