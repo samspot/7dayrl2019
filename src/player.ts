@@ -89,7 +89,13 @@ export class Player extends Actor {
         _.clone(mob.abilities).forEach(a => {
             // console.log('adding ability', a)
             a.actor = this
-            this.addAbility(_.clone(a))
+
+            let ability = _.clone(a)
+            if (ability.constructor.name === 'Grab') {
+                ability.range = 3
+            }
+
+            this.addAbility(ability)
         })
 
         this.addAbility(new Infect(this))
