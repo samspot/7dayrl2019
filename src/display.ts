@@ -10,7 +10,7 @@ import '../assets/css/abilities.css'
 import { Game } from './game';
 import { Actor } from './actor';
 
-import { BossSplash, render } from './markup.jsx';
+import { BossSplash, render } from './markup';
 import { ModalContainer } from './modal'
 
 // TODO organize functions (check for private, etc)

@@ -1,13 +1,30 @@
 import Empty75x75 from '../assets/img/empty.png'
-import * as  React from "react"
+import * as React from "react"
 import * as ReactDOM from "react-dom"
 
-import { GameProgress } from './Level';
+import { GameProgress, Level } from './Level';
 import { Monster } from './monster';
 import Config from './config';
 import { StatusBar } from './statusbar'
+import { Actor } from './actor';
+import { Ability } from './abilities';
+import { Game } from './game';
 
-export const render = (props) => {
+interface IPropsGame {
+    game: Game
+}
+
+interface IPropsAbility {
+    ability: Ability
+}
+
+interface IPropsActor {
+    actor: Actor
+}
+
+// TODO: remove 'any' types across project
+
+export const render = (props: IPropsGame) => {
     ReactDOM.unmountComponentAtNode(document.getElementById('gamediv'))
     return ReactDOM.render(
         <GameComponent game={props.game} />,
@@ -16,31 +33,24 @@ export const render = (props) => {
 }
 
 
-class GameComponent extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            game: props.game,
-        }
-
-    }
+class GameComponent extends React.Component<{ game: Game }> {
     render() {
         return (
             <div id="game" className="game">
                 <h2 id="title">KILL S.T.A.R.S</h2>
                 <StatusBar
-                    player={this.state.game.player}
-                    game={this.state.game}
+                    player={this.props.game.player}
+                    game={this.props.game}
                 />
-                <Level game={this.state.game} />
-                <MainContainer game={this.state.game} />
-                <Messages game={this.state.game} />
+                <LevelComponent game={this.props.game} />
+                <MainContainer game={this.props.game} />
+                <Messages game={this.props.game} />
             </div>
         )
     }
 }
 
-const Level = (props) => {
+const LevelComponent = (props: IPropsGame) => {
     let name = props.game.getGameProgress() ? props.game.getGameProgress().name : ''
     return (
 
@@ -48,18 +58,18 @@ const Level = (props) => {
     )
 }
 
-const MainContainer = (props) =>
+const MainContainer = (props: IPropsGame) =>
     <div className="main-container">
         <div style={{ float: 'left' }}>
             <div style={{ float: 'left' }} id="mapContainer"></div>
         </div>
         <div id="right-bar">
             <MonsterList game={props.game} />
-            <GameProgress game={props.game} />
+            <GameProgressComponent game={props.game} />
         </div>
     </div>
 
-const GameProgress = (props) =>
+const GameProgressComponent = (props: IPropsGame) =>
     <div id="progress-container">
         <h3>Game Progress</h3>
         <ul id="progress">
@@ -71,7 +81,7 @@ const GameProgress = (props) =>
         </ul>
     </div>
 
-const GameProgressLevel = (props) => {
+const GameProgressLevel = (props: { id: string, gameProgress: Level }) => {
     let text = "Status Unknown"
     let className = ''
     if (props.gameProgress.bossObj && props.gameProgress.bossObj.playerSeen()) {
@@ -90,9 +100,9 @@ const GameProgressLevel = (props) => {
     )
 }
 
-const MonsterList = (props) => {
+const MonsterList = (props: IPropsGame) => {
     let items = props.game && props.game.getDisplayMobs().map((m, idx) =>
-        <Monster
+        <MonsterComponent
             name={m.name}
             color={m.color}
             infectable={m.isInfectable()}
@@ -110,18 +120,27 @@ const MonsterList = (props) => {
     )
 }
 
-const Monster = (props) =>
+interface IMonsterListItem {
+    name: string
+    color: string
+    infectable: boolean
+    debug: string
+}
+
+const MonsterComponent = (props: IMonsterListItem) =>
     <li style={{ color: props.color }}>
         {props.name}
         {props.infectable ? ' (infectable)' : ''}
         {props.debug}
     </li>
 
-const Messages = (props) => {
+// TODO
+const Messages = (props: any) => {
     let messager = props.game && props.game.getMessager()
     if (!messager) { return }
     let list = messager.getUiList()
 
+    // @ts-ignore
     list = list.map((m, idx) => <MessageGroup text={m} key={idx} recent={m.recent} important={m.important} />)
 
     return (
@@ -133,8 +152,10 @@ const Messages = (props) => {
     )
 }
 
-const MessageGroup = (props) => {
+// TODO
+const MessageGroup = (props: any) => {
 
+    // @ts-ignore
     let list = props.text.map((m, idx) => <Message text={m.msg} key={idx} recent={m.recent} important={m.important} playerhit={m.playerhit} />)
     list.unshift(<Message key="-1" text={props.text[0].turns + ') '} recent={props.text[0].recent} />)
     // console.log('MessageGroup', list)
@@ -145,12 +166,13 @@ const MessageGroup = (props) => {
     )
 }
 
-const Message = (props) =>
+// TODO
+const Message = (props: any) =>
     <span className={(props.recent ? '' : 'old-message') + ' ' + (props.important ? 'important-message' : '') + ' ' + (props.playerhit ? 'player-hit-message' : '')}>
         {props.text}&nbsp;
     </span>
 
-export const BossSplash = (props) => {
+export const BossSplash = (props: IPropsActor) => {
     return (
         <div>
             <div style={{ float: 'left', width: '50%' }}>
@@ -162,9 +184,9 @@ export const BossSplash = (props) => {
         </div>
     )
 }
-// const AbilityList = (props: { [key: string]: Array<Ability> }) => {
-const AbilityList = (props) => {
-    const listItems = props.abilities.map((a, idx) => <AbilityComponent value={a} key={idx} description={a.description} />)
+
+const AbilityList = (props: { abilities: Array<Ability> }) => {
+    const listItems = props.abilities.map((a, idx) => <AbilityComponent ability={a} key={idx} />)
     return (
         <div style={{ clear: 'both' }}>
             <h3>Skills</h3>
@@ -173,8 +195,8 @@ const AbilityList = (props) => {
     )
 }
 
-const AbilityComponent = (props) => {
-    const ability = props.value
+const AbilityComponent = (props: IPropsAbility) => {
+    const ability = props.ability
 
     return (
         <div style={{ 'min-height': '75px' }}>
@@ -191,14 +213,15 @@ const AbilityComponent = (props) => {
         </div >
     )
 }
-const BossText = (props) =>
+
+const BossText = (props: IPropsActor) =>
     <div>
         <h3>Bio</h3>
         <p>{props.actor.bio}</p>
         <p>{props.actor.quote}</p>
     </div>
 
-const BossTraits = (props) =>
+const BossTraits = (props: IPropsActor) =>
     <div style={{ float: 'right', width: '50%' }}>
         <span style={{ color: 'red' }}>TARGET</span>
         <p style={{ padding: 0, margin: 0 }}>
