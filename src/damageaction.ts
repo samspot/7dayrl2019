@@ -38,9 +38,9 @@ export function damageAction(target: Actor, dmg: number, attackName: string, dmg
 
 function onPlayerDeath(game: Game) {
     game.showInfectable = true
-    game.scheduler.clear()
+    game.clearSchedule()
     let actor = new DeadInfector(game)
-    game.scheduler.add(actor, true)
+    game.schedule(actor, true)
 
     game.gameDisplay.updateGui()
 }

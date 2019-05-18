@@ -5,6 +5,7 @@ import { Director } from './director';
 import { Game } from './game';
 import { renderScores } from './score';
 import { GameDisplay } from './display'
+import { Actor } from './actor';
 
 declare global {
     interface Window {
@@ -31,7 +32,7 @@ async function mainLoop() {
     let game = new Game(scheduler)
     game.init()
 
-    let director = new Director(game, scheduler)
+    let director = new Director(game)
     game.director = director;
 
     (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = 'none';
@@ -62,6 +63,31 @@ async function mainLoop() {
     }
 
     game.setupDraw()
+
+    interface IDebug {
+        turns: number
+        queue: Actor[]
+        add: Function
+        reset: Function
+        toString: Function
+    }
+
+    let scheduleDebug: IDebug = {
+        turns: 0,
+        queue: [],
+        add: function (actor: Actor) {
+            this.queue.push(actor)
+            this.turns++
+        },
+        reset: function () {
+            this.turns = 0
+            this.queue = []
+        },
+        toString: function () {
+            return this.queue.map((a: Actor) => `[${a.name}] speed: ${a.speed}`)
+        }
+    }
+
     while (1) {
 
         let actor = scheduler.next()
@@ -71,8 +97,15 @@ async function mainLoop() {
             return
         }
 
+        scheduleDebug.add(actor)
+
         // Update the GUI right before requesting player input
         if (actor.isPlayer()) {
+
+            console.log("last set of turns", scheduleDebug.toString())
+            scheduleDebug.reset()
+            game.debugSchedule()
+
             game.gameDisplay.updateGui()
             game.fixActorOverlap()
         }
@@ -80,9 +113,10 @@ async function mainLoop() {
         let action = await actor.act()
 
         if (actor.isPlayer() && game.gameDisplay.hasAnimations()) {
-            console.log('skip player turn here')
-            scheduler.add(actor, false)
-            continue
+            // console.log('skip player turn here')
+            // game.debugSchedule()
+            // game.schedule(actor, false)
+            // continue
         }
 
         if (actor.isPlayer()) {
@@ -98,7 +132,7 @@ async function mainLoop() {
             game.turns++
 
             if (game.didWin()) {
-                console.log('checking WIN condition', scheduler.next(), scheduler.next(), scheduler.next())
+                // console.log('checking WIN condition', scheduler.next(), scheduler.next(), scheduler.next())
                 game.win()
             }
         }

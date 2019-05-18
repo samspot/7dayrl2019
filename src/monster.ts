@@ -108,7 +108,15 @@ export class Monster extends Actor {
             x = path[0]
             y = path[1]
 
-            resolve(moveAction(this, undefined, x, y))
+            // Slow down mob actions for visible creatures
+            let timeout = 50
+            if (!this.game.getVisibleMobs().includes(this)) {
+                timeout = 0
+            }
+
+            setTimeout(() => {
+                resolve(moveAction(this, undefined, x, y))
+            }, timeout)
         })
     }
 }

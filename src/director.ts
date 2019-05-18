@@ -29,7 +29,6 @@ export class Director {
     player: Player
     game: Game
     countdown: number
-    scheduler: Scheduler
     boss: Actor
     mobs: Array<Actor>
     spawnId: number
@@ -37,12 +36,11 @@ export class Director {
     mobSpec: MobSpec
     bossPool: Array<Actor>
     specialMobs: Array<Actor>
-    constructor(game: Game, scheduler: Scheduler) {
+    constructor(game: Game) {
         this.player = game.player
         this.game = game
         this.countdown = 5
 
-        this.scheduler = scheduler
         game.currentLevel = 0
         if (Config.debug && Config.startLevel) {
             game.currentLevel = Config.startLevel
@@ -50,7 +48,7 @@ export class Director {
 
         this.boss = null
         this.mobs = []
-        this.scheduler.add(this.player, true)
+        this.game.schedule(this.player, true)
         this.spawnId = 0
         this.levelTicks = 0
         this.mobSpec = new MobSpec()
@@ -72,8 +70,9 @@ export class Director {
         this.game.resetLevel()
         this.boss = null
         this.mobs = []
-        this.scheduler.clear()
-        this.scheduler.add(this.player, true)
+        // this.scheduler.clear()
+        this.game.clearSchedule()
+        this.game.schedule(this.player, true)
         this.levelTicks = 0
     }
 
@@ -249,7 +248,7 @@ export class Director {
         monster.spawnId = this.spawnId
         // console.log(`spawn-${monster.spawnId} monster add ${monster.x},${monster.y} ${monster.name}`)
 
-        this.scheduler.add(monster, true)
+        this.game.schedule(monster, true)
         this.generateAbilities(monster)
         return monster
     }
@@ -269,11 +268,13 @@ export class Director {
     }
 
     _debugScheduler() {
+        /*
         var turns = [];
         for (var i = 0; i < 20; i++) {
             var current = this.scheduler.next();
             turns.push(current.symbol);
         }
         console.dir("turn order " + turns.join(" "))
+        */
     }
 }

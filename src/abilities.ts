@@ -139,7 +139,7 @@ export class Suplex extends Ability {
 
         if (occupant) {
             // console.log('suplex damaging occupant', occupant)
-            game.scheduler.add(new ScheduledDamage(occupant, this.dmg / 2, `crushed by ${this.actor.name} Suplex`, game), false)
+            game.schedule(new ScheduledDamage(occupant, this.dmg / 2, `crushed by ${this.actor.name} Suplex`, game), false)
             game.fixActorOverlap(target)
         }
 
@@ -152,7 +152,12 @@ export class Suplex extends Ability {
 
 export class Grab extends Ability {
     constructor(actor: Actor) {
-        let range = 3
+        let range = 1
+
+        if (actor.isPlayer()) {
+            range = 3
+        }
+
         super(actor, 2, range, 10)
         this.description = `Grab a target ${range} squares away and pull them to you. `
             + `Brushes aside anyone in between.`
@@ -179,11 +184,13 @@ export class Grab extends Ability {
         }
 
         // move target to that square
-        target.x = xloc
-        target.y = yloc
-        game.map[xloc + ',' + yloc] = '.'
+        // target.x = xloc
+        // target.y = yloc
+        // game.map[xloc + ',' + yloc] = '.'
 
-        let newPos = target.x + ',' + target.y
+        // let newPos = target.x + ',' + target.y
+
+        repositionActor(target, xloc, yloc, game)
 
         // game.message(`Grab moved ${target.name} from ${originalPos} to ${newPos}`)
 
@@ -266,14 +273,31 @@ function getPositions(source: Actor, target: Actor) {
     return pos
 }
 
+function repositionActor(actor: Actor, x: number, y: number, game: Game) {
+    actor.x = x
+    actor.y = y
+    game.map[x + ',' + y] = '.'
+
+    if (isTrapped(game.map, x, y)) {
+        let cardinals = getCardinalCoords(x, y)
+        console.log('actor is trapped, hollow', cardinals, actor)
+        Object.keys(cardinals).forEach(k => {
+            let x = cardinals[k][0]
+            let y = cardinals[k][1]
+            game.map[x + ',' + y] = '.'
+        })
+    }
+}
+
 function knockBack(source: Actor, target: Actor, game: Game) {
     let x = target.x
     let y = target.y
 
     let pos = getPositions(source, target)
-    target.x = pos.targetRear.x
-    target.y = pos.targetRear.y
-    game.map[target.x + ',' + target.y] = '.'
+    // target.x = pos.targetRear.x
+    // target.y = pos.targetRear.y
+    // game.map[target.x + ',' + target.y] = '.'
+    repositionActor(target, pos.targetRear.x, pos.targetRear.y, game)
 
 
     let sets = []
@@ -313,33 +337,7 @@ export class Charge extends Ability {
             //console.log('x', xloc, pos.close.x, 'y', yloc, pos.close.y)
         }
 
-        source.x = x
-        source.y = y
-
-        // player using, so drill holes where they targetted
-        if (source === game.player) {
-
-            // console.log('creating map hole', action.x, ',', action.y)
-            game.map[x + ',' + y] = '.'
-
-            // TODO drill around if player is trapped
-            if (isTrapped(game.map, x, y)) {
-                // console.log('player trapped')
-                let cardinals = getCardinalCoords(x, y)
-                Object.keys(cardinals).forEach(k => {
-                    let x = cardinals[k][0]
-                    let y = cardinals[k][1]
-                    // console.log("hollowing ", x, ',', y, cardinals[k])
-                    game.map[x + ',' + y] = '.'
-                })
-            }
-        }
-
-        // also drill a hole wherever something was pushed
-        if (target) {
-            // console.log('creating map hole', target.x, ',', target.y)
-            game.map[target.x + ',' + target.y] = '.'
-        }
+        repositionActor(source, x, y, game)
     }
 
     canTargetEmpty() {
@@ -379,7 +377,7 @@ export class GrenadeLauncher extends Ability {
             let actor = game.getCharacterAt(null, s[0], s[1])
             if (actor) {
 
-                game.scheduler.add(new ScheduledDamage(actor, this.dmg / 2,
+                game.schedule(new ScheduledDamage(actor, this.dmg / 2,
                     `${this.actor.name} Grenade Splash Damage`, game), false)
             }
         })

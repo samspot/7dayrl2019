@@ -101,9 +101,10 @@ export function youWinAction() {
     return function (game: Game) {
         game.gameOver = true
 
-        let highScores = addScore(game.player.name, game.score)
 
+        // render high score first then save it
         let highScoreHtml = '<h2>High Scores</h2><ol>';
+        let highScores = [{ name: game.player.name, score: game.player.score }]
         highScores.sort((a, b) => b.score - a.score).forEach(s => {
             highScoreHtml += `<li>${s.name}: ${s.score}</li>`
         })
@@ -116,5 +117,11 @@ export function youWinAction() {
             + `<p>${highScoreHtml}</p>`
 
         game.gameDisplay.showModal(modalText)
+
+        try {
+            highScores = addScore(game.player.name, game.score)
+        } catch (e) {
+            console.log("Exception storing high score", e)
+        }
     }
 }

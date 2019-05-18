@@ -19,7 +19,7 @@ export class Game {
     maps: Maps
     currentLevel: number
     cursor: Cursor
-    scheduler: Scheduler
+    private scheduler: Scheduler
     display: Display
     map: {
         [key: string]: string
@@ -55,6 +55,19 @@ export class Game {
         this.gameDisplay = new GameDisplay(this)
         this.showInfectable = false
         this.deaths = 0
+    }
+
+    schedule(actor: Actor, repeat?: boolean) {
+        console.log("Scheduling actor", actor.name)
+        this.scheduler.add(actor, repeat)
+    }
+
+    clearSchedule() {
+        this.scheduler.clear()
+    }
+
+    debugSchedule() {
+        console.log("DEBUG SCHEDULE", this.scheduler)
     }
 
     didWin() {
@@ -467,10 +480,10 @@ export class Game {
     }
 
     reschedule() {
-        this.scheduler.clear()
-        this.scheduler.add(this.player, true)
+        this.clearSchedule()
+        this.schedule(this.player, true)
         this.mobs.forEach(m => {
-            this.scheduler.add(m, true)
+            this.schedule(m, true)
         })
         //  console.log('reschedule', this.scheduler)
     }
