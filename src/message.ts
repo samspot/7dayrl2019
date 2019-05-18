@@ -1,6 +1,5 @@
 import { Actor } from './actor'
 import * as _ from 'lodash'
-import Config from './config';
 
 export interface IMessage {
     attackName: string
@@ -14,6 +13,13 @@ export interface IMessage {
     turn: number
 }
 
+export interface IUiMessageElement {
+    msg: string
+    recent: boolean
+    important: boolean
+    playerhit: boolean
+    turns: number
+}
 
 export class Messager {
     messages: Array<IMessage>
@@ -37,7 +43,7 @@ export class Messager {
         return output
     }
 
-    getUiList() {
+    getUiList(): Array<Array<IUiMessageElement>> {
         let allmessages = this.getMessages()
 
         let list: any = allmessages.map((msg, turn) => {

@@ -2,13 +2,13 @@ import Empty75x75 from '../assets/img/empty.png'
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 
-import { GameProgress, Level } from './Level';
-import { Monster } from './monster';
+import { Level } from './Level';
 import Config from './config';
 import { StatusBar } from './statusbar'
 import { Actor } from './actor';
 import { Ability } from './abilities';
 import { Game } from './game';
+import { IUiMessageElement } from './message';
 
 interface IPropsGame {
     game: Game
@@ -134,28 +134,27 @@ const MonsterComponent = (props: IMonsterListItem) =>
         {props.debug}
     </li>
 
-// TODO
-const Messages = (props: any) => {
+interface IPropsMessageGroup {
+    text: Array<IUiMessageElement>
+}
+
+const Messages = (props: IPropsGame) => {
     let messager = props.game && props.game.getMessager()
     if (!messager) { return }
     let list = messager.getUiList()
 
-    // @ts-ignore
-    list = list.map((m, idx) => <MessageGroup text={m} key={idx} recent={m.recent} important={m.important} />)
+    let outputlist = list.map((m: Array<IUiMessageElement>, idx: number) => <MessageGroup text={m} key={idx} />)
 
     return (
         <div style={{ clear: 'both' }}>
             <p id="msg">
-                {list}
+                {outputlist}
             </p>
         </div>
     )
 }
 
-// TODO
-const MessageGroup = (props: any) => {
-
-    // @ts-ignore
+const MessageGroup = (props: IPropsMessageGroup) => {
     let list = props.text.map((m, idx) => <Message text={m.msg} key={idx} recent={m.recent} important={m.important} playerhit={m.playerhit} />)
     list.unshift(<Message key="-1" text={props.text[0].turns + ') '} recent={props.text[0].recent} />)
     // console.log('MessageGroup', list)
@@ -166,8 +165,14 @@ const MessageGroup = (props: any) => {
     )
 }
 
-// TODO
-const Message = (props: any) =>
+interface IPropsMessage {
+    recent?: boolean
+    important?: boolean
+    playerhit?: boolean
+    text: string
+}
+
+const Message = (props: IPropsMessage) =>
     <span className={(props.recent ? '' : 'old-message') + ' ' + (props.important ? 'important-message' : '') + ' ' + (props.playerhit ? 'player-hit-message' : '')}>
         {props.text}&nbsp;
     </span>
