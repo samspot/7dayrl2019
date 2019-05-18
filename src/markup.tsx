@@ -22,8 +22,6 @@ interface IPropsActor {
     actor: Actor
 }
 
-// TODO: remove 'any' types across project
-
 export const render = (props: IPropsGame) => {
     ReactDOM.unmountComponentAtNode(document.getElementById('gamediv'))
     return ReactDOM.render(
@@ -204,7 +202,7 @@ const AbilityComponent = (props: IPropsAbility) => {
     const ability = props.ability
 
     return (
-        <div style={{ 'min-height': '75px' }}>
+        <div style={{ 'minHeight': '75px' }}>
             <img src={Empty75x75}
                 style={{ float: 'right' }}
                 className={ability.constructor.name.toLowerCase() + '-ready'} />

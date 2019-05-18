@@ -8,16 +8,16 @@ export interface IGameMap {
 }
 
 let wallMap = {
-    NW: 0,
-    N: 1,
-    NE: 2,
-    W: 3,
-    C: 4,
-    E: 5,
-    SW: 6,
-    S: 7,
-    SE: 8,
-    '-': 9,
+    NW: '0',
+    N: '1',
+    NE: '2',
+    W: '3',
+    C: '4',
+    E: '5',
+    SW: '6',
+    S: '7',
+    SE: '8',
+    '-': '9',
     'placeholder': 'placeholder',
     'tall': 'tall',
     'wide': 'wide',
@@ -134,7 +134,7 @@ let tileMap: TileMap = {
 }
 
 // Add the tile widths
-Object.keys(tileMap).forEach((k: any) => {
+Object.keys(tileMap).forEach((k: string) => {
     let x = tileMap[k][0]
     let y = tileMap[k][1]
     tileMap[k] = [x * tileWidth, y * tileWidth]
@@ -258,7 +258,7 @@ let calc = function (x: number, y: number, coords: Array<string>, map: { [key: s
     translate[254] = wallMap.SE
     translate[127] = wallMap.NE
 
-    let finalAnswer: any = translate[result]
+    let finalAnswer: string = translate[result]
 
     if (typeof finalAnswer === 'undefined' && Config.logMissingTiles) {
         console.log(`coords[0] ${coords[0]} map ${map[coords[0]]} calc ${x},${y} result ${result.toString(2)} result decimal ${result}`)
@@ -296,7 +296,7 @@ export class Maps {
             return '5'
         }
 
-        return finalAnswer + ''
+        return finalAnswer
     }
 
     // not the same as the one from levels.ts
@@ -337,7 +337,7 @@ export class Maps {
         return tileMap
     }
 
-    getFrameSet(tileMap: any) {
+    getFrameSet(tileMap: TileMap) {
         return hasFrame2.map((k: string) => {
 
             return {

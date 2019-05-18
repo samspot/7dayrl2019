@@ -424,7 +424,7 @@ export class Game {
 
         let fov = new FOV.PreciseShadowcasting(lightPasses)
 
-        let squares: any = []
+        let squares: string[] = []
         fov.compute(this.player.x, this.player.y, this.player.sightRadius, (x, y, r, visibility) => {
             squares.push(x + ',' + y)
         })

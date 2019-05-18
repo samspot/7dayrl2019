@@ -25,7 +25,7 @@ export class Level {
     score: number
     mobs: number
 
-    constructor(idx: number, name: string, nickname: string, floorcolor: string, wallcolor: string, spawnrate: number, tiles: any) {
+    constructor(idx: number, name: string, nickname: string, floorcolor: string, wallcolor: string, spawnrate: number, tiles: ImageData) {
         this.level = idx
         this.name = name
         this.nickname = nickname

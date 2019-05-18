@@ -39,11 +39,11 @@ async function mainLoop() {
 
     let i = 0
     if (Config.animate) {
-        let start: any = null
+        let start: number = null
         let fps = 4
         let changeEvery = 1000 / fps
         let elapsed = changeEvery
-        let loop = (timestamp: any) => {
+        let loop = (timestamp: number) => {
             if (!start) start = timestamp
             let dt = timestamp - start
             start = timestamp

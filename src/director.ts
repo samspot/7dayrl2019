@@ -63,7 +63,8 @@ export class Director {
         // this.bossPool.unshift(Krauser)
         // this.bossPool.unshift(Billy)
         // this.bossPool.unshift(Leon)
-        this.bossPool.unshift(Jill)
+        // this.bossPool.unshift(Jill)
+        // this.bossPool.unshift(Barry)
     }
 
     // cleanup all things that need to be cleaned for descending
@@ -186,11 +187,11 @@ export class Director {
         // maintain ability to leave from anywhere by pressing >
 
         let freeCells = this.game.getFreeCells()
-        let cellsRemoved: any = []
+        let cellsRemoved: Array<string> = []
 
         // console.log('visible', this.game._getVisibleSquares().sort().join('|'))
         // console.log('player at', this.game.player.getX(), this.game.player.getY())
-        this.game._getVisibleSquares().forEach((x: any) => {
+        this.game._getVisibleSquares().forEach((x: string) => {
             _.remove(freeCells, c => {
                 if (c === x) {
                     cellsRemoved.push(c)
@@ -222,11 +223,11 @@ export class Director {
 
     _createSchedule(mobspec: MobSpec) {
         let freeCells = this.game.getFreeCells()
-        let cellsRemoved: any = []
+        let cellsRemoved: string[] = []
 
         // console.log('visible', this.game._getVisibleSquares().sort().join('|'))
         // console.log('player at', this.game.player.getX(), this.game.player.getY())
-        this.game._getVisibleSquares().forEach((x: any) => {
+        this.game._getVisibleSquares().forEach((x: string) => {
             _.remove(freeCells, c => {
                 if (c === x) {
                     cellsRemoved.push(c)
