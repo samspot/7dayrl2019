@@ -2,6 +2,7 @@ import * as  React from "react"
 import * as ReactDOM from "react-dom"
 import Empty75x75 from '../assets/img/empty.png'
 
+// TODO - convert this to TSX
 export class StatusBar extends React.Component {
     render() {
 
@@ -75,12 +76,13 @@ class Portrait extends React.Component {
             hp = this.props.actor.hp
             maxHp = this.props.actor.maxHp
             str = this.props.actor.str
+            name = this.props.actor && this.props.actor.name
         }
         return (
             <div id={this.props.id} className={this.props.name + ' tooltip'}>
                 <img src={Empty75x75} />
                 <span className="tooltiptext">
-                    <b>{this.props.actor && this.props.actor.name}</b>
+                    <b>{name}</b>
                     <br /> <br />
                     HP {hp + '/' + maxHp}
                     <br />
