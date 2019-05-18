@@ -141,9 +141,10 @@ export class Suplex extends Ability {
 
         let occupant = game.getCharacterAt(null, newX, newY)
 
-        target.x = newX
-        target.y = newY
-        game.map[newX + ',' + newY] = '.'
+        repositionActor(target, newX, newY, game)
+        // target.x = newX
+        // target.y = newY
+        // game.map[newX + ',' + newY] = '.'
 
         if (occupant) {
             // console.log('suplex damaging occupant', occupant)
