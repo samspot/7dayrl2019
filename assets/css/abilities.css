@@ -30,11 +30,11 @@
     background: url(../../assets/img/ability-sprite-sheet-gray.png) -225px 0;
 }
 
-.grenadelauncher-ready {
+.launcher-ready {
     background: url(../../assets/img/ability-sprite-sheet-color.png) -300px 0;
 }
 
-.grenadelauncher-cooldown {
+.launcher-cooldown {
     background: url(../../assets/img/ability-sprite-sheet-gray.png) -300px 0;
 }
 
