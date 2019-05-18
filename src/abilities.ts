@@ -85,7 +85,7 @@ function isTrapped(map: IGameMap, x: number, y: number) {
     let trapped = _.map(getCardinalCoords(x, y), coordlist => {
         let [x, y] = coordlist
         let value = map[x + ',' + y]
-        console.log('check trapped value', x, y, value)
+        // console.log('check trapped value', x, y, value)
         return value !== '.'
     })
     return _.every(trapped)
@@ -181,7 +181,7 @@ export class Grab extends Ability {
         let pos = getPositions(source, target)
         let xloc = pos.sourceFront.x
         let yloc = pos.sourceFront.y
-        console.log('x', xloc, 'y', yloc)
+        // console.log('x', xloc, 'y', yloc)
 
         // TODO: combine getcharacterat, fixactoroverlap, and map carving below
         let occupant = game.getCharacterAt(null, xloc, yloc)
@@ -296,7 +296,7 @@ function repositionActor(actor: Actor, x: number, y: number, game: Game) {
 
     if (isTrapped(game.map, x, y)) {
         let cardinals = getCardinalCoords(x, y)
-        console.log('actor is trapped, hollow', cardinals, actor)
+        // console.log('actor is trapped, hollow', cardinals, actor)
         Object.keys(cardinals).forEach(k => {
             let x = cardinals[k][0]
             let y = cardinals[k][1]
@@ -350,7 +350,7 @@ export class Charge extends Ability {
     }
 
     sideEffects(game: Game, actor: Actor, x: number, y: number) {
-        console.log('Charge.sideEffects called with', actor, this.actor)
+        // console.log('Charge.sideEffects called with', actor, this.actor)
 
         let source = this.actor
         let target = actor

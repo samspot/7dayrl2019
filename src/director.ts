@@ -63,6 +63,7 @@ export class Director {
         // this.bossPool.unshift(Leon)
         // this.bossPool.unshift(Jill)
         // this.bossPool.unshift(Barry)
+        // this.bossPool.unshift(Chris)
     }
 
     // cleanup all things that need to be cleaned for descending

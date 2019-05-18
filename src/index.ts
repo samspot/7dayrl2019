@@ -28,6 +28,7 @@ async function mainLoop() {
         RNG.setSeed(Config.seed)
     }
 
+    console.log('RNG SEED', RNG.getSeed())
     let scheduler = new Scheduler.Speed()
     let game = new Game(scheduler)
     game.init()
@@ -151,7 +152,7 @@ async function mainLoop() {
     }
 }
 
-if (Config.debug && Config.skipTitle) {
+if (Config.skipTitle) {
     mainLoop()
 }
 
