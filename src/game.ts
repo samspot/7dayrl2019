@@ -169,11 +169,13 @@ export class Game {
             this.display = new Display(optionsAscii);
         }
 
+        /*
         let mapElem = document.getElementById("mapContainer")
         if (mapElem) {
             document.getElementById("mapContainer").innerHTML = ''
             document.getElementById("mapContainer").appendChild(this.display.getContainer())
         }
+        */
 
         this.generateMap(this.maps.mapMap()["lab"])
     }

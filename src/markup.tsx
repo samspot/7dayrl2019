@@ -11,36 +11,47 @@ import { IUiMessageElement } from './message';
 import { IPropsGame, IPropsActor, IPropsAbility } from './jsxinterface';
 import { StatusBar } from './statusbar';
 
-export const render = (props: IPropsGame) => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('gamediv'))
-    return ReactDOM.render(
-        <GameComponent game={props.game} />,
-        document.getElementById("gamediv")
-    );
-}
+export class GameComponent extends React.Component<{ game: Game, onClick: Function }> {
+    state: { game: Game }
+    // export class GameComponent extends React.Component {
+    // constructor(game: Game) {
+    constructor(props: { game: Game, onClick: Function }) {
+        super(props)
+        this.state = {
+            game: props.game
+        }
+    }
 
-
-class GameComponent extends React.Component<{ game: Game }> {
     render() {
+        console.log('rendering GameComponent')
         return (
             <div id="game" className="game">
                 <h2 id="title">KILL S.T.A.R.S</h2>
                 <StatusBar
-                    player={this.props.game.player}
-                    game={this.props.game}
+                    player={this.state.game.player}
+                    game={this.state.game}
+                    onClick={() => this.props.onClick()}
                 />
-                <LevelComponent game={this.props.game} />
-                <MainContainer game={this.props.game} />
-                <Messages game={this.props.game} />
+                <LevelComponent game={this.state.game} />
+                <MainContainer game={this.state.game} />
+                <Messages game={this.state.game} />
             </div>
         )
+    }
+
+    // @ts-ignore
+    handleClick(i) {
+        console.log('click', i)
+        this.setState({
+            game: this.state.game
+        })
     }
 }
 
 const LevelComponent = (props: IPropsGame) => {
     let name = props.game.getGameProgress() ? props.game.getGameProgress().name : ''
+    console.log("levelcomponent props", props)
     return (
-
         <span id="level">Hunting in {name}</span>
     )
 }
@@ -48,7 +59,10 @@ const LevelComponent = (props: IPropsGame) => {
 const MainContainer = (props: IPropsGame) =>
     <div className="main-container">
         <div style={{ float: 'left' }}>
-            <div style={{ float: 'left' }} id="mapContainer"></div>
+            <div style={{ float: 'left' }} id="mapContainer">
+                <canvas width="720" height="432" id="gameCanvas" />
+                {/* {props.game.display.getContainer()} */}
+            </div>
         </div>
         <div id="right-bar">
             <MonsterList game={props.game} />

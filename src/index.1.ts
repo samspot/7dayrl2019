@@ -6,12 +6,6 @@ import { Game } from './game';
 import { renderScores } from './score';
 import { GameDisplay } from './display'
 import { Actor } from './actor';
-import * as React from "react"
-import * as ReactDOM from "react-dom"
-
-
-import { IPropsGame } from './jsxinterface';
-import { GameComponent } from './markup';
 
 declare global {
     interface Window {
@@ -19,14 +13,6 @@ declare global {
         mainLoop: Function;
         gameDisplay: GameDisplay
     }
-}
-
-const render = (game: Game) => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('gamediv'))
-    return ReactDOM.render(
-        React.createElement(GameComponent, { game: game, onClick: () => { console.log('dumb click') } }, null),
-        document.getElementById("gamediv")
-    );
 }
 
 var dc = <HTMLInputElement>document.getElementById('dcut')
@@ -50,14 +36,8 @@ async function mainLoop() {
     let director = new Director(game)
     game.director = director;
 
-    let titleElem = (<HTMLElement>document.getElementsByClassName('title')[0])
-    if (titleElem) {
-        titleElem.style.display = 'none';
-    }
-    let gameElem = (<HTMLElement>document.getElementsByClassName('game')[0])
-    if (gameElem) {
-        gameElem.style.display = 'block';
-    }
+    (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = 'none';
+    (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = 'block';
 
     let i = 0
     if (Config.animate) {
@@ -85,19 +65,6 @@ async function mainLoop() {
 
     game.setupDraw()
 
-    render(game)
-
-    let canvas = document.querySelectorAll("#gameCanvas")[0]
-    if (canvas) {
-        // @ts-ignore
-        game.display._backend._ctx = canvas.getContext("2d")
-    }
-
-    gameElem = (<HTMLElement>document.getElementsByClassName('game')[0])
-    if (gameElem) {
-        gameElem.style.display = 'block';
-    }
-
     interface IDebug {
         turns: number
         queue: Actor[]
@@ -123,6 +90,7 @@ async function mainLoop() {
     }
 
     while (1) {
+
         let actor = scheduler.next()
         // console.log('SCHEDULE: next actor', actor)
         if (!actor) {
@@ -187,7 +155,6 @@ async function mainLoop() {
 if (Config.skipTitle) {
     mainLoop()
 }
-
 
 window.mainLoop = mainLoop
 

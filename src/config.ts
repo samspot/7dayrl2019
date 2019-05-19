@@ -41,7 +41,7 @@ const Config: IConfig = {
     drawWholeMap: false,
     drawAllMobs: false,
     debug: false,
-    skipTitle: false,
+    skipTitle: true,
     tiles: true,
     enableCharge: false,
     playerInvulnerable: false,

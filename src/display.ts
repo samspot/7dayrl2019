@@ -10,18 +10,13 @@ import '../assets/css/abilities.css'
 import { Game } from './game';
 import { Actor } from './actor';
 
-import { BossSplash, render } from './markup';
+import { BossSplash } from './markup';
 import { ModalContainer } from './modal'
 
-// TODO organize functions (check for private, etc)
 export class GameDisplay {
     game: Game
-    // react: ReactDOM.Renderer
-    react: void
     animstack: Array<Function>
     constructor(game: Game) {
-        this.react = render({ game: game })
-
         this.game = game
         window.gameDisplay = this
         this.animstack = []
@@ -50,13 +45,13 @@ export class GameDisplay {
 
     // called when starting a new game
     restartGui() {
-        this.react = render({ game: this.game })
+        // this.react = render({ game: this.game })
     }
 
     updateGui() {
-        let renderer = <any>this.react
-        renderer = <ReactDOM.Renderer>renderer
-        renderer.forceUpdate()
+        // let renderer = <any>this.react
+        // renderer = <ReactDOM.Renderer>renderer
+        // renderer.forceUpdate()
     }
 
     drawBossSplash(actor: Actor) {

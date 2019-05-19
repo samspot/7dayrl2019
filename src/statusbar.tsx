@@ -20,7 +20,7 @@ interface IPropsSkill {
     description?: string
 }
 
-export class StatusBar extends React.Component<{ player: Player, game: Game }> {
+export class StatusBar extends React.Component<{ player: Player, game: Game, onClick: Function }> {
     render() {
 
         let name = this.props.player && this.props.player.nickname
