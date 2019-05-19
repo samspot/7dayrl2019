@@ -11,8 +11,11 @@ import { IUiMessageElement } from './message';
 import { IPropsGame, IPropsActor, IPropsAbility } from './jsxinterface';
 import { StatusBar } from './statusbar';
 
+// @ts-ignore
+import KeyboardEventHandler from 'react-keyboard-event-handler';
+
 export class GameComponent extends React.Component<{ game: Game, onClick: Function }> {
-    state: { game: Game }
+    state: { game: Game, lastKey?: any }
     // export class GameComponent extends React.Component {
     // constructor(game: Game) {
     constructor(props: { game: Game, onClick: Function }) {
@@ -35,6 +38,16 @@ export class GameComponent extends React.Component<{ game: Game, onClick: Functi
                 <LevelComponent game={this.state.game} />
                 <MainContainer game={this.state.game} />
                 <Messages game={this.state.game} />
+                <KeyboardEventHandler handleKeys={['all']} onKeyEvent={(key: any) => {
+                    console.log('got a key', key)
+                    setTimeout(
+
+                        () => {
+                            this.setState({
+                                game: this.state.game,
+                            })
+                        }, 0)
+                }} />
             </div>
         )
     }
@@ -60,8 +73,7 @@ const MainContainer = (props: IPropsGame) =>
     <div className="main-container">
         <div style={{ float: 'left' }}>
             <div style={{ float: 'left' }} id="mapContainer">
-                <canvas width="720" height="432" id="gameCanvas" />
-                {/* {props.game.display.getContainer()} */}
+                <CanvasContainer game={props.game} />
             </div>
         </div>
         <div id="right-bar">
@@ -69,6 +81,21 @@ const MainContainer = (props: IPropsGame) =>
             <GameProgressComponent game={props.game} />
         </div>
     </div>
+
+const CanvasContainer = (props: IPropsGame) => {
+    // @ts-ignore
+    function handleClick(e) {
+        console.log('canvas click')
+    }
+
+    // @ts-ignore
+    function handleKeyDown(e) {
+        console.log('canvas keydown', e)
+    }
+
+    return <canvas width="720" height="432" id="gameCanvas" onClick={handleClick} onKeyDown={handleKeyDown} />
+}
+
 
 const GameProgressComponent = (props: IPropsGame) =>
     <div id="progress-container">
