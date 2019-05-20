@@ -41,7 +41,13 @@ export class Player extends Actor {
 
     setStartingAbilities() {
         // this.addAbility(new GrenadeLauncher(this))
-        this.addAbility(new Impale(this))
+
+        if (!Config.playerTestSkill) {
+            this.addAbility(new Impale(this))
+        } else {
+            this.addAbility(new Config.playerTestSkill(this))
+        }
+
         this.addAbility(new Charge(this))
         this.addAbility(new Infect(this))
 
@@ -91,7 +97,7 @@ export class Player extends Actor {
             a.actor = this
 
             let ability = _.clone(a)
-            if (ability.constructor.name === 'Grab') {
+            if (ability.name === 'Grab') {
                 ability.range = 3
             }
 

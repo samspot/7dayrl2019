@@ -1,3 +1,8 @@
+import { MobSpec } from "./MobSpec";
+import Jill from 'assets/jill.json';
+import { Actor } from "./actor";
+import { Ability, GrenadeLauncher } from "./abilities";
+
 interface IConfig {
     seed?: number
     spawnrate?: number
@@ -20,6 +25,8 @@ interface IConfig {
     enableCharge?: boolean
     logMissingTiles?: boolean
     ohko?: boolean
+    firstBoss?: Actor
+    playerTestSkill?: any
 }
 
 const Config: IConfig = {
@@ -32,7 +39,8 @@ const Config: IConfig = {
     gamePortHeight: 27,
     fontSize: 16,
     messageListSize: 15,
-    // seed: 12363,
+    // seed: 1558298590300,
+    // seed: 12364,
     // turnsToSim: 29,
     // turnsToSim: 26,
     // turnsToSim: 45,
@@ -45,9 +53,11 @@ const Config: IConfig = {
     tiles: true,
     enableCharge: false,
     playerInvulnerable: false,
-    //startLevel: 1,
+    // startLevel: 1,
     animate: true,
-    logMissingTiles: false
+    logMissingTiles: false,
+    // firstBoss: Jill,
+    // playerTestSkill: GrenadeLauncher
 }
 
 /*
