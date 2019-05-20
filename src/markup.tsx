@@ -24,7 +24,7 @@ class GameComponent extends React.Component<{ game: Game }> {
     render() {
         return (
             <div id="game" className="game">
-                <h2 id="title">KILL S.T.A.R.S</h2>
+                <h2 id="title">KILL S.T.A.R.S.</h2>
                 <StatusBar
                     player={this.props.game.player}
                     game={this.props.game}
