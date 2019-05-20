@@ -22,6 +22,7 @@ export class Ability {
     dmg: number
     description: string
     name: string
+    displayName: string
     constructor(actor: Actor, cooldown: number, range: number, dmg: number) {
         this.actor = actor
         this.maxCooldown = cooldown
@@ -30,9 +31,11 @@ export class Ability {
         this.dmg = dmg
         this._use = this._use.bind(this)
         this.name = this.constructor.name
+        this.displayName = this.constructor.name
 
         if (this.name === "GrenadeLauncher") {
             this.name = "Launcher"
+            this.displayName = "Grenade Launcher"
         }
     }
 

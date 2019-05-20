@@ -112,9 +112,6 @@ const PlayerSkillList = (props: IPropsPlayer) => {
     let abilities: Ability[] = []
     if (props.player) {
         abilities = props.player.getAbilities()
-        // abilities.map(a => {
-        // a.name = a.constructor.name
-        // })
     }
 
     return (
@@ -134,9 +131,7 @@ const PlayerSkillList = (props: IPropsPlayer) => {
 
 const PlayerSkill = (props: IPropsPlayerSkill) => {
     let name = props.name
-    if (name.toLowerCase() === "grenadelauncher") {
-        name = "Launcher"
-    }
+
     return (
         <div className='ability-super-container'>
             <div className='container0 tooltip'>

@@ -90,7 +90,8 @@ export function abilityAction(sourceActor: Actor, ability: Ability, x: number, y
 
         // console.log("AbilityAction this.actor", this.actor)
         if (actor) {
-            let source = ability.constructor.name
+            // let source = ability.constructor.name
+            let source = ability.displayName
 
             return damageAction(actor, ability.dmg, source, sourceActor)
         }

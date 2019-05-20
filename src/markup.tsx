@@ -194,9 +194,9 @@ const AbilityComponent = (props: IPropsAbility) => {
         <div style={{ 'minHeight': '75px' }}>
             <img src={Empty75x75}
                 style={{ float: 'right' }}
-                className={ability.constructor.name.toLowerCase() + '-ready'} />
+                className={ability.name.toLowerCase() + '-ready'} />
             <p>
-                <b>{ability.constructor.name}</b> Damage {ability.dmg}
+                <b>{ability.name}</b> Damage {ability.dmg}
                 <br />
                 Range {ability.range} Cooldown {ability.maxCooldown}
                 <br /><br />
