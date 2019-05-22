@@ -12,7 +12,7 @@ import { MobSpec } from './MobSpec';
 import { Monster } from './monster';
 import { Player } from './player';
 import { getCoordsAround } from './Level';
-import { youWinAction } from './allactions';
+import { youWinAction, youLoseAction } from './allactions';
 import { getRandItem } from './random';
 
 export interface IGameMap {
@@ -84,6 +84,11 @@ export class Game {
 
         console.log('all bosses down, you win action')
         youWinAction()(this)
+    }
+
+    lose() {
+        console.log('you lose action')
+        youLoseAction()(this)
     }
 
     getBosses() {

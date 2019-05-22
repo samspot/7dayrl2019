@@ -3,6 +3,7 @@ import { Actor, SimpleActor } from './actor';
 import { Game } from './game';
 import { Player } from './player';
 import { numberKeys } from './keymap';
+import { youLoseAction } from './allactions';
 
 // 1. game.possesboss - updates some ui
 // 2. remove the mob from the scheduler
@@ -63,6 +64,9 @@ export class DeadInfector extends SimpleActor {
     resolve: Function
 
     handleEvent(e: KeyboardEvent) {
+
+        // this.resolve(youLoseAction())
+        // return
         let charCode = e.which || e.keyCode
 
         let idx = _.findIndex(numberKeys, x => x === charCode)
@@ -99,15 +103,17 @@ export class DeadInfector extends SimpleActor {
 
     act() {
         // console.log("InfectAction.act()")
-        window.addEventListener("keydown", this);
-        window.addEventListener("keypress", this);
+        // window.addEventListener("keydown", this);
+        // window.addEventListener("keypress", this);
 
         // open modal. TODO less hacky solution
-        let modalText = 'You Died and your score was reset to 0.' +
-            ' Press a number key to select a character to infect. Umbrella shall never die!'
+        let modalText = 'You Died!  Final Score ' + this.game.score
+        return youLoseAction()
+        /*
         this.game.gameDisplay.showModal(modalText)
         return new Promise(resolve => {
             this.resolve = resolve
         })
+        */
     }
 }
