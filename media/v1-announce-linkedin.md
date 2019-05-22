@@ -12,7 +12,7 @@ My entry is called Resident Evil RL and you can see the original 7 day version [
 
 I am very pleased with the [judging results and feedback](https://itch.io/jam/7drl-challenge-2019/rate/380420) that I received.  This project has been a real blessing for me and a dream come true.  I will continue making games and art in my spare time and I look forward to participating in another Game Jam.
 
-Check out the __TODO________YOUTUBE_________TRAILER and tell me what you think!
+Check out the https://youtu.be/NMEWITqUc9Q and tell me what you think!
 
 ## What is a Roguelike?
 

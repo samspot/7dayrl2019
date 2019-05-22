@@ -7,9 +7,10 @@ if the project ever ends....
 
 # Media
 
+Launch Trailer https://youtu.be/NMEWITqUc9Q
+7drl Trailer https://www.youtube.com/watch?v=4pjjsMdM6n4&feature=youtu.be
 https://github.com/samspot/7dayrl2019
 https://www.twitch.tv/samspot/videos
-https://www.youtube.com/watch?v=4pjjsMdM6n4&feature=youtu.be
 
 Full Release: https://samspot.itch.io/resident-evil-rl
 7DRL Version: https://samspot.itch.io/rerl and rankings https://itch.io/jam/7drl-challenge-2019/rate/380420
