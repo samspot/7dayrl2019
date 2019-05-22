@@ -12,7 +12,7 @@ Play as Nemesis and see if you can eliminate 5 members of the Special Tactics an
 
 Resident Evil is a coffee-break roguelike where you try and get the highest score possible.  Allowing your character to die will reset your score to 0, so use every trick in the book to take your opponents down.  
 
-Check out the https://youtu.be/NMEWITqUc9Q
+Check out the launch trailer https://youtu.be/NMEWITqUc9Q
 
 ## About
 
