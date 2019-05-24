@@ -440,3 +440,32 @@ a:active {
     color: red;
     text-decoration: line-through
 }
+
+#charselect {
+    width: 600px
+}
+
+.charselect {
+    list-style-type: none;
+}
+
+.charselect li {
+    float: left;
+    margin-bottom: 20px;
+    height: 130px;
+    cursor: pointer;
+}
+
+.charselect .portrait {
+    margin-top: 0
+}
+
+.charselect span {
+    display: block;
+    text-align: center;
+}
+
+.character-score-won {
+    font-weight: bold;
+    color: greenyellow;
+}

@@ -8,6 +8,7 @@ import Config from './config';
 import { Game } from './game';
 import { keyMap, isEscKey, abilitykeys } from './keymap';
 import { Stunned } from './status';
+import { unlockCharacter } from './charselect';
 
 const TARGETTING = "state_targetting"
 const PLAYER_TURN = "state_playerturn"
@@ -17,6 +18,7 @@ export class Player extends Actor {
     resolve: Function
     reject: Function
     splash: boolean
+    startingName: string
     constructor(x: number, y: number, game: Game) {
         super(x, y, "@", "#ff0", game)
 
@@ -105,6 +107,8 @@ export class Player extends Actor {
         })
 
         this.addAbility(new Infect(this))
+
+        unlockCharacter(mob)
     }
 
     isTargetMode() {

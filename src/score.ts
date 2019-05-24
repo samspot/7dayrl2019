@@ -54,6 +54,8 @@ export function renderScores() {
     })
 
     let elem = document.getElementById('highScoresSplash')
-    elem.innerHTML = ''
-    elem.appendChild(ol)
+    if (elem) {
+        elem.innerHTML = ''
+        elem.appendChild(ol)
+    }
 }

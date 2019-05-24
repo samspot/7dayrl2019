@@ -7,6 +7,7 @@ import { Game } from './game';
 import { keyMap } from './keymap';
 import { addScore } from './score';
 import { damageAction } from './damageaction';
+import { characterWin } from './charselect';
 
 
 
@@ -123,6 +124,9 @@ export function gameEndAction(text: string) {
             highScoreHtml += `<li>${s.name}: ${s.score}</li>`
         })
         highScoreHtml += '</ol>'
+
+        let won = text !== 'You Died'
+        characterWin(game.player.startingName, game.score, won)
 
 
         let modalText = `<h1>${text} Final Score `

@@ -20,7 +20,6 @@
     <div class="title">
       <div id="logo"></div>
       <h1>Welcome to Resident Evil the Roguelike</h1>
-      <button onclick="mainLoop()">Start Game</button>
 
       <p>
         <label for="dcut" class="firstRun">
@@ -28,6 +27,23 @@
           Director's Cut (More enemies, Enemy Charge Enabled)
         </label>
       </p>
+
+      <h3 class="firstRun">Character Select</h3>
+      <div id="charselect" class="firstRun"></div>
+      <div class="firstRun" style="clear:both"></div>
+
+      <button onclick="mainLoop()">Start Game</button>
+
+      <h3 class="firstRun">Tips</h3>
+      <ul class="firstRun">
+        <li>You cannot heal, but killing an enemy with the 'Infect' ability will take
+          it over and reset your hp to max</li>
+        <li>See if you can unlock all the characters! You unlock characters by infecting them.</li>
+        <li>You can mouseover portraits and abilities for more information.</li>
+        <li>Something wrong? Submit your bugs or feedback <a
+            href="https://github.com/samspot/7dayrl2019/issues">here</a></li>
+      </ul>
+
 
       <h2 id="instructions">Instructions</h2>
       You are the '@' (It's where you are 'at'). Bump into monsters to attack them (or use your skills).
@@ -41,18 +57,10 @@
         a targetting mode. Use the directional keys to move your cursor '#' and press enter
         to confirm the target.</p>
 
-      <h3 class="firstRun">Tips</h3>
-      <ul class="firstRun">
-        <li>You cannot heal, but killing an enemy with the 'Infect' ability will take
-          it over and reset your hp to max</li>
-        <li>You can mouseover portraits and abilities for more information.</li>
-        <li>Something wrong? Submit your bugs or feedback <a
-            href="https://github.com/samspot/7dayrl2019/issues">here</a></li>
-      </ul>
-
+      <!--
       <h3 class="firstRun">High Scores</h3>
       <div id="highScoresSplash" class="firstRun"></div>
-
+        -->
       <h3 class="firstRun">Game by samspot</h3>
       <a class="firstRun" href="https://twitter.com/samspot">@samspot</a>
     </div>

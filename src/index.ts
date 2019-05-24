@@ -6,11 +6,13 @@ import { Game } from './game';
 import { renderScores, getScores } from './score';
 import { GameDisplay } from './display'
 import { Actor } from './actor';
+import { playCharacter, renderCharacters } from './charselect'
 
 declare global {
     interface Window {
-        directorsCut: boolean;
-        mainLoop: Function;
+        directorsCut: boolean
+        mainLoop: Function
+        playCharacter: Function
         gameDisplay: GameDisplay
     }
 }
@@ -22,7 +24,7 @@ dc.onclick = () => {
 }
 
 
-async function mainLoop() {
+async function mainLoop(possessFn?: Function) {
 
     if (Config.seed) {
         RNG.setSeed(Config.seed)
@@ -89,6 +91,10 @@ async function mainLoop() {
         }
     }
 
+    if (possessFn) {
+        possessFn(game.player, game)
+    }
+
     while (1) {
 
         let actor = scheduler.next()
@@ -139,7 +145,9 @@ async function mainLoop() {
         }
 
         if (game.gameOver) {
+            renderCharacters()
             renderScores();
+
             (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
             (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";
 
@@ -165,7 +173,9 @@ if (Config.skipTitle) {
 }
 
 window.mainLoop = mainLoop
+window.playCharacter = playCharacter
 
+renderCharacters()
 renderScores()
 
 // let sam = new Image()
