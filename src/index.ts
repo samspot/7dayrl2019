@@ -3,7 +3,7 @@ import SelfPortrait from '../assets/img/self-portrait.png';
 import Config from './config';
 import { Director } from './director';
 import { Game } from './game';
-import { renderScores } from './score';
+import { renderScores, getScores } from './score';
 import { GameDisplay } from './display'
 import { Actor } from './actor';
 
@@ -143,13 +143,21 @@ async function mainLoop() {
             (<HTMLElement>document.getElementsByClassName('title')[0]).style.display = "block";
             (<HTMLElement>document.getElementsByClassName('game')[0]).style.display = "none";
 
-            document.querySelectorAll('.firstRun').forEach((e: HTMLElement) => e.style.display = "block")
+            showAllInstructions()
 
             return
         }
 
         game._drawFov()
     }
+}
+
+if (getScores().length > 0) {
+    showAllInstructions()
+}
+
+function showAllInstructions() {
+    document.querySelectorAll('.firstRun').forEach((e: HTMLElement) => e.style.display = "block")
 }
 
 if (Config.skipTitle) {
@@ -160,6 +168,6 @@ window.mainLoop = mainLoop
 
 renderScores()
 
-let sam = new Image()
-sam.src = SelfPortrait
-document.getElementById('pixelSam').appendChild(sam)
+// let sam = new Image()
+// sam.src = SelfPortrait
+// document.getElementById('pixelSam').appendChild(sam)

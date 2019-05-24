@@ -12,6 +12,7 @@ import { Actor } from './actor';
 
 import { BossSplash, render } from './markup';
 import { ModalContainer } from './modal'
+import { isEscKey } from './keymap';
 
 // TODO organize functions (check for private, etc)
 export class GameDisplay {
@@ -101,6 +102,28 @@ export class GameDisplay {
         var modal = document.getElementById('myModal')
         modal.style.display = 'block'
         this.game.player.splash = true
+
+        let fn = (e: any) => {
+            console.log('inside modal event listener')
+            e.preventDefault()
+
+            let charCode = e.which || e.keyCode
+
+            // escape key
+            if (isEscKey(charCode)) {
+                window.removeEventListener("keydown", fn)
+                window.removeEventListener("keypress", fn)
+
+                var modal = document.getElementById('myModal')
+                document.getElementById('modal-text').innerHTML = ''
+                let deathimage = new Image()
+                deathimage.src = Empty75x75
+                document.getElementById('modal-text').appendChild(deathimage)
+                modal.style.display = 'none'
+            }
+        }
+        window.addEventListener("keydown", fn);
+        window.addEventListener("keypress", fn);
     }
 
     showModalJsx(elem: JSX.Element) {
