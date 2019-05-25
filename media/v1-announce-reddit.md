@@ -1,6 +1,6 @@
 # Title
 
-I made a free rpg roguelike based on Resident Evil!
+Play as Pixel Nemesis and KILL S.T.A.R.S. in Resident Evil the Roguelike!
 
 ## Link
 
