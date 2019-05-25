@@ -41,6 +41,7 @@ export class Game {
     deaths: number
     director: Director
     messager: Messager
+    animationFrameId: number
     constructor(scheduler: Scheduler) {
         this.messager = new Messager()
         this.maps = new Maps(this)
@@ -119,12 +120,16 @@ export class Game {
             let frameset = this.maps.getFrameSet(options.tileMap)
             if (idx % 4 === 0) {
                 frameset.forEach((t: TileMapKey) => {
+                    // if (t.key === '@')
+                    // console.log(t, t.x, '+', t.x + Config.tileWidth)
                     options.tileMap[t.key] = [t.x + Config.tileWidth, t.y]
                 })
             }
 
             if (idx % 4 === 2) {
                 frameset.forEach((t: TileMapKey) => {
+                    // if (t.key === '@')
+                    // console.log(t, t.x, '-', t.x - Config.tileWidth)
                     options.tileMap[t.key] = [t.x - Config.tileWidth, t.y]
                 })
             }
@@ -163,7 +168,7 @@ export class Game {
             tileWidth: tileWidth,
             tileHeight: tileWidth,
             tileSet: tileSet,
-            tileMap: this.maps.getTileMap(),
+            tileMap: _.clone(this.maps.getTileMap()),
             width: Config.gamePortWidth,
             height: Config.gamePortHeight
         }

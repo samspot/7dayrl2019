@@ -116,6 +116,7 @@ export function gameEndAction(text: string) {
     return function (game: Game) {
         game.gameOver = true
 
+        cancelAnimationFrame(game.animationFrameId)
 
         // render high score first then save it
         let highScoreHtml = '<h2>High Scores</h2><ol>';

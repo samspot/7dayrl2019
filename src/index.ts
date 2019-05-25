@@ -59,10 +59,10 @@ async function mainLoop(possessFn?: Function) {
                 game.gameDisplay.processAnimations()
             }
 
-            requestAnimationFrame(loop)
+            game.animationFrameId = requestAnimationFrame(loop)
         }
 
-        requestAnimationFrame(loop)
+        game.animationFrameId = requestAnimationFrame(loop)
     }
 
     game.setupDraw()
